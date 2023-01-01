@@ -4,6 +4,7 @@
 
 Access and manipulation of CASSINI RADAR images
 
+NOTE: This is Alpha quality software that is being actively developed, use at your own risk. This software is not produced by NASA.
 
 ## Overview
 For information on instrument specifics and acronyms refer to the Cassini RADAR Users Guide <br /> https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf
