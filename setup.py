@@ -17,7 +17,7 @@ setup(
 	long_description_content_type='text/markdown',
 	url="https://github.com/unaschneck/pydar",
 	download_url="https://github.com/unaschneck/pydar/archive/refs/tags/v{0}.tar.gz".format(VERSION),
-	author=["Una Schneck (unaschneck)","C. Y. Schneck (cyschneck)"],
+	author="Una Schneck (unaschneck), C. Y. Schneck (cyschneck)",
 	keywords=[],
 	license="MIT",
 	classifiers=[
@@ -36,6 +36,10 @@ setup(
 	],
 	packages=find_namespace_packages(include=['pydar', 'pydar.*']),
 	include_package_data=True,
-	install_requires=[],
+	install_requires=[
+			"matplotlib>=3.1.0",
+			"planetaryimage>=0.5.0",
+			"urllib3>=1.26.9"
+			],
 	python_requires='>=3.7'
 )
