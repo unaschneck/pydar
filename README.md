@@ -4,7 +4,7 @@
 
 Access and manipulation of CASSINI RADAR images
 
-NOTE: This is Alpha quality software that is being actively developed, use at your own risk. This software is not produced by NASA.
+NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
 ## Overview
 For information on instrument specifics and acronyms refer to the Cassini RADAR Users Guide <br /> https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf
@@ -175,4 +175,6 @@ pip install pydar
 
 ## TODO:
 
+## CITATIOn
+f you use this package for your research, please cite it as
 
