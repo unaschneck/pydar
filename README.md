@@ -72,8 +72,8 @@ Cassini RADAR Information (CORADR_xxxx): https://pds-imaging.jpl.nasa.gov/data/c
   |_INDEX/
   |_SOFTWARE/
 ```
-** Cross-Reference Table for Observations and Flybys**
-
+**Cross-Reference Table for Observations and Flybys**
+```
 Flyby ID Cross Reference Table
 Prime Mission and Extended Mission
 
@@ -81,7 +81,7 @@ Column 1: Titan flyby id
 Column 2: Radar Data Take Number
 Column 3: Sequence number
 Column 4: Orbit Number/ID
-```
+
 Ta   DTN 035   S05 Rev 0A
 T3   DTN 045   S08 Rev 03
 T4   DTN 048   S09 Rev 04
