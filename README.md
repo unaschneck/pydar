@@ -4,9 +4,11 @@
 
 Access and manipulation of CASSINI RADAR images
 
+
 ## Overview
+For information on instrument specifics and acronyms refer to the Cassini RADAR Users Guide <br /> https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf
 ```
-Cassini RADAR Information (CORADR_xxxx): https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/
+Cassini RADAR Information (CORADR_xxxx): [](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/)
   |_ AAREADME.txt
     Information about observation xxxx (xxxx > 0035 for Titan flybys)
   |_CALIB/
