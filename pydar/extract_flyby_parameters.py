@@ -147,8 +147,6 @@ def extractFlybyDataImages(flyby_observation_num=None,
 
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
-		print(flyby_observation_num)
-	exit()
 
 	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
 	resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
