@@ -8,6 +8,9 @@ from planetaryimage import PDS3Image
 import matplotlib.pyplot as plt
 from urllib import request, error
 
+from bs4 import BeautifulSoup
+
+
 def getFlybyData():
 	# Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
 	flyby_id = []
@@ -24,16 +27,8 @@ def getFlybyData():
 	# returns a list of flyby IDs and associated Radar Data Take Number
 	return flyby_id, flby_radar_take_num
 
-if __name__ == '__main__':
-	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
-	flyby_observiation_num = "0065"
-
-	if flyby_observiation_num not in avaliable_observation_numbers:
-		print("Observation number '{0}' NOT FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
-		exit()
-	else:
-		print("Observation number '{0}' FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
-
+def retrieveJPLCoradrOptions(flyby_observiation_num):
+	# runs to access the most up to date optiosn from the JPL webpage
 	import csv 
 	from datetime import datetime, timedelta
 	days_between_checking_jpl_website = 2 # set to 0 to re-run currently without waiting
@@ -47,7 +42,6 @@ if __name__ == '__main__':
 		# BeautifulSoup web scrapping to find observation file number full title
 		print("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 		cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
-		from bs4 import BeautifulSoup
 		cassini_html = request.urlopen(cassini_root_url).read()
 		soup = BeautifulSoup(cassini_html, 'html.parser')
 		table = soup.find('table', {"id": "indexlist"})
@@ -80,10 +74,12 @@ if __name__ == '__main__':
 	# Version 3: Long term accurate spin model and additional accuracy improvements
 	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
 	print("Most recent version avaliable = {0} from avalible {1}".format(more_accurate_model_number, version_types_avaliable))
+	return more_accurate_model_number
 
-	# Get information from pds-imaging site for image
-	label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.LBL".format(more_accurate_model_number)
+def downloadCORADRLabels(cordar_file_name):
+	label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.LBL".format(cordar_file_name)
 	label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
+	label_name = os.path.join(os.path.dirname(__file__), "results/{0}".format(cordar_file_name), label_name)
 	try:
 		request.urlretrieve(label_url)
 	except error.HTTPError as err:
@@ -92,8 +88,10 @@ if __name__ == '__main__':
 	else:
 		response = request.urlretrieve(label_url, label_name)
 
-	data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.ZIP".format(more_accurate_model_number)
+def downloadCORADRData(cordar_file_name):
+	data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.ZIP".format(cordar_file_name)
 	zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
+	zipfile_name = os.path.join(os.path.dirname(__file__), "results/{0}".format(cordar_file_name), zipfile_name)
 	try:
 		request.urlretrieve(data_url)
 	except error.HTTPError as err:
@@ -101,12 +99,37 @@ if __name__ == '__main__':
 		exit()
 	else:
 		response = request.urlretrieve(data_url, zipfile_name)
+		zipped_image = zipfile_name.split(".")[0] + ".IMG"
+		with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
+			zipped_image_path = os.path.join(os.path.dirname(__file__), zipped_image)
+			zip_ref.extractall(zipped_image_path)
+		
+if __name__ == '__main__':
+	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
+	flyby_observiation_num = "0065"
+
+	if flyby_observiation_num not in avaliable_observation_numbers:
+		print("Observation number '{0}' NOT FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
+		exit()
+	else:
+		print("Observation number '{0}' FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
+
+	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observiation_num)
+	# Download information from pds-imaging site for image
+	if not os.path.exists('results'): os.makedirs('results')
+	if not os.path.exists("results/{0}".format(flyby_observation_cordar_name)): os.makedirs("results/{0}".format(flyby_observation_cordar_name))
+	downloadCORADRLabels(flyby_observation_cordar_name)
+	downloadCORADRData(flyby_observation_cordar_name)
+
+
+	exit()
+	'''
 		with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
 			zip_ref.extractall()
+		zipped_image = zipfile_name.split(".")[0] + ".IMG"
 
 		print("Generating image...")
 		from planetaryimage import PDS3Image
-		zipped_image = zipfile_name.split(".")[0] + ".IMG"
 		print("Zipped image: {0}".format(zipped_image))
 		image = PDS3Image.open(zipped_image)
 		fig = plt.figure(figsize=(8,8), dpi=120)
@@ -114,6 +137,7 @@ if __name__ == '__main__':
 		plt.show()
 
 		flyby_name = data_url.split("/")[-1].split(".")[0]
-		os.remove("{0}.IMG".format(flyby_name))
-		os.remove("{0}.txt".format(flyby_name))
-		os.remove("{0}.zip".format(flyby_name))
+		#os.remove("{0}.IMG".format(flyby_name))
+		#os.remove("{0}.txt".format(flyby_name))
+		#os.remove("{0}.zip".format(flyby_name))
+	'''
