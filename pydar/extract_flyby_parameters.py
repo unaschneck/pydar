@@ -76,37 +76,67 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	print("Most recent version avaliable = {0} from avalible {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
 
-def downloadCORADRLabels(cordar_file_name):
-	label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.LBL".format(cordar_file_name)
-	label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
-	label_name = os.path.join(os.path.dirname(__file__), "results/{0}".format(cordar_file_name), label_name)
-	try:
-		request.urlretrieve(label_url)
-	except error.HTTPError as err:
-		print("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
-		exit()
-	else:
-		response = request.urlretrieve(label_url, label_name)
+def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
+	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
+	print("Retrieving filenames from: {0}".format(base_url))
 
-def downloadCORADRData(cordar_file_name):
-	data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.ZIP".format(cordar_file_name)
-	zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
-	zipfile_name = os.path.join(os.path.dirname(__file__), "results/{0}".format(cordar_file_name), zipfile_name)
-	try:
-		request.urlretrieve(data_url)
-	except error.HTTPError as err:
-		print("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
-		exit()
-	else:
-		response = request.urlretrieve(data_url, zipfile_name)
-		zipped_image = zipfile_name.split(".")[0] + ".IMG"
-		with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
-			zipped_image_path = os.path.join(os.path.dirname(__file__), zipped_image)
-			zip_ref.extractall(zipped_image_path)
-		
-if __name__ == '__main__':
+	# Retrieve a list of all elements from the base URL to download
+	base_html = request.urlopen(base_url).read()
+	soup = BeautifulSoup(base_html, 'html.parser')
+	table = soup.find('table', {"id": "indexlist"})
+	table_text = (table.text).split("\n")
+	url_filenames = []
+	for txt in table_text:
+		if txt.startswith('BI'):
+			filename = (txt.split('/')[0]).split(".")[0]
+			if 'LBL' in (txt.split('/')[0]).split(".")[1]:
+				filename += '.LBL'
+			if 'ZIP' in (txt.split('/')[0]).split(".")[1]:
+				filename += '.ZIP'
+			if segment_id in filename: # only save certain segements
+				for resolution in resolution_px: # only save top x resolutions
+					if "BIBQ{0}".format(resolution) in filename:
+						url_filenames.append(filename)
+	print(url_filenames)
+
+	for i, coradr_file in enumerate(url_filenames):
+		if 'LBL' in coradr_file:
+			label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
+			print("Retrieving [{0}/{1}]: {2}".format(i, len(url_filenames), label_url))
+			label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
+			label_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
+			try:
+				request.urlretrieve(label_url)
+			except error.HTTPError as err:
+				print("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
+				exit()
+			else:
+				response = request.urlretrieve(label_url, label_name)
+		if 'ZIP' in coradr_file:
+			data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
+			print("Retrieving [{0}/{1}]: {2}".format(i, len(url_filenames), data_url))
+			zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
+			zipfile_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), zipfile_name)
+			try:
+				request.urlretrieve(data_url)
+			except error.HTTPError as err:
+				print("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
+				exit()
+			else:
+				response = request.urlretrieve(data_url, zipfile_name)
+				zipped_image = zipfile_name.split(".")[0] + ".IMG"
+				with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
+					zipped_image_path = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id))
+					zip_ref.extractall(zipped_image_path)
+
+def extractFlybyDataImages(flyby_observiation_num=None,
+							segment_num=None,
+							top_x_resolutions=None):
+
 	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
-	flyby_observiation_num = "0065"
+	download_files = True
+
+	resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
 
 	if flyby_observiation_num not in avaliable_observation_numbers:
 		print("Observation number '{0}' NOT FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
@@ -117,27 +147,20 @@ if __name__ == '__main__':
 	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observiation_num)
 	# Download information from pds-imaging site for image
 	if not os.path.exists('results'): os.makedirs('results')
-	if not os.path.exists("results/{0}".format(flyby_observation_cordar_name)): os.makedirs("results/{0}".format(flyby_observation_cordar_name))
-	downloadCORADRLabels(flyby_observation_cordar_name)
-	downloadCORADRData(flyby_observation_cordar_name)
+	if not os.path.exists("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
+	if download_files: 
+		downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
 
-
-	exit()
-	'''
-		with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
-			zip_ref.extractall()
-		zipped_image = zipfile_name.split(".")[0] + ".IMG"
-
-		print("Generating image...")
-		from planetaryimage import PDS3Image
-		print("Zipped image: {0}".format(zipped_image))
-		image = PDS3Image.open(zipped_image)
-		fig = plt.figure(figsize=(8,8), dpi=120)
-		plt.imshow(image.image, cmap='gray')
-		plt.show()
-
-		flyby_name = data_url.split("/")[-1].split(".")[0]
-		#os.remove("{0}.IMG".format(flyby_name))
-		#os.remove("{0}.txt".format(flyby_name))
-		#os.remove("{0}.zip".format(flyby_name))
-	'''
+	for filename in os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)):
+		if 'IMG' in filename:
+			print("Generating image...")
+			image_file = os.path.join("results/{0}_{1}/{2}".format(flyby_observation_cordar_name, segment_num, filename))
+			from planetaryimage import PDS3Image
+			print("Image: {0}".format(image_file))
+			image = PDS3Image.open(image_file)
+			fig = plt.figure(figsize=(4,6), dpi=120)
+			plt.title(filename)
+			plt.xlabel("Pixels #")
+			plt.ylabel("Pixels #")
+			plt.imshow(image.image, cmap='gray')
+	plt.show()
