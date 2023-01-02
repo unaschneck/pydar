@@ -27,6 +27,17 @@ def getFlybyData():
 	# returns a list of flyby IDs and associated Radar Data Take Number
 	return flyby_id, flby_radar_take_num
 
+def convertFlybyIDToObservationNumber(flyby_id):
+	# convert Flyby ID to Observation Number to find data files
+	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
+	flyby_dataframe = pd.read_csv(flyby_csv_file)
+	for index, row in flyby_dataframe.iterrows():
+		if row[0] == flyby_id: # TODO; Add error handling to include only valiid flyby IDs
+			observation_number = row[1].split(" ")[1]
+			while len(observation_number) < 4:
+				observation_number = "0" + observation_number # set all radar take numbers to be four digits long: 229 -> 0229
+	return observation_number
+
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
 	days_between_checking_jpl_website = 2 # set to 0 to re-run currently without waiting
@@ -128,12 +139,18 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 					zip_ref.extractall(zipped_image_path)
 
 def extractFlybyDataImages(flyby_observation_num=None,
+							flyby_id=None,
 							segment_num=None,
 							top_x_resolutions=None):
 
-	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
 	download_files = True
 
+	if flyby_id is not None:  # convert flyby Id to an Observation Number
+		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
+		print(flyby_observation_num)
+	exit()
+
+	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
 	resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
 
 	if flyby_observation_num not in avaliable_observation_numbers:
