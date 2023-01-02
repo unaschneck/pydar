@@ -2,14 +2,14 @@
 
 import zipfile
 import os
+import csv 
+from datetime import datetime, timedelta
 
 import pandas as pd
 from planetaryimage import PDS3Image
 import matplotlib.pyplot as plt
 from urllib import request, error
-
 from bs4 import BeautifulSoup
-
 
 def getFlybyData():
 	# Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
@@ -29,8 +29,6 @@ def getFlybyData():
 
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
-	import csv 
-	from datetime import datetime, timedelta
 	days_between_checking_jpl_website = 2 # set to 0 to re-run currently without waiting
 	x_days_ago = datetime.now() - timedelta(days=days_between_checking_jpl_website)
 	
@@ -129,7 +127,7 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 					zipped_image_path = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id))
 					zip_ref.extractall(zipped_image_path)
 
-def extractFlybyDataImages(flyby_observiation_num=None,
+def extractFlybyDataImages(flyby_observation_num=None,
 							segment_num=None,
 							top_x_resolutions=None):
 
@@ -138,19 +136,24 @@ def extractFlybyDataImages(flyby_observiation_num=None,
 
 	resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
 
-	if flyby_observiation_num not in avaliable_observation_numbers:
-		print("Observation number '{0}' NOT FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
+	if flyby_observation_num not in avaliable_observation_numbers:
+		print("Observation number '{0}' NOT FOUND in avaiable observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 		exit()
 	else:
-		print("Observation number '{0}' FOUND in avaiable observation numbers: {1}\n".format(flyby_observiation_num, avaliable_observation_numbers))
+		print("Observation number '{0}' FOUND in avaiable observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 
-	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observiation_num)
 	# Download information from pds-imaging site for image
+	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
 	if not os.path.exists('results'): os.makedirs('results')
 	if not os.path.exists("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
 	if download_files: 
 		downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
 
+	if len(os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
+		print("Unable to find any images with current parameters")
+		exit()
+
+	# Display images
 	for filename in os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)):
 		if 'IMG' in filename:
 			print("Generating image...")
