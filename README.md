@@ -220,6 +220,7 @@ pip install pydar
 * include access to lbl file attributes from command line
 * save .IMG as an array of pixel values
 * progress bars print to command line
+* project image onto Titan spheriod
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 
