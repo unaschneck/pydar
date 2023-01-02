@@ -7,9 +7,11 @@ Access and manipulation of CASSINI RADAR images
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
 ## Overview
-For information on instrument specifics and acronyms refer to the Cassini RADAR Users Guide <br /> https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf
+For information on instrument specifics and acronyms refer to the [Cassini Radar User GuideE](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
+
+The Cassini Radar data can be found at the [PDS Imaging Node](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/). The radar echo is stored originally as floating points in LBDR files. The SAR processors turns the LBDR files to BIDR image. The BIDR data is organized as follows:
 ```
-Cassini RADAR Information (CORADR_xxxx): [](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/)
+Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take number and Vxx is the data version number
   |_ AAREADME.txt
     Information about observation xxxx (xxxx > 0035 for Titan flybys)
   |_CALIB/
@@ -71,11 +73,14 @@ Cassini RADAR Information (CORADR_xxxx): [](https://pds-imaging.jpl.nasa.gov/dat
   |_DOCUMENT/
   |_ERRATA.txt
   |_EXTRAS/
-    |_BIbcdeefggg_Dhhh_Tiii_Vnn.JPG: jpg of IMG files in DATA
+    |_BIbcdeefggg_Dhhh_Tiii_Vnn.JPG: jpg of IMG files in DATA 
   |_INDEX/
   |_SOFTWARE/
+  |_VOLDESC.CAT <--- VERSION INFORMATION LISTED HERE ('VOLUME_VERSION_ID' = "Version 1", "Version 2", "Version 3") and in filename
 ```
-**Cross-Reference Table for Observations and Flybys**
+### Cross-Reference Table for Observations and Flybys
+
+The flybys ID is not used in the naming convention for the files. The Titan flyby information is contained in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table:
 ```
 Flyby ID Cross Reference Table
 Prime Mission and Extended Mission
@@ -135,9 +140,10 @@ T95  DTN 253   S80 Rev 198
 T98  DTN 257   S82 Rev 201
 T104 DTN 261   S85 Rev 207
 ```
-**Observation Information as filename**
+### Observation Information as filename
+The data filename contains a lot of information about the observation 
 
-File Name Example: "BIBQD05S184_D065_T008S03_V03"
+EXAMPLE) Filename: "BIBQD05S184_D065_T008S03_V03"
 
 - BI = BIDR data
 - B = data in dB normalized
@@ -154,6 +160,39 @@ File Name Example: "BIBQD05S184_D065_T008S03_V03"
 BIBQD05S184_D065_T008S03_V03.JPG:
 
 ![BIFQI10S251_D065_T008S01_V03](https://user-images.githubusercontent.com/24469269/210164143-427003ed-0043-45b4-a80f-8e9ddf28543a.jpg)
+
+### Volume version of data
+
+Some passes have multiple versions of the data.
+
+* Version 1 (V01) was the first archived version of the data and assumed Titan had zero obliquity, which resulted in misregistration between passes
+
+* Version 2 (V02) used a Titan spin model that reduced misregistration error 
+
+* Version 3 (V03) used a long-term, accurate spin model for Titan along with other improvements
+
+Only some Titan passes produced all of the version numbers.
+
+* TA-T25 : V01, V02, V03
+
+* $\gt$ T28: V02, V03
+
+* T108-T126: labeled only once as V02 but is actually V03
+
+The version number is listed in the filenanme and in VOLDESC.CAT under the 'VOLUME_VERSION_ID'
+
+*Version 3 is the latest and preferred version*
+
+Example:
+
+Version 1 is named BIFQI48N071_D035_T00A_V01.IMG
+
+Version 2 is named BIFQI49N071_D035_T00AS01_V02.IMG
+
+Version 3 is named BIFQI49N071_D035_T00AS01_V03.IMG
+
+### Segment number of data
+A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.  
 
 ## Documentation
 
@@ -174,6 +213,11 @@ pip install pydar
 ## Tests
 
 ## TODO:
+
+* include access to readme from command line
+* include access to lbl file attributes from command line
+* save .IMG as an array of pixel values
+* progress bars print to command line
 
 ## CITATIOn
 f you use this package for your research, please cite it as
