@@ -212,10 +212,19 @@ pip install pydar
 
 ## Examples
 
+```python
+from pydar import extractFlybyDataImages
+
+extractFlybyDataImages(flyby_id="T65",
+						segment_num="S01",
+						top_x_resolutions=3)
+```
+
 ## Tests
 
 ## TODO:
 
+* error handling for either flyby ID or observation number
 * include access to readme from command line
 * include access to lbl file attributes from command line
 * save .IMG as an array of pixel values

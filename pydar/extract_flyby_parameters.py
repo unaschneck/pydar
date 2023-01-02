@@ -82,7 +82,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# Version 2: Early attempt to fix problem using Titan spin model
 	# Version 3: Long term accurate spin model and additional accuracy improvements
 	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
-	print("Most recent version avaliable = {0} from avalible {1}".format(more_accurate_model_number, version_types_avaliable))
+	print("Most recent version avaliable = {0} from available {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
 
 def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
@@ -142,8 +142,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
 							segment_num=None,
 							top_x_resolutions=None):
-
-	download_files = True
+	download_files = True # for debugging, does not always download files before running image display
 
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
@@ -152,10 +151,10 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
 
 	if flyby_observation_num not in avaliable_observation_numbers:
-		print("Observation number '{0}' NOT FOUND in avaiable observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
+		print("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 		exit()
 	else:
-		print("Observation number '{0}' FOUND in avaiable observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
+		print("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 
 	# Download information from pds-imaging site for image
 	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
