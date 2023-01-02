@@ -6,7 +6,7 @@ import os
 import pandas as pd
 from planetaryimage import PDS3Image
 import matplotlib.pyplot as plt
-from urllib import request
+from urllib import request, error
 
 def getFlybyData():
 	# Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
@@ -74,31 +74,46 @@ if __name__ == '__main__':
 		jpl_coradr_options.append(row[0])
 
 	find_cordar_listing = 'CORADR_{0}'.format(flyby_observiation_num)
-	result = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
-	print(result)
-	exit()
+	version_types_avaliable = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
+	# Version 1: Archived early when Titan obliquity is assumed to be zero
+	# Version 2: Early attempt to fix problem using Titan spin model
+	# Version 3: Long term accurate spin model and additional accuracy improvements
+	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
+	print("Most recent version avaliable = {0} from avalible {1}".format(more_accurate_model_number, version_types_avaliable))
 
-
-	label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_{0}_V03/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.LBL".format(flyby_observiation_num)
+	# Get information from pds-imaging site for image
+	label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.LBL".format(more_accurate_model_number)
 	label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
-	response = request.urlretrieve(label_url, label_name)
-	
-	data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_{0}_V03/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.ZIP".format(flyby_observiation_num)
+	try:
+		request.urlretrieve(label_url)
+	except error.HTTPError as err:
+		print("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
+		exit()
+	else:
+		response = request.urlretrieve(label_url, label_name)
+
+	data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/BIBQD05S184_D065_T008S03_V03.ZIP".format(more_accurate_model_number)
 	zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
-	print(zipfile_name)
-	response = request.urlretrieve(data_url, zipfile_name)
+	try:
+		request.urlretrieve(data_url)
+	except error.HTTPError as err:
+		print("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
+		exit()
+	else:
+		response = request.urlretrieve(data_url, zipfile_name)
+		with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
+			zip_ref.extractall()
 
-	with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
-		zip_ref.extractall()
+		print("Generating image...")
+		from planetaryimage import PDS3Image
+		zipped_image = zipfile_name.split(".")[0] + ".IMG"
+		print("Zipped image: {0}".format(zipped_image))
+		image = PDS3Image.open(zipped_image)
+		fig = plt.figure(figsize=(8,8), dpi=120)
+		plt.imshow(image.image, cmap='gray')
+		plt.show()
 
-	from planetaryimage import PDS3Image
-	zipped_image = zipfile_name.split(".")[0] + ".IMG"
-	image = PDS3Image.open(zipped_image)
-	fig = plt.figure(figsize=(8,8), dpi=120)
-	plt.imshow(image.image, cmap='gray')
-	plt.show()
-
-	flyby_name = data_url.split("/")[-1].split(".")[0]
-	os.remove("{0}.IMG".format(flyby_name))
-	os.remove("{0}.txt".format(flyby_name))
-	os.remove("{0}.zip".format(flyby_name))
+		flyby_name = data_url.split("/")[-1].split(".")[0]
+		os.remove("{0}.IMG".format(flyby_name))
+		os.remove("{0}.txt".format(flyby_name))
+		os.remove("{0}.zip".format(flyby_name))
