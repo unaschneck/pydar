@@ -194,6 +194,8 @@ Version 3 is named BIFQI49N071_D035_T00AS01_V03.IMG
 ### Segment number of data
 A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.  
 
+![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
+Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
 ## Documentation
 
 ## Dependencies
@@ -218,7 +220,9 @@ pip install pydar
 * include access to lbl file attributes from command line
 * save .IMG as an array of pixel values
 * progress bars print to command line
+* test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
+* test: pull beam information and number of looks for each pixel 
 
-## CITATIOn
-f you use this package for your research, please cite it as
+## CITATION
+If you use this package for your research, please cite it as
 
