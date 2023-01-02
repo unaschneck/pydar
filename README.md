@@ -215,9 +215,7 @@ pip install pydar
 ```python
 from pydar import extractFlybyDataImages
 
-extractFlybyDataImages(flyby_id="T65",
-						segment_num="S01",
-						top_x_resolutions=3)
+extractFlybyDataImages(flyby_id="T65", segment_num="S01", top_x_resolutions=3)
 ```
 
 ## Tests
