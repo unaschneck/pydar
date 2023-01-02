@@ -80,7 +80,7 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
 ```
 ### Cross-Reference Table for Observations and Flybys
 
-The flybys ID is not used in the naming convention for the files. The Titan flyby information is contained in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table:
+The Titan flybys ID is not used in the naming convention for the CORADR filenames. The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table:
 ```
 Flyby ID Cross Reference Table
 Prime Mission and Extended Mission
@@ -221,6 +221,7 @@ pip install pydar
 * save .IMG as an array of pixel values
 * progress bars print to command line
 * project image onto Titan spheriod
+* make pandas df of all radar data
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 
