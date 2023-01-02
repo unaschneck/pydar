@@ -222,8 +222,11 @@ pip install pydar
 * progress bars print to command line
 * project image onto Titan spheriod
 * make pandas df of all radar data
+* error handling: extract_flyby_data_images
+* error handling: no images found for parameter specified (extractFlybyDataImages(flyby_observiation_num = "0218",segment_num="S01",top_x_resolutions=3))
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
+
 
 ## CITATION
 If you use this package for your research, please cite it as
