@@ -160,29 +160,33 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 	soup = BeautifulSoup(base_html, 'html.parser')
 	table = soup.find('table', {"id": "indexlist"})
 	table_text = (table.text).split("\n")
-	sbdr_file = ""
+	sbdr_files = []
+	sbdr_filename = ''
 	for txt in table_text:
 		if txt.startswith('SBDR'):
-			sbdr_file = (txt.split('/')[0]).split(".")[0]
+			sbdr_filename = (txt.split('/')[0]).split(".")[0]
 			if 'TAB' in (txt.split('/')[0]).split(".")[1]:
-				sbdr_file += '.TAB'
+				sbdr_filename += '.TAB'
+			if 'FMT' in (txt.split('/')[0]).split(".")[1]:
+				sbdr_filename += '.FMT'
+			sbdr_files.append(sbdr_filename)
 
-	logger.info("SBDR file found: {0}".format(sbdr_file))
-	if sbdr_file == "":
-		logger.critical("No SBDR file was found with resolution, segment, and flyby identification. Please use different parameters to retrieve data")
+	logger.info("SBDR files found: {0}".format(sbdr_files))
+	if len(sbdr_files) == 0:
+		logger.critical("No SBDR files were found with resolution, segment, and flyby identification. Please use different parameters to retrieve data")
 		exit()
 
-	sbdr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
-	logger.info("Retrieving SBDR file '{0}': {1}".format(sbdr_file, sbdr_url))
-	sbdr_name = sbdr_url.split("/")[-1].split(".")[0] + ".TAB"
-	sbdr_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_name)
-	try:
-		request.urlretrieve(sbdr_url)
-	except error.HTTPError as err:
-		logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(sbdr_url, err.code))
-		exit()
-	else:
-		response = request.urlretrieve(sbdr_url, sbdr_name)
+	for sbdr_file in sbdr_files:
+		sbdr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
+		logger.info("Retrieving SBDR file '{0}': {1}".format(sbdr_file, sbdr_url))
+		sbdr_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_file)
+		try:
+			request.urlretrieve(sbdr_url)
+		except error.HTTPError as err:
+			logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(sbdr_url, err.code))
+			exit()
+		else:
+			response = request.urlretrieve(sbdr_url, sbdr_name)
 
 def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
