@@ -78,6 +78,8 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |_SOFTWARE/
   |_VOLDESC.CAT <--- VERSION INFORMATION LISTED HERE ('VOLUME_VERSION_ID' = "Version 1", "Version 2", "Version 3") and in filename
 ```
+
+.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/)
 ### Cross-Reference Table for Observations and Flybys
 
 The Titan flybys ID is not used in the naming convention for the CORADR filenames. The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table:
