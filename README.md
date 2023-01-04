@@ -209,7 +209,7 @@ print("Table options: {0}".format(SBDR_FILE.keys()))
 ```
 
 ## Dependencies
-Python 3.7
+Python 3.9
 ```
 pip3 install -r requirements.txt
 ```

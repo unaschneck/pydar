@@ -6,4 +6,5 @@ if __name__ == '__main__':
 	#							resolution='D',
 	#							segment_num="S01")
 	# Display all Images in results/ directory
-	pydar.displayImages("results/CORADR_0065_V03_S01")
+	#pydar.displayImages("results/CORADR_0065_V03_S01")
+	pydar.extractMetadata()
