@@ -7,7 +7,7 @@ Access and manipulation of CASSINI RADAR images
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
 ## Overview
-For information on instrument specifics and acronyms refer to the [Cassini Radar User Guidee](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
+For information on instrument specifics and acronyms refer to the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
 The Cassini Radar data can be found at the [PDS Imaging Node](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/). The directory is organized by [PDS standards](https://pdssbn.astro.umd.edu/howto/understand.shtml). The file format are defined in the [Small Body Node](https://pdssbn.astro.umd.edu/howto/file_types.shtml). The radar echo is stored originally as floating points in LBDR files. The SAR processors turns the LBDR files to BIDR image. The BIDR data is organized as follows:
 ```
@@ -236,7 +236,6 @@ extractFlybyDataImages(flyby_id="T65", segment_num="S01", top_x_resolutions=3)
 * make pandas df of all radar data
 * rm -rf results/ between runs for clean image output
 * error handling: extract_flyby_data_images
-* error handling: no images found for parameter specified (extractFlybyDataImages(flyby_observiation_num = "0218",segment_num="S01",top_x_resolutions=3))
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 

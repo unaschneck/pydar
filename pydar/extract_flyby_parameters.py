@@ -6,10 +6,19 @@ import csv
 from datetime import datetime, timedelta
 
 import pandas as pd
-from planetaryimage import PDS3Image
-import matplotlib.pyplot as plt
+import logging
 from urllib import request, error
 from bs4 import BeautifulSoup
+
+import pydar
+
+## Logging set up for .INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler()
+logger.addHandler(stream_handler)
+
+resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
 
 def getFlybyData():
 	# Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
@@ -46,10 +55,10 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
 	if filetime < x_days_ago:
 		# File it more than X days old
-		print("file is older than {0} days, running html capture for CORADR options:".format(days_between_checking_jpl_website))
+		logger.info("file is older than {0} days, running html capture for CORADR options:".format(days_between_checking_jpl_website))
 	
 		# BeautifulSoup web scrapping to find observation file number full title
-		print("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
+		logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 		cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
 		cassini_html = request.urlopen(cassini_root_url).read()
 		soup = BeautifulSoup(cassini_html, 'html.parser')
@@ -61,7 +70,6 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 				coradr_title = txt.split('/')[0]
 				if '.' not in coradr_title:
 					coradr_options.append(coradr_title)
-		print(coradr_options)
 		# Wrte to CSV
 		header_options = ["CORADR ID Options"]
 		df = pd.DataFrame(coradr_options, columns=header_options)
@@ -78,16 +86,13 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 
 	find_cordar_listing = 'CORADR_{0}'.format(flyby_observiation_num)
 	version_types_avaliable = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
-	# Version 1: Archived early when Titan obliquity is assumed to be zero
-	# Version 2: Early attempt to fix problem using Titan spin model
-	# Version 3: Long term accurate spin model and additional accuracy improvements
 	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
-	print("Most recent version avaliable = {0} from available {1}".format(more_accurate_model_number, version_types_avaliable))
+	logger.info("Most recent version avaliable = {0} from available {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
 
 def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
-	print("Retrieving filenames from: {0}".format(base_url))
+	logger.info("Retrieving filenames from: {0}\n".format(base_url))
 
 	# Retrieve a list of all elements from the base URL to download
 	base_html = request.urlopen(base_url).read()
@@ -95,6 +100,7 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 	table = soup.find('table', {"id": "indexlist"})
 	table_text = (table.text).split("\n")
 	url_filenames = []
+	all_bi_files = []
 	for txt in table_text:
 		if txt.startswith('BI'):
 			filename = (txt.split('/')[0]).split(".")[0]
@@ -102,34 +108,38 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 				filename += '.LBL'
 			if 'ZIP' in (txt.split('/')[0]).split(".")[1]:
 				filename += '.ZIP'
+			all_bi_files.append(filename)
 			if segment_id in filename: # only save certain segements
 				for resolution in resolution_px: # only save top x resolutions
 					if "BIBQ{0}".format(resolution) in filename:
 						url_filenames.append(filename)
-	print(url_filenames)
+
+	logger.info("All files found with specified resolution, segment, and flyby identification: {0}".format(url_filenames))
+	if len(url_filenames) == 0:
+		logger.info("No files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll BI files found: {0}".format(all_bi_files))
 
 	for i, coradr_file in enumerate(url_filenames):
 		if 'LBL' in coradr_file:
 			label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
-			print("Retrieving [{0}/{1}]: {2}".format(i, len(url_filenames), label_url))
+			logger.info("Retrieving [{0}/{1}]: {2}\n".format(i+1, len(url_filenames), label_url))
 			label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
 			label_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
 			try:
 				request.urlretrieve(label_url)
 			except error.HTTPError as err:
-				print("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
+				logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
 				exit()
 			else:
 				response = request.urlretrieve(label_url, label_name)
 		if 'ZIP' in coradr_file:
 			data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
-			print("Retrieving [{0}/{1}]: {2}".format(i, len(url_filenames), data_url))
+			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), data_url))
 			zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
 			zipfile_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), zipfile_name)
 			try:
 				request.urlretrieve(data_url)
 			except error.HTTPError as err:
-				print("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
+				logger.info("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
 				exit()
 			else:
 				response = request.urlretrieve(data_url, zipfile_name)
@@ -141,43 +151,53 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
 							segment_num=None,
+							resolution='I',
 							top_x_resolutions=None):
-	download_files = True # for debugging, does not always download files before running image display
+
+	if flyby_id is not None and type(flyby_id) == str:
+		flyby_id = flyby_id.upper() # ensure that observation number set to capitalized 'T'
+	if flyby_observation_num is not None and type(flyby_observation_num) == str:
+		while len(flyby_observation_num) < 4:
+			flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
+	if top_x_resolutions is not None:
+		resolution = None # set default resolution to None if selecting the top x resolutions
+
+	# Error handling:
+	pydar.errorHandling(flyby_observation_num=flyby_observation_num,
+						flyby_id=flyby_id,
+						segment_num=segment_num,
+						resolution=resolution,
+						top_x_resolutions=top_x_resolutions)
+
+	logger.info("flyby_observation_num = {0}".format(flyby_observation_num))
+	logger.info("flyby_id = {0}".format(flyby_id))
+	logger.info("segment_num = {0}".format(segment_num))
+	logger.info("resolution = {0}".format(resolution))
+	logger.info("top_x_resolutions = {0}".format(top_x_resolutions))
+
+	download_files = True # for debugging, does not always download files before running data
 
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
 
 	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
-	resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
 
 	if flyby_observation_num not in avaliable_observation_numbers:
-		print("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
+		logger.critical("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 		exit()
 	else:
-		print("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
+		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 
 	# Download information from pds-imaging site for image
 	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
 	if not os.path.exists('results'): os.makedirs('results')
 	if not os.path.exists("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
+
 	if download_files: 
-		downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
-
+		if top_x_resolutions is not None:
+			downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
+		else:
+			downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution)
 	if len(os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
-		print("Unable to find any images with current parameters")
+		logger.critical("Unable to find any images with current parameters")
 		exit()
-
-	# Display images
-	for filename in os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)):
-		if 'IMG' in filename:
-			print("Generating image...")
-			image_file = os.path.join("results/{0}_{1}/{2}".format(flyby_observation_cordar_name, segment_num, filename))
-			from planetaryimage import PDS3Image
-			print("Image: {0}".format(image_file))
-			image = PDS3Image.open(image_file)
-			fig = plt.figure(figsize=(4,6), dpi=120)
-			plt.title(filename)
-			plt.xlabel("Pixels #")
-			plt.ylabel("Pixels #")
-			plt.imshow(image.image, cmap='gray')
-	plt.show()
