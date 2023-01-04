@@ -114,14 +114,15 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 					if "BIBQ{0}".format(resolution) in filename:
 						url_filenames.append(filename)
 
-	logger.info("All files found with specified resolution, segment, and flyby identification: {0}".format(url_filenames))
+	logger.info("All files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
 	if len(url_filenames) == 0:
-		logger.info("No files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll BI files found: {0}".format(all_bi_files))
+		logger.critical("No files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll BI files found: {0}".format(all_bi_files))
+		exit()
 
 	for i, coradr_file in enumerate(url_filenames):
 		if 'LBL' in coradr_file:
 			label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
-			logger.info("Retrieving [{0}/{1}]: {2}\n".format(i+1, len(url_filenames), label_url))
+			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), label_url))
 			label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
 			label_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
 			try:

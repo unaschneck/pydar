@@ -12,12 +12,11 @@ stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
 def displayImages(image_directory):
-	# Display images
+	# Display all images in the image directory specified
 	for filename in os.listdir(image_directory):
 		if 'IMG' in filename:
-			logger.debug("Generating image...")
 			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
-			logger.debug("Image: {0}".format(image_file))
+			logger.info("Displaying Image: {0}".format(image_file))
 			image = PDS3Image.open(image_file)
 			fig = plt.figure(figsize=(4,6), dpi=120)
 			plt.title(filename)
