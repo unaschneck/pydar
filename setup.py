@@ -27,7 +27,7 @@ setup(
 		"Intended Audience :: Science/Research",
 		"License :: OSI Approved :: MIT License",
 		"Programming Language :: Python",
-		"Programming Language :: Python :: 3.7",
+		"Programming Language :: Python :: 3.9",
 		"Intended Audience :: Education",
 		"Intended Audience :: Science/Research",
 		"Topic :: Scientific/Engineering :: Physics",
@@ -43,5 +43,5 @@ setup(
 			"planetaryimage>=0.5.0",
 			"urllib3>=1.26.9"
 			],
-	python_requires='>=3.7'
+	python_requires='>=3.9'
 )

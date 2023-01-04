@@ -222,10 +222,37 @@ pip install pydar
 
 ## Examples
 
-```python
-from pydar import extractFlybyDataImages
+**extractFlybyDataImages()**
 
-extractFlybyDataImages(flyby_id="T65", segment_num="S01", top_x_resolutions=3)
+Downloads flby data SBDR: .FMT and .TAB files (for example: (SBDR.FMT)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT] and (SBDR_15_D087_V03.TAB)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB])
+
+Downloads flyby data BIDR: .LBL and .ZIP files (for example: BIBQH80N051_D087_T016S01_V03.LBL)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL] and (BIBQH80N051_D087_T016S01_V03.ZIP
+
+```python
+import pydar
+
+# Extract Flyby Data Files to results/ directory: 
+pydar.extractFlybyDataImages(flyby_observation_num='87', resolution='H', segment_num="S01")
+```
+)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP]
+
+**displayImages**
+
+Displays downloaded image .IMG files (unzipped from within the .ZIP files)
+
+```python
+import pydar
+# Display all Images in results/ directory
+pydar.displayImages("results/CORADR_0065_V03_S01")
+```
+**extractMetadata**
+
+Extract metadata from .TAB file (using .FMT as a reference)
+
+```python
+import pydar
+# Extract Metadata from .FMT and .TAB files
+pydar.extractMetadata()
 ```
 
 ## Tests
@@ -233,7 +260,6 @@ extractFlybyDataImages(flyby_id="T65", segment_num="S01", top_x_resolutions=3)
 ## TODO:
 
 * associate burst ID from SBDR data to BIDR data for metadata
-* error handling for either flyby ID or observation number
 * include access to readme from command line
 * include access to lbl file attributes from command line
 * save .IMG as an array of pixel values
@@ -244,7 +270,6 @@ extractFlybyDataImages(flyby_id="T65", segment_num="S01", top_x_resolutions=3)
 * error handling: extract_flyby_data_images
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
-
 
 ## CITATION
 If you use this package for your research, please cite it as
