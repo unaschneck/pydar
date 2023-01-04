@@ -112,8 +112,10 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			all_bidr_files.append(filename)
 			if segment_id in filename: # only save certain segements
 				for resolution in resolution_px: # only save top x resolutions
-					if "BIBQ{0}".format(resolution) in filename:
-						url_filenames.append(filename)
+					bi_types = ["B", "E", "T", "N", "M", "L"] # BI<OPTION>Q<RESOLUTION>
+					for bi in bi_types:
+						if "BI{0}Q{1}".format(bi, resolution) in filename:
+							url_filenames.append(filename)
 
 	logger.info("All BIDR files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
 	if len(url_filenames) == 0:
@@ -165,9 +167,9 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 	for txt in table_text:
 		if txt.startswith('SBDR'):
 			sbdr_filename = (txt.split('/')[0]).split(".")[0]
-			if 'TAB' in (txt.split('/')[0]).split(".")[1]:
+			if 'TAB' in (txt.split('/')[0]).split(".")[1]: # TAB information
 				sbdr_filename += '.TAB'
-			if 'FMT' in (txt.split('/')[0]).split(".")[1]:
+			if 'FMT' in (txt.split('/')[0]).split(".")[1]: # FMT information required to read TAB
 				sbdr_filename += '.FMT'
 			sbdr_files.append(sbdr_filename)
 
