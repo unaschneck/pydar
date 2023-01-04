@@ -202,6 +202,11 @@ Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
 
 ## SBDR Files
 [SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
+```
+test_file = "SBDR_15_D065_V03.TAB"
+SBDR_FILE = pdr.read(test_file)
+print("Table options: {0}".format(SBDR_FILE.keys()))
+```
 
 ## Dependencies
 Python 3.7
@@ -227,6 +232,7 @@ extractFlybyDataImages(flyby_id="T65", segment_num="S01", top_x_resolutions=3)
 
 ## TODO:
 
+* associate burst ID from SBDR data to BIDR data for metadata
 * error handling for either flyby ID or observation number
 * include access to readme from command line
 * include access to lbl file attributes from command line
