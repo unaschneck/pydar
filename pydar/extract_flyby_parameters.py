@@ -90,7 +90,8 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	logger.info("Most recent version avaliable = {0} from available {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
 
-def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
+def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
+	# Download BDIR files
 	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
 	logger.info("Retrieving filenames from: {0}\n".format(base_url))
 
@@ -100,7 +101,7 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 	table = soup.find('table', {"id": "indexlist"})
 	table_text = (table.text).split("\n")
 	url_filenames = []
-	all_bi_files = []
+	all_bidr_files = []
 	for txt in table_text:
 		if txt.startswith('BI'):
 			filename = (txt.split('/')[0]).split(".")[0]
@@ -108,15 +109,15 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 				filename += '.LBL'
 			if 'ZIP' in (txt.split('/')[0]).split(".")[1]:
 				filename += '.ZIP'
-			all_bi_files.append(filename)
+			all_bidr_files.append(filename)
 			if segment_id in filename: # only save certain segements
 				for resolution in resolution_px: # only save top x resolutions
 					if "BIBQ{0}".format(resolution) in filename:
 						url_filenames.append(filename)
 
-	logger.info("All files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
+	logger.info("All BIDR files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
 	if len(url_filenames) == 0:
-		logger.critical("No files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll BI files found: {0}".format(all_bi_files))
+		logger.critical("No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll BI files found: {0}".format(all_bidr_files))
 		exit()
 
 	for i, coradr_file in enumerate(url_filenames):
@@ -148,6 +149,40 @@ def downloadCORADRData(cordar_file_name, segment_id, resolution_px):
 				with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
 					zipped_image_path = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id))
 					zip_ref.extractall(zipped_image_path)
+
+def downloadSBDRCORADRData(cordar_file_name, segment_id):
+	# Download SBDR files
+	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/".format(cordar_file_name)
+	logger.info("\nRetrieving filenames from: {0}".format(base_url))
+
+	# Retrieve a SBDR file from filename at SBDR URL
+	base_html = request.urlopen(base_url).read()
+	soup = BeautifulSoup(base_html, 'html.parser')
+	table = soup.find('table', {"id": "indexlist"})
+	table_text = (table.text).split("\n")
+	sbdr_file = ""
+	for txt in table_text:
+		if txt.startswith('SBDR'):
+			sbdr_file = (txt.split('/')[0]).split(".")[0]
+			if 'TAB' in (txt.split('/')[0]).split(".")[1]:
+				sbdr_file += '.TAB'
+
+	logger.info("SBDR file found: {0}".format(sbdr_file))
+	if sbdr_file == "":
+		logger.critical("No SBDR file was found with resolution, segment, and flyby identification. Please use different parameters to retrieve data")
+		exit()
+
+	sbdr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
+	logger.info("Retrieving SBDR file '{0}': {1}".format(sbdr_file, sbdr_url))
+	sbdr_name = sbdr_url.split("/")[-1].split(".")[0] + ".TAB"
+	sbdr_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_name)
+	try:
+		request.urlretrieve(sbdr_url)
+	except error.HTTPError as err:
+		logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(sbdr_url, err.code))
+		exit()
+	else:
+		response = request.urlretrieve(sbdr_url, sbdr_name)
 
 def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
@@ -196,9 +231,12 @@ def extractFlybyDataImages(flyby_observation_num=None,
 
 	if download_files: 
 		if top_x_resolutions is not None:
-			downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
+			# BIDR
+			downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
 		else:
-			downloadCORADRData(flyby_observation_cordar_name, segment_num, resolution)
+			downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution)
+		# SBDR
+		downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
 	if len(os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
 		logger.critical("Unable to find any images with current parameters")
 		exit()
