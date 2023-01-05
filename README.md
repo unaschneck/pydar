@@ -1,8 +1,12 @@
 # PYDAR
 ![PyPi](https://img.shields.io/pypi/v/pydar)
 ![license](https://img.shields.io/github/license/unaschneck/pydar)
+[![NSF-2141064](https://img.shields.io/badge/NSF-2141064-blue)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2141064&HistoricalAwards=false)
 
 Access and manipulation of CASSINI RADAR images
+
+* Retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG)
+* Display PDS image retrieved for flyby observation
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
@@ -222,11 +226,14 @@ pip install pydar
 
 ## Examples
 
+
+
 **extractFlybyDataImages()**
 
-Downloads flby data SBDR: .FMT and .TAB files (for example: (SBDR.FMT)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT] and (SBDR_15_D087_V03.TAB)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB])
+Downloads flby data SBDR: .FMT and .TAB files (for example: [SBDR.FMT](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT) and [SBDR_15_D087_V03.TAB](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB))
 
-Downloads flyby data BIDR: .LBL and .ZIP files (for example: BIBQH80N051_D087_T016S01_V03.LBL)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL] and (BIBQH80N051_D087_T016S01_V03.ZIP
+Downloads flyby data BIDR: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T016S01_V03.LBL](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL) and [BIBQH80N051_D087_T016S01_V03.ZIP](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP))
+
 
 ```python
 import pydar
@@ -234,8 +241,6 @@ import pydar
 # Extract Flyby Data Files to results/ directory: 
 pydar.extractFlybyDataImages(flyby_observation_num='87', resolution='H', segment_num="S01")
 ```
-)[https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP]
-
 **displayImages**
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files)
@@ -255,19 +260,21 @@ import pydar
 pydar.extractMetadata()
 ```
 
-## Tests
-
 ## TODO:
-
 * associate burst ID from SBDR data to BIDR data for metadata
+* save .IMG as an array of pixel values
 * include access to readme from command line
 * include access to lbl file attributes from command line
-* save .IMG as an array of pixel values
-* progress bars print to command line
 * project image onto Titan spheriod
 * make pandas df of all radar data
+
+## TODO: Tech Debt
 * rm -rf results/ between runs for clean image output
 * error handling: extract_flyby_data_images
+* progress bars print to command line
+* Zenodo
+
+## TODO: Test
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 
