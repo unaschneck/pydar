@@ -14,3 +14,5 @@ def extractMetadata():
 	img_file = "results/CORADR_0065_V03_S01/BIBQD10S251_D065_T008S01_V03.IMG"
 	SBDR_FILE = pdr.read(img_file)
 	#print(SBDR_FILE.keys())
+
+	#['.start_burst_num'] and ['.end_burst_num']

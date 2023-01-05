@@ -49,7 +49,7 @@ def convertFlybyIDToObservationNumber(flyby_id):
 
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
-	days_between_checking_jpl_website = 2 # set to 0 to re-run currently without waiting
+	days_between_checking_jpl_website = 7 # set to 0 to re-run currently without waiting
 	x_days_ago = datetime.now() - timedelta(days=days_between_checking_jpl_website)
 	
 	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
@@ -69,11 +69,32 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 			if 'CORADR' in txt:
 				coradr_title = txt.split('/')[0]
 				if '.' not in coradr_title:
-					coradr_options.append(coradr_title)
+					coradr_options.append([coradr_title, False, False, False, False, False, False])
+		
+		# Check of CORADR has specific data files formats
+		datafile_types = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
+		for coradr_id in coradr_options:
+			coradr_url = "{0}/{1}/DATA".format(cassini_root_url, coradr_id[0])
+			logger.info("Retrieving data types: {0}".format(coradr_url))
+			coradr_html = request.urlopen(coradr_url).read()
+			soup = BeautifulSoup(coradr_html, 'html.parser')
+			table = soup.find('table', {"id": "indexlist"})
+			table_text = (table.text).split("\n")
+			for txt in table_text:
+				for i, data_type in enumerate(datafile_types):
+					if data_type in txt:
+						coradr_id[i+1] = True
+
 		# Wrte to CSV
-		header_options = ["CORADR ID Options"]
+		header_options = ["CORADR ID",
+						"Contains ABDR",
+						"Contains ASUM",
+						"Contains BIDR",
+						"Contains LBDR",
+						"Contains SBDR",
+						"Contains STDR"]
 		df = pd.DataFrame(coradr_options, columns=header_options)
-		df = df.sort_values(by=["CORADR ID Options"])
+		df = df.sort_values(by=["CORADR ID"])
 		df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'), header=header_options, index=False)
 
 	# Read from CSV
@@ -87,7 +108,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	find_cordar_listing = 'CORADR_{0}'.format(flyby_observiation_num)
 	version_types_avaliable = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
 	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
-	logger.info("Most recent version avaliable = {0} from available {1}".format(more_accurate_model_number, version_types_avaliable))
+	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
 
 def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
