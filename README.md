@@ -226,7 +226,9 @@ pip install pydar
 
 ## Examples
 
+Ontario Lacus: T57, T58, T65, T98 [(Page 163)](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
+To access flyby of Ontario, first specify a flyby. For this example, T65 with a resolution of D (8 pixels/degree) for main imaging segement 1 (S01)
 
 **extractFlybyDataImages()**
 
@@ -239,8 +241,11 @@ Downloads flyby data BIDR: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T
 import pydar
 
 # Extract Flyby Data Files to results/ directory: 
-pydar.extractFlybyDataImages(flyby_observation_num='87', resolution='H', segment_num="S01")
+pydar.extractFlybyDataImages(flyby_observation_num='65', resolution='D', segment_num="S01")
 ```
+
+extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'results' with the flby obsrevation number, version number, and segement number in the title (for example results/CORADR_0065_V03_S01)
+
 **displayImages**
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files)
@@ -250,6 +255,8 @@ import pydar
 # Display all Images in results/ directory
 pydar.displayImages("results/CORADR_0065_V03_S01")
 ```
+displayImages() will plt.show() all images in the saved results directory
+
 **extractMetadata**
 
 Extract metadata from .TAB file (using .FMT as a reference)
