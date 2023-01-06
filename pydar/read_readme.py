@@ -7,7 +7,7 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-def readAAREADME(coradr_results_directory):
+def readAAREADME(coradr_results_directory=None):
 	# Print AAREADME to command line
 	line_limiter = 25 # TODO: set line limit by user, or print by section
 	with open("{0}/AAREADME.TXT".format(coradr_results_directory), "r") as readme_file:

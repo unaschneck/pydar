@@ -41,7 +41,7 @@ def convertFlybyIDToObservationNumber(flyby_id):
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 	for index, row in flyby_dataframe.iterrows():
-		if row[0] == flyby_id: # TODO; Add error handling to include only valiid flyby IDs
+		if row[0] == flyby_id: # TODO; Add error handling to include only valid flyby IDs
 			observation_number = row[1].split(" ")[1]
 			while len(observation_number) < 4:
 				observation_number = "0" + observation_number # set all radar take numbers to be four digits long: 229 -> 0229

@@ -226,9 +226,15 @@ pip install pydar
 
 ## Examples
 
-Ontario Lacus: T57, T58, T65, T98 [(Page 163)](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
+To collect flby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
 
-To access flyby of Ontario, first specify a flyby. For this example, T65 with a resolution of D (8 pixels/degree) for main imaging segement 1 (S01)
+Ontario Lacus was visible in four swath observations: T57, T58, T65, T98 [(Page 163)](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf).
+
+To access flyby of Ontario, first specify a flyby. For this example, Ontario Lacus with the features:
+
+* Titan flyby id: 'T65'
+* resolution: 'D' (8 pixels/degree)
+* Main imaging segement 1: 'S01'
 
 **extractFlybyDataImages()**
 
@@ -236,17 +242,38 @@ Downloads flby data SBDR: .FMT and .TAB files (for example: [SBDR.FMT](https://p
 
 Downloads flyby data BIDR: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T016S01_V03.LBL](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL) and [BIBQH80N051_D087_T016S01_V03.ZIP](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP))
 
+```
+extractFlybyDataImages(flyby_observation_num=None,
+						flyby_id=None,
+						segment_num=None,
+						resolution='I',
+						top_x_resolutions=None)
+```
+Either a flby_id (for example: 'T65') or a flby_observation_num (for example: '0065') is required. A flyby_id will be translated into a flby_observation_number to access on the backend and the results will be saved under the observation number. 'T65' will become observation number '0021'
+
+* [REQUIRED/OPTIONAL] flyby_observation_num (string): required if flyby_id not included
+* [REQUIRED/OPTIONAL] flyby_id (string): required if flyby_observation_num not included
+* [REQUIRED] segment_num (String): 
+* [OPTIONAL] resolution (String): "B", "D", "F", "H", or "I (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
+* [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
+
 
 ```python
 import pydar
 
 # Extract Flyby Data Files to results/ directory: 
-pydar.extractFlybyDataImages(flyby_observation_num='65', resolution='D', segment_num="S01")
+pydar.extractFlybyDataImages(flyby_id='T65', resolution='D', segment_num="S01")
 ```
 
 extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'results' with the flby obsrevation number, version number, and segement number in the title (for example results/CORADR_0065_V03_S01)
 
 **displayImages**
+
+```
+displayImages(image_directory=None)
+```
+
+* [REQUIRED] image_directory (string): 
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files)
 
@@ -267,14 +294,30 @@ import pydar
 pydar.extractMetadata()
 ```
 
+**readAAREADME**
+
+Print AAREADME.TXT to console for viewing
+
+```
+readAAREADME(coradr_results_directory=None)
+```
+
+* [REQUIRED]: coradr_results_directory
+
+
+```python
+import pydar
+# Print AAREADME.TXT
+pydar.readAAREADME("results/CORADR_0065_V03_S01")
+```
+
 ## TODO Next:
-* Print AAREADME to command line or specify a specific search feature?
+* Print AAREADME to command line or specify a specific search feature? (from include access to readme from command line)
+* make pandas df of all radar data
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
-* include access to readme from command line
 * include access to lbl file attributes from command line
 * project image onto Titan spheriod
-* make pandas df of all radar data
 
 ## TODO: Tech Debt
 * rm -rf results/ between runs for clean image output

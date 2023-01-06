@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-def displayImages(image_directory):
+def displayImages(image_directory=None):
 	# Display all images in the image directory specified
 	for filename in os.listdir(image_directory):
 		if 'IMG' in filename:
