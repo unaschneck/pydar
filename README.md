@@ -299,20 +299,25 @@ pydar.extractMetadata()
 Print AAREADME.TXT to console for viewing
 
 ```
-readAAREADME(coradr_results_directory=None)
+readAAREADME(coradr_results_directory=None,
+			section_to_print=None, 
+			print_to_console=True)
 ```
 
-* **[REQUIRED]** coradr_results_directory: CORADR directory with AAREADME.txt (within results/)
-
+* **[REQUIRED]** coradr_results_directory (string):
+* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT (readme options: ['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information'])
+* [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
 ```python
 import pydar
 # Print AAREADME.TXT
-pydar.readAAREADME("results/CORADR_0065_V03_S01")
+pydar.readAAREADME(coradr_results_directory="results/CORADR_0065_V03_S01",
+						section_to_print="Volume")
 ```
 
+Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
+
 ## TODO Next:
-* Print AAREADME to command line or specify a specific search feature? (from include access to readme from command line)
 * make pandas df of all radar data
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
