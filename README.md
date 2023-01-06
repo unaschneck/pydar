@@ -267,7 +267,8 @@ import pydar
 pydar.extractMetadata()
 ```
 
-## TODO:
+## TODO Next:
+* Print AAREADME to command line or specify a specific search feature?
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * include access to readme from command line
@@ -278,6 +279,8 @@ pydar.extractMetadata()
 ## TODO: Tech Debt
 * rm -rf results/ between runs for clean image output
 * error handling: extract_flyby_data_images
+* error_handling: displayImages()
+# error_handling: extractMetadata()
 * progress bars print to command line
 * Zenodo
 

@@ -111,10 +111,26 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
 
+def downloadAAREADME(cordar_file_name, segment_id):
+	# Download AAREADME.txt within a CORADR directory
+	aareadme_name = "AAREADME.TXT"
+	aareadme_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/{1}".format(cordar_file_name, aareadme_name)
+
+	# Retrieve a list of all elements from the base URL to download AAREADME.txt
+	logger.info("Retrieving {0} {1}".format(cordar_file_name, aareadme_name))
+	aareadme_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), aareadme_name)
+	try:
+		request.urlretrieve(aareadme_url)
+	except error.HTTPError as err:
+		logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(aareadme_url, err.code))
+		exit()
+	else:
+		response = request.urlretrieve(aareadme_url, aareadme_name)
+
 def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 	# Download BDIR files
 	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
-	logger.info("Retrieving filenames from: {0}\n".format(base_url))
+	logger.info("Retrieving BIDR filenames from: {0}\n".format(base_url))
 
 	# Retrieve a list of all elements from the base URL to download
 	base_html = request.urlopen(base_url).read()
@@ -176,7 +192,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 def downloadSBDRCORADRData(cordar_file_name, segment_id):
 	# Download SBDR files
 	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/".format(cordar_file_name)
-	logger.info("\nRetrieving filenames from: {0}".format(base_url))
+	logger.info("\nRetrieving SBDR filenames from: {0}".format(base_url))
 
 	# Retrieve a SBDR file from filename at SBDR URL
 	base_html = request.urlopen(base_url).read()
@@ -251,19 +267,25 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	else:
 		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
 
-	# Download information from pds-imaging site for image
+	# Download information from pds-imaging site for CORADR
 	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
 	if not os.path.exists('results'): os.makedirs('results')
 	if not os.path.exists("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
 
-	if download_files: 
+	if download_files:
+ 
+		# AAREADME.TXT
+		downloadAAREADME(flyby_observation_cordar_name, segment_num)
+		
+		# BIDR
 		if top_x_resolutions is not None:
-			# BIDR
 			downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
 		else:
 			downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution)
+
 		# SBDR
 		downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
+
 	if len(os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
 		logger.critical("Unable to find any images with current parameters")
 		exit()
