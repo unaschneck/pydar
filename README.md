@@ -244,17 +244,17 @@ Downloads flyby data BIDR: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T
 
 ```
 extractFlybyDataImages(flyby_observation_num=None,
-						flyby_id=None,
-						segment_num=None,
-						resolution='I',
-						top_x_resolutions=None)
+			flyby_id=None,
+			segment_num=None,
+			resolution='I',
+			top_x_resolutions=None)
 ```
 Either a flby_id (for example: 'T65') or a flby_observation_num (for example: '0065') is required. A flyby_id will be translated into a flby_observation_number to access on the backend and the results will be saved under the observation number. 'T65' will become observation number '0021'
 
-* [REQUIRED/OPTIONAL] flyby_observation_num (string): required if flyby_id not included
-* [REQUIRED/OPTIONAL] flyby_id (string): required if flyby_observation_num not included
-* [REQUIRED] segment_num (String): 
-* [OPTIONAL] resolution (String): "B", "D", "F", "H", or "I (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
+* **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
+* **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
+* **[REQUIRED]** segment_num (string): 
+* [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
 * [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
 
 
@@ -273,7 +273,7 @@ extractFlybyDataImages() will retrieve images from PDS website and saves results
 displayImages(image_directory=None)
 ```
 
-* [REQUIRED] image_directory (string): 
+* **[REQUIRED]** image_directory (string): 
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files)
 
@@ -302,7 +302,7 @@ Print AAREADME.TXT to console for viewing
 readAAREADME(coradr_results_directory=None)
 ```
 
-* [REQUIRED]: coradr_results_directory
+* **[REQUIRED]** coradr_results_directory: CORADR directory with AAREADME.txt (within results/)
 
 
 ```python
@@ -323,9 +323,10 @@ pydar.readAAREADME("results/CORADR_0065_V03_S01")
 * rm -rf results/ between runs for clean image output
 * error handling: extract_flyby_data_images
 * error_handling: displayImages()
-# error_handling: extractMetadata()
+* error_handling: extractMetadata()
+* error_handling: readAAREADME()
 * progress bars print to command line
-* Zenodo
+* research Zenodo
 
 ## TODO: Test
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
