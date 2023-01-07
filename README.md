@@ -261,11 +261,11 @@ Either a flby_id (for example: 'T65') or a flby_observation_num (for example: '0
 ```python
 import pydar
 
-# Extract Flyby Data Files to results/ directory: 
+# Extract Flyby Data Files to pydar_results/ directory: 
 pydar.extractFlybyDataImages(flyby_id='T65', resolution='D', segment_num="S01")
 ```
 
-extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'results' with the flby obsrevation number, version number, and segement number in the title (for example results/CORADR_0065_V03_S01)
+extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flby obsrevation number, version number, and segement number in the title (for example pydar_results/CORADR_0065_V03_S01)
 
 **displayImages**
 
@@ -279,8 +279,8 @@ Displays downloaded image .IMG files (unzipped from within the .ZIP files)
 
 ```python
 import pydar
-# Display all Images in results/ directory
-pydar.displayImages("results/CORADR_0065_V03_S01")
+# Display all Images in pydar_results/ directory
+pydar.displayImages("pydar_results/CORADR_0065_V03_S01")
 ```
 displayImages() will plt.show() all images in the saved results directory
 
@@ -311,21 +311,27 @@ readAAREADME(coradr_results_directory=None,
 ```python
 import pydar
 # Print AAREADME.TXT
-pydar.readAAREADME(coradr_results_directory="results/CORADR_0065_V03_S01",
+pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
 						section_to_print="Volume")
 ```
 
 Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
 
-## TODO Next:
-* make pandas df of all radar data
+## TODO:
+### TODO Code:
+* user guide: README with feature names to get flyby information
+* Download additional data types as optional arguments
+* Access data from .LBL README file (include access to lbl file attributes from command line
+* access flyby information based on latitude longitude (return swath coverage)
+* access flyby for a specific point (with a margin of error)
+
+### TODO Questions:
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
-* include access to lbl file attributes from command line
 * project image onto Titan spheriod
 
-## TODO: Tech Debt
-* rm -rf results/ between runs for clean image output
+### TODO: Tech Debt
+* rm -rf pydar_results/ between runs for clean image output
 * error handling: extract_flyby_data_images
 * error_handling: displayImages()
 * error_handling: extractMetadata()
@@ -333,7 +339,7 @@ Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
 * progress bars print to command line
 * research Zenodo
 
-## TODO: Test
+### TODO: Test
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 

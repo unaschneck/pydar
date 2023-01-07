@@ -11,3 +11,4 @@ from .display_image import displayImages
 from .retrieve_supplementary_backplanes import extractMetadata
 
 from .read_readme import readAAREADME
+from .read_readme import returnAllAAREADMEOptions

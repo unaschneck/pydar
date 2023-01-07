@@ -1,5 +1,4 @@
 # Extract flyby parameters from CASSINI
-
 import zipfile
 import os
 import csv 
@@ -118,7 +117,7 @@ def downloadAAREADME(cordar_file_name, segment_id):
 
 	# Retrieve a list of all elements from the base URL to download AAREADME.txt
 	logger.info("Retrieving {0} {1}".format(cordar_file_name, aareadme_name))
-	aareadme_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), aareadme_name)
+	aareadme_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), aareadme_name)
 	try:
 		request.urlretrieve(aareadme_url)
 	except error.HTTPError as err:
@@ -164,7 +163,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
 			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), label_url))
 			label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
-			label_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
+			label_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
 			try:
 				request.urlretrieve(label_url)
 			except error.HTTPError as err:
@@ -176,7 +175,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
 			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), data_url))
 			zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
-			zipfile_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), zipfile_name)
+			zipfile_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), zipfile_name)
 			try:
 				request.urlretrieve(data_url)
 			except error.HTTPError as err:
@@ -186,7 +185,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 				response = request.urlretrieve(data_url, zipfile_name)
 				zipped_image = zipfile_name.split(".")[0] + ".IMG"
 				with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
-					zipped_image_path = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id))
+					zipped_image_path = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id))
 					zip_ref.extractall(zipped_image_path)
 
 def downloadSBDRCORADRData(cordar_file_name, segment_id):
@@ -218,7 +217,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 	for sbdr_file in sbdr_files:
 		sbdr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
 		logger.info("Retrieving SBDR file '{0}': {1}".format(sbdr_file, sbdr_url))
-		sbdr_name = os.path.join("results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_file)
+		sbdr_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_file)
 		try:
 			request.urlretrieve(sbdr_url)
 		except error.HTTPError as err:
@@ -269,8 +268,8 @@ def extractFlybyDataImages(flyby_observation_num=None,
 
 	# Download information from pds-imaging site for CORADR
 	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
-	if not os.path.exists('results'): os.makedirs('results')
-	if not os.path.exists("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
+	if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
+	if not os.path.exists("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
 
 	if download_files:
  
@@ -286,6 +285,6 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		# SBDR
 		downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
 
-	if len(os.listdir("results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
+	if len(os.listdir("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
 		logger.critical("Unable to find any images with current parameters")
 		exit()
