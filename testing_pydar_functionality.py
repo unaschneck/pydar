@@ -9,13 +9,18 @@ if __name__ == '__main__':
 	#							segment_num="S01")
 
 	# Display all Images in pydar_results/ directory
-	pydar.displayImages("pydar_results/CORADR_0211_V03_S01")
+	#pydar.displayImages("pydar_results/CORADR_0211_V03_S01")
 	# TODO: bug fix for 87 displays invalid integer
 
 	# Read AAREADME to console
-	pydar.returnAllAAREADMEOptions()
-	pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
-						section_to_print="Volume")
+	#pydar.returnAllAAREADMEOptions()
+	#pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
+	#					section_to_print="Volume")
+
+	# Read .LBL to console
+	#pydar.returnAllLBLOptions()
+	pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
+						section_to_print="COORDINATE_SYSTEM_TYPE")
 
 	#pydar.extractMetadata()
 

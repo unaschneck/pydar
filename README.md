@@ -320,8 +320,11 @@ Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
 ## TODO:
 ### TODO Code:
 * user guide: README with feature names to get flyby information
+* bug fix: "NOTE" in .lbl
 * Download additional data types as optional arguments
+* Include URL for access to AAREADME and .LBL readme files
 * Access data from .LBL README file (include access to lbl file attributes from command line
+* use README information to gather files for download (save computing, tech debt)
 * access flyby information based on latitude longitude (return swath coverage)
 * access flyby for a specific point (with a margin of error)
 

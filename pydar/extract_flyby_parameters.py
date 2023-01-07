@@ -162,7 +162,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 		if 'LBL' in coradr_file:
 			label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
 			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), label_url))
-			label_name = label_url.split("/")[-1].split(".")[0] + ".txt"
+			label_name = label_url.split("/")[-1].split(".")[0] + ".LBL"
 			label_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
 			try:
 				request.urlretrieve(label_url)
