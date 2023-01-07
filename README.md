@@ -314,8 +314,46 @@ import pydar
 pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
 						section_to_print="Volume")
 ```
-
 Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
+
+To get the section that are avaiable for printing: returnAllAAREADMEOptions()
+
+```python
+import pydar
+pydar.returnAllAAREADMEOptions()
+```
+
+['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']
+
+**readLBLREADME**
+
+Print .LBL README to console for viewing
+
+```
+readLBLREADME(coradr_results_directory=None,
+			section_to_print=None, 
+			print_to_console=True)
+```
+
+* **[REQUIRED]** coradr_results_directory (string):
+* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT (readme options: ['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information'])
+* [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
+
+```python
+import pydar
+# Print .LBL README
+pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
+					section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
+```
+Output = "OBLIQUE_PROJ_X_AXIS_VECTOR   = (0.13498322,0.00221225,-0.99084542)"
+
+To get the sections that are available for printing: returnAllLBLOptions()
+```python
+import pydar
+pydar.returnAllLBLOptions()
+```
+Line-By-Line Options: ['PDS_VERSION_ID', 'DATA_SET_ID', 'DATA_SET_NAME', 'PRODUCER_INSTITUTION_NAME', 'PRODUCER_ID', 'PRODUCER_FULL_NAME', 'PRODUCT_ID', 'PRODUCT_VERSION_ID', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_HOST_ID', 'INSTRUMENT_NAME', 'INSTRUMENT_ID', 'TARGET_NAME', 'START_TIME', 'STOP_TIME', 'SPACECRAFT_CLOCK_START_COUNT', 'SPACECRAFT_CLOCK_STOP_COUNT', 'PRODUCT_CREATION_TIME', 'SOURCE_PRODUCT_ID', 'MISSION_PHASE_NAME', 'MISSION_NAME', 'SOFTWARE_VERSION_ID', 'FILE_NAME COMPRESSED', 'RECORD_TYPE COMPRESSED', 'ENCODING_TYPE', 'INTERCHANGE_FORMAT', 'UNCOMPRESSED_FILE_NAME', 'REQUIRED_STORAGE_BYTES', '^DESCRIPTION', 'FILE_NAME UNCOMPRESSED', 'RECORD_TYPE UNCOMPRESSED', 'RECORD_BYTES', 'FILE_RECORDS', 'LABEL_RECORDS', '^IMAGE', 'LINES', 'LINE_SAMPLES', 'SAMPLE_TYPE', 'SAMPLE_BITS', 'CHECKSUM', 'SCALING_FACTOR', 'OFFSET', 'MISSING_CONSTANT', 'NOTE', '^DATA_SET_MAP_PROJECTION', 'MAP_PROJECTION_TYPE', 'FIRST_STANDARD_PARALLEL', 'SECOND_STANDARD_PARALLEL', 'A_AXIS_RADIUS', 'B_AXIS_RADIUS', 'C_AXIS_RADIUS', 'POSITIVE_LONGITUDE_DIRECTION', 'CENTER_LATITUDE', 'CENTER_LONGITUDE', 'REFERENCE_LATITUDE', 'REFERENCE_LONGITUDE', 'LINE_FIRST_PIXEL', 'LINE_LAST_PIXEL', 'SAMPLE_FIRST_PIXEL', 'SAMPLE_LAST_PIXEL', 'MAP_PROJECTION_ROTATION', 'MAP_RESOLUTION', 'MAP_SCALE', 'MAXIMUM_LATITUDE', 'MINIMUM_LATITUDE', 'EASTERNMOST_LONGITUDE', 'WESTERNMOST_LONGITUDE', 'LINE_PROJECTION_OFFSET', 'SAMPLE_PROJECTION_OFFSET', 'OBLIQUE_PROJ_POLE_LATITUDE', 'OBLIQUE_PROJ_POLE_LONGITUDE', 'OBLIQUE_PROJ_POLE_ROTATION', 'OBLIQUE_PROJ_X_AXIS_VECTOR', 'OBLIQUE_PROJ_Y_AXIS_VECTOR', 'OBLIQUE_PROJ_Z_AXIS_VECTOR', 'LOOK_DIRECTION', 'COORDINATE_SYSTEM_NAME', 'COORDINATE_SYSTEM_TYPE']
+Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES', 'POINTERS TO START RECORDS OF OBJECTS IN FILE', 'DESCRIPTION OF OBJECTS CONTAINED IN FILE']
 
 ## TODO:
 ### TODO Code:
@@ -323,8 +361,8 @@ Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
 * bug fix: "NOTE" in .lbl
 * Download additional data types as optional arguments
 * Include URL for access to AAREADME and .LBL readme files
-* Access data from .LBL README file (include access to lbl file attributes from command line
 * use README information to gather files for download (save computing, tech debt)
+* README: read by object (OBJECT -> END_OBJECT) for .LBL and AAREADME
 * access flyby information based on latitude longitude (return swath coverage)
 * access flyby for a specific point (with a margin of error)
 

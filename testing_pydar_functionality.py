@@ -20,7 +20,7 @@ if __name__ == '__main__':
 	# Read .LBL to console
 	#pydar.returnAllLBLOptions()
 	pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
-						section_to_print="COORDINATE_SYSTEM_TYPE")
+						section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 
 	#pydar.extractMetadata()
 

@@ -161,16 +161,11 @@ lblreadme_section_options = ["PRODUCT DESCRIPTION",
 							"DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES",
 							"POINTERS TO START RECORDS OF OBJECTS IN FILE",
 							"DESCRIPTION OF OBJECTS CONTAINED IN FILE"]
-lblreadme_object_options = ["COMPRESSED_FILE",
-							"UNCOMPRESSED_FILE",
-							"IMAGE",
-							"IMAGE_MAP_PROJECTION"]
 
 def returnAllLBLOptions():
 	# Print out all the .LBL options
-	logger.info("General Options: {0}".format(lblreadme_general_options))
-	logger.info("Section Options: {0}".format(lblreadme_section_options))
-	logger.info("Object Options: {0}".format(lblreadme_object_options))
+	logger.info("Line-By-Line Options: {0}".format(lblreadme_general_options))
+	logger.info("Section Header Options: {0}".format(lblreadme_section_options))
 
 def determineSectionToPrint(section_to_print=None):
 	# check which list the section_to_print is from
@@ -183,17 +178,11 @@ def determineSectionToPrint(section_to_print=None):
 
 def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print .LBL to console
-	logger.debug("section_to_print = {0}".format(section_to_print))
-
 	sectionList = determineSectionToPrint(section_to_print)
 	if sectionList is None:
 		# TODO: error handling if section_to_print doesn't exist
 		logger.critical("Cannot find a revelant section_to_print")
 		exit()
-
-	logger.debug("sectionList is lblreadme_general_options = {0}".format(sectionList is lblreadme_general_options))
-	logger.debug("sectionList is lblreadme_section_options = {0}".format(sectionList is lblreadme_section_options))
-	logger.debug("sectionList is lblreadme_object_options = {0}\n".format(sectionList is lblreadme_object_options))
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -237,9 +226,9 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		exit() # TODO: error handling to check that .LBL exists
 	lbl_file = lbl_file[0]
 
-	#print("section_to_print = {0}".format(section_to_print))
-	#print("start_position = {0}".format(start_position))
-	#print("end_position = {0}".format(end_position))
+	logger.debug("section_to_print = {0}".format(section_to_print))
+	logger.debug("start_position = {0}".format(start_position))
+	logger.debug("end_position = {0}".format(end_position))
 
 	output_string = ''
 	with open("{0}/{1}".format(coradr_results_directory, lbl_file), "r") as readme_file:
@@ -252,11 +241,13 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 					break
 			if within_readme_section:
 				if sectionList is not lblreadme_section_options:
-					if "/*" not in line: # if checking individual sections, ignore /**/ section headers
+					if "/*" not in line: # if checking individual values, ignore /**/ section headers
 						output_string += line
 					else:
 						if "FILE_NAME " not in section_to_print and "RECORD_TYPE " not in section_to_print:
 							break
+				else:
+					output_string += line # collection by section
 
 	repeated_or_skipped_values_to_find = ["FILE_NAME", "RECORD_TYPE", "^DESCRIPTION", "COORDINATE_SYSTEM_TYPE"]
 	output_lines = output_string.split("\n")
