@@ -18,7 +18,7 @@ logger.addHandler(stream_handler)
 def errorHandling(flyby_observation_num=None,
 				flyby_id=None,
 				segment_num=None,
-				additional_data_types_to_download=None,
+				additional_data_types_to_download=[],
 				resolution=None,
 				top_x_resolutions=None):
 	# Error Handling for extract_flyby_parameters variables
@@ -55,10 +55,13 @@ def errorHandling(flyby_observation_num=None,
 		logger.critical("\nCRITICAL ERROR, [segment_num]: '{0}' not an avaliable segment option '{1}'".format(segment_num, segement_options))
 		exit()
 
-	if additional_data_types_to_download is not None:
-		if type(additional_data_types_to_download) != str:
-			logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Must be a str, current type = '{0}'".format(type(additional_data_types_to_download)))
+	if len(additional_data_types_to_download) != 0:
+		if type(additional_data_types_to_download) != list:
+			logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{0}'".format(type(additional_data_types_to_download)))
 			exit()
+		for data_type in additional_data_types_to_download:
+			if type(data_type) != str:
+				logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: All data types should be strings, but '{0}' current type = '{0}'".format(data_type, type(data_type)))
 
 		# Get data types for the coradr type from coradr_jpl_options.csv
 		coradr_data_types_available = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
@@ -79,9 +82,10 @@ def errorHandling(flyby_observation_num=None,
 			if row_bool is True:
 				coradr_data_types.append(pydar.datafile_types_columns[i])
 
-		if additional_data_types_to_download not in coradr_data_types:
-			logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not avaliable in {1}".format(additional_data_types_to_download, coradr_data_types))
-			exit()
+		for data_type in additional_data_types_to_download:
+			if data_type not in coradr_data_types:
+				logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not avaliable in {1}".format(data_type, coradr_data_types))
+				exit()
 
 	if resolution is not None and top_x_resolutions is not None:
 		logger.critical("\nCRITICAL ERROR: Requires either a resolution OR a top_x_resolutions, not both".format(type(resolution)))

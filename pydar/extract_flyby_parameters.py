@@ -226,10 +226,15 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 		else:
 			response = request.urlretrieve(sbdr_url, sbdr_name)
 
+def downloadAdditionalDataTypes(cordar_file_name, segment_id, additional_data_type):
+	# Download additional data types
+	additional_data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/{1}".format(cordar_file_name, additional_data_type)
+	logger.info("\n[TODO: does not currently download] '{0}': {1}".format(additional_data_type, additional_data_url))
+
 def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
 							segment_num=None,
-							additional_data_types_to_download=None,
+							additional_data_types_to_download=[],
 							resolution='I',
 							top_x_resolutions=None):
 
@@ -274,9 +279,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
 	if not os.path.exists("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
 
-	exit()
 	if download_files:
- 
 		# AAREADME.TXT
 		downloadAAREADME(flyby_observation_cordar_name, segment_num)
 		
@@ -288,6 +291,11 @@ def extractFlybyDataImages(flyby_observation_num=None,
 
 		# SBDR
 		downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
+
+		# Download additional data types
+		for data_type in additional_data_types_to_download:
+			if data_type not in ["BIDR", "SBDR"]: # ignore data files that have already been downloaded
+				downloadAdditionalDataTypes(flyby_observation_cordar_name, segment_num, data_type)
 
 	if len(os.listdir("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
 		logger.critical("Unable to find any images with current parameters")

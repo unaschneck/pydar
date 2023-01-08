@@ -7,7 +7,7 @@ if __name__ == '__main__':
 	pydar.extractFlybyDataImages(flyby_id='T65',
 								resolution='D',
 								segment_num="S01",
-								additional_data_types_to_download="TEST")
+								additional_data_types_to_download=["STDR", "LBDR"])
 
 	# Display all Images in pydar_results/ directory
 	#pydar.displayImages("pydar_results/CORADR_0211_V03_S01")
@@ -20,8 +20,8 @@ if __name__ == '__main__':
 
 	# Read .LBL to console
 	#pydar.returnAllLBLOptions()
-	pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
-						section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
+	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
+	#					section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 
 	#pydar.extractMetadata()
 

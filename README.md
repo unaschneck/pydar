@@ -246,6 +246,7 @@ Downloads flyby data BIDR: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T
 extractFlybyDataImages(flyby_observation_num=None,
 			flyby_id=None,
 			segment_num=None,
+			additional_data_types_to_download=[],
 			resolution='I',
 			top_x_resolutions=None)
 ```
@@ -254,6 +255,7 @@ Either a flby_id (for example: 'T65') or a flby_observation_num (for example: '0
 * **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
 * **[REQUIRED]** segment_num (string): 
+* [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 * [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
 * [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
 
@@ -262,7 +264,7 @@ Either a flby_id (for example: 'T65') or a flby_observation_num (for example: '0
 import pydar
 
 # Extract Flyby Data Files to pydar_results/ directory: 
-pydar.extractFlybyDataImages(flyby_id='T65', resolution='D', segment_num="S01")
+pydar.extractFlybyDataImages(flyby_id='T65', resolution='D', segment_num="S01", additional_data_types_to_download=["STDR", "LBDR"])
 ```
 
 extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flby obsrevation number, version number, and segement number in the title (for example pydar_results/CORADR_0065_V03_S01)
@@ -359,7 +361,6 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 ### TODO Code:
 * user guide: README with feature names to get flyby information
 * bug fix: "NOTE" in .lbl
-* Download additional data types as optional arguments
 * Include URL for access to AAREADME and .LBL readme files
 * use README information to gather files for download (save computing, tech debt)
 * README: read by object (OBJECT -> END_OBJECT) for .LBL and AAREADME
@@ -370,6 +371,7 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * project image onto Titan spheriod
+* Download additional data types as optional arguments using additional_data_types_to_download=[]
 
 ### TODO: Tech Debt
 * rm -rf pydar_results/ between runs for clean image output
