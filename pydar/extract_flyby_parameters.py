@@ -18,6 +18,7 @@ stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
 resolution_types = ["B", "D", "F", "H", "I"] # 2, 8, 32, 128, 256 pixels/degree
+datafile_types_columns = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 
 def getFlybyData():
 	# Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
@@ -71,7 +72,6 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 					coradr_options.append([coradr_title, False, False, False, False, False, False])
 		
 		# Check of CORADR has specific data files formats
-		datafile_types = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 		for coradr_id in coradr_options:
 			coradr_url = "{0}/{1}/DATA".format(cassini_root_url, coradr_id[0])
 			logger.info("Retrieving data types: {0}".format(coradr_url))
@@ -80,7 +80,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 			table = soup.find('table', {"id": "indexlist"})
 			table_text = (table.text).split("\n")
 			for txt in table_text:
-				for i, data_type in enumerate(datafile_types):
+				for i, data_type in enumerate(datafile_types_columns):
 					if data_type in txt:
 						coradr_id[i+1] = True
 
@@ -229,6 +229,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
 							segment_num=None,
+							additional_data_types_to_download=None,
 							resolution='I',
 							top_x_resolutions=None):
 
@@ -244,12 +245,14 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	pydar.errorHandling(flyby_observation_num=flyby_observation_num,
 						flyby_id=flyby_id,
 						segment_num=segment_num,
+						additional_data_types_to_download=additional_data_types_to_download,
 						resolution=resolution,
 						top_x_resolutions=top_x_resolutions)
 
 	logger.info("flyby_observation_num = {0}".format(flyby_observation_num))
 	logger.info("flyby_id = {0}".format(flyby_id))
 	logger.info("segment_num = {0}".format(segment_num))
+	logger.info("additional_data_types_to_download = {0}".format(additional_data_types_to_download))
 	logger.info("resolution = {0}".format(resolution))
 	logger.info("top_x_resolutions = {0}".format(top_x_resolutions))
 
@@ -271,6 +274,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
 	if not os.path.exists("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
 
+	exit()
 	if download_files:
  
 		# AAREADME.TXT
