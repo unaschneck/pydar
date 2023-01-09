@@ -1,3 +1,101 @@
-Feature Name, Center Latitude, Center Longitude, Feature Type, Feature Description, Swath Coverage
+Feature Name,Center Latitude,Center Longitude,Feature Type,Feature Description,Swath Coverage
 Afekan, 25.8, 159.7, crater, largest crater in the Afekan region, T43 T83
 Anbus Labyrinthus, 39.2, 145, labyrinth, labyrinth in north Afekan, T64 T86
+Ara Fluctus,39.8,241.6,flow,radar bright crescent flow feature,Ta
+Arrakis Planitia,-78.4,243,plains,radar bright plains in the south pole,T49
+Aura Undae,13.79,133.14,dunes,dune field southwest of Afekan crater,T84
+Belet,-5,105,dunes,Sand sea,T8 T49 T61 T84seg5 T50seg3 T92
+Bermoothes Insula,67.1,42.9,island,island in Kraken Mare, T30 T84seg2 T91seg2
+Bolsena Lacus,75.75,349.72,lake(s),circular lake in the north pole with a diffuse shoreline,T16 T29
+Bralgu Insulae,76.2,108.5,island,island in Ligeia Mare, T25 T28 T86 T92
+Caladan Planitia,31,134,plains,undifferentiated plains west of Afekan crater,T84 T44
+Celadon Flumina,-73.7,331.2,channel(s),dark meandering channel coming off of Sikun Labyrinthus,T39
+Coats Facula,-11.1,330.8,plains (?),bright ISS feature radar dark feature with a bright boundary,T28
+Dilmun,15,185,mountain(s),mountain range east of Afekan,T48 T44 T61
+Doom Mons,-14.65,319.58,hummock,bright hummock dome in Quivira,T25
+Ecaz Labyrinthus,-83,323.3,labyrinth,large labyrith in the south pole,T39
+Eir Macula,-24,245.3,dunes (?),radar dark circular feature in south Xanadu,T44 T48
+Elivagar Flumina,19.3,281.5,channel(s),channel and fan system east of Menrva,T3 T77seg3
+Forseti,25.53,349.6,crater,crater in T28,T23 T84 T113seg7
+Gammu Labyrinthus,-77.9,110,labyrinth,labyrinth in the south pole incised by depressions,T58
+Gandalf Colles,14.61,150.46,hummock,bulbous hummock bit south west of Afekan crater,T44 T84
+Ganesa Macula,50,272.7,plains,radar dark feature north of Menrva with channels overlapping it,Ta
+Gansireed Labyrinthus,-69.3,120.7,labyrinth,labyrinth south of the south belet region,T55 T56
+Ginaz Labyrinthus,83,98.3,labyrinth,labyrinth next to ligeia mare,T25 T29 T92
+Grumman Labyrinthus,-35.3,253.2,labyrinth,labyrinth in south Xanadu,T41
+Guabonito,-10.9,209.2,crater,crater in Hobal west of Xanadu, T13 T48seg3
+Hagal Planitia,-60.59,15.05,plains,radar dark plains feature partially SAR coverage,T71
+Hano,40.3,14.9,crater,crater in Aaru,T16 T84 T104
+Hobal Virga,-35,194,streak(s),Large Hobal windstreaks,T55 T56 T57 T58 T120
+Hotei Regio,-26,282,depression(s), radar bright lobate features in Xanadu ISS bright region,T41 T43 T121
+Hufaidh Insulae,67,39.7,island penisula in Kraken Mare,T30 T91seg2
+Jingpo Lacus,73,24,lake(s),lake in the north pole,T28 T84seg2 T86 T91seg2
+Junction Labyrinthus,-47.7,144.7,labyrinth,labyrinth in S Ching-Tu, T39 T71
+Kaitain Labyrinthus,52.37,11.34,labyrinth,labyrinth in Aaru,T16 T84seg2
+Karesos Flumen,-70.9,165.25,channel(s),channel in a mountain near Ontario Lacus,T57
+Kraken Mare,68,50,sea,Largest sea in the north pole, T30 T91seg2
+Kronin Labyrinthus,-35.7,263.73,labyrinth,labyrinth in south Xanadu,T41
+Ksa,14,294.6,crater,crater southeast of Menrva,T77 T77seg3
+Lampadas Labyrinthus,-81.8,236,labyrinth,large muted labyrinth in south pole,T49
+Lankiveil Labyrinthus,-48.2,210.5,labyrinth,labyrinth in south Hobal,T59 T120
+Leilah Fluctus,50.5,282.2,flow,fans north of Menrva,Ta T23
+Lernaeus Labyrinthus,-83.4,222,labyrinth,labyrinth in the south pole,T49
+Ligeia Mare,79.7,112.1,sea,second largest sea in np,T25 T28 T86 T92
+Mayda Insula,79.1,47.8,island,island in kraken mare,T25 T28 T86 T91
+Menrva,20.1,272.8,crater largest crater on Titan T3, T77seg3
+Misty Montes,56.8,297.56,mountain(s),mountainous potentially labyrinthic features north of Menrva,T23
+Mithrim Montes,-2.16,232.58,mountain(s),parallel mountains in northwest Xanadu,T20seg3 T43
+Momoy,11.6,315.4,crater,crater directly east of Ksa,T77
+Moray Sinus,76.6,78.6,bay,bay in Kraken Mare,T25 T28 T91seg2
+Muritan Labyrinthus,-68.8,140.8,labyrinth,labyrinth in the south pole,T55 T56
+Mystis,0.07,165.14,crater,crater on border of Afekan and Adiri,T61 T36
+Ontario Lacus,-72,177,lake(s),largest lake in the south pole,T57 T58 T65 T98
+Perkunas Virgae,-27,198,streak(s),northern large Hobal windstreak,T55 T56 T57 T58 T120
+Planctae Insulae,77.5,108.7,island,island in Ligera Mare,T25 T28 T86 T92
+Polelya Macula,50,304,plains,patch of dark irregular plains west of Winia Fluctus,Ta
+Puget Sinus,82.4,118.9,bay,bay in Kraken Mare,T25 T29 T92
+Punga Mare,85.1,20.3,sea,sea in the north pole,T29
+Richese Labyrinthus,41.8,161,labyrinth,labyrinth in north Afekan,T83
+Rohe Fluctus,47.3,322.25,flow,wispy radar bright flow feature,Ta T23
+Rombaken Sinus,75.3,127.1,bay,bay in Ligeia Mare with a little island,T29 T64
+Romo Planitia,-82.79,159.04,depression(s),radar dark basin in the South Pole,T39
+Rossak Planitia,-71.04,5,plains,radar dark stretch of plains,T7 T65 T39seg5 T39seg6
+Seldon Fretum,66,43.4,strait,straight of liquid in the north pole,T30 T91seg2
+Selk,7,161,crater,crater in south Afekan,T36 T95
+Shangri-La,-10,195,dunes,Sand sea,T48seg3 T55 T56 T58 T44 T43 T13
+Sikun Labyrinthus,-77.9,331.1,labyrinth,labyrinth in south pole south of Tsegihi,T39
+Sinlap,11.3,344,crater,crater in Quivira,T3 T17 T108
+Soi,24.3,219.1,crater,partially degraded crater in the Soi region,T16 T55 T56
+Sotra Patera,-14.54,320,depression(s),circular radar bright feature in south Quivira bright in ISS,T25 T28
+Tishtrya Virgae,23.84,180.25,streak(s),radar bright streak (the “paintbrush”) located border of Afekan and Soi, T43 T121 T83seg5
+Tleilax Labyrinthus,-48,344,labyrinth,labyrinth in Tsegihi,T7
+Tollan Terra,6.4,37.3,landmass,large area of hummocky and variable plains with some channels,T19
+Trevize Fretum,74.4,90.1,strait,straight of liquid in the north pole,T30 T91seg2
+Uanui Virgae,45.2,124.7,streak(s),windstreaks northwest of Afekan,T30 T21
+Vid Flumina,72.9,117.75,channel(s),channel feeding into Ligeia Mare, T25 T28 T86 T92
+Winia Fluctus,49,314,flow,radar bright flow feature northeast of Menrva crater, Ta T23
+Xanthus Flumen,83.47,117.24,channel(s),channel feeding into Ligeia Mare, T25 T29 T92
+Mountains in Adiri,-10.877,140.183,mountain(s),series of parallel mountain ridges in Adiri, T8 T91seg8 T61
+Tui Regio,-24.5,-124.9,depression(s),radar bright lobate features in southwest Xanadu ISS bright region,T48 T41
+,-56.834,148.6,fan(s),network of fans in S Ching Tu feeding into a radar bright plain,T39
+,-49.68,138.324,fan(s),another fan in S Ching Tu,T71
+,-55.947,128.748,channel(s),large channels and network of fans in S Ching Tu,T71
+,-58.763,354.77,channel(s),radar dark braided channels in Tsegihi,T7
+,-52.787,346.77,channel(s),long channel south of labyrinth in Tsegihi,T7
+,73.475,101.75,channel(s),large channel feeding into Ligeia Mare,T28
+,77.957,-140.248,lake(s),medley of filled, sharped rimmed depressions in the north pole,T92 T83 T25seg5
+,134.256,61.952,depression(s),collection of empty depressiond north of Afekan (Atacama),T86 T64 T28 T29
+,-12.362,-145.778,mountain(s),pitted hummocky mass west of Xanadu,T58 T13
+,33.67,-24.237,streak(s),windstreaks northwest of Forseti,T23 T108 T113seg7
+,-57.03,113,plains(s),scalloped plains in South Belet,T49seg2
+,-79.08,127.171,depression(s),radar bright empty depression in the south pole,T57 T58
+,12.16,-140.706,crater,set of double craters in Afekan,T56
+,47.509,7.118,plains,radar bright lineated plains in Aaru,T18
+,49.993,6.258,fan(s),fans in Aaru south of Kaitain,T18 T84seg2
+,43.841,13.435,labyrinth,labyrinth incised by depressions in Aaru,T16 T84 T18
+,-16.347,-121.824,fan(s),radar bright channels north of Tui,T44
+,41,150,plains,radar bright lineated plains in north Afekan potentially yardangs,T64 T86
+,56.825,-145.079,plains,scalloped plains in Soi,T19
+Hot Cross Bun,38.214,156.656,hummock,hummock dome incised by criss-crossing rifts,T83
+Huygens Landing Site,-10.576,167.547,HLS where the Huygens probe landed east Adiri,T8 T13seg3 T41seg3
+Xanadu Anex,-29.632,-61.034,mountain(s),large set of parallel mountains south east of Xanadu,T121
