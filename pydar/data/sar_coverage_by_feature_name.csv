@@ -1,6 +1,6 @@
 Feature Name,Center Latitude,Center Longitude,Feature Type,Feature Description,Swath Coverage
-Afekan, 25.8, 159.7, crater, largest crater in the Afekan region, T43 T83
-Anbus Labyrinthus, 39.2, 145, labyrinth, labyrinth in north Afekan, T64 T86
+Afekan,25.8,159.7,crater,largest crater in the Afekan region,T43 T83
+Anbus Labyrinthus,39.2,145,labyrinth,labyrinth in north Afekan,T64 T86
 Ara Fluctus,39.8,241.6,flow,radar bright crescent flow feature,Ta
 Arrakis Planitia,-78.4,243,plains,radar bright plains in the south pole,T49
 Aura Undae,13.79,133.14,dunes,dune field southwest of Afekan crater,T84
@@ -27,8 +27,8 @@ Guabonito,-10.9,209.2,crater,crater in Hobal west of Xanadu, T13 T48seg3
 Hagal Planitia,-60.59,15.05,plains,radar dark plains feature partially SAR coverage,T71
 Hano,40.3,14.9,crater,crater in Aaru,T16 T84 T104
 Hobal Virga,-35,194,streak(s),Large Hobal windstreaks,T55 T56 T57 T58 T120
-Hotei Regio,-26,282,depression(s), radar bright lobate features in Xanadu ISS bright region,T41 T43 T121
-Hufaidh Insulae,67,39.7,island penisula in Kraken Mare,T30 T91seg2
+Hotei Regio,-26,282,depression(s),radar bright lobate features in Xanadu ISS bright region,T41 T43 T121
+Hufaidh Insulae,67,39.7,island,penisula in Kraken Mare,T30 T91seg2
 Jingpo Lacus,73,24,lake(s),lake in the north pole,T28 T84seg2 T86 T91seg2
 Junction Labyrinthus,-47.7,144.7,labyrinth,labyrinth in S Ching-Tu, T39 T71
 Kaitain Labyrinthus,52.37,11.34,labyrinth,labyrinth in Aaru,T16 T84seg2
@@ -42,7 +42,7 @@ Leilah Fluctus,50.5,282.2,flow,fans north of Menrva,Ta T23
 Lernaeus Labyrinthus,-83.4,222,labyrinth,labyrinth in the south pole,T49
 Ligeia Mare,79.7,112.1,sea,second largest sea in np,T25 T28 T86 T92
 Mayda Insula,79.1,47.8,island,island in kraken mare,T25 T28 T86 T91
-Menrva,20.1,272.8,crater largest crater on Titan T3, T77seg3
+Menrva,20.1,272.8,crater,largest crater on Titan, T3 T77seg3
 Misty Montes,56.8,297.56,mountain(s),mountainous potentially labyrinthic features north of Menrva,T23
 Mithrim Montes,-2.16,232.58,mountain(s),parallel mountains in northwest Xanadu,T20seg3 T43
 Momoy,11.6,315.4,crater,crater directly east of Ksa,T77
@@ -83,7 +83,7 @@ Tui Regio,-24.5,-124.9,depression(s),radar bright lobate features in southwest X
 ,-58.763,354.77,channel(s),radar dark braided channels in Tsegihi,T7
 ,-52.787,346.77,channel(s),long channel south of labyrinth in Tsegihi,T7
 ,73.475,101.75,channel(s),large channel feeding into Ligeia Mare,T28
-,77.957,-140.248,lake(s),medley of filled, sharped rimmed depressions in the north pole,T92 T83 T25seg5
+,77.957,-140.248,lake(s),medley of filled sharped rimmed depressions in the north pole,T92 T83 T25seg5
 ,134.256,61.952,depression(s),collection of empty depressiond north of Afekan (Atacama),T86 T64 T28 T29
 ,-12.362,-145.778,mountain(s),pitted hummocky mass west of Xanadu,T58 T13
 ,33.67,-24.237,streak(s),windstreaks northwest of Forseti,T23 T108 T113seg7
@@ -97,5 +97,5 @@ Tui Regio,-24.5,-124.9,depression(s),radar bright lobate features in southwest X
 ,41,150,plains,radar bright lineated plains in north Afekan potentially yardangs,T64 T86
 ,56.825,-145.079,plains,scalloped plains in Soi,T19
 Hot Cross Bun,38.214,156.656,hummock,hummock dome incised by criss-crossing rifts,T83
-Huygens Landing Site,-10.576,167.547,HLS where the Huygens probe landed east Adiri,T8 T13seg3 T41seg3
+Huygens Landing Site,-10.576,167.547,HLS,where the Huygens probe landed east Adiri,T8 T13seg3 T41seg3
 Xanadu Anex,-29.632,-61.034,mountain(s),large set of parallel mountains south east of Xanadu,T121
