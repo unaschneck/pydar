@@ -206,6 +206,11 @@ Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
 
 ## SBDR Files
 [SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
+
+Total width of the RADAR swath is created by combining the five individual sub-swaths, where the center beam is the highest gain
+![image](https://user-images.githubusercontent.com/24469269/211431884-c201ac74-114a-4c17-b95a-f9edf0178d2e.png)
+(_The Cassini Huygens Mission: Orbiter Remote Sensing Observation 2004_)
+
 ```
 test_file = "SBDR_15_D065_V03.TAB"
 SBDR_FILE = pdr.read(test_file)
