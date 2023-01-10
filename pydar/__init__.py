@@ -23,11 +23,8 @@ from .read_readme import readLBLREADME
 
 # error_handling.py function calls for testing
 from .error_handling import errorHandlingExtractFlybyDataImages
-from .error_handling import errorHandlingGetFlybyData
 from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
 from .error_handling import errorHandlingDisplayImages
-from .error_handling import errorHandlingExtractMetadata
-from .error_handling import errorHandlingReturnAllAAREADMEOptions
 from .error_handling import errorHandlingReadAAREADME
-from .error_handling import errorHandlingReturnAllLBLOptions
 from .error_handling import errorHandlingReadLBLREADME
+from .error_handling import errorHandlingExtractMetadata

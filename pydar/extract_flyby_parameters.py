@@ -36,7 +36,7 @@ def getFlybyData():
 	# returns a list of flyby IDs and associated Radar Data Take Number
 	return flyby_id, flby_radar_take_num
 
-def convertFlybyIDToObservationNumber(flyby_id):
+def convertFlybyIDToObservationNumber(flyby_id=None):
 	# convert Flyby ID to Observation Number to find data files
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)

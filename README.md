@@ -239,7 +239,7 @@ extractFlybyDataImages() will retrieve images from PDS website and saves results
 
 Converts a Titan Flyby ID (for example: 'T65') to an observation number with front padding ('T65' -> '0211')
 
-``python
+```python
 convertFlybyIDToObservationNumber(flyby_id)
 ```
 ***[REQUIRED/OPTIONAL]** flyby_id (string): a valid flyby ID with prefix 'T'

@@ -107,26 +107,22 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 			logger.critical("\nCRITICAL ERROR, [top_x_resolutions]: Must be a value from 1 to 5, not '{0}'".format(top_x_resolutions))
 			exit()
 
-def errorHandlingGetFlybyData():
+
+def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 	return
 
-def errorHandlingConvertFlybyIDToObservationNumber():
+def errorHandlingDisplayImages(image_directory=None):
 	return
 
-def errorHandlingDisplayImages():
+def errorHandlingReadAAREADME(coradr_results_directory=None,
+							section_to_print=None,
+							print_to_console=True):
+	return
+
+def errorHandlingReadLBLREADME(coradr_results_directory=None,
+							section_to_print=None,
+							print_to_console=True):
 	return
 
 def errorHandlingExtractMetadata():
-	return
-
-def errorHandlingReturnAllAAREADMEOptions():
-	return
-
-def errorHandlingReadAAREADME():
-	return
-
-def errorHandlingReturnAllLBLOptions():
-	return
-
-def errorHandlingReadLBLREADME():
 	return
