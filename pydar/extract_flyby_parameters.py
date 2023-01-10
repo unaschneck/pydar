@@ -247,12 +247,12 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		resolution = None # set default resolution to None if selecting the top x resolutions
 
 	# Error handling:
-	pydar.errorHandling(flyby_observation_num=flyby_observation_num,
-						flyby_id=flyby_id,
-						segment_num=segment_num,
-						additional_data_types_to_download=additional_data_types_to_download,
-						resolution=resolution,
-						top_x_resolutions=top_x_resolutions)
+	pydar.errorHandlingExtractFlybyDataImages(flyby_observation_num=flyby_observation_num,
+											flyby_id=flyby_id,
+											segment_num=segment_num,
+											additional_data_types_to_download=additional_data_types_to_download,
+											resolution=resolution,
+											top_x_resolutions=top_x_resolutions)
 
 	logger.info("flyby_observation_num = {0}".format(flyby_observation_num))
 	logger.info("flyby_id = {0}".format(flyby_id))

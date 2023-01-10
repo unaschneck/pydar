@@ -15,12 +15,12 @@ logger.setLevel(logging.CRITICAL)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-def errorHandling(flyby_observation_num=None,
-				flyby_id=None,
-				segment_num=None,
-				additional_data_types_to_download=[],
-				resolution=None,
-				top_x_resolutions=None):
+def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
+										flyby_id=None,
+										segment_num=None,
+										additional_data_types_to_download=[],
+										resolution=None,
+										top_x_resolutions=None):
 	# Error Handling for extract_flyby_parameters variables
 	avaliable_flyby_id, avaliable_observation_numbers = pydar.getFlybyData()
 
@@ -106,3 +106,27 @@ def errorHandling(flyby_observation_num=None,
 		if top_x_resolutions < 1 or top_x_resolutions > 5:
 			logger.critical("\nCRITICAL ERROR, [top_x_resolutions]: Must be a value from 1 to 5, not '{0}'".format(top_x_resolutions))
 			exit()
+
+def errorHandlingGetFlybyData():
+	return
+
+def errorHandlingConvertFlybyIDToObservationNumber():
+	return
+
+def errorHandlingDisplayImages():
+	return
+
+def errorHandlingExtractMetadata():
+	return
+
+def errorHandlingReturnAllAAREADMEOptions():
+	return
+
+def errorHandlingReadAAREADME():
+	return
+
+def errorHandlingReturnAllLBLOptions():
+	return
+
+def errorHandlingReadLBLREADME():
+	return
