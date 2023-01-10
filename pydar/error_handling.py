@@ -109,10 +109,28 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
 
 def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
-	return
+	# Error Handling for Converting a Flyby ID into an Observation Number
+	if type(flyby_id) != str:
+		logger.critical("\nCRITICAL ERROR, [flyby_id]: Must be a str, current type = '{0}'".format(type(flyby_id)))
+		exit()
+
+	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
+	flyby_dataframe = pd.read_csv(flyby_csv_file)
+	valid_flyby_ids = []
+	flyby_id_found = False
+	for index, row in flyby_dataframe.iterrows():
+		valid_flyby_ids.append(row[0])
+		if row[0] == flyby_id:
+			flyby_id_found = True
+	if not flyby_id_found:
+		logger.critical("\nCRITICAL ERROR, [flyby_id]: Invalid flyby_id, '{0}', choose from:\n{1}".format(flyby_id, valid_flyby_ids))
+		exit()
 
 def errorHandlingDisplayImages(image_directory=None):
-	return
+	# Error Handling for Displaying Images from an Image Directory
+	if type(image_directory) != str:
+		logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
+		exit()
 
 def errorHandlingReadAAREADME(coradr_results_directory=None,
 							section_to_print=None,

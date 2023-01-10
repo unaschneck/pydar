@@ -344,10 +344,8 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
-* error handling: extract_flyby_data_images
-* error_handling: displayImages()
-* error_handling: extractMetadata()
-* error_handling: readAAREADME()
+* set up constant config file
+* compelte error handling for public calls
 * bug fix: "NOTE" in .lbl
 * Include URL for access to AAREADME and .LBL readme files
 * use README information to gather files for download (save computing, tech debt)

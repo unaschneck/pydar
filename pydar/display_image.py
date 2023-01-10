@@ -5,6 +5,8 @@ import os
 from planetaryimage import PDS3Image
 import matplotlib.pyplot as plt
 
+import pydar
+
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -13,6 +15,7 @@ logger.addHandler(stream_handler)
 
 def displayImages(image_directory=None):
 	# Display all images in the image directory specified
+	pydar.errorHandlingDisplayImages(image_directory=image_directory)
 	for filename in os.listdir(image_directory):
 		if 'IMG' in filename:
 			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
