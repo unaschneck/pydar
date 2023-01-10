@@ -38,34 +38,30 @@ def extractMetadata():
 	# filter SAR data for best active points (#97)
 	sbdr_sar = sbdr_sar[sbdr_sar['ACT_AZIMUTH_ANGLE'] != 0]
 	sbdr_sar = sbdr_sar[sbdr_sar['ACT_ELLIPSE_PT1_LAT'] != 0]
-
-	# Create beam mask (1-5 with 3 at center with highest gain)
-	BEM = [(x) for x in sbdr_sar['BEM']]
-	print(BEM)
-	NO_BEAM = int('00000',2)
-	print('NO BEAM: {}'.format(NO_BEAM))
-	BEAM_1 = int('00001',2)
-	print('BEAM 1: {}'.format(BEAM_1))
-	BEAM_2 = int('00010',2)
-	print('BEAM 2: {}'.format(BEAM_2))
-	BEAM_3 = int('00011',2)
-	print('BEAM 3: {}'.format(BEAM_3))
-	BEAM_4 = int('10000',2)
-	print('BEAM 4: {}'.format(BEAM_4))
-	BEAM_245 = int('11010',2)
-	print('BEAM 245: {}'.format(BEAM_245))
-	BEAM_ALL = int('11111',2)
-	print('ALL BEAM: {}'.format(BEAM_ALL))
-
-	print(set(list((BEM)))) # unique values in BEM
 	
-	BEAM_1 = 1
-	BEAM_2 = 2
-	BEAM_3 = 4
-	BEAM_4 = 8
-	BEAM_5 = 16
-	
+	print('Found {} active beam pulses in SAR'.format(len(sbdr_sar)))
 
+	beam_1 = []
+	beam_2 = []
+	beam_3 = []
+	beam_4 = []
+	beam_5 = []
+	for x in sbdr_sar['BEM']:
+		bin_beam = str(bin(x))
+		beam_5.append(bin_beam[0])
+		beam_4.append(bin_beam[1])
+		beam_3.append(bin_beam[2])
+		beam_2.append(bin_beam[3])
+		beam_1.append(bin_beam[4])
+
+	beam = sbdr_sar['BEM'].tolist()
+
+	mask_1 = [beam_1[i]*beam[i] for i in range(len(beam_5))]
+	print(beam_1[0])
+	print(beam[0])
+	print(mask_1[0])
+
+	
 	#img_file = "pydar_results/CORADR_0211_V03_S01/BIBQD78S004_D211_T065S01_V03.IMG"
 	#BIDR_FILE = pdr.read(img_file)
 	#print(BIDR_FILE.keys())
