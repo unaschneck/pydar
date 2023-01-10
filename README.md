@@ -242,9 +242,17 @@ Converts a Titan Flyby ID (for example: 'T65') to an observation number with fro
 ``python
 convertFlybyIDToObservationNumber(flyby_id)
 ```
-* **[REQUIRED/OPTIONAL]** flyby_id (string): a valid flyby ID with prefix 'T'
+***[REQUIRED/OPTIONAL]** flyby_id (string): a valid flyby ID with prefix 'T'
 
+```python
+import pydar
 
+observation_number = convertFlybyIDToObservationNumber(flyby_id)
+```
+
+Observation number based on the 'Radar Data Take Number' in the cassini_flyby.csv file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
+
+Requires each Titan flyby ID to be a valid value the cassini_flyby.csv 
 
 **displayImages**
 

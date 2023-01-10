@@ -16,7 +16,6 @@ aareadme_options = ["PDS_VERSION_ID",
 					"INSTRUMENT_NAME",
 					"PUBLICATION_DATE",
 					"NOTE",
-					"END_OBJECT",
 					"Volume",
 					"Introduction",
 					"Disk Format",
@@ -33,6 +32,12 @@ def returnAllAAREADMEOptions():
 
 def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print AAREADME to console
+
+	if section_to_print not in aareadme_options:
+		# TODO: move into error_handling
+		logger.critical("Invalid section_to_print: '{0}'".format(section_to_print))
+		logger.critical("Valid section_to_print options: {0}".format(aareadme_options))
+		exit()
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -71,7 +76,10 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 						if "Titan Flyby T" in line:
 							break
 			if within_readme_section:
-				output_string += line
+				if 'OBJECT' not in line:
+					output_string += line
+	print("Output: '{0}'".format(output_string))
+	exit()
 	output_string = output_string.rstrip()
 	if print_to_console: logger.info(output_string)
 	return output_string
@@ -181,7 +189,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 	sectionList = determineSectionToPrint(section_to_print)
 	if sectionList is None:
 		# TODO: error handling if section_to_print doesn't exist
-		logger.critical("Cannot find a revelant section_to_print")
+		logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
 		exit()
 
 	# Define position to start console print, default to 'All' if no section is specified
