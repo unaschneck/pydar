@@ -2,6 +2,8 @@
 import logging
 import os
 
+import pydar
+
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -32,6 +34,10 @@ def returnAllAAREADMEOptions():
 
 def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print AAREADME to console
+
+	pydar.errorHandlingREADME(coradr_results_directory=coradr_results_directory,
+							section_to_print=section_to_print,
+							print_to_console=print_to_console)
 
 	if section_to_print not in aareadme_options:
 		# TODO: move into error_handling
@@ -78,8 +84,7 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 			if within_readme_section:
 				if 'OBJECT' not in line:
 					output_string += line
-	print("Output: '{0}'".format(output_string))
-	exit()
+
 	output_string = output_string.rstrip()
 	if print_to_console: logger.info(output_string)
 	return output_string
@@ -186,6 +191,11 @@ def determineSectionToPrint(section_to_print=None):
 
 def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print .LBL to console
+
+	pydar.errorHandlingREADME(coradr_results_directory=coradr_results_directory,
+							section_to_print=section_to_print,
+							print_to_console=print_to_console)
+
 	sectionList = determineSectionToPrint(section_to_print)
 	if sectionList is None:
 		# TODO: error handling if section_to_print doesn't exist

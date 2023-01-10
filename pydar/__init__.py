@@ -25,6 +25,5 @@ from .read_readme import readLBLREADME
 from .error_handling import errorHandlingExtractFlybyDataImages
 from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
 from .error_handling import errorHandlingDisplayImages
-from .error_handling import errorHandlingReadAAREADME
-from .error_handling import errorHandlingReadLBLREADME
+from .error_handling import errorHandlingREADME
 from .error_handling import errorHandlingExtractMetadata

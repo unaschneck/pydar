@@ -132,15 +132,20 @@ def errorHandlingDisplayImages(image_directory=None):
 		logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
 		exit()
 
-def errorHandlingReadAAREADME(coradr_results_directory=None,
-							section_to_print=None,
-							print_to_console=True):
-	return
+def errorHandlingREADME(coradr_results_directory=None,
+						section_to_print=None,
+						print_to_console=True):
+	if type(coradr_results_directory) != str:
+		logger.critical("\nCRITICAL ERROR, [coradr_results_directory]: Must be a str, current type = '{0}'".format(type(coradr_results_directory)))
+		exit()
 
-def errorHandlingReadLBLREADME(coradr_results_directory=None,
-							section_to_print=None,
-							print_to_console=True):
-	return
+	if type(section_to_print) != str:
+		logger.critical("\nCRITICAL ERROR, [section_to_print]: Must be a str, current type = '{0}'".format(type(section_to_print)))
+		exit()
+
+	if type(print_to_console) != bool:
+		logger.critical("\nCRITICAL ERROR, [print_to_console]: Must be a bool, current type = '{0}'".format(type(print_to_console)))
+		exit()
 
 def errorHandlingExtractMetadata():
 	return
