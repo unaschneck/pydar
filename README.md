@@ -101,16 +101,17 @@ T3   DTN 045   S08 Rev 03
 T4   DTN 048   S09 Rev 04
 T7   DTN 059   S14 Rev 14
 T8   DTN 065   S15 Rev 17
-....
 
+...
+```
 Full cross reference table avaliable locally as: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
 To convert between a Titan Flyby ID and an observation number: pydar.convertFlybyIDToObservationNumber(flyby_id)
-```
+
 ### Observation Information as filename
 The data filename contains a lot of information about the observation 
 
-EXAMPLE) Filename: "BIBQD05S184_D065_T008S03_V03"
+(EXAMPLE) Filename: "BIBQD05S184_D065_T008S03_V03"
 
 - BI = BIDR data
 - B = data in dB normalized
@@ -242,7 +243,7 @@ Converts a Titan Flyby ID (for example: 'T65') to an observation number with fro
 ```python
 convertFlybyIDToObservationNumber(flyby_id)
 ```
-***[REQUIRED/OPTIONAL]** flyby_id (string): a valid flyby ID with prefix 'T'
+* **[REQUIRED/OPTIONAL]** flyby_id (string): a valid flyby ID with prefix 'T'
 
 ```python
 import pydar
@@ -344,19 +345,20 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
+* access flyby information based on latitude longitude (return swath coverage)
+* access flyby for a specific point (with a margin of error)
 * set up constant config file
+* make README options for .LBL and AAREADME case-insensitive
 * bug fix: "NOTE" in .lbl
 * Include URL for access to AAREADME and .LBL readme files
 * use README information to gather files for download (save computing, tech debt)
 * README: read by object (OBJECT -> END_OBJECT) for .LBL and AAREADME
-* access flyby information based on latitude longitude (return swath coverage)
-* access flyby for a specific point (with a margin of error)
 
 ### TODO Questions:
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * project image onto Titan spheriod
-* Download additional data types as optional arguments using additional_data_types_to_download=[]
+* Currently can download additional data types, but does nothing (additional_data_types_to_download=[])
 
 ### TODO: Tech Debt
 * rm -rf pydar_results/ between runs for clean image output
@@ -369,4 +371,3 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## CITATION
 If you use this package for your research, please cite it as:
-
