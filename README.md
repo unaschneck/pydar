@@ -365,6 +365,7 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 ### TODO Questions:
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
+* save .IMG as .SHP for ArcGIS
 * project image onto Titan spheriod
 * downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"])
 
