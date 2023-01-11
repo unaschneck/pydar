@@ -23,7 +23,7 @@ datafile_types_columns = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 def getFlybyData():
 	# Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
 	flyby_id = []
-	flby_radar_take_num = []
+	flyby_radar_take_num = []
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 	for index, row in flyby_dataframe.iterrows():
@@ -32,9 +32,9 @@ def getFlybyData():
 		radar_take_num = row[1].split(" ")[1]
 		while len(radar_take_num) < 4:
 			radar_take_num = "0" + radar_take_num # set all radar take numbers to be four digits long: 229 -> 0229
-		flby_radar_take_num.append(radar_take_num)
+		flyby_radar_take_num.append(radar_take_num)
 	# returns a list of flyby IDs and associated Radar Data Take Number
-	return flyby_id, flby_radar_take_num
+	return flyby_id, flyby_radar_take_num
 
 def convertFlybyIDToObservationNumber(flyby_id=None):
 	# convert Flyby ID to Observation Number to find data files
@@ -57,7 +57,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
 	if filetime < x_days_ago:
 		# File it more than X days old
-		logger.info("file is older than {0} days, running html capture for CORADR options:".format(days_between_checking_jpl_website))
+		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about five minutes):".format(days_between_checking_jpl_website))
 	
 		# BeautifulSoup web scrapping to find observation file number full title
 		logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
@@ -71,12 +71,14 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 			if 'CORADR' in txt:
 				coradr_title = txt.split('/')[0]
 				if '.' not in coradr_title:
-					coradr_options.append([coradr_title, False, False, False, False, False, False])
-		
+					coradr_options.append([coradr_title, False, False, False, False, False, False, False])
+
+		_, flyby_radar_take_num = getFlybyData()
+
 		# Check of CORADR has specific data files formats
-		for coradr_id in coradr_options:
+		for i, coradr_id in enumerate(coradr_options):
 			coradr_url = "{0}/{1}/DATA".format(cassini_root_url, coradr_id[0])
-			logger.info("Retrieving data types: {0}".format(coradr_url))
+			logger.info("Retrieving data types [{0}/{1}]: {2}".format(i+1, len(coradr_options), coradr_url))
 			coradr_html = request.urlopen(coradr_url).read()
 			soup = BeautifulSoup(coradr_html, 'html.parser')
 			table = soup.find('table', {"id": "indexlist"})
@@ -84,10 +86,13 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 			for txt in table_text:
 				for i, data_type in enumerate(datafile_types_columns):
 					if data_type in txt:
-						coradr_id[i+1] = True
+						coradr_id[i+2] = True
+					if coradr_id[0].split("_")[1] in flyby_radar_take_num:
+						coradr_id[1] = True # Is a Titan Flyby
 
 		# Wrte to CSV
 		header_options = ["CORADR ID",
+						"Is a Titan Flyby",
 						"Contains ABDR",
 						"Contains ASUM",
 						"Contains BIDR",
@@ -157,7 +162,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 
 	logger.info("All BIDR files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
 	if len(url_filenames) == 0:
-		logger.critical("No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll BI files found: {0}".format(all_bidr_files))
+		logger.critical("No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll files found: {0}".format(all_bidr_files))
 		exit()
 
 	for i, coradr_file in enumerate(url_filenames):

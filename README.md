@@ -333,7 +333,7 @@ import pydar
 pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
 					section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 ```
-Output = "OBLIQUE_PROJ_X_AXIS_VECTOR   = (0.13498322,0.00221225,-0.99084542)"
+Output = "(0.13498322,0.00221225,-0.99084542)"
 
 To get the sections that are available for printing: returnAllLBLOptions()
 ```python
@@ -345,7 +345,6 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
-* Return only the value from the README not the full string
 * access flyby information based on latitude longitude (return swath coverage)
 * new .csv file to generate (collects .lbl): flby, search all .lbl files: (min latitude, max lattidue, max longitude, min longitude, START_TIME, STOP_TIME, )
 * user: lat, long, search through the label files
