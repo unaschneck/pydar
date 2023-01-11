@@ -17,8 +17,6 @@ def determineSectionToPrint(section_to_print=None, aareadmeOrLBL=None):
 			return lblreadme_general_options
 		if section_to_print in lblreadme_section_options:
 			return lblreadme_section_options
-		if section_to_print in lblreadme_object_options:
-			return lblreadme_object_options
 	if aareadmeOrLBL == "AAREADME":
 		if section_to_print in aareadme_general_options:
 			return aareadme_general_options
@@ -212,6 +210,13 @@ def returnAllLBLOptions():
 def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print .LBL to console
 
+	if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
+		logger.critical("CRITICAL ERROR: Specify {0} as either '{0} UNCOMPRESSED' or '{0} COMPRESSED'".format(section_to_print))
+		exit()
+	# Catch common mispelling: not including the ^ at the front of a line name
+	if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
+		section_to_print = "^{0}".format(section_to_print) # set to specific object, easy to miss the ^
+
 	pydar.errorHandlingREADME(coradr_results_directory=coradr_results_directory,
 							section_to_print=section_to_print,
 							print_to_console=print_to_console)
@@ -303,6 +308,8 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 				break
 
 	output_string = output_string.rstrip()
+	if sectionList != lblreadme_section_options:
+		output_string = (output_string.split("=")[1]).strip() # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
 	if print_to_console: logger.info(output_string)
 	return output_string
 
