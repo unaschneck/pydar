@@ -36,20 +36,24 @@ def extractMetadata():
 	sar_ind = low_res_sar_burst + hi_res_sar_burst
 	sbdr_sar = sbdr.iloc[sar_ind]
 
-	# filter SAR data for best active points (#97)
+	# filter SAR data for best active points (Alex's #97)
 	# Active Point: active or passive sensor, but only gets when radar when in an active state
-	# ACT_AZIMUTH_ANGLE: [DEFINE]
-	# ACT_ELLIPSE_PT1_LAT: [DEFINE]
+	# ACT_AZIMUTH_ANGLE: Direction of the projection of the antenna look vector into the plane 
+	#					 tangent the surface at the center of the measurement as an angle CCW from East 
+	#					 (such that N is 90 deg)
+	# ACT_ELLIPSE_PT1_LAT: Latitude of the first point (on major axis) in the ellipse marking the 
+	# 					   ative measurement two way 3-dB gain pattern. 
 	sbdr_sar = sbdr_sar[sbdr_sar['ACT_AZIMUTH_ANGLE'] != 0]
 	sbdr_sar = sbdr_sar[sbdr_sar['ACT_ELLIPSE_PT1_LAT'] != 0]
 	
 	print('Found {0} active beam pulses in SAR'.format(len(sbdr_sar)))
-
-	beam_1 = [] # DEFINE:
-	beam_2 = [] # DEFINE:
-	beam_3 = [] # DEFINE:
-	beam_4 = [] # DEFINE:
-	beam_5 = [] # DEFINE: 
+	# total width of the RADAR swath is created by combining the five individually illuminated subbeams 
+	# each bursts use different beam(s) while taking SAR measurements
+	beam_1 = [] # DEFINE: Smallest look angle subbeam 
+	beam_2 = [] # DEFINE: Second-smallest look angle subbeam
+	beam_3 = [] # DEFINE: Middle subbeam swath with greatest gain
+	beam_4 = [] # DEFINE: Second-largest look angle subbeam
+	beam_5 = [] # DEFINE: Largest look angle subbeam
 	for x in sbdr_sar['BEM']:
 		bin_beam = str(bin(x))
 		beam_5.append(bin_beam[0])
