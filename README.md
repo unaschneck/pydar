@@ -5,7 +5,7 @@
 
 Access and manipulation of CASSINI RADAR images
 
-* Retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG)
+* Retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
 * Display PDS image retrieved for flyby observation
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
@@ -345,27 +345,39 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
+* Return only the value from the README not the full string
 * access flyby information based on latitude longitude (return swath coverage)
+* new .csv file to generate (collects .lbl): flby, search all .lbl files: (min latitude, max lattidue, max longitude, min longitude, START_TIME, STOP_TIME, )
+* user: lat, long, search through the label files
+* user can select either a time range or a location range to search for flyby id/CORADR ID
 * access flyby for a specific point (with a margin of error)
 * set up constant config file
+* README for all the functions and their sections
+* Graceful fail error handlign for .lbl sections
+* Graceful failure for duplicates FILE_NAME and RECORD_TYPE in lbl (file_name -> "either uncompress or compresed")
+* Find CORADR 0003, not currently in (does not include non-Titan flybys)
+* True/False: Is a Titan fyby in sar_coverage.csv
 * make README options for .LBL and AAREADME case-insensitive
 * bug fix: "NOTE" in .lbl
 * Include URL for access to AAREADME and .LBL readme files
 * use README information to gather files for download (save computing, tech debt)
+* progress bars print to command line (still downloading...)
 * README: read by object (OBJECT -> END_OBJECT) for .LBL and AAREADME
 
 ### TODO Questions:
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * project image onto Titan spheriod
-* Currently can download additional data types, but does nothing (additional_data_types_to_download=[])
+* downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"])
 
 ### TODO: Tech Debt
 * rm -rf pydar_results/ between runs for clean image output
-* progress bars print to command line
 * research Zenodo
 
 ### TODO: Test
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 
+## Bug and Feature Request
+
+Submit a bug fix, question, or feature request as a [Github Issue](https://github.com/unaschneck/pydar/issues) or ugschneck@gmail.com/cyschneck@gmail.com

@@ -232,6 +232,8 @@ def downloadAdditionalDataTypes(cordar_file_name, segment_id, additional_data_ty
 	# Download additional data types
 	additional_data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/{1}".format(cordar_file_name, additional_data_type)
 	logger.info("\n[TODO: does not currently download] '{0}': {1}".format(additional_data_type, additional_data_url))
+	# TODO: add functionality for which files should be downloaded
+	# This function does not currently have functionality in pydar
 
 def extractFlybyDataImages(flyby_observation_num=None,
 							flyby_id=None,
