@@ -10,27 +10,42 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
+def determineSectionToPrint(section_to_print=None, aareadmeOrLBL=None):
+	# check which list the section_to_print is from
+	if aareadmeOrLBL == "LBL":
+		if section_to_print in lblreadme_general_options:
+			return lblreadme_general_options
+		if section_to_print in lblreadme_section_options:
+			return lblreadme_section_options
+		if section_to_print in lblreadme_object_options:
+			return lblreadme_object_options
+	if aareadmeOrLBL == "AAREADME":
+		if section_to_print in aareadme_general_options:
+			return aareadme_general_options
+		if section_to_print in aareadme_section_options:
+			return aareadme_section_options
+
 #######################################################################
 ## AAREADME.TXT
-aareadme_options = ["PDS_VERSION_ID",
-					"RECORD_TYPE",
-					"INSTRUMENT_HOST_NAME",
-					"INSTRUMENT_NAME",
-					"PUBLICATION_DATE",
-					"NOTE",
-					"Volume",
-					"Introduction",
-					"Disk Format",
-					"File Formats",
-					"Volume Contents",
-					"Recommended DVD Drives and Driver Software",
-					"Errata and Disclaimer",
-					"Version Status",
-					"Contact Information"
-					]
+aareadme_general_options = ["PDS_VERSION_ID",
+							"RECORD_TYPE",
+							"INSTRUMENT_HOST_NAME",
+							"INSTRUMENT_NAME",
+							"PUBLICATION_DATE",
+							"NOTE",
+							"Volume"]
+aareadme_section_options = ["Introduction",
+							"Disk Format",
+							"File Formats",
+							"Volume Contents",
+							"Recommended DVD Drives and Driver Software",
+							"Errata and Disclaimer",
+							"Version Status",
+							"Contact Information"]
 
 def returnAllAAREADMEOptions():
-	logger.info(aareadme_options)
+	logger.info("Line-By-Line Options: {0}".format(aareadme_general_options))
+	logger.info("Section Header Options: {0}".format(aareadme_section_options))
 
 def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print AAREADME to console
@@ -39,19 +54,19 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 							section_to_print=section_to_print,
 							print_to_console=print_to_console)
 
-	if section_to_print not in aareadme_options:
-		# TODO: move into error_handling
-		logger.critical("Invalid section_to_print: '{0}'".format(section_to_print))
-		logger.critical("Valid section_to_print options: {0}".format(aareadme_options))
+	sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+	if sectionList is None:
+		# TODO: error handling if section_to_print doesn't exist
+		logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
 		exit()
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
 		start_index = 0
-		start_position = aareadme_options[start_index]
+		start_position = sectionList[start_index]
 	else:
-		start_index = aareadme_options.index(section_to_print)
-		start_position = aareadme_options[start_index]
+		start_index = sectionList.index(section_to_print)
+		start_position = sectionList[start_index]
 
 	# Define position to end console print, defaults to end of file if no section is specified
 	if section_to_print is None:
@@ -59,10 +74,17 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 		end_position = None
 	else:
 		end_index = start_index + 1
-		if end_index >= len(aareadme_options): 
-			end_position = None # display the last element in the list
+		if end_index >= len(sectionList): 
+			if sectionList == aareadme_general_options:
+				end_position = aareadme_section_options[0] # the start of the section list is the end of the line-by-line list
+			if sectionList == aareadme_section_options:
+				end_position = None # display the last element in the list
 		else:
-			end_position = aareadme_options[end_index]
+			end_position = sectionList[end_index]
+
+	logger.debug("section_to_print = {0}".format(section_to_print))
+	logger.debug("start_position = {0}".format(start_position))
+	logger.debug("end_position = {0}\n".format(end_position))
 
 	output_string = ''
 	with open("{0}/AAREADME.TXT".format(coradr_results_directory), "r") as readme_file:
@@ -82,10 +104,17 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 						if "Titan Flyby T" in line:
 							break
 			if within_readme_section:
-				if 'OBJECT' not in line:
+				if 'OBJECT' not in line and 'END' not in line:
 					output_string += line
+				else:
+					print("False")
 
 	output_string = output_string.rstrip()
+
+	if "=" in output_string and sectionList != aareadme_section_options:
+		output_string = (output_string.split("=")[1]).strip() # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
+	else:
+		output_string = output_string.strip() # 'Volume' option display entire row
 	if print_to_console: logger.info(output_string)
 	return output_string
 #########################################################################
@@ -180,15 +209,6 @@ def returnAllLBLOptions():
 	logger.info("Line-By-Line Options: {0}".format(lblreadme_general_options))
 	logger.info("Section Header Options: {0}".format(lblreadme_section_options))
 
-def determineSectionToPrint(section_to_print=None):
-	# check which list the section_to_print is from
-	if section_to_print in lblreadme_general_options:
-		return lblreadme_general_options
-	if section_to_print in lblreadme_section_options:
-		return lblreadme_section_options
-	if section_to_print in lblreadme_object_options:
-		return lblreadme_object_options
-
 def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print .LBL to console
 
@@ -196,7 +216,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 							section_to_print=section_to_print,
 							print_to_console=print_to_console)
 
-	sectionList = determineSectionToPrint(section_to_print)
+	sectionList = determineSectionToPrint(section_to_print, "LBL")
 	if sectionList is None:
 		# TODO: error handling if section_to_print doesn't exist
 		logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
@@ -246,7 +266,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 
 	logger.debug("section_to_print = {0}".format(section_to_print))
 	logger.debug("start_position = {0}".format(start_position))
-	logger.debug("end_position = {0}".format(end_position))
+	logger.debug("end_position = {0}\n".format(end_position))
 
 	output_string = ''
 	with open("{0}/{1}".format(coradr_results_directory, lbl_file), "r") as readme_file:
