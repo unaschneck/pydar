@@ -51,14 +51,14 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
 
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
-	days_between_checking_jpl_website = 7 # set to 0 to re-run currently without waiting
+	days_between_checking_jpl_website = 0 # set to 0 to re-run currently without waiting
 	x_days_ago = datetime.now() - timedelta(days=days_between_checking_jpl_website)
 	
 	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
 	if filetime < x_days_ago:
 		# File it more than X days old
 		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about five minutes):".format(days_between_checking_jpl_website))
-	
+		'''
 		# BeautifulSoup web scrapping to find observation file number full title
 		logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 		cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
@@ -102,6 +102,8 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 		df = pd.DataFrame(coradr_options, columns=header_options)
 		df = df.sort_values(by=["CORADR ID"])
 		df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'), header=header_options, index=False)
+		'''
+		retrieveSwathCoverage()
 
 	# Read from CSV
 	jpl_coradr_options = []
@@ -116,6 +118,78 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
 	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_avaliable))
 	return more_accurate_model_number
+
+def retrieveSwathCoverage():
+	# generate swath_coverage_by_time_position.csv
+
+	# Get all Titan Flybys with most up to date versions
+	coradr_ids = []
+	coradr_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
+	coradr_dataframe = pd.read_csv(coradr_csv_file)
+	for index, row in coradr_dataframe.iterrows():
+		row = row.tolist()
+		if row[1] == True:
+			if coradr_ids != []:
+				if coradr_ids[-1].split("_V")[0] in row[0]: # replace the older version with the most recent version
+					coradr_ids[-1] = row[0]
+				else:
+					coradr_ids.append(row[0])
+			else:
+				coradr_ids.append(row[0])
+
+	print(coradr_ids)
+	# Retrieve a list of all the .lbl for each CORADR ID (different for each resolution)
+	lbl_information = []
+	no_bidr = ["CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234"] # TODO: collect dynamically, check if has a BIDR when saving
+	for radar_id in coradr_ids:
+		if radar_id not in no_bidr:
+			base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(radar_id)
+			print(base_url)
+			base_html = request.urlopen(base_url).read()
+			soup = BeautifulSoup(base_html, 'html.parser')
+			table = soup.find('table', {"id": "indexlist"})
+			table_text = (table.text).split("\n")
+			url_filenames = []
+			all_bidr_files = []
+			for txt in table_text:
+				if txt.startswith('BI'):
+					filename = (txt.split('/')[0]).split(".")[0]
+					if 'LBL' in (txt.split('/')[0]).split(".")[1]:
+						filename += '.LBL'
+						lbl_information.append([radar_id, filename, None, None, None, None, None, None])
+						# TODO: combine collecting the information with reading? Instead of two for loops (removes the loops below)
+
+	for lbl in lbl_information:
+		base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(lbl[0], lbl[1])
+		print(base_url)
+		with request.urlopen(base_url) as lbl_file:
+			for line in (lbl_file.read().decode("UTF-8")).split("\n"):
+				if "MAXIMUM_LATITUDE" in line:
+					lbl[2] = line.split("=")[1].strip()
+				if "MINIMUM_LATITUDE" in line:
+					lbl[3] = line.split("=")[1].strip()
+				if "EASTERNMOST_LONGITUDE" in line:
+					lbl[4] = line.split("=")[1].strip()
+				if "WESTERNMOST_LONGITUDE" in line:
+					lbl[5] = line.split("=")[1].strip()
+				if "START_TIME" in line:
+					lbl[6] = line.split("=")[1].strip()
+				if "STOP_TIME" in line:
+					lbl[7] = line.split("=")[1].strip()
+
+	# Wrte to CSV
+	header_options = ["CORADR ID",
+					"FILENAME",
+					"MAXIMUM_LATITUDE",
+					"MINIMUM_LATITUDE",
+					"EASTERNMOST_LONGITUDE",
+					"WESTERNMOST_LONGITUDE",
+					"START_TIME",
+					"STOP_TIME"
+					]
+	df = pd.DataFrame(lbl_information, columns=header_options)
+	df = df.sort_values(by=["CORADR ID"])
+	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv'), header=header_options, index=False)
 
 def downloadAAREADME(cordar_file_name, segment_id):
 	# Download AAREADME.txt within a CORADR directory

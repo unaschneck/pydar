@@ -352,16 +352,11 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 * access flyby for a specific point (with a margin of error)
 * set up constant config file
 * README for all the functions and their sections
-* Graceful fail error handlign for .lbl sections
-* Graceful failure for duplicates FILE_NAME and RECORD_TYPE in lbl (file_name -> "either uncompress or compresed")
-* Find CORADR 0003, not currently in (does not include non-Titan flybys)
-* True/False: Is a Titan fyby in sar_coverage.csv
 * make README options for .LBL and AAREADME case-insensitive
 * bug fix: "NOTE" in .lbl
 * Include URL for access to AAREADME and .LBL readme files
 * use README information to gather files for download (save computing, tech debt)
 * progress bars print to command line (still downloading...)
-* README: read by object (OBJECT -> END_OBJECT) for .LBL and AAREADME
 
 ### TODO Questions:
 * associate burst ID from SBDR data to BIDR data for metadata
