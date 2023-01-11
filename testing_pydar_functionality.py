@@ -8,10 +8,10 @@ if __name__ == '__main__':
 	#observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id='T6')
 
 	# Extract Flyby Data Files to results/ directory
-	pydar.extractFlybyDataImages(flyby_observation_num='101',
-								resolution='I',
-								segment_num="S01",
-								additional_data_types_to_download=["LBDR"])
+	#pydar.extractFlybyDataImages(flyby_observation_num='101',
+#								resolution='I',
+#								segment_num="S01",
+#								additional_data_types_to_download=["LBDR"])
 
 	# Display all Images in pydar_results/ directory
 	#pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
@@ -27,4 +27,4 @@ if __name__ == '__main__':
 	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
 	#					section_to_print="MAXIMUM_LATITUDE")
 
-	#pydar.extractMetadata()
+	pydar.extractMetadata()

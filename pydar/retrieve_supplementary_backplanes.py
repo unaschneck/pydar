@@ -3,7 +3,9 @@ import numpy as np
 import pdr
 
 def extractMetadata():
-	tab_file = "pydar_results/CORADR_0211_V03_S01/SBDR_11_D211_V03.TAB"
+	# Note: need both the .TAB and the .FMT file to run
+	
+	tab_file = "pydar/testing_files/SBDR_15_D065_V03.TAB"
 	SBDR_FILE = pdr.read(tab_file)
 	#print(SBDR_FILE['SBDR_TABLE'])
 	# Each row is Burst Data
