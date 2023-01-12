@@ -49,6 +49,9 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
 				observation_number = "0" + observation_number # set all radar take numbers to be four digits long: 229 -> 0229
 	return observation_number
 
+def convertObservationNumberToFlybyID(observation_id=None):
+	return "T00"
+
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
 	days_between_checking_jpl_website = 0 # set to 0 to re-run currently without waiting
@@ -127,7 +130,7 @@ def retrieveSwathCoverage():
 	coradr_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
 	coradr_dataframe = pd.read_csv(coradr_csv_file)
 	for index, row in coradr_dataframe.iterrows():
-		row = row.tolist()
+		row = row.tolist(\)
 		if row[1] == True:
 			if coradr_ids != []:
 				if coradr_ids[-1].split("_V")[0] in row[0]: # replace the older version with the most recent version
@@ -156,29 +159,34 @@ def retrieveSwathCoverage():
 					filename = (txt.split('/')[0]).split(".")[0]
 					if 'LBL' in (txt.split('/')[0]).split(".")[1]:
 						filename += '.LBL'
-						lbl_information.append([radar_id, filename, None, None, None, None, None, None])
+						lbl_information.append([radar_id, filename, None, None, None, None, None, None, None, None])
 						# TODO: combine collecting the information with reading? Instead of two for loops (removes the loops below)
 
-	for lbl in lbl_information:
+	for i, lbl in enumerate(lbl_information):
 		base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(lbl[0], lbl[1])
-		print(base_url)
+		print("Collecting Coverage Infomration[{0}/{1}]: {2}".format(i+1, len(lbl_infomration), base_url))
+		lbl[2] = convertObservationNumberToFlybyID(lbl[0].split("_")[1]
 		with request.urlopen(base_url) as lbl_file:
 			for line in (lbl_file.read().decode("UTF-8")).split("\n"):
-				if "MAXIMUM_LATITUDE" in line:
-					lbl[2] = line.split("=")[1].strip()
-				if "MINIMUM_LATITUDE" in line:
+				if "TARGET_NAME" in line:
 					lbl[3] = line.split("=")[1].strip()
-				if "EASTERNMOST_LONGITUDE" in line:
+				if "MAXIMUM_LATITUDE" in line:
 					lbl[4] = line.split("=")[1].strip()
-				if "WESTERNMOST_LONGITUDE" in line:
+				if "MINIMUM_LATITUDE" in line:
 					lbl[5] = line.split("=")[1].strip()
-				if "START_TIME" in line:
+				if "EASTERNMOST_LONGITUDE" in line:
 					lbl[6] = line.split("=")[1].strip()
-				if "STOP_TIME" in line:
+				if "WESTERNMOST_LONGITUDE" in line:
 					lbl[7] = line.split("=")[1].strip()
+				if "START_TIME" in line:
+					lbl[8] = line.split("=")[1].strip()
+				if "STOP_TIME" in line:
+					lbl[9] = line.split("=")[1].strip()
 
 	# Wrte to CSV
 	header_options = ["CORADR ID",
+					"Flyby ID"
+					"TARGET_NAME",
 					"FILENAME",
 					"MAXIMUM_LATITUDE",
 					"MINIMUM_LATITUDE",

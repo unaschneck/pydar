@@ -183,6 +183,20 @@ SBDR_FILE = pdr.read(test_file)
 print("Table options: {0}".format(SBDR_FILE.keys()))
 ```
 
+## BIDR and SBDR Files
+Note: "CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234" do not have associated BIDR values.
+
+There are data gaps and problems from the original downlinking and satellite location
+
+CORADR_0048 (T4) did not have SAR data, only scatterometry and radiometery because of telemetry reasons in the handbook
+
+CORADR_0186 (T52) only have rad and compressed scatterometry
+
+CORADR_189 (T53) only has rad and compressed scatterometry because of what appears to be a downlink problem
+
+CORADR_0209 (T63) only has scatterometry and radiometry
+
+CORADR_0234 (T80) only has scatterometry and radiometry 
 ## Dependencies
 Python 3.9
 ```
@@ -351,7 +365,10 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 ### TODO Code:
 * access flyby information based on latitude longitude (return swath coverage)
 * new .csv file to generate (collects .lbl): flby, search all .lbl files: (min latitude, max lattidue, max longitude, min longitude, START_TIME, STOP_TIME, )
-* user: lat, long, search through the label files
+* CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
+* user: lat, long, search through the label files 
+* CSV script to be run before each pypi package update by developer not user
+* Add user script: time, position, or feature
 * user can select either a time range or a location range to search for flyby id/CORADR ID
 * access flyby for a specific point (with a margin of error)
 * set up constant config file
