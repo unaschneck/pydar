@@ -29,6 +29,7 @@ from .update_csv import csvSwathCoverage
 # retrieve_ids_by_time_position.py function calls
 from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitude
 from .retrieve_ids_by_time_position import retrieveIDSByTime
+from .retrieve_ids_by_time_position import retrieveIDSByFeature
 
 # error_handling.py function calls for testing
 from .error_handling import errorHandlingExtractFlybyDataImages
@@ -36,4 +37,6 @@ from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
 from .error_handling import errorHandlingConvertObservationNumberToFlybyID
 from .error_handling import errorHandlingDisplayImages
 from .error_handling import errorHandlingREADME
-from .error_handling import errorHandlingExtractMetadata
+from .error_handling import errorHandlingRetrieveIDSByLatitudeLongitude
+from .error_handling import errorHandlingRetrieveIDSByTime
+from .error_handling import errorHandlingRetrieveIDSByFeature

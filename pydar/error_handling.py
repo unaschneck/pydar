@@ -167,5 +167,28 @@ def errorHandlingREADME(coradr_results_directory=None,
 		logger.critical("\nCRITICAL ERROR, [print_to_console]: Must be a bool, current type = '{0}'".format(type(print_to_console)))
 		exit()
 
-def errorHandlingExtractMetadata():
-	return
+def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
+												longitude=None,
+												degrees_of_error=None):
+	if type(latitude) != float and type(longitude) != int:
+		logger.critical("\nCRITICAL ERROR, [latitude]: Must be a float or int, current type = '{0}'".format(type(latitude)))
+		exit()
+
+	if type(longitude) != float and type(longitude) != int:
+		logger.critical("\nCRITICAL ERROR, [longitude]: Must be a float or int, current type = '{0}'".format(type(longitude)))
+		exit()
+
+	if degrees_of_error is not None:
+		if type(degrees_of_error) != float and type(degrees_of_error) != int:
+			logger.critical("\nCRITICAL ERROR, [degrees_of_error]: Must be a float or int, current type = '{0}'".format(type(degrees_of_error)))
+			exit()
+
+def errorHandlingRetrieveIDSByTime(timestamp=None):
+	if type(timestamp) != str:
+		logger.critical("\nCRITICAL ERROR, [timestamp]: Must be a str, current type = '{0}'".format(type(timestamp)))
+		exit()
+
+def errorHandlingRetrieveIDSByFeature(feature_name=None):
+	if type(feature_name) != str:
+		logger.critical("\nCRITICAL ERROR, [feature_name]: Must be a str, current type = '{0}'".format(type(feature_name)))
+		exit()
