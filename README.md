@@ -375,7 +375,6 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 ## TODO:
 ### TODO Code:
 * collect no_bidr dynamically, check if has a BIDR when saving
-* split up extract_flyby_parameters based on which .csv files need to be updated into a new script
 * access flyby information based on latitude longitude (return swath coverage)
 * CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
 * CSV script to be run before each pypi package update by developer not user

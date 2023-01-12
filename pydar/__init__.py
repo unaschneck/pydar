@@ -4,6 +4,7 @@ from .pydar_testing import testing
 from .extract_flyby_parameters import extractFlybyDataImages
 from .extract_flyby_parameters import getFlybyData
 from .extract_flyby_parameters import convertFlybyIDToObservationNumber
+from .extract_flyby_parameters import convertObservationNumberToFlybyID
 
 # extract_flyby_parameters.py data
 from .extract_flyby_parameters import resolution_types
@@ -20,6 +21,10 @@ from .read_readme import returnAllAAREADMEOptions
 from .read_readme import readAAREADME
 from .read_readme import returnAllLBLOptions
 from .read_readme import readLBLREADME
+
+# update_csv.py function calls
+from .update_csv import csvCORADRJPLOptions
+from .update_csv import csvSwathCoverage
 
 # error_handling.py function calls for testing
 from .error_handling import errorHandlingExtractFlybyDataImages
