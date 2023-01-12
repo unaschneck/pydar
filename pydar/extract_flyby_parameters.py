@@ -62,7 +62,7 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
 
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
-	days_between_checking_jpl_website = 0 # set to 0 to re-run currently without waiting
+	days_between_checking_jpl_website = 7 # set to 0 to re-run currently without waiting
 	x_days_ago = datetime.now() - timedelta(days=days_between_checking_jpl_website)
 	
 	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
@@ -150,6 +150,18 @@ def retrieveSwathCoverage():
 				coradr_ids.append(row[0])
 
 	# Retrieve a list of all the .lbl for each CORADR ID (different for each resolution)
+	data_type_dict = {"F":"Primary Dataset (Linear Scale)", 
+					"B": "Primary Dataset in Unsigned Byte Format (Noramlized dB)",
+					"S": "Normalized SAR (Physical Scale) with Thermal/Quantized Noise Removed",
+					"X": "Noise for SAR without Incidence Angle Correction (Physical Scale)",
+					"U":"Sigma0 without Incidence Angle (Linear Scale)", 
+					"D": "Substracted STD SAR",
+					"E":"Incidence Angle Map", 
+					"T":"Latitude Map",
+					"N":"Longitude Map",
+					"M":"Beam Mask Map",
+					"L":"Number of Looks Map"}
+	resolution_dict = {"B":2, "D":8, "F":32, "G": 64, "H":128, "I":256} #  pixels/degree
 	lbl_information = []
 	no_bidr = ["CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234"] # TODO: collect dynamically, check if has a BIDR when saving
 	for radar_id in coradr_ids:
@@ -169,40 +181,43 @@ def retrieveSwathCoverage():
 						filename += '.LBL'
 						bidr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(radar_id, filename)
 						logger.info("Retrieving LBL information: {0}".format(bidr_url))
-						lbl = [radar_id, None, filename, None, None, None, None, None, None, None, None]
+						lbl = [radar_id, None, None, None, None, None, None, None, None, None, None, None]
 						lbl[1] = convertObservationNumberToFlybyID(radar_id.split("_")[1])
-						lbl[3] = filename[3] # Resolution
+						lbl[2] = filename
+						lbl[3] = data_type_dict[filename[2]] # Data Type
+						lbl[4] = resolution_dict[filename[4]] # Resolution
 						with request.urlopen(bidr_url) as lbl_file:
 							for line in (lbl_file.read().decode("UTF-8")).split("\n"):
 								if "TARGET_NAME" in line:
-									lbl[4] = line.split("=")[1].strip()
+									lbl[5] = line.split("=")[1].strip()
 								if "MAXIMUM_LATITUDE" in line:
 									max_lat = line.split("=")[1].strip()
 									max_lat = max_lat.split("<")[0] 
-									lbl[5] = max_lat
+									lbl[6] = max_lat
 								if "MINIMUM_LATITUDE" in line:
 									min_lat = line.split("=")[1].strip()
 									min_lat = min_lat.split("<")[0] 
-									lbl[6] = min_lat
+									lbl[7] = min_lat
 								if "EASTERNMOST_LONGITUDE" in line:
 									east_long = line.split("=")[1].strip()
 									east_long = east_long.split("<")[0] 
-									lbl[7] = east_long
+									lbl[8] = east_long
 								if "WESTERNMOST_LONGITUDE" in line:
 									west_long = line.split("=")[1].strip()
 									west_long = west_long.split("<")[0] 
-									lbl[8] = west_long
+									lbl[9] = west_long
 								if "START_TIME" in line:
-									lbl[9] = line.split("=")[1].strip()
-								if "STOP_TIME" in line:
 									lbl[10] = line.split("=")[1].strip()
+								if "STOP_TIME" in line:
+									lbl[11] = line.split("=")[1].strip()
 							lbl_information.append(lbl)
 
 	# Wrte to CSV
 	header_options = ["CORADR ID",
 					"FLYBY ID",
 					"FILENAME",
-					"RESOLUTION",
+					"DATE TYPE",
+					"RESOLUTION (pixels/degrees)",
 					"TARGET_NAME",
 					"MAXIMUM_LATITUDE (Degrees)",
 					"MINIMUM_LATITUDE (Degrees)",
