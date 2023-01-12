@@ -47,6 +47,10 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |        |         |                                byte values
   |        |         |                            L = Number of looks map, 32-bit
   |        |         |                                integer values
+  |        |         |                            D = standard deviations of Synthetic Aperture Radar 
+  | 	   |	     |   			      (SAR) normalized backscatter cross-section noise 
+  |	   |	     |				      subtracted values w/o incidence angle correction.
+  |	   |	     |				      The values are physical scale (not in dB)
   |        |         |                           c  = Map projection
   |        |         |                            Q = Oblique cylindrical
   |        |         |                           d  = Map resolution
