@@ -60,9 +60,10 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |        |         |                           c  = Map projection
   |        |         |                            Q = Oblique cylindrical
   |        |         |                           d  = Map resolution
-  |        |         |                            B =   2 pixels/degree
-  |        |         |                            D =   8 pixels/degree
-  |        |         |                            F =  32 pixels/degree
+  |        |         |                            B =  2 pixels/degree
+  |        |         |                            D =  8 pixels/degree
+  |        |         |                            F = 32 pixels/degree
+  |	   |	     |			          G = 64 pixels/degree
   |        |         |                            H = 128 pixels/degree
   |        |         |                            I = 256 pixels/degree
   |        |         |                           ee = Absolute value of latitude at
