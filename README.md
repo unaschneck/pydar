@@ -363,20 +363,14 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
+* split up extract_flyby_parameters based on which .csv files need to be updated into a new script
 * access flyby information based on latitude longitude (return swath coverage)
-* new .csv file to generate (collects .lbl): flby, search all .lbl files: (min latitude, max lattidue, max longitude, min longitude, START_TIME, STOP_TIME, )
 * CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
-* user: lat, long, search through the label files 
 * CSV script to be run before each pypi package update by developer not user
-* Add user script: time, position, or feature
+* investigate why swatch_coverage csv only has 'Q' resolution
 * user can select either a time range or a location range to search for flyby id/CORADR ID
 * access flyby for a specific point (with a margin of error)
-* set up constant config file
 * README for all the functions and their sections
-* make README options for .LBL and AAREADME case-insensitive
-* bug fix: "NOTE" in .lbl
-* Include URL for access to AAREADME and .LBL readme files
-* use README information to gather files for download (save computing, tech debt)
 * progress bars print to command line (still downloading...)
 
 ### TODO Questions:
@@ -387,6 +381,11 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 * downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"])
 
 ### TODO: Tech Debt
+* use README information to gather files for download (save computing, tech debt)
+* make README options for .LBL and AAREADME case-insensitive
+* set up constant config file
+* bug fix: "NOTE" in .lbl
+* Include URL for access to AAREADME and .LBL readme files
 * rm -rf pydar_results/ between runs for clean image output
 * research Zenodo
 

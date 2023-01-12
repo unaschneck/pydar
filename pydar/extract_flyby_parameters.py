@@ -47,10 +47,18 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
 			observation_number = row[1].split(" ")[1]
 			while len(observation_number) < 4:
 				observation_number = "0" + observation_number # set all radar take numbers to be four digits long: 229 -> 0229
-	return observation_number
+			return observation_number
 
-def convertObservationNumberToFlybyID(observation_id=None):
-	return "T00"
+def convertObservationNumberToFlybyID(flyby_observation_num=None):
+	# convert Flyby ID to Observation Number to find data files
+	pydar.errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num)
+
+	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
+	flyby_dataframe = pd.read_csv(flyby_csv_file)
+	for index, row in flyby_dataframe.iterrows():
+		take_ob_num = "0" + row[1].split(" ")[1]
+		if take_ob_num == flyby_observation_num:
+			return row[0] # returns flyby ID
 
 def retrieveJPLCoradrOptions(flyby_observiation_num):
 	# runs to access the most up to date optiosn from the JPL webpage
@@ -61,7 +69,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	if filetime < x_days_ago:
 		# File it more than X days old
 		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about twenty minutes):".format(days_between_checking_jpl_website))
-		'''
+
 		# BeautifulSoup web scrapping to find observation file number full title
 		logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 		cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
@@ -105,7 +113,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 		df = pd.DataFrame(coradr_options, columns=header_options)
 		df = df.sort_values(by=["CORADR ID"])
 		df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'), header=header_options, index=False)
-		'''
+
 		retrieveSwathCoverage()
 
 	# Read from CSV
@@ -346,12 +354,12 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		resolution = None # set default resolution to None if selecting the top x resolutions
 
 	# Error handling:
-	#pydar.errorHandlingExtractFlybyDataImages(flyby_observation_num=flyby_observation_num,
-	#										flyby_id=flyby_id,
-	#										segment_num=segment_num,
-	#										additional_data_types_to_download=additional_data_types_to_download,
-	#										resolution=resolution,
-	#										top_x_resolutions=top_x_resolutions)
+	pydar.errorHandlingExtractFlybyDataImages(flyby_observation_num=flyby_observation_num,
+											flyby_id=flyby_id,
+											segment_num=segment_num,
+											additional_data_types_to_download=additional_data_types_to_download,
+											resolution=resolution,
+											top_x_resolutions=top_x_resolutions)
 
 	logger.info("flyby_observation_num = {0}".format(flyby_observation_num))
 	logger.info("flyby_id = {0}".format(flyby_id))

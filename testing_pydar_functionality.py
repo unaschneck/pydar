@@ -8,8 +8,8 @@ if __name__ == '__main__':
 	#observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id='T6')
 
 	# Extract Flyby Data Files to results/ directory
-	pydar.extractFlybyDataImages(flyby_id='T65',
-								resolution='I',
+	pydar.extractFlybyDataImages(flyby_observation_num='211',
+								resolution='D',
 								segment_num="S01",
 								additional_data_types_to_download=["LBDR"])
 

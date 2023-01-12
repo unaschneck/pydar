@@ -78,7 +78,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 		coradr_data_types = []
 		for index, row in coradr_row.iterrows():
 			row = row.tolist()
-		for i, row_bool in enumerate(row[1:]):
+		for i, row_bool in enumerate(row[2:]): # Ignores first two columns: CORADR ID and Is Titan Flyby
 			if row_bool is True:
 				coradr_data_types.append(pydar.datafile_types_columns[i])
 
@@ -107,7 +107,6 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 			logger.critical("\nCRITICAL ERROR, [top_x_resolutions]: Must be a value from 1 to 5, not '{0}'".format(top_x_resolutions))
 			exit()
 
-
 def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 	# Error Handling for Converting a Flyby ID into an Observation Number
 	if type(flyby_id) != str:
@@ -122,8 +121,29 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 		valid_flyby_ids.append(row[0])
 		if row[0] == flyby_id:
 			flyby_id_found = True
+			break
 	if not flyby_id_found:
 		logger.critical("\nCRITICAL ERROR, [flyby_id]: Invalid flyby_id, '{0}', choose from:\n{1}".format(flyby_id, valid_flyby_ids))
+		exit()
+
+def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
+	# Error Handling for Converting an Observation Number to a Flyby ID
+	if type(flyby_observation_num) != str:
+		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
+		exit()
+
+	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
+	flyby_dataframe = pd.read_csv(flyby_csv_file)
+	valid_observation_nums = []
+	observation_num_found = False
+	for index, row in flyby_dataframe.iterrows():
+		take_ob_num = "0" + row[1].split(" ")[1]
+		valid_observation_nums.append(take_ob_num)
+		if take_ob_num == flyby_observation_num:
+			observation_num_found = True
+			break
+	if not observation_num_found:
+		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(observation_num, valid_observation_nums))
 		exit()
 
 def errorHandlingDisplayImages(image_directory=None):

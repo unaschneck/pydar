@@ -24,6 +24,7 @@ from .read_readme import readLBLREADME
 # error_handling.py function calls for testing
 from .error_handling import errorHandlingExtractFlybyDataImages
 from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
+from .error_handling import errorHandlingConvertObservationNumberToFlybyID
 from .error_handling import errorHandlingDisplayImages
 from .error_handling import errorHandlingREADME
 from .error_handling import errorHandlingExtractMetadata
