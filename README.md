@@ -51,6 +51,9 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   | 	   |	     |   			      (SAR) normalized backscatter cross-section noise 
   |	   |	     |				      subtracted values w/o incidence angle correction.
   |	   |	     |				      The values are physical scale (not in dB)
+  |	   |         |			          S = Synthetic Aperture Radar (SAR) normalized backscatter cross-section values
+  |	   |	     |				      physical scale (not in dB) and have not been corrected for incidence-angle effects.
+  |	   |	     |				      Biases due to thermal and quantization noise have been removed.
   |        |         |                           c  = Map projection
   |        |         |                            Q = Oblique cylindrical
   |        |         |                           d  = Map resolution
