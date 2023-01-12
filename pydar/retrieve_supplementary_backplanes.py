@@ -21,6 +21,7 @@ def extractMetadata():
 	# 	where +8 = Auto-Gain enabled
 	radar_mode = SBDR_FILE['SBDR_TABLE']['RADAR_MODE']
 	sbdr = SBDR_FILE['SBDR_TABLE']
+
 	#print(radar_mode)
 	
 	# identify the low and high res sar with and without autogain
@@ -35,6 +36,7 @@ def extractMetadata():
 	# collect sar data indices into one list
 	sar_ind = low_res_sar_burst + hi_res_sar_burst
 	sbdr_sar = sbdr.iloc[sar_ind]
+	print('Unique Beam Patterns before filtering: '+str(sbdr_sar['BEM'].unique()))
 
 	# filter SAR data for best active points (Alex's #97)
 	# Active Point: active or passive sensor, but only gets when radar when in an active state
@@ -42,7 +44,7 @@ def extractMetadata():
 	#					 tangent the surface at the center of the measurement as an angle CCW from East 
 	#					 (such that N is 90 deg)
 	# ACT_ELLIPSE_PT1_LAT: Latitude of the first point (on major axis) in the ellipse marking the 
-	# 					   ative measurement two way 3-dB gain pattern. 
+	# 					   active measurement two way 3-dB gain pattern. 
 	sbdr_sar = sbdr_sar[sbdr_sar['ACT_AZIMUTH_ANGLE'] != 0]
 	sbdr_sar = sbdr_sar[sbdr_sar['ACT_ELLIPSE_PT1_LAT'] != 0]
 	
@@ -54,23 +56,39 @@ def extractMetadata():
 	beam_3 = [] # DEFINE: Middle subbeam swath with greatest gain
 	beam_4 = [] # DEFINE: Second-largest look angle subbeam
 	beam_5 = [] # DEFINE: Largest look angle subbeam
+
+	print('Unique Beam Patterns used after filtering: '+str(sbdr_sar['BEM'].unique()))
+		
+		
 	for x in sbdr_sar['BEM']:
-		bin_beam = str(bin(x))
-		beam_5.append(bin_beam[0])
-		beam_4.append(bin_beam[1])
-		beam_3.append(bin_beam[2])
-		beam_2.append(bin_beam[3])
-		beam_1.append(bin_beam[4])
+		binx = bin(x)[2:].zfill(2)
+		beam_5.append(binx[0])
+		beam_4.append(binx[1])
+		beam_3.append(binx[2])
+		beam_2.append(binx[3])
+		beam_1.append(binx[4])
+		
+	
+	#beam = sbdr_sar['BEM'].tolist()
+	#print('size of beam',+len(sbdr_sar['BEM']))
+	# convert to integer and sum
+	beam_1 = list(map(int, beam_1))
+	beam_2 = list(map(int, beam_2))
+	beam_3 = list(map(int, beam_3))
+	beam_4 = list(map(int, beam_4))
+	beam_5 = list(map(int, beam_5))
 
-	beam = sbdr_sar['BEM'].tolist()
+	print("# of Bursts with Beam 1: "+str(sum(beam_1)))
+	print("# of Bursts with Beam 2: "+str(sum(beam_2)))
+	print("# of Bursts with Beam 3: "+str(sum(beam_3)))
+	print("# of Bursts with Beam 4: "+str(sum(beam_4)))
+	print("# of Bursts with Beam 5: "+str(sum(beam_5)))
+	print("# of Bursts Total: "+str(len(sbdr_sar['BEM'])))
 
-	mask_1 = [beam_1[i]*beam[i] for i in range(len(beam_5))]
-	print(beam_1[0])
-	print(beam[0])
-	print(mask_1[0])
-
+'''
 	#img_file = "pydar_results/CORADR_0211_V03_S01/BIBQD78S004_D211_T065S01_V03.IMG"
 	#BIDR_FILE = pdr.read(img_file)
 	#print(BIDR_FILE.keys())
 
 	#['.start_burst_num'] and ['.end_burst_num']
+'''
