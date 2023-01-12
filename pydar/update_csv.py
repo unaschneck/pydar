@@ -70,11 +70,14 @@ def csvSwathCoverage():
 
 	# Get all Titan Flybys with most up to date versions
 	coradr_ids = []
+	ids_with_no_bidr = []
 	coradr_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
 	coradr_dataframe = pd.read_csv(coradr_csv_file)
 	for index, row in coradr_dataframe.iterrows():
 		row = row.tolist()
 		if row[1] == True:
+			if row[4] == False: # if is a Titan flyby but "Contains BIDR" is False
+				ids_with_no_bidr.append(row[0])
 			if coradr_ids != []:
 				if coradr_ids[-1].split("_V")[0] in row[0]: # replace the older version with the most recent version
 					coradr_ids[-1] = row[0]
@@ -97,9 +100,8 @@ def csvSwathCoverage():
 					"L":"Number of Looks Map"}
 	resolution_dict = {"B":2, "D":8, "F":32, "G": 64, "H":128, "I":256} #  pixels/degree
 	lbl_information = []
-	no_bidr = ["CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234"] # TODO: collect dynamically, check if has a BIDR when saving
 	for radar_id in coradr_ids:
-		if radar_id not in no_bidr:
+		if radar_id not in ids_with_no_bidr:
 			base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(radar_id)
 			base_html = request.urlopen(base_url).read()
 			soup = BeautifulSoup(base_html, 'html.parser')

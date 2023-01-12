@@ -374,13 +374,10 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
-* collect no_bidr dynamically, check if has a BIDR when saving
 * access flyby information based on latitude longitude (return swath coverage)
-* CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
-* CSV script to be run before each pypi package update by developer not user
-* investigate why swatch_coverage csv only has 'Q' resolution
 * user can select either a time range or a location range to search for flyby id/CORADR ID
 * access flyby for a specific point (with a margin of error)
+* CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)
 
@@ -393,6 +390,7 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ### TODO: Tech Debt
 * use README information to gather files for download (save computing, tech debt)
+* CSV script to be run before each pypi package update by developer not user
 * make README options for .LBL and AAREADME case-insensitive
 * set up constant config file
 * bug fix: "NOTE" in .lbl
