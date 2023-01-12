@@ -60,7 +60,7 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
 	if filetime < x_days_ago:
 		# File it more than X days old
-		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about five minutes):".format(days_between_checking_jpl_website))
+		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about twenty minutes):".format(days_between_checking_jpl_website))
 		'''
 		# BeautifulSoup web scrapping to find observation file number full title
 		logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
@@ -124,13 +124,14 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 
 def retrieveSwathCoverage():
 	# generate swath_coverage_by_time_position.csv
+	# Estimated runtime: 15 minutes
 
 	# Get all Titan Flybys with most up to date versions
 	coradr_ids = []
 	coradr_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
 	coradr_dataframe = pd.read_csv(coradr_csv_file)
 	for index, row in coradr_dataframe.iterrows():
-		row = row.tolist(\)
+		row = row.tolist()
 		if row[1] == True:
 			if coradr_ids != []:
 				if coradr_ids[-1].split("_V")[0] in row[0]: # replace the older version with the most recent version
@@ -140,14 +141,12 @@ def retrieveSwathCoverage():
 			else:
 				coradr_ids.append(row[0])
 
-	print(coradr_ids)
 	# Retrieve a list of all the .lbl for each CORADR ID (different for each resolution)
 	lbl_information = []
 	no_bidr = ["CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234"] # TODO: collect dynamically, check if has a BIDR when saving
 	for radar_id in coradr_ids:
 		if radar_id not in no_bidr:
 			base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(radar_id)
-			print(base_url)
 			base_html = request.urlopen(base_url).read()
 			soup = BeautifulSoup(base_html, 'html.parser')
 			table = soup.find('table', {"id": "indexlist"})
@@ -158,40 +157,49 @@ def retrieveSwathCoverage():
 				if txt.startswith('BI'):
 					filename = (txt.split('/')[0]).split(".")[0]
 					if 'LBL' in (txt.split('/')[0]).split(".")[1]:
+						lbl = []
 						filename += '.LBL'
-						lbl_information.append([radar_id, filename, None, None, None, None, None, None, None, None])
-						# TODO: combine collecting the information with reading? Instead of two for loops (removes the loops below)
-
-	for i, lbl in enumerate(lbl_information):
-		base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(lbl[0], lbl[1])
-		print("Collecting Coverage Infomration[{0}/{1}]: {2}".format(i+1, len(lbl_infomration), base_url))
-		lbl[2] = convertObservationNumberToFlybyID(lbl[0].split("_")[1]
-		with request.urlopen(base_url) as lbl_file:
-			for line in (lbl_file.read().decode("UTF-8")).split("\n"):
-				if "TARGET_NAME" in line:
-					lbl[3] = line.split("=")[1].strip()
-				if "MAXIMUM_LATITUDE" in line:
-					lbl[4] = line.split("=")[1].strip()
-				if "MINIMUM_LATITUDE" in line:
-					lbl[5] = line.split("=")[1].strip()
-				if "EASTERNMOST_LONGITUDE" in line:
-					lbl[6] = line.split("=")[1].strip()
-				if "WESTERNMOST_LONGITUDE" in line:
-					lbl[7] = line.split("=")[1].strip()
-				if "START_TIME" in line:
-					lbl[8] = line.split("=")[1].strip()
-				if "STOP_TIME" in line:
-					lbl[9] = line.split("=")[1].strip()
+						bidr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(radar_id, filename)
+						logger.info("Retrieving LBL information: {0}".format(bidr_url))
+						lbl = [radar_id, None, filename, None, None, None, None, None, None, None, None]
+						lbl[1] = convertObservationNumberToFlybyID(radar_id.split("_")[1])
+						lbl[3] = filename[3] # Resolution
+						with request.urlopen(bidr_url) as lbl_file:
+							for line in (lbl_file.read().decode("UTF-8")).split("\n"):
+								if "TARGET_NAME" in line:
+									lbl[4] = line.split("=")[1].strip()
+								if "MAXIMUM_LATITUDE" in line:
+									max_lat = line.split("=")[1].strip()
+									max_lat = max_lat.split("<")[0] 
+									lbl[5] = max_lat
+								if "MINIMUM_LATITUDE" in line:
+									min_lat = line.split("=")[1].strip()
+									min_lat = min_lat.split("<")[0] 
+									lbl[6] = min_lat
+								if "EASTERNMOST_LONGITUDE" in line:
+									east_long = line.split("=")[1].strip()
+									east_long = east_long.split("<")[0] 
+									lbl[7] = east_long
+								if "WESTERNMOST_LONGITUDE" in line:
+									west_long = line.split("=")[1].strip()
+									west_long = west_long.split("<")[0] 
+									lbl[8] = west_long
+								if "START_TIME" in line:
+									lbl[9] = line.split("=")[1].strip()
+								if "STOP_TIME" in line:
+									lbl[10] = line.split("=")[1].strip()
+							lbl_information.append(lbl)
 
 	# Wrte to CSV
 	header_options = ["CORADR ID",
-					"Flyby ID"
-					"TARGET_NAME",
+					"FLYBY ID",
 					"FILENAME",
-					"MAXIMUM_LATITUDE",
-					"MINIMUM_LATITUDE",
-					"EASTERNMOST_LONGITUDE",
-					"WESTERNMOST_LONGITUDE",
+					"RESOLUTION",
+					"TARGET_NAME",
+					"MAXIMUM_LATITUDE (Degrees)",
+					"MINIMUM_LATITUDE (Degrees)",
+					"EASTERNMOST_LONGITUDE (Degrees)",
+					"WESTERNMOST_LONGITUDE (Degrees)",
 					"START_TIME",
 					"STOP_TIME"
 					]
@@ -338,12 +346,12 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		resolution = None # set default resolution to None if selecting the top x resolutions
 
 	# Error handling:
-	pydar.errorHandlingExtractFlybyDataImages(flyby_observation_num=flyby_observation_num,
-											flyby_id=flyby_id,
-											segment_num=segment_num,
-											additional_data_types_to_download=additional_data_types_to_download,
-											resolution=resolution,
-											top_x_resolutions=top_x_resolutions)
+	#pydar.errorHandlingExtractFlybyDataImages(flyby_observation_num=flyby_observation_num,
+	#										flyby_id=flyby_id,
+	#										segment_num=segment_num,
+	#										additional_data_types_to_download=additional_data_types_to_download,
+	#										resolution=resolution,
+	#										top_x_resolutions=top_x_resolutions)
 
 	logger.info("flyby_observation_num = {0}".format(flyby_observation_num))
 	logger.info("flyby_id = {0}".format(flyby_id))
