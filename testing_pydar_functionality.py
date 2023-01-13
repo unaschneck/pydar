@@ -2,12 +2,12 @@ import pydar
 
 if __name__ == '__main__':
 	# Get swatch coverage based on latitude/longitude, Time, or Feature
-	flyby_ids_name = pydar.retrieveIDSByFeature(feature_name="ligeIa MaRe")
-	print("Flyby IDS based on Feature Name = {0}".format(flyby_ids_name))
-	flyby_ids_lat_long = pydar.retrieveIDSByLatitudeLongitude(latitude=33.3, longitude=33.3, degrees_of_error=None)
+	#flyby_ids_name = pydar.retrieveIDSByFeature(feature_name="ligeIa MaRe")
+	#print("Flyby IDS based on Feature Name = {0}".format(flyby_ids_name))
+	flyby_ids_lat_long = pydar.retrieveIDSByLatitudeLongitude(latitude=25, longitude=25, degrees_of_error=5)
 	print("Flyby IDS based on Latitude/Longitude = {0}".format(flyby_ids_lat_long))
-	flyby_ids_time = pydar.retrieveIDSByTime(timestamp="testing")
-	print("Flyby IDS based on Time = {0}".format(flyby_ids_time))
+	#flyby_ids_time = pydar.retrieveIDSByTime(timestamp="testing")
+	#print("Flyby IDS based on Time = {0}".format(flyby_ids_time))
 
 	# Convert Flby Id into an Observation Number
 	#observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id='T6')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
 	# Read .LBL to console
 	#pydar.returnAllLBLOptions()
-	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
-	#					section_to_print="MAXIMUM_LATITUDE")
+	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
+	#					section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 
 	#pydar.extractMetadata()

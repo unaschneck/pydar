@@ -265,8 +265,12 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 	output_string = ''
 	lbl_file = [i for i in os.listdir(coradr_results_directory) if '.LBL' in i]
 	if len(lbl_file) != 1:
-		logger.critical(".LBL file found = {0}".format(lbl_file))
-		exit() # TODO: error handling to check that .LBL exists
+		if len(lbl_file) == 0:
+			logger.critical("No .LBL file found at {0}".format(coradr_results_directory))
+			exit()
+		if len(lbl_file) > 1:
+			logger.critical("Multiple .LBL file found = {0}, need to choose one to read from".format(lbl_file))
+			exit() # TODO: error handling to check that .LBL exists
 	lbl_file = lbl_file[0]
 
 	logger.debug("section_to_print = {0}".format(section_to_print))

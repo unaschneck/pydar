@@ -359,10 +359,10 @@ readLBLREADME(coradr_results_directory=None,
 ```python
 import pydar
 # Print .LBL README
-pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
+pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
 					section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 ```
-Output = "(0.13498322,0.00221225,-0.99084542)"
+Output = `(0.13498322,0.00221225,-0.99084542)`
 
 To get the sections that are available for printing: returnAllLBLOptions()
 ```python
@@ -374,8 +374,8 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
-* access flyby information based on latitude longitude (return swath coverage) (user can select either a time range or a location range to search for flyby id/CORADR ID with a margin of error)
-* CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
+* access flyby information based on latitude longitude (return swath coverage) 
+* user can select either a time range or a location range to search for flyby id/CORADR ID with a margin of error
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)
 
@@ -384,7 +384,7 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 * save .IMG as an array of pixel values
 * save .IMG as .SHP for ArcGIS
 * project image onto Titan spheriod
-* downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"])
+* downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"]), decide which files to download
 
 ### TODO: Tech Debt
 * use README information to gather files for download (save computing, tech debt)

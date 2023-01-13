@@ -32,7 +32,7 @@ def retrieveIDSByFeature(feature_name=None):
 	pydar.errorHandlingRetrieveIDSByFeature(feature_name=feature_name)
 
 	feature_name_list, swatch_flyby = sarCoverageFromCSV()
-	feature_name = feature_name.title() # convert 'ligeria mare' to 'Ligeria Mare'
+	feature_name = feature_name.title() # convert 'ligeria mare' to 'Ligeria Mare' to make input not sensitive to case
 
 	if feature_name not in feature_name_list:
 		logger.critical("Feature Name '{0}' not in available in features list = {1}".format(feature_name, feature_name_list))
@@ -43,18 +43,30 @@ def retrieveIDSByFeature(feature_name=None):
 
 	return flyby_ids
 
-def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None, degrees_of_error=None):
+def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None, degrees_of_error=0):
 	pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude, longitude=longitude, degrees_of_error=degrees_of_error)
 
 	logger.info("Latitude = {0}, Longitude = {1}, Degrees of Error = {2}".format(latitude, longitude, degrees_of_error))
 
+	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'sar_swath_details.csv')  # get file's directory, up one level, /data/*.csv
+	swath_dataframe = pd.read_csv(swath_csv_file)
+
 	flyby_ids = []
+
+	for index, row in swath_dataframe.iterrows():
+		if float(row['MIN – WEST LONGITUDE (DEG)']) <= longitude <= float(row['MAX – WEST LONGITUDE (DEG)']):
+			if float(row['MIN – LATITUDE (DEG)']) <= latitude <= float(row['MAX – LATITUDE (DEG)']):
+				flyby_ids.append('T' + row["SWATH"])
+
+	if len(flyby_ids) == 0:
+		logger.info("\n[WARNING]: No flyby IDs found at latitude {0} and longitude {1}\n".format(latitude, longitude))
+
 	return flyby_ids
 
 def retrieveIDSByTime(timestamp=None):
 	pydar.errorHandlingRetrieveIDSByTime(timestamp=timestamp)
 
-	logger.info("Timestamp = {0}".format(timestamp))
+	logger.info("TODO: Timestamp = {0}".format(timestamp))
 
 	flyby_ids = []
 	return flyby_ids
