@@ -169,7 +169,7 @@ def errorHandlingREADME(coradr_results_directory=None,
 
 def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 												longitude=None,
-												degrees_of_error=0):
+												degrees_of_error=None):
 	if type(latitude) != float and type(longitude) != int:
 		logger.critical("\nCRITICAL ERROR, [latitude]: Must be a float or int, current type = '{0}'".format(type(latitude)))
 		exit()

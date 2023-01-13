@@ -376,6 +376,7 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 ### TODO Code:
 * return the max/min latitude/longitude for each swath and segment as a user function from sar_swath_detail.csv
 * use max/min lat/long to check results from retrieveIDSByLatitudeLongitude()
+* how to save flyby_id: 'T86 S01' or 'T86seg1'?
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)
 

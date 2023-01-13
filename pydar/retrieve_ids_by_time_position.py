@@ -65,7 +65,7 @@ def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None, degrees_of_err
 			for latitude in latitude_range:
 				if float(row['MIN – WEST LONGITUDE (DEG)']) <= longitude <= float(row['MAX – WEST LONGITUDE (DEG)']):
 					if float(row['MIN – LATITUDE (DEG)']) <= latitude <= float(row['MAX – LATITUDE (DEG)']):
-						flyby = 'T' + row["SWATH"] + "seg0" + str(row["SEGMENT"])
+						flyby = 'T' + row["SWATH"] + "seg" + str(row["SEGMENT"])
 						if flyby not in flyby_ids:
 							flyby_ids.append(flyby)
 

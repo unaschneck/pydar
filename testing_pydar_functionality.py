@@ -2,8 +2,8 @@ import pydar
 
 if __name__ == '__main__':
 	# Get swatch coverage based on latitude/longitude, Time, or Feature
-	#flyby_ids_name = pydar.retrieveIDSByFeature(feature_name="ligeIa MaRe")
-	#print("Flyby IDS based on Feature Name = {0}".format(flyby_ids_name))
+	flyby_ids_name = pydar.retrieveIDSByFeature(feature_name="Belet")
+	print("Flyby IDS based on Feature Name = {0}".format(flyby_ids_name))
 	flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=25, longitude=25, degrees_of_error=1)
 	print("Flyby IDS based on Latitude/Longitude = {0}".format(flyby_ids_with_segments))
 	#flyby_ids_time = pydar.retrieveIDSByTime(timestamp="testing")
