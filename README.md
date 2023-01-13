@@ -374,9 +374,7 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
-* access flyby information based on latitude longitude (return swath coverage)
-* user can select either a time range or a location range to search for flyby id/CORADR ID
-* access flyby for a specific point (with a margin of error)
+* access flyby information based on latitude longitude (return swath coverage) (user can select either a time range or a location range to search for flyby id/CORADR ID with a margin of error)
 * CSV from handbook: SAR Swath Details (Appendix 4, pg. 136-139) - sar_swatch_details.csv
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)
