@@ -190,7 +190,8 @@ def csvFeatureNameDetails():
 		feature_link = link.get('href')
 		if feature_link is not None:
 			if feature_link.startswith("/Feature/"):
-				ahref_lst.append(feature_link)
+				if feature_link != "/Feature/7014": # ignore a dropped column for 'Sotra Facula'
+					ahref_lst.append(feature_link)
 
 	feature_options = []
 	base_url = "https://planetarynames.wr.usgs.gov"

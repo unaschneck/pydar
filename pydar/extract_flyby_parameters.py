@@ -238,7 +238,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about twenty minutes):".format(days_between_checking_jpl_website))
 		pydar.csvCORADRJPLOptions() # coradr_jpl_options.csv
 		pydar.csvSwathCoverage() # swath_coverage_by_time_position.csv
-		pydar.csvFeatureNameDetails(): #feature_name_details.csv
+		pydar.csvFeatureNameDetails() #feature_name_details.csv
 
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
