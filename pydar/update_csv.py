@@ -117,41 +117,43 @@ def csvSwathCoverage():
 						filename += '.LBL'
 						bidr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(radar_id, filename)
 						logger.info("Retrieving LBL information: {0}".format(bidr_url))
-						lbl = [radar_id, None, None, None, None, None, None, None, None, None, None, None, None]
+						lbl = [radar_id, None, None, None, None, None, None, None, None, None, None, None, None, None]
 						lbl[1] = pydar.convertObservationNumberToFlybyID(radar_id.split("_")[1])
-						lbl[2] = filename
-						lbl[3] = filename[2] # Data Type
-						lbl[4] = data_type_dict[filename[2]] # Data Type
-						lbl[5] = resolution_dict[filename[4]] # Resolution
+						lbl[2] = (filename.split("_")[2]).split("S")[1] # Segment Number
+						lbl[3] = filename
+						lbl[4] = filename[2] # Data Type
+						lbl[5] = data_type_dict[filename[2]] # Data Type, with full title
+						lbl[6] = resolution_dict[filename[4]] # Resolution
 						with request.urlopen(bidr_url) as lbl_file:
 							for line in (lbl_file.read().decode("UTF-8")).split("\n"):
 								if "TARGET_NAME" in line:
-									lbl[6] = line.split("=")[1].strip()
+									lbl[7] = line.split("=")[1].strip()
 								if "MAXIMUM_LATITUDE" in line:
 									max_lat = line.split("=")[1].strip()
 									max_lat = max_lat.split("<")[0] 
-									lbl[7] = max_lat
+									lbl[8] = max_lat
 								if "MINIMUM_LATITUDE" in line:
 									min_lat = line.split("=")[1].strip()
 									min_lat = min_lat.split("<")[0] 
-									lbl[8] = min_lat
+									lbl[9] = min_lat
 								if "EASTERNMOST_LONGITUDE" in line:
 									east_long = line.split("=")[1].strip()
 									east_long = east_long.split("<")[0] 
-									lbl[9] = east_long
+									lbl[10] = east_long
 								if "WESTERNMOST_LONGITUDE" in line:
 									west_long = line.split("=")[1].strip()
 									west_long = west_long.split("<")[0] 
-									lbl[10] = west_long
+									lbl[11] = west_long
 								if "START_TIME" in line:
-									lbl[11] = line.split("=")[1].strip()
-								if "STOP_TIME" in line:
 									lbl[12] = line.split("=")[1].strip()
+								if "STOP_TIME" in line:
+									lbl[13] = line.split("=")[1].strip()
 							lbl_information.append(lbl)
 
 	# Wrte to CSV
 	header_options = ["CORADR ID",
 					"FLYBY ID",
+					"SEGMENT NUMBER",
 					"FILENAME",
 					"DATE TYPE SYMBOL",
 					"DATE TYPE",
