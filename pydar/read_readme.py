@@ -104,8 +104,6 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 			if within_readme_section:
 				if 'OBJECT' not in line and 'END' not in line:
 					output_string += line
-				else:
-					print("False")
 
 	output_string = output_string.rstrip()
 

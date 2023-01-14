@@ -374,6 +374,8 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 
 ## TODO:
 ### TODO Code:
+* variable name: longtidue -> west_longitude (since all values are relative to west, no east) where 355 W = 5 E
+* segments will be less than 99 (default to 1 - 01 is the primary imaging)
 * return the max/min latitude/longitude for each swath and segment as a user function from sar_swath_detail.csv
 * use max/min lat/long to check results from retrieveIDSByLatitudeLongitude()
 * how to save flyby_id: 'T86 S01' or 'T86seg1'?
@@ -381,6 +383,8 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 * progress bars print to command line (still downloading...)
 
 ### TODO Questions:
+* get longitude values when greater than 180 (everything is relative to west)
+* add details for what a segement_num is
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * save .IMG as .SHP for ArcGIS
