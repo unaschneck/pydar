@@ -25,6 +25,7 @@ from .read_readme import readLBLREADME
 # update_csv.py function calls
 from .update_csv import csvCORADRJPLOptions
 from .update_csv import csvSwathCoverage
+from .update_csv import csvFeatureNameDetails
 
 # retrieve_ids_by_time_position.py function calls
 from .retrieve_ids_by_time_position import retrieveIDSByFeature

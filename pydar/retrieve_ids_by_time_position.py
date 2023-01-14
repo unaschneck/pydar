@@ -18,7 +18,7 @@ def sarCoverageFromCSV():
 	feature_name_list = []
 	swatch_flyby = []
 
-	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'sar_coverage_by_feature_name.csv')  # get file's directory, up one level, /data/*.csv
+	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 
 	for index, row in flyby_dataframe.iterrows():
@@ -56,9 +56,9 @@ def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None, degrees_of_err
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID']) + "seg" + str(row["SEGMENT NUMBER"])
 		if flyby not in flyby_ids:
-			#print("{0}seg{1} = {2}".format(str(row['FLYBY ID']), str(row["SEGMENT NUMBER"]), str(row["FILENAME"])))
-			#logger.info("Longitude: {0} <= {1} <= {2} = {3}".format(float(row['WESTERNMOST_LONGITUDE (Degrees)'])-degrees_of_error, longitude, float(row['EASTERNMOST_LONGITUDE (Degrees)'])+degrees_of_error, float(row['WESTERNMOST_LONGITUDE (Degrees)']) - degrees_of_error <= longitude <= float(row['EASTERNMOST_LONGITUDE (Degrees)']) + degrees_of_error))
-			#logger.info("Latitude: {0} <= {1} <= {2} = {3}".format(float(row['MINIMUM_LATITUDE (Degrees)'])-degrees_of_error, latitude, float(row['MAXIMUM_LATITUDE (Degrees)'])+degrees_of_error, float(row['MINIMUM_LATITUDE (Degrees)']) - degrees_of_error <= latitude <= float(row['MAXIMUM_LATITUDE (Degrees)']) + degrees_of_error))
+			logger.debug("{0}seg{1} = {2}".format(str(row['FLYBY ID']), str(row["SEGMENT NUMBER"]), str(row["FILENAME"])))
+			logger.debug("Longitude: {0} <= {1} <= {2} = {3}".format(float(row['WESTERNMOST_LONGITUDE (Degrees)'])-degrees_of_error, longitude, float(row['EASTERNMOST_LONGITUDE (Degrees)'])+degrees_of_error, float(row['WESTERNMOST_LONGITUDE (Degrees)']) - degrees_of_error <= longitude <= float(row['EASTERNMOST_LONGITUDE (Degrees)']) + degrees_of_error))
+			logger.debug("Latitude: {0} <= {1} <= {2} = {3}".format(float(row['MINIMUM_LATITUDE (Degrees)'])-degrees_of_error, latitude, float(row['MAXIMUM_LATITUDE (Degrees)'])+degrees_of_error, float(row['MINIMUM_LATITUDE (Degrees)']) - degrees_of_error <= latitude <= float(row['MAXIMUM_LATITUDE (Degrees)']) + degrees_of_error))
 			if float(row['WESTERNMOST_LONGITUDE (Degrees)']) - degrees_of_error <= longitude <= float(row['EASTERNMOST_LONGITUDE (Degrees)']) + degrees_of_error:
 				if float(row['MINIMUM_LATITUDE (Degrees)']) - degrees_of_error <= latitude <= float(row['MAXIMUM_LATITUDE (Degrees)']) + degrees_of_error:
 					flyby_ids.append(flyby)

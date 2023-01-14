@@ -181,6 +181,12 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
 ## Documentation
 
+## Data Files
+
+**feature_name_details.csv**
+
+List of Features on Titan with names with their associated position and the origin of their name. Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/Feature/6981)
+
 ## SBDR Files
 [SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
 
@@ -376,8 +382,6 @@ Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND U
 ### TODO Code:
 * variable name: longtidue -> west_longitude (since all values are relative to west, no east) where 355 W = 5 E
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
-* return the max/min latitude/longitude for each swath and segment as a user function from sar_swath_detail.csv
-* use max/min lat/long to check results from retrieveIDSByLatitudeLongitude()
 * how to save flyby_id: 'T86 S01' or 'T86seg1'?
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)

@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -169,3 +170,68 @@ def csvSwathCoverage():
 	df = pd.DataFrame(lbl_information, columns=header_options)
 	df = df.sort_values(by=["CORADR ID"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv'), header=header_options, index=False)
+
+def csvFeatureNameDetails():
+	# runs to access the most up to date optiosn from the JPL webpage
+	# Generate: feature_name_details.csv
+	# Estimated runtime: 3 minutes
+
+	# BeautifulSoup web scrapping to find observation file number full title
+	logger.info("Refreshing: feature_name_details.csv")
+	logger.info("Retrieving observation information from https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan....")
+	titan_root_url = "https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan"
+	titan_html = request.urlopen(titan_root_url).read()
+	soup = BeautifulSoup(titan_html, 'html.parser')
+	#table_feature_names = soup.find_all("td", {"class":"featureNameColumn"})
+	#feature_name_lst = [feature_name.text.strip() for feature_name in table_feature_names]
+	ahref_feature_names = soup.findAll('a')
+	ahref_lst = []
+	for link in ahref_feature_names:
+		feature_link = link.get('href')
+		if feature_link is not None:
+			if feature_link.startswith("/Feature/"):
+				ahref_lst.append(feature_link)
+
+	feature_options = []
+	base_url = "https://planetarynames.wr.usgs.gov"
+	for i, feature_ahref in enumerate(ahref_lst):
+		feature_html = request.urlopen(base_url + feature_ahref)
+		logger.info("[{0}/{1}] Retrieving: {2}".format(i, len(ahref_lst), base_url + feature_ahref))
+		soup = BeautifulSoup(feature_html, 'html.parser')
+		table = soup.find("div", {"id":"layout_content_wrapper"})
+		tr = table.find_all("tr")
+		feature_object = [None, None, None, None, None, None, None, None]
+		for i in tr:
+			feature_row = ((i.text).lstrip()).split("\n")
+			feature_row = [f.strip() for f in feature_row if f != '' and re.search('[a-zA-Z-?\d+]', f)]
+			if len(feature_row) == 2:
+				if feature_row[0] == "Feature Name":
+					feature_object[0] = feature_row[1]
+				if feature_row[0] == "Northernmost Latitude":
+					feature_object[1] = feature_row[1].split(" ")[0]
+				if feature_row[0] == "Southernmost Latitude":
+					feature_object[2] = feature_row[1].split(" ")[0]
+				if feature_row[0] == "Easternmost Longitude":
+					feature_object[3] = feature_row[1].split(" ")[0]
+				if feature_row[0] == "Westernmost Longitude":
+					feature_object[4] = feature_row[1].split(" ")[0]
+				if feature_row[0] == "Center Latitude":
+					feature_object[5] = feature_row[1].split(" ")[0]
+				if feature_row[0] == "Center Longitude":
+					feature_object[6] = feature_row[1].split(" ")[0]
+				if feature_row[0] == "Origin":
+					feature_object[7] = feature_row[1]
+		feature_options.append(feature_object)
+
+	# Wrte to CSV
+	header_options = ['Feature Name', 
+					'Northernmost Latitude',
+					'Southernmost Latitude',
+					'Easternmost Longitude',
+					'Westernmost Longitude',
+					'Center Latitude',
+					'Center Longitude', 
+					'Origin']
+	df = pd.DataFrame(feature_options, columns=header_options)
+	df = df.sort_values(by=["Feature Name"])
+	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv'), header=header_options, index=False)
