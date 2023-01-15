@@ -197,7 +197,7 @@ def csvFeatureNameDetails():
 	base_url = "https://planetarynames.wr.usgs.gov"
 	for i, feature_ahref in enumerate(ahref_lst):
 		feature_html = request.urlopen(base_url + feature_ahref)
-		logger.info("[{0}/{1}] Retrieving: {2}".format(i, len(ahref_lst), base_url + feature_ahref))
+		logger.info("[{0}/{1}] Retrieving: {2}".format(i+1, len(ahref_lst), base_url + feature_ahref))
 		soup = BeautifulSoup(feature_html, 'html.parser')
 		table = soup.find("div", {"id":"layout_content_wrapper"})
 		tr = table.find_all("tr")
@@ -224,6 +224,16 @@ def csvFeatureNameDetails():
 					feature_object[7] = feature_row[1]
 		feature_options.append(feature_object)
 
+	huygens_landing_site = ["Huygens Landing Site", 
+							"-10.576",
+							"-10.576",
+							"167.547",
+							"167.547",
+							"-10.576",
+							"167.547",
+							"where the Huygens probe landed east Adiri"]
+	feature_options.append(huygens_landing_site) # Add Huygens landing site manually
+
 	# Wrte to CSV
 	header_options = ['Feature Name', 
 					'Northernmost Latitude',
@@ -232,7 +242,7 @@ def csvFeatureNameDetails():
 					'Westernmost Longitude',
 					'Center Latitude',
 					'Center Longitude', 
-					'Origin']
+					'Origin of Name']
 	df = pd.DataFrame(feature_options, columns=header_options)
 	df = df.sort_values(by=["Feature Name"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv'), header=header_options, index=False)
