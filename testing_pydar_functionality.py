@@ -1,10 +1,11 @@
 import pydar
 
 if __name__ == '__main__':
-	# Get swatch coverage based on latitude/longitude, Time, or Feature
-	pydar.csvFeatureNameDetails()
-	#flyby_ids_name = pydar.retrieveIDSByFeature(feature_name="Ontario Lacus")
-	#print("Flyby IDS based on Feature Name = {0}".format(flyby_ids_name))
+	## Get swatch coverage based on latitude/longitude, Time, or Feature
+	#pydar.csvFeatureNameDetails()
+	feature_name = "oNtaRio LaCus"
+	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+	print("Flyby IDS based on Feature Name '{0}' = {1}".format(feature_name.title(), flyby_ids_name))
 	#flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=-72, longitude=177, degrees_of_error=21)
 	#print("Flyby IDS based on Latitude/Longitude = {0}".format(flyby_ids_with_segments))
 	#flyby_ids_time = pydar.retrieveIDSByTime(timestamp="testing")
