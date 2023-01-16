@@ -81,7 +81,11 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 					flyby_ids.append(flyby)
 
 	if len(flyby_ids) == 0:
-		logger.info("\n[WARNING]: No flyby IDs found at latitude {0} and longitude {1}\n".format(latitude, longitude))
+		logger.info("\n[WARNING]: No flyby IDs found at latitude from {0} N to {1} S and longitude from {2} W to {3} E\n".format(northernmost_latitude,
+																																southernmost_latitude,
+																																westernmost_longitude,
+																																easternmost_longitude))
+		exit()
 
 	return flyby_ids
 

@@ -30,6 +30,7 @@ from .update_csv import csvFeatureNameDetails
 # retrieve_ids_by_time_position.py function calls
 from .retrieve_ids_by_time_position import retrieveIDSByFeatureName
 from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitude
+from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitudeRange
 from .retrieve_ids_by_time_position import retrieveIDSByTime
 
 # error_handling.py function calls for testing

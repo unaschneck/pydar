@@ -202,6 +202,15 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 		logger.critical("\nCRITICAL ERROR, [westernmost_longitude]: Must be a float or int, current type = '{0}'".format(type(westernmost_longitude)))
 		exit()
 
+	if northernmost_latitude < southernmost_latitude:
+		logger.critical("\nCRITICAL ERROR, [latitude]: northernmost_latitude must be greater than southernmost_latitude")
+		exit()
+
+	if westernmost_longitude < easternmost_longitude:
+		logger.critical("\nCRITICAL ERROR, [longitude]: westernmost_longitude must be greater than easternmost_longitude")
+		exit()
+
+
 def errorHandlingRetrieveIDSByTime(timestamp=None):
 	if type(timestamp) != str:
 		logger.critical("\nCRITICAL ERROR, [timestamp]: Must be a str, current type = '{0}'".format(type(timestamp)))
