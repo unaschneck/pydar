@@ -395,7 +395,7 @@ List of valid feature names: ['Aaru', 'Abaya Lacus', 'Adiri', 'Afekan', 'Akmena 
 import pydar
 pydar.retrieveIDSByFeatureName(feature_name="Ontario Lacus)
 ```
-Output = `['T36seg3', 'T39seg6', 'T39seg5', 'T39seg1', 'T39seg4', 'T48seg4', 'T49seg1', 'T50seg2', 'T55seg1', 'T55seg3', 'T56seg1', 'T57seg1', 'T57seg2', 'T58seg1', 'T59seg1', 'T65seg4', 'T65seg1', 'T65seg5', 'T65seg2', 'T65seg3', 'T71seg1', 'T95seg3', 'T98seg1', 'T98seg4']`
+Output = `{'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
 **retrieveIDSByLatitudeLongitude**
 
@@ -411,7 +411,7 @@ retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
 import pydar
 pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
 ```
-Output = `['T19seg1', 'T29seg1', 'T55seg1', 'T56seg1', 'T57seg1', 'T58seg1', 'T64seg1', 'T83seg2', 'T84seg2', 'T92seg1', 'T98seg2', 'T104seg1']`
+Output = `{'T19': ['S01'], 'T29': ['S01'], 'T55': ['S01'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T64': ['S01'], 'T83': ['S02'], 'T84': ['S02'], 'T92': ['S01'], 'T98': ['S02'], 'T104': ['S01']}`
 
 **retrieveIDSByLatitudeLongitudeRange**
 
@@ -432,13 +432,11 @@ retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=15,
 				easternmost_longitude=12,
 				westernmost_longitude=17)
 ```
-Output = `['T19seg1', 'T29seg1', 'T55seg1', 'T56seg1', 'T57seg1', 'T64seg1', 'T83seg2', 'T84seg2', 'T92seg1', 'T98seg2', 'T104seg1']`
+Output = `{'T19': ['S01'], 'T29': ['S01'], 'T55': ['S01'], 'T56': ['S01'], 'T57': ['S01'], 'T64': ['S01'], 'T83': ['S02'], 'T84': ['S02'], 'T92': ['S01'], 'T98': ['S02'], 'T104': ['S01']}`
 
 ## TODO:
 ### TODO Code:
-* variable name: longtidue -> west_longitude (since all values are relative to west, no east) where 355 W = 5 E
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
-* how to save flyby_id: 'T86 S01' or 'T86seg1'?
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)
 

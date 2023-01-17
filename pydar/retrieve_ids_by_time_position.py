@@ -72,13 +72,16 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
-	flyby_ids = []
+	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
 	for index, row in swath_dataframe.iterrows():
-		flyby = str(row['FLYBY ID']) + "seg" + str(row["SEGMENT NUMBER"])
-		if flyby not in flyby_ids:
-			if float(row["MINIMUM_LATITUDE (Degrees)"]) <= southernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= northernmost_latitude:
-				if float(row["EASTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude and float(row["WESTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude:
-					flyby_ids.append(flyby)
+		flyby = str(row['FLYBY ID'])
+		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= southernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= northernmost_latitude:
+			if float(row["EASTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude and float(row["WESTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude:
+				if flyby not in flyby_ids.keys():
+					flyby_ids[flyby] = []
+				segment_number = "S0" + str(row["SEGMENT NUMBER"])
+				if segment_number not in flyby_ids[flyby]:
+					flyby_ids[flyby].append(segment_number)
 
 	if len(flyby_ids) == 0:
 		logger.info("\n[WARNING]: No flyby IDs found at latitude from {0} N to {1} S and longitude from {2} W to {3} E\n".format(northernmost_latitude,
