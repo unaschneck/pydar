@@ -172,9 +172,9 @@ def errorHandlingRetrieveIDSByFeature(feature_name=None):
 		logger.critical("\nCRITICAL ERROR, [feature_name]: Must be a str, current type = '{0}'".format(type(feature_name)))
 		exit()
 
-def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
-												longitude=None):
-	if type(latitude) != float and type(longitude) != int:
+def errorHandlingRetrieveByLatitudeLongitude(latitude=None,
+											longitude=None):
+	if type(latitude) != float and type(latitude) != int:
 		logger.critical("\nCRITICAL ERROR, [latitude]: Must be a float or int, current type = '{0}'".format(type(latitude)))
 		exit()
 
@@ -182,10 +182,10 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 		logger.critical("\nCRITICAL ERROR, [longitude]: Must be a float or int, current type = '{0}'".format(type(longitude)))
 		exit()
 
-def errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
-													southernmost_latitude=None,
-													easternmost_longitude=None,
-													westernmost_longitude=None):
+def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
+												southernmost_latitude=None,
+												easternmost_longitude=None,
+												westernmost_longitude=None):
 	if type(northernmost_latitude) != float and type(northernmost_latitude) != int:
 		logger.critical("\nCRITICAL ERROR, [northernmost_latitude]: Must be a float or int, current type = '{0}'".format(type(northernmost_latitude)))
 		exit()

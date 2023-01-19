@@ -1,4 +1,4 @@
-# Retrieve Flby Observation and IDs based on Latitude/Longitude or Time
+# Retrieve Flyby Observation and IDs based on Feature Name, Latitude/Longitude or Time
 import logging
 import math
 import os
@@ -50,7 +50,7 @@ def retrieveIDSByFeatureName(feature_name=None):
 
 def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
 	# Retrieve all FLyby Ids at a specific latitude/longitude
-	pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude, longitude=longitude)
+	pydar.errorHandlingRetrieveByLatitudeLongitude(latitude=latitude, longitude=longitude)
 
 	# Runs range check, but the range is 0 for an exact spot
 	flyby_ids = retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=latitude,
@@ -64,7 +64,7 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 										easternmost_longitude=None,
 										westernmost_longitude=None):
 	# Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
-	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
+	pydar.errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
 														southernmost_latitude=southernmost_latitude,
 														easternmost_longitude=easternmost_longitude,
 														westernmost_longitude=westernmost_longitude)
@@ -93,9 +93,49 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	return flyby_ids
 
 def retrieveIDSByTime(timestamp=None):
+	# TODO: TODO
 	pydar.errorHandlingRetrieveIDSByTime(timestamp=timestamp)
 
 	logger.info("TODO: Timestamp = {0}".format(timestamp))
 
 	flyby_ids = []
 	return flyby_ids
+
+def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
+	# Retrieve all Feature Names that at a specific latitude/longitude
+	pydar.errorHandlingRetrieveByLatitudeLongitude(latitude=latitude, longitude=longitude)
+
+	# Runs range check, but the range is 0 for an exact spot
+	feature_names_list = retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=latitude,
+																	southernmost_latitude=latitude,
+																	easternmost_longitude=longitude,
+																	westernmost_longitude=longitude)
+	return feature_names_list
+
+
+def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
+												southernmost_latitude=None,
+												easternmost_longitude=None,
+												westernmost_longitude=None):
+	# Retrieve all Feature Names that are within a range of latitude/longitude
+	pydar.errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
+														southernmost_latitude=southernmost_latitude,
+														easternmost_longitude=easternmost_longitude,
+														westernmost_longitude=westernmost_longitude)
+
+	feature_name_csv_dict = latitudeLongitudeWithFeatureNameFromCSV()
+	feature_names_list = []
+
+	for feature_name, position_dict in feature_name_csv_dict.items():
+		if float(position_dict["Southernmost Latitude"]) >= southernmost_latitude and float(position_dict["Northernmost Latitude"]) <= northernmost_latitude:
+			if float(position_dict["Easternmost Longitude"]) >= easternmost_longitude and float(position_dict["Westernmost Longitude"]) <= westernmost_longitude:
+				feature_names_list.append(feature_name)
+
+	if len(feature_names_list) == 0:
+		logger.info("\n[WARNING]: No Features found at latitude from {0} N to {1} S and longitude from {2} W to {3} E\n".format(northernmost_latitude,
+																																southernmost_latitude,
+																																westernmost_longitude,
+																																easternmost_longitude))
+		exit()
+
+	return feature_names_list

@@ -15,6 +15,13 @@ if __name__ == '__main__':
 	#print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 	#flyby_ids_time = pydar.retrieveIDSByTime(timestamp="testing")
 	#print("Flyby IDS based on Time = {0}".format(flyby_ids_time))
+	feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
+	print("Feature Names Found at -72 latitude and 183 longitude = {0}".format(feature_names_list))
+	feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
+																southernmost_latitude=-80,
+																easternmost_longitude=339,
+																westernmost_longitude=341)
+	print("Feature Names Found in Latitude/Longitude Range = {0}".format(feature_names_list))
 
 	# Bug: 
 
@@ -42,4 +49,4 @@ if __name__ == '__main__':
 	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
 	#					section_to_print="LOOK_DIRECTION")
 
-	pydar.extractMetadata()
+	#pydar.extractMetadata()

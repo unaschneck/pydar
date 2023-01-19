@@ -447,9 +447,49 @@ pydar.returnAllLBLOptions()
 ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES', 'POINTERS TO START RECORDS OF OBJECTS IN FILE', 'DESCRIPTION OF OBJECTS CONTAINED IN FILE']
 </details>
 
+**retrieveFeaturesFromLatitudeLongitude**
+
+Return a list of features found at a specific latitude/longitude position
+
+```
+retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None)
+```
+* **[REQUIRED]** latitude (float/int): Latitude (in degrees) where North = + and South = -
+* **[REQUIRED]** longitude (float/int): Longitude (in degrees) where West = + and East = -
+
+```python
+import pydar
+feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
+```
+
+feature_names_list = `['Ontario Lacus']`
+
+**retrieveFeaturesFromLatitudeLongitudeRange**
+
+```
+retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
+										southernmost_latitude=None,
+										easternmost_longitude=None,
+										westernmost_longitude=None)
+```
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, north must be greater than or equal to the south
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, south must be less than or euqal to the north
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West = + and East = -, west must be less than or equal to the east
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where West = + and East = -, east must be greater than or equal to the west
+
+```python
+import pydar
+feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
+																southernmost_latitude=-80,
+																easternmost_longitude=339,
+																westernmost_longitude=341)
+```
+feature_names_list = `['Aaru', 'Rossak Planitia']`
+
 ## TODO:
 ### TODO Code:
 * function to return all valid feature names based on a specific or a range of lat/long
+* retrieveIDSByTime()
 * add a colored outline around a feature when displaying as a 2D image
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
 * README for all the functions and their sections
