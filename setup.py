@@ -3,8 +3,8 @@
 # Python Package Setup
 from setuptools import setup, find_namespace_packages
 
-VERSION="0.0.2"
-DESCRIPTION="A Python package for access and manipulation of Cassini RADAR images"
+VERSION="0.1.0"
+DESCRIPTION="A Python package to access, download, view, and manipulate Cassini RADAR images"
 
 with open("README.md", "r") as f:
 	long_description_readme = f.read()
