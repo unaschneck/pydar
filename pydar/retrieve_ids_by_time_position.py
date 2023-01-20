@@ -92,13 +92,33 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 
 	return flyby_ids
 
-def retrieveIDSByTime(timestamp=None):
-	# TODO: TODO
-	pydar.errorHandlingRetrieveIDSByTime(timestamp=timestamp)
+def retrieveIDSByTime(year=None, month=None, day=None, hour=0, minute=0, second=0, millisecond=0):
+	# TODO: Retrieve Flyby IDs based on a Timestamp
+	pydar.errorHandlingRetrieveIDSByTime(year=year, month=month, day=day, hour=hour, minute=minute, second=second, millisecond=millisecond)
 
-	logger.info("TODO: Timestamp = {0}".format(timestamp))
+	logger.info("TODO: {0} year, {1} month, {2} day, {3} hour, {4} minute, {5} second, {6} millisecond".format(year,
+																											month,
+																											day,
+																											hour,
+																											minute,
+																											second,
+																											millisecond))
 
-	flyby_ids = []
+	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
+	swath_dataframe = pd.read_csv(swath_csv_file)
+
+	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
+	for index, row in swath_dataframe.iterrows():
+		flyby = str(row['FLYBY ID'])
+		'''
+		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= southernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= northernmost_latitude:
+			if flyby not in flyby_ids.keys():
+				flyby_ids[flyby] = []
+			segment_number = "S0" + str(row["SEGMENT NUMBER"])
+			if segment_number not in flyby_ids[flyby]:
+				flyby_ids[flyby].append(segment_number)
+		'''
+
 	return flyby_ids
 
 def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):

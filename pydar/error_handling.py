@@ -211,8 +211,31 @@ def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
 		exit()
 
 
-def errorHandlingRetrieveIDSByTime(timestamp=None):
-	if type(timestamp) != str:
-		logger.critical("\nCRITICAL ERROR, [timestamp]: Must be a str, current type = '{0}'".format(type(timestamp)))
+def errorHandlingRetrieveIDSByTime(year=None, month=None, day=None, hour=0, minute=0, second=0, millisecond=0):
+	if type(year) != float and type(year) != int:
+		logger.critical("\nCRITICAL ERROR, [year]: Must be a float or int, current type = '{0}'".format(type(year)))
 		exit()
 
+	if type(month) != float and type(month) != int:
+		logger.critical("\nCRITICAL ERROR, [month]: Must be a float or int, current type = '{0}'".format(type(month)))
+		exit()
+
+	if type(day) != float and type(day) != int:
+		logger.critical("\nCRITICAL ERROR, [day]: Must be a float or int, current type = '{0}'".format(type(day)))
+		exit()
+
+	if type(hour) != float and type(hour) != int:
+		logger.critical("\nCRITICAL ERROR, [hour]: Must be a float or int, current type = '{0}'".format(type(hour)))
+		exit()
+
+	if type(minute) != float and type(minute) != int:
+		logger.critical("\nCRITICAL ERROR, [minute]: Must be a float or int, current type = '{0}'".format(type(minute)))
+		exit()
+
+	if type(second) != float and type(second) != int:
+		logger.critical("\nCRITICAL ERROR, [second]: Must be a float or int, current type = '{0}'".format(type(second)))
+		exit()
+
+	if type(millisecond) != float and type(millisecond) != int:
+		logger.critical("\nCRITICAL ERROR, [millisecond]: Must be a float or int, current type = '{0}'".format(type(millisecond)))
+		exit()

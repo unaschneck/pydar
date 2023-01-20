@@ -488,14 +488,14 @@ feature_names_list = `['Aaru', 'Rossak Planitia']`
 
 ## TODO:
 ### TODO Code:
-* function to return all valid feature names based on a specific or a range of lat/long
-* retrieveIDSByTime()
+* retrieveIDSByTime() based on time or time range
 * add a colored outline around a feature when displaying as a 2D image
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
 * README for all the functions and their sections
 * progress bars print to command line (still downloading...)
 
 ### TODO Questions:
+* what is the timestamp for start/stop time: "2005-301T03:53:56.971" format? YYYY-MDDTHH:MM:SS.mms?
 * get longitude values when greater than 180 (everything is relative to west)
 * add details for what a segement_num is
 * associate burst ID from SBDR data to BIDR data for metadata
