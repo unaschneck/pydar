@@ -211,31 +211,51 @@ def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
 		exit()
 
 
-def errorHandlingRetrieveIDSByTime(year=None, month=None, day=None, hour=0, minute=0, second=0, millisecond=0):
-	if type(year) != float and type(year) != int:
-		logger.critical("\nCRITICAL ERROR, [year]: Must be a float or int, current type = '{0}'".format(type(year)))
+def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, millisecond=0):
+	if year == None:
+		logger.critical("\nCRITICAL ERROR, [year]: year is required")
+		exit()
+	if type(year) != int:
+		logger.critical("\nCRITICAL ERROR, [year]: Must be an int, current type = '{0}'".format(type(year)))
+		exit()
+	if year < 2004 or year > 2014:
+		logger.critical("\nCRITICAL ERROR, [year]: year must be between 2004-2014")
 		exit()
 
-	if type(month) != float and type(month) != int:
-		logger.critical("\nCRITICAL ERROR, [month]: Must be a float or int, current type = '{0}'".format(type(month)))
+	if doy == None:
+		logger.critical("\nCRITICAL ERROR, [doy]: doy is required")
+		exit()
+	if type(doy) != int:
+		logger.critical("\nCRITICAL ERROR, [doy]: Must be an int, current type = '{0}'".format(type(doy)))
+		exit()
+	if doy < 0 or doy > 365:
+		logger.critical("\nCRITICAL ERROR, [doy]: doy must be between 0-365")
 		exit()
 
-	if type(day) != float and type(day) != int:
-		logger.critical("\nCRITICAL ERROR, [day]: Must be a float or int, current type = '{0}'".format(type(day)))
+	if type(hour) != int:
+		logger.critical("\nCRITICAL ERROR, [hour]: Must be an int, current type = '{0}'".format(type(hour)))
+		exit()
+	if hour < 0 or hour > 23:
+		logger.critical("\nCRITICAL ERROR, [hour]: hour must be within UTC range between 0 to 23")
 		exit()
 
-	if type(hour) != float and type(hour) != int:
-		logger.critical("\nCRITICAL ERROR, [hour]: Must be a float or int, current type = '{0}'".format(type(hour)))
+	if type(minute) != int:
+		logger.critical("\nCRITICAL ERROR, [minute]: Must be an int, current type = '{0}'".format(type(minute)))
+		exit()
+	if minute < 0 or minute > 59:
+		logger.critical("\nCRITICAL ERROR, [minute]: minute must be within range between 0 to 59")
 		exit()
 
-	if type(minute) != float and type(minute) != int:
-		logger.critical("\nCRITICAL ERROR, [minute]: Must be a float or int, current type = '{0}'".format(type(minute)))
+	if type(second) != int:
+		logger.critical("\nCRITICAL ERROR, [second]: Must be an int, current type = '{0}'".format(type(second)))
+		exit()
+	if second < 0 or second > 59:
+		logger.critical("\nCRITICAL ERROR, [second]: second must be within range between 0 to 59")
 		exit()
 
-	if type(second) != float and type(second) != int:
-		logger.critical("\nCRITICAL ERROR, [second]: Must be a float or int, current type = '{0}'".format(type(second)))
+	if type(millisecond) != int:
+		logger.critical("\nCRITICAL ERROR, [millisecond]: Must be an int, current type = '{0}'".format(type(millisecond)))
 		exit()
-
-	if type(millisecond) != float and type(millisecond) != int:
-		logger.critical("\nCRITICAL ERROR, [millisecond]: Must be a float or int, current type = '{0}'".format(type(millisecond)))
+	if millisecond < 0 or millisecond > 999:
+		logger.critical("\nCRITICAL ERROR, [millisecond]: second must be a postive value from 0 to 999")
 		exit()

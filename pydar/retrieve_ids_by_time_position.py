@@ -92,20 +92,35 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 
 	return flyby_ids
 
-def retrieveIDSByTime(year=None, month=None, day=None, hour=0, minute=0, second=0, millisecond=0):
-	# TODO: Retrieve Flyby IDs based on a Timestamp
-	pydar.errorHandlingRetrieveIDSByTime(year=year, month=month, day=day, hour=hour, minute=minute, second=second, millisecond=millisecond)
+def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, millisecond=0):
+	# Retrieve Flyby IDs based on a Timestamp
+	# YYYY-DOYThh:mm:ss.sss
+	pydar.errorHandlingRetrieveIDSByTime(year=year, doy=doy, hour=hour, minute=minute, second=second, millisecond=millisecond)
 
-	logger.info("TODO: {0} year, {1} month, {2} day, {3} hour, {4} minute, {5} second, {6} millisecond".format(year,
-																											month,
-																											day,
-																											hour,
-																											minute,
-																											second,
-																											millisecond))
+	logger.info("TODO: {0} year, {1} doy, {2} hour, {3} minute, {4} second, {5} millisecond".format(year,
+																									doy,
+																									hour,
+																									minute,
+																									second,
+																									millisecond))
 
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
+
+	def stringPadding(ts_string, padding_size):
+		# Adding string padding of zeroes to the front of the string to fix timestamp format
+		ts_string = str(ts_string)
+		while(len(ts_string) < padding_size):
+			ts_string = "0" + ts_string
+		return ts_string
+
+	doy = stringPadding(doy, 3)
+	hour = stringPadding(hour, 2)
+	minute = stringPadding(minute, 2)
+	second = stringPadding(second, 2)
+	millisecond = stringPadding(millisecond, 3)
+	user_defined_timestamp = "{0}-{1}T{2}:{3}:{4}.{5}".format(year, doy, hour, minute, second, millisecond)
+	logger.info("User timestamp: {0}".format(user_defined_timestamp))
 
 	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
 	for index, row in swath_dataframe.iterrows():

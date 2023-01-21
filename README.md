@@ -3,11 +3,11 @@
 ![license](https://img.shields.io/github/license/unaschneck/pydar)
 [![NSF-2141064](https://img.shields.io/badge/NSF-2141064-blue)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2141064&HistoricalAwards=false)
 
-Python Package to access and manipulate CASSINI RADAR images in one place
+A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
-* Find relevant flyby observation numbers and IDs for a specific region, feature, or location
-* Retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
-* Access AAREADME and .LBL readme information
+* Find relevant flyby observation numbers and IDs for a range of regions, feature, or specific latitude/longitude
+* Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
+* Access specific observation data AAREADME and .LBL readme information
 * Display PDS image retrieved for flyby observation
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
@@ -486,6 +486,36 @@ feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmo
 ```
 feature_names_list = `['Aaru', 'Rossak Planitia']`
 
+**retrieveIDSByTime**
+
+```
+retrieveIDSByTime(year=None,
+				doy=None,
+				hour=0,
+				minute=0,
+				second=0,
+				millisecond=0)
+```
+* **[REQUIRED]** year (int): Year for obserivation, range from 2004 to 2014
+* **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10)
+* [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC
+* [OPTIONAL] minute (int): Minute, from 0 to 59
+* [OPTIONAL] second (int): Second, from 0 to 59
+* [OPTIONAL] millisecond (int): Milliscond, from 0 to 999
+
+Where `2004 year, 2 doy, 23 hour, 55 minute, 45 second, 987 millisecond` becomes `2004-002T23:55:45.987`
+
+```python
+import pydar
+feature_names_list = pydar.retrieveIDSByTime(year=2004,
+											doy=2,
+											hour=23,
+											minute=55,
+											second=45,
+											millisecond=987)
+```
+feature_names_list = `[TODO]`
+
 ## TODO:
 ### TODO Code:
 * retrieveIDSByTime() based on time or time range
@@ -496,6 +526,7 @@ feature_names_list = `['Aaru', 'Rossak Planitia']`
 
 ### TODO Questions:
 * what is the timestamp for start/stop time: "2005-301T03:53:56.971" format? YYYY-MDDTHH:MM:SS.mms?
+* what is the range of the hours for timestamp?
 * get longitude values when greater than 180 (everything is relative to west)
 * add details for what a segement_num is
 * associate burst ID from SBDR data to BIDR data for metadata
@@ -505,6 +536,7 @@ feature_names_list = `['Aaru', 'Rossak Planitia']`
 * downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"]), decide which files to download
 
 ### TODO: Tech Debt
+* extract pdr functionality to reduce overhead
 * use README information to gather files for download (save computing, tech debt)
 * CSV script to be run before each pypi package update by developer not user
 * make README options for .LBL and AAREADME case-insensitive
