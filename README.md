@@ -191,9 +191,41 @@ Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
 
 ## Data Files
 
+### Dynamically Updated Data Files
+
+Scripts pull from datafiles that have been complied in advance.
+
+Last updated by developers `1/20/2023` via `python3 update_csv.py`
+
+**coradr_jpl_options.csv**
+
+Contains all the CORADR IDs and data types from [pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter)
+
+Columns: ["CORADR ID", "Is a Titan Flyby", "Contains ABDR", "Contains ASUM", "Contains BIDR", "Contains LBDR", "Contains SBDR", "Contains STDR"]
+
+**swath_coverage_by_time_position.csv**
+
+Contains all the information for .LBL files within a CORADR ID page (for each segment and resolution file) by looking within a specific CORADR IDs /DATA/BIDR for .LBL files
+
+Columns: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
+
 **feature_name_details.csv**
 
-List of Features on Titan with names with their associated position and the origin of their name. Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/Feature/6981)
+Contains all named features on Titan with names with their associated position and the origin of their name. Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
+
+Columns: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
+
+### Static Data Files
+
+**cassini_flyby.csv**
+
+Reference for converting between a Titan Flyby ID (e.g. "T7") to an Observation Number (e.g. "059") (and back)
+
+Columns: ["Titan flyby id", "Radar Data Take Number", "Sequence number", "Orbit Number/ID"]
+
+**sar_swath_details.csv*
+
+TEMP: potentially will be removed, replaced by swath_coverage_by_time_position.csv
 
 ## SBDR Files
 [SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
@@ -528,9 +560,12 @@ feature_names_list = `[TODO]`
 ## TODO:
 ### TODO Code:
 * retrieveIDSByTime() based on time or time range
+* extract pdr functionality to reduce overhead
+* make README options for .LBL and AAREADME case-insensitive
+* bug fix: "NOTE" in .lbl
 * add a colored outline around a feature when displaying as a 2D image
+* displayImages() bug fix: 87 displays invalid integer
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
-* README for all the functions and their sections
 * progress bars print to command line (still downloading...)
 
 ### TODO Questions:
@@ -545,12 +580,8 @@ feature_names_list = `[TODO]`
 * downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"]), decide which files to download
 
 ### TODO: Tech Debt
-* extract pdr functionality to reduce overhead
 * use README information to gather files for download (save computing, tech debt)
-* CSV script to be run before each pypi package update by developer not user
-* make README options for .LBL and AAREADME case-insensitive
 * set up constant config file
-* bug fix: "NOTE" in .lbl
 * Include URL for access to AAREADME and .LBL readme files
 * rm -rf pydar_results/ between runs for clean image output
 * research Zenodo

@@ -16,9 +16,10 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-def csvCORADRJPLOptions():
+def updateCsvCORADRJPLOptions():
 	# runs to access the most up to date optiosn from the JPL webpage
 	# Generate: coradr_jpl_options.csv
+	# Estimated runtime: 5 minutes
 
 	# BeautifulSoup web scrapping to find observation file number full title
 	logger.info("Refreshing: coradr_jpl_options.csv")
@@ -64,7 +65,7 @@ def csvCORADRJPLOptions():
 	df = df.sort_values(by=["CORADR ID"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'), header=header_options, index=False)
 
-def csvSwathCoverage():
+def updateCsvSwathCoverage():
 	# generate swath_coverage_by_time_position.csv
 	# Estimated runtime: 15 minutes
 	logger.info("Refreshing: swath_coverage_by_time_position.csv")
@@ -171,8 +172,8 @@ def csvSwathCoverage():
 	df = df.sort_values(by=["CORADR ID"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv'), header=header_options, index=False)
 
-def csvFeatureNameDetails():
-	# runs to access the most up to date optiosn from the JPL webpage
+def updateCsvFeatureNameDetails():
+	# runs to access the most up to date options from the JPL webpage
 	# Generate: feature_name_details.csv
 	# Estimated runtime: 3 minutes
 
@@ -235,14 +236,21 @@ def csvFeatureNameDetails():
 	feature_options.append(huygens_landing_site) # Add Huygens landing site manually
 
 	# Wrte to CSV
-	header_options = ['Feature Name', 
-					'Northernmost Latitude',
-					'Southernmost Latitude',
-					'Easternmost Longitude',
-					'Westernmost Longitude',
-					'Center Latitude',
-					'Center Longitude', 
-					'Origin of Name']
+	header_options = ["Feature Name", 
+					"Northernmost Latitude",
+					"Southernmost Latitude",
+					"Easternmost Longitude",
+					"Westernmost Longitude",
+					"Center Latitude",
+					"Center Longitude", 
+					"Origin of Name"]
 	df = pd.DataFrame(feature_options, columns=header_options)
 	df = df.sort_values(by=["Feature Name"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv'), header=header_options, index=False)
+
+if __name__ == '__main__':
+	# update csvs
+	logger.info("running html capture to update csv data files (will take about 25 minutes):")
+	updateCsvCORADRJPLOptions() # coradr_jpl_options.csv
+	updateCsvSwathCoverage() # swath_coverage_by_time_position.csv
+	updateCsvFeatureNameDetails() #feature_name_details.csv

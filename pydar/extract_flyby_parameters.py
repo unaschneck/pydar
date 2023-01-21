@@ -229,17 +229,6 @@ def extractFlybyDataImages(flyby_observation_num=None,
 
 	download_files = True # for debugging, does not always download files before running data
 
-	# update csv
-	days_between_checking_jpl_website = 7 # set to 0 to re-run currently without waiting
-	x_days_ago = datetime.now() - timedelta(days=days_between_checking_jpl_website)
-	filetime = datetime.fromtimestamp(os.path.getctime(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')))
-	if filetime < x_days_ago:
-		# File it more than X days old
-		logger.info("file is older than {0} days, running html capture to update coradr_jpl_options.csv (will take about twenty minutes):".format(days_between_checking_jpl_website))
-		pydar.csvCORADRJPLOptions() # coradr_jpl_options.csv
-		pydar.csvSwathCoverage() # swath_coverage_by_time_position.csv
-		pydar.csvFeatureNameDetails() #feature_name_details.csv
-
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
 
