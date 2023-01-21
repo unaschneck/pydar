@@ -544,22 +544,23 @@ retrieveIDSByTime(year=None,
 * [OPTIONAL] second (int): Second, from 0 to 59
 * [OPTIONAL] millisecond (int): Milliscond, from 0 to 999
 
-Where `2004 year, 2 doy, 23 hour, 55 minute, 45 second, 987 millisecond` becomes `2004-002T23:55:45.987`
+Where `2005 year, 301 doy, 4 hour, 33 minute, 35 second, 987 millisecond` becomes `2005-301T04:33:35.987`
 
 ```python
 import pydar
-feature_names_list = pydar.retrieveIDSByTime(year=2004,
-						doy=2,
-						hour=23,
-						minute=55,
-						second=45,
-						millisecond=987)
+pydar.retrieveIDSByTime(year=2005,
+				doy=301,
+				hour=4,
+				minute=33, 
+				second=35, 
+				millisecond=987)
 ```
-feature_names_list = `[TODO]`
+Output = `{'T8': ['S02', 'S01']}`
 
 ## TODO:
 ### TODO Code:
 * retrieveIDSByTime() based on time or time range
+* to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
 * extract pdr functionality to reduce overhead
 * make README options for .LBL and AAREADME case-insensitive
 * bug fix: "NOTE" in .lbl

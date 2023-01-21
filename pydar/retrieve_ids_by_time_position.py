@@ -97,13 +97,6 @@ def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, milliseco
 	# YYYY-DOYThh:mm:ss.sss
 	pydar.errorHandlingRetrieveIDSByTime(year=year, doy=doy, hour=hour, minute=minute, second=second, millisecond=millisecond)
 
-	logger.info("TODO: {0} year, {1} doy, {2} hours, {3} minutes, {4} seconds, {5} milliseconds".format(year,
-																										doy,
-																										hour,
-																										minute,
-																										second,
-																										millisecond))
-
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
