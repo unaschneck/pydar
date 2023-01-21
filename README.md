@@ -6,9 +6,15 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * Find relevant flyby observation numbers and IDs for a range of regions, feature, or specific latitude/longitude
+	* retrieveIDSByFeatureName(), retrieveIDSByLatitudeLongitude(), retrieveIDSByLatitudeLongitudeRange()
 * Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
+	* extractFlybyDataImages(), convertFlybyIDToObservationNumber()
 * Access specific observation data AAREADME and .LBL readme information
+	* readAAREADME(), returnAllAAREADMEOptions(), readLBLREADME(), returnAllLBLOptions()
 * Display PDS image retrieved for flyby observation
+	* displayImages()
+* Extract Metadata from .FMT and .TAB files
+	* extractMetadata()
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
@@ -327,7 +333,10 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 import pydar
 
 # Extract Flyby Data Files to pydar_results/ directory: 
-pydar.extractFlybyDataImages(flyby_id='T65', resolution='D', segment_num="S01", additional_data_types_to_download=["STDR", "LBDR"])
+pydar.extractFlybyDataImages(flyby_id='T65',
+			resolution='D',
+			segment_num="S01",
+			additional_data_types_to_download=["STDR", "LBDR"])
 ```
 
 extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby obsrevation number, version number, and segement number in the title (for example pydar_results/CORADR_0065_V03_S01)
@@ -468,9 +477,9 @@ feature_names_list = `['Ontario Lacus']`
 
 ```
 retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
-										southernmost_latitude=None,
-										easternmost_longitude=None,
-										westernmost_longitude=None)
+					southernmost_latitude=None,
+					easternmost_longitude=None,
+					westernmost_longitude=None)
 ```
 * **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, north must be greater than or equal to the south
 * **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, south must be less than or euqal to the north
@@ -480,9 +489,9 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 ```python
 import pydar
 feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
-																southernmost_latitude=-80,
-																easternmost_longitude=339,
-																westernmost_longitude=341)
+								southernmost_latitude=-80,
+								easternmost_longitude=339,
+								westernmost_longitude=341)
 ```
 feature_names_list = `['Aaru', 'Rossak Planitia']`
 
@@ -490,11 +499,11 @@ feature_names_list = `['Aaru', 'Rossak Planitia']`
 
 ```
 retrieveIDSByTime(year=None,
-				doy=None,
-				hour=0,
-				minute=0,
-				second=0,
-				millisecond=0)
+		doy=None,
+		hour=0,
+		minute=0,
+		second=0,
+		millisecond=0)
 ```
 * **[REQUIRED]** year (int): Year for obserivation, range from 2004 to 2014
 * **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10)
@@ -508,11 +517,11 @@ Where `2004 year, 2 doy, 23 hour, 55 minute, 45 second, 987 millisecond` becomes
 ```python
 import pydar
 feature_names_list = pydar.retrieveIDSByTime(year=2004,
-											doy=2,
-											hour=23,
-											minute=55,
-											second=45,
-											millisecond=987)
+						doy=2,
+						hour=23,
+						minute=55,
+						second=45,
+						millisecond=987)
 ```
 feature_names_list = `[TODO]`
 
