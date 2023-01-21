@@ -27,6 +27,7 @@ from .retrieve_ids_by_time_position import retrieveIDSByFeatureName
 from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitude
 from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitudeRange
 from .retrieve_ids_by_time_position import retrieveIDSByTime
+from .retrieve_ids_by_time_position import retrieveIDSByTimeRange
 from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitude
 from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitudeRange
 
@@ -40,3 +41,4 @@ from .error_handling import errorHandlingRetrieveIDSByFeature
 from .error_handling import errorHandlingRetrieveByLatitudeLongitude
 from .error_handling import errorHandlingRetrieveByLatitudeLongitudeRange
 from .error_handling import errorHandlingRetrieveIDSByTime
+from .error_handling import errorHandlingRetrieveIDSByTimeRange

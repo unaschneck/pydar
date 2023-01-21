@@ -1,4 +1,6 @@
 # Update CSVs
+# Run Script by Developer to update Dynamical CSV
+# Run: python3 update_csv.py
 
 import logging
 import os
@@ -249,7 +251,7 @@ def updateCsvFeatureNameDetails():
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv'), header=header_options, index=False)
 
 if __name__ == '__main__':
-	# update csvs
+	# update csvs: python3 update_csv.py
 	logger.info("running html capture to update csv data files (will take about 25 minutes):")
 	updateCsvCORADRJPLOptions() # coradr_jpl_options.csv
 	updateCsvSwathCoverage() # swath_coverage_by_time_position.csv

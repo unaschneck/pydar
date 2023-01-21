@@ -259,3 +259,6 @@ def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second
 	if millisecond < 0 or millisecond > 999:
 		logger.critical("\nCRITICAL ERROR, [millisecond]: second must be a postive value from 0 to 999")
 		exit()
+
+def errorHandlingRetrieveIDSByTimeRange():
+	return

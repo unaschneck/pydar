@@ -93,47 +93,77 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	return flyby_ids
 
 def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, millisecond=0):
-	# Retrieve Flyby IDs based on a Timestamp
+	# Retrieve Flyby IDs based on a single Timestamp
 	# YYYY-DOYThh:mm:ss.sss
 	pydar.errorHandlingRetrieveIDSByTime(year=year, doy=doy, hour=hour, minute=minute, second=second, millisecond=millisecond)
 
-	logger.info("TODO: {0} year, {1} doy, {2} hour, {3} minute, {4} second, {5} millisecond".format(year,
-																									doy,
-																									hour,
-																									minute,
-																									second,
-																									millisecond))
+	logger.info("TODO: {0} year, {1} doy, {2} hours, {3} minutes, {4} seconds, {5} milliseconds".format(year,
+																										doy,
+																										hour,
+																										minute,
+																										second,
+																										millisecond))
 
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
-	def stringPadding(ts_string, padding_size):
-		# Adding string padding of zeroes to the front of the string to fix timestamp format
-		ts_string = str(ts_string)
-		while(len(ts_string) < padding_size):
-			ts_string = "0" + ts_string
-		return ts_string
-
-	doy = stringPadding(doy, 3)
-	hour = stringPadding(hour, 2)
-	minute = stringPadding(minute, 2)
-	second = stringPadding(second, 2)
-	millisecond = stringPadding(millisecond, 3)
-	user_defined_timestamp = "{0}-{1}T{2}:{3}:{4}.{5}".format(year, doy, hour, minute, second, millisecond)
-	logger.info("User timestamp: {0}".format(user_defined_timestamp))
-
 	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
-		'''
-		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= southernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= northernmost_latitude:
-			if flyby not in flyby_ids.keys():
-				flyby_ids[flyby] = []
-			segment_number = "S0" + str(row["SEGMENT NUMBER"])
-			if segment_number not in flyby_ids[flyby]:
-				flyby_ids[flyby].append(segment_number)
-		'''
 
+		start_time_year = int(row["START_TIME"][:4])
+		start_time_doy = int(row["START_TIME"][5:8])
+		start_time_hour = int(row["START_TIME"][9:11])
+		start_time_minute = int(row["START_TIME"][12:14])
+		start_time_second = int(row["START_TIME"][15:17])
+		start_time_millisecond = int(row["START_TIME"][18:])
+
+		stop_time_year = int(row["STOP_TIME"][:4])
+		stop_time_doy = int(row["STOP_TIME"][5:8])
+		stop_time_hour = int(row["STOP_TIME"][9:11])
+		stop_time_minute = int(row["STOP_TIME"][12:14])
+		stop_time_second = int(row["STOP_TIME"][15:17])
+		stop_time_millisecond = int(row["STOP_TIME"][18:])
+
+		# Check if time stamp lies between time ranges, otherwise skip to next to check
+		if year < start_time_year or year > stop_time_year:
+			continue
+		if doy < start_time_doy or doy > stop_time_doy:
+			continue
+		if hour < start_time_hour or hour > stop_time_hour:
+			continue
+		if (stop_time_hour - start_time_hour) < 1: # if crosses between two difference hours
+			if minute < start_time_minute or minute > stop_time_minute:
+				continue
+			if (stop_time_minute - start_time_minute) < 1: # if the difference between the two minutes is greater than one minute, then further checking can be ignored since is always true
+				if second < start_time_second or second > stop_time_second:
+					continue 
+				if millisecond < start_time_millisecond or millisecond > stop_time_millisecond:
+					continue
+
+		# Add Flby ID and Segment Number to returned dict
+		if flyby not in flyby_ids.keys():
+			flyby_ids[flyby] = []
+		segment_number = "S0" + str(row["SEGMENT NUMBER"])
+		if segment_number not in flyby_ids[flyby]:
+			flyby_ids[flyby].append(segment_number)
+
+	if len(flyby_ids) == 0:
+		logger.info("\n[WARNING]: No flyby IDs found at timestamp: {0} year, {1} doy, {2} hours, {3} minutes, {4} seconds, {5} milliseconds".format(year,
+																																					doy,
+																																					hour,
+																																					minute,
+																																					second,
+																																					millisecond))
+		exit()
+
+	return flyby_ids
+
+def retrieveIDSByTimeRange():
+	# Retrieve Flyby IDs based on a range of Timestamps
+	# YYYY-DOYThh:mm:ss.sss
+	logger.info("TODO: retrieveIDSByTimeRange()")
+	flyby_ids = {}
 	return flyby_ids
 
 def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
