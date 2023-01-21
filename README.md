@@ -6,11 +6,15 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * Find relevant flyby observation numbers and IDs for a range of regions, feature, or specific latitude/longitude
-	* retrieveIDSByFeatureName(), retrieveIDSByLatitudeLongitude(), retrieveIDSByLatitudeLongitudeRange()
+	* retrieveIDSByFeatureName()
+	* retrieveIDSByLatitudeLongitude(), retrieveIDSByLatitudeLongitudeRange()
+	* retrieveIDSByTime(), retrieveIDSByTimeRange()
 * Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
-	* extractFlybyDataImages(), convertFlybyIDToObservationNumber()
+	* extractFlybyDataImages()
+	* convertFlybyIDToObservationNumber()
 * Access specific observation data AAREADME and .LBL readme information
-	* readAAREADME(), returnAllAAREADMEOptions(), readLBLREADME(), returnAllLBLOptions()
+	* readAAREADME(), returnAllAAREADMEOptions()
+	* readLBLREADME(), returnAllLBLOptions()
 * Display PDS image retrieved for flyby observation
 	* displayImages()
 * Extract Metadata from .FMT and .TAB files
@@ -529,16 +533,18 @@ feature_names_list = `['Aaru', 'Rossak Planitia']`
 
 **retrieveIDSByTime**
 
+Retrieve a dictionary of flyby IDs and segment numbers based on a specific timestamp
+
 ```
 retrieveIDSByTime(year=None,
-		doy=None,
-		hour=0,
-		minute=0,
-		second=0,
-		millisecond=0)
+	doy=None,
+	hour=0,
+	minute=0,
+	second=0,
+	millisecond=0)
 ```
 * **[REQUIRED]** year (int): Year for obserivation, range from 2004 to 2014
-* **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10)
+* **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year)
 * [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC
 * [OPTIONAL] minute (int): Minute, from 0 to 59
 * [OPTIONAL] second (int): Second, from 0 to 59
@@ -556,6 +562,20 @@ pydar.retrieveIDSByTime(year=2005,
 				millisecond=987)
 ```
 Output = `{'T8': ['S02', 'S01']}`
+
+**retrieveIDSByTimeRange**
+
+Retrieve a dictionary of flyby IDs and segment numbers based on a range in timestamps
+
+```
+retrieveIDSByTimeRange()
+```
+
+```python
+import pydar
+pydar.retrieveIDSByTimeRange()
+```
+Output = `{TODO}`
 
 ## TODO:
 ### TODO Code:
