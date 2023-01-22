@@ -539,17 +539,17 @@ Retrieve a dictionary of flyby IDs and segment numbers based on a specific times
 ```
 retrieveIDSByTime(year=None,
 		doy=None,
-		hour=0,
-		minute=0,
-		second=0,
-		millisecond=0)
+		hour=None,
+		minute=None,
+		second=None,
+		millisecond=None)
 ```
 * **[REQUIRED]** year (int): Year for observation, range from 2004 to 2014
 * **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year)
-* [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC, defaults to 0
-* [OPTIONAL] minute (int): Minute, from 0 to 59, defaults to 0
-* [OPTIONAL] second (int): Second, from 0 to 59, defaults to 0
-* [OPTIONAL] millisecond (int): Milliscond, from 0 to 999, defaults to 0
+* [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC, defaults to 0 when undefined
+* [OPTIONAL] minute (int): Minute, from 0 to 59, defaults to check the all minutes when undefined
+* [OPTIONAL] second (int): Second, from 0 to 59, defaults to check the all seconds when undefined
+* [OPTIONAL] millisecond (int): Milliscond, from 0 to 999, defaults to check all milliseconds when undefined
 
 Where `2004 year, 300 doy, 15 hour, 30 minute, 7 second, 789 millisecond` becomes `2004-300T15:30:07.789`
 
@@ -564,6 +564,23 @@ pydar.retrieveIDSByTime(year=2004,
 ```
 Output = `{'Ta': ['S01']}`
 
+If hour, minute, second, or millisecond is left undefined, will search the entire range for all possible values and can find more possible ids
+
+For a single day, some flybys have segments that are defined in one large range, but not within a smaller range
+
+```python
+import pydar
+pydar.retrieveIDSByTime(year=2005, doy=301)
+```
+Output for the entire day of 301 = `{'T8': ['S02', 'S03', 'S01']}`
+
+```python
+import pydar
+pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
+```
+Output for the day 301 but within just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
+
+
 **retrieveIDSByTimeRange**
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a range in timestamps
@@ -571,30 +588,30 @@ Retrieve a dictionary of flyby IDs and segment numbers based on a range in times
 ```
 retrieveIDSByTimeRange(start_year=None, 
 					start_doy=None,
-					start_hour=0, 
-					start_minute=0, 
-					start_second=0, 
-					start_millisecond=0,
+					start_hour=None,
+					start_minute=None, 
+					start_second=None,
+					start_millisecond=None,
 					end_year=None, 
 					end_doy=None,
-					end_hour=0, 
-					end_minute=0, 
-					end_second=0, 
-					end_millisecond=0)
+					end_hour=None,
+					end_minute=None, 
+					end_second=None,
+					end_millisecond=None)
 ```
 
 * **[REQUIRED]** start_year (int): Year for observation, range from 2004 to 2014, start_year must be less than/equal to end_year
 * **[REQUIRED]** end_year (int): Year for observation, range from 2004 to 2014, end_year must be greater than/equal to start_year
 * **[REQUIRED]** start_doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year), start_doy must be less than/equal to end_doy
 * **[REQUIRED]** end_doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year), end_doy must be less than/equal to start_doy
-* [OPTIONAL] start_hour (int): Hour, from 0 to 23 in UTC, defaults to 0, start_hour must be less than/equal to end_hour
-* [OPTIONAL] end_hour (int): Hour, from 0 to 23 in UTC, defaults to 0, end_hour must be less than/equal to start_hour
-* [OPTIONAL] start_minute (int): Minute, from 0 to 59, defaults to 0, start_minute must be less than/equal to end_minute
-* [OPTIONAL] end_minute (int): Minute, from 0 to 59, defaults to 0, end_minute must be greater than/equal to start_minute
-* [OPTIONAL] start_second (int): Second, from 0 to 59, defaults to 0, start_second must be less than/equal to end_second
-* [OPTIONAL] end_second (int): Second, from 0 to 59, defaults to 0, end_second must be greater than/equal to start_second
-* [OPTIONAL] start_millisecond (int): Milliscond, from 0 to 999, defaults to 0, start_millisecond must be less than/equal to end_millisecond
-* [OPTIONAL] end_millisecond (int): Milliscond, from 0 to 999, defaults to 0, end_millisecond must be greater than/equal to start_millisecond
+* [OPTIONAL] start_hour (int): Hour, from 0 to 23 in UTC, defaults to check all hours when undefined, start_hour must be less than/equal to end_hour
+* [OPTIONAL] end_hour (int): Hour, from 0 to 23 in UTC, defaults to check all hours when undefined, end_hour must be less than/equal to start_hour
+* [OPTIONAL] start_minute (int): Minute, from 0 to 59, defaults to check all minutes when undefined, start_minute must be less than/equal to end_minute
+* [OPTIONAL] end_minute (int): Minute, from 0 to 59, defaults to check all minutes when undefined, end_minute must be greater than/equal to start_minute
+* [OPTIONAL] start_second (int): Second, from 0 to 59, defaults to check all seconds when undefined, start_second must be less than/equal to end_second
+* [OPTIONAL] end_second (int): Second, from 0 to 59, defaults to check all seconds when undefined, end_second must be greater than/equal to start_second
+* [OPTIONAL] start_millisecond (int): Milliscond, from 0 to 999, defaults to check all milliseconds when undefined, start_millisecond must be less than/equal to end_millisecond
+* [OPTIONAL] end_millisecond (int): Milliscond, from 0 to 999, defaults to check all milliseconds when undefined, end_millisecond must be greater than/equal to start_millisecond
 
 ```python
 import pydar
@@ -615,8 +632,6 @@ Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
 ## TODO:
 ### TODO Code:
-* retrieveIDSByTime() based on time or time range
-* retrieve from a day should capture all hours of the day, default values should find all possible range (doy=201 returns all ids for the entire doy)
 * to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
 * extract pdr functionality to reduce overhead
 * make README options for .LBL and AAREADME case-insensitive

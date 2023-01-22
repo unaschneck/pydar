@@ -15,7 +15,7 @@ if __name__ == '__main__':
 	#															westernmost_longitude=17)
 	#print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
-	flyby_ids_time = pydar.retrieveIDSByTime(year=2004, doy=300, hour=15, minute=30, second=7, millisecond=789)
+	flyby_ids_time = pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
 	print("Flyby IDS based on a specific timestamp = {0}".format(flyby_ids_time))
 
 	flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004, start_doy=299, start_hour=2, start_minute=15, start_second=23, start_millisecond=987,

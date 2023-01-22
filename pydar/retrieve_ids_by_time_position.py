@@ -92,7 +92,7 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 
 	return flyby_ids
 
-def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, millisecond=0):
+def retrieveIDSByTime(year=None, doy=None, hour=None, minute=None, second=None, millisecond=None):
 	# Retrieve Flyby IDs based on a single Timestamp
 	# YYYY-DOYThh:mm:ss.sss
 	pydar.errorHandlingRetrieveIDSByTime(year=year, doy=doy, hour=hour, minute=minute, second=second, millisecond=millisecond)
@@ -118,16 +118,16 @@ def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, milliseco
 
 def retrieveIDSByTimeRange(start_year=None, 
 							start_doy=None,
-							start_hour=0, 
-							start_minute=0, 
-							start_second=0, 
-							start_millisecond=0,
+							start_hour=None, 
+							start_minute=None, 
+							start_second=None, 
+							start_millisecond=None,
 							end_year=None, 
 							end_doy=None,
-							end_hour=0, 
-							end_minute=0, 
-							end_second=0, 
-							end_millisecond=0):
+							end_hour=None, 
+							end_minute=None, 
+							end_second=None, 
+							end_millisecond=None):
 	# Retrieve Flyby IDs based on a range of Timestamps
 	# YYYY-DOYThh:mm:ss.sss
 	pydar.errorHandlingRetrieveIDSByTimeRange(start_year=start_year, 
@@ -147,11 +147,22 @@ def retrieveIDSByTimeRange(start_year=None,
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
 	# User Values: As datetime objects
+	# Set default to 0 for all not defined values
+	delta_hour = 0 if start_hour is None else start_hour
+	delta_minute = 0 if start_minute is None else start_minute
+	delta_second = 0 if start_second is None else start_second
+	delta_millisecond = 0 if start_millisecond is None else start_millisecond
+
 	start_of_year_start_datetime = datetime(year=start_year, month=1, day=1)
-	start_datetime = start_of_year_start_datetime + timedelta(days=start_doy, hours=start_hour, minutes=start_minute, seconds=start_second, milliseconds=start_millisecond)
+	start_datetime = start_of_year_start_datetime + timedelta(days=start_doy, hours=delta_hour, minutes=delta_minute, seconds=delta_second, milliseconds=delta_millisecond)
+
+	delta_hour = 0 if end_hour is None else end_hour
+	delta_minute = 0 if end_minute is None else end_minute
+	delta_second = 0 if end_second is None else end_second
+	delta_millisecond = 0 if end_millisecond is None else end_millisecond
 
 	start_of_year_end_datetime = datetime(year=end_year, month=1, day=1)
-	end_datetime = start_of_year_end_datetime + timedelta(days=end_doy, hours=end_hour, minutes=end_minute, seconds=end_second, milliseconds=end_millisecond)
+	end_datetime = start_of_year_end_datetime + timedelta(days=end_doy, hours=delta_hour, minutes=delta_minute, seconds=delta_second, milliseconds=delta_millisecond)
 
 	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
 	for index, row in swath_dataframe.iterrows():
@@ -172,6 +183,17 @@ def retrieveIDSByTimeRange(start_year=None,
 		stop_time_millisecond = int(row["STOP_TIME"][18:])
 	
 		# Row values: As datetime objects
+		# Set default to 0 for all not defined values
+		if start_hour is None: start_time_hour = 0
+		if start_minute is None: start_time_minute = 0
+		if start_second is None: start_time_second = 0
+		if start_millisecond is None: start_time_millisecond = 0
+	
+		if end_hour is None: stop_time_hour = 0
+		if end_minute is None: stop_time_minute = 0
+		if end_second is None: stop_time_second = 0
+		if end_millisecond is None: stop_time_millisecond = 0
+	
 		row_start_of_year_start_datetime = datetime(year=start_time_year, month=1, day=1)
 		row_start_datetime = row_start_of_year_start_datetime + timedelta(days=start_time_doy, hours=start_time_hour, minutes=start_time_minute, seconds=start_time_second, milliseconds=start_time_millisecond)
 

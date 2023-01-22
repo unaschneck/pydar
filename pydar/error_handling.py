@@ -211,7 +211,7 @@ def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
 		exit()
 
 
-def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, millisecond=0):
+def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=None, minute=None, second=None, millisecond=None):
 	if year == None:
 		logger.critical("\nCRITICAL ERROR, [year]: year is required")
 		exit()
@@ -232,46 +232,50 @@ def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second
 		logger.critical("\nCRITICAL ERROR, [doy]: doy must be between 0-365")
 		exit()
 
-	if type(hour) != int:
-		logger.critical("\nCRITICAL ERROR, [hour]: Must be an int, current type = '{0}'".format(type(hour)))
-		exit()
-	if hour < 0 or hour > 23:
-		logger.critical("\nCRITICAL ERROR, [hour]: hour must be within UTC range between 0 to 23")
-		exit()
+	if hour is not None:
+		if type(hour) != int:
+			logger.critical("\nCRITICAL ERROR, [hour]: Must be an int, current type = '{0}'".format(type(hour)))
+			exit()
+		if hour < 0 or hour > 23:
+			logger.critical("\nCRITICAL ERROR, [hour]: hour must be within UTC range between 0 to 23")
+			exit()
 
-	if type(minute) != int:
-		logger.critical("\nCRITICAL ERROR, [minute]: Must be an int, current type = '{0}'".format(type(minute)))
-		exit()
-	if minute < 0 or minute > 59:
-		logger.critical("\nCRITICAL ERROR, [minute]: minute must be within range between 0 to 59")
-		exit()
+	if minute is not None:
+		if type(minute) != int:
+			logger.critical("\nCRITICAL ERROR, [minute]: Must be an int, current type = '{0}'".format(type(minute)))
+			exit()
+		if minute < 0 or minute > 59:
+			logger.critical("\nCRITICAL ERROR, [minute]: minute must be within range between 0 to 59")
+			exit()
 
-	if type(second) != int:
-		logger.critical("\nCRITICAL ERROR, [second]: Must be an int, current type = '{0}'".format(type(second)))
-		exit()
-	if second < 0 or second > 59:
-		logger.critical("\nCRITICAL ERROR, [second]: second must be within range between 0 to 59")
-		exit()
+	if second is not None:
+		if type(second) != int:
+			logger.critical("\nCRITICAL ERROR, [second]: Must be an int, current type = '{0}'".format(type(second)))
+			exit()
+		if second < 0 or second > 59:
+			logger.critical("\nCRITICAL ERROR, [second]: second must be within range between 0 to 59")
+			exit()
 
-	if type(millisecond) != int:
-		logger.critical("\nCRITICAL ERROR, [millisecond]: Must be an int, current type = '{0}'".format(type(millisecond)))
-		exit()
-	if millisecond < 0 or millisecond > 999:
-		logger.critical("\nCRITICAL ERROR, [millisecond]: second must be a postive value from 0 to 999")
-		exit()
+	if millisecond is not None:
+		if type(millisecond) != int:
+			logger.critical("\nCRITICAL ERROR, [millisecond]: Must be an int, current type = '{0}'".format(type(millisecond)))
+			exit()
+		if millisecond < 0 or millisecond > 999:
+			logger.critical("\nCRITICAL ERROR, [millisecond]: second must be a postive value from 0 to 999")
+			exit()
 
 def errorHandlingRetrieveIDSByTimeRange(start_year=None, 
 										start_doy=None,
-										start_hour=0, 
-										start_minute=0, 
-										start_second=0, 
-										start_millisecond=0,
+										start_hour=None, 
+										start_minute=None, 
+										start_second=None, 
+										start_millisecond=None,
 										end_year=None, 
 										end_doy=None,
-										end_hour=0, 
-										end_minute=0, 
-										end_second=0, 
-										end_millisecond=0):
+										end_hour=None, 
+										end_minute=None, 
+										end_second=None,
+										end_millisecond=None):
 
 	if start_year is None:
 		logger.critical("\nCRITICAL ERROR, [start_year]: start_year is required")
@@ -294,25 +298,33 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
 		logger.critical("\nCRITICAL ERROR, [year]: start_year must be less than/equal to end_year")
 		exit()
 
-	
-	if start_year == end_year:
+	if start_year != end_year:
+		return
+	if start_doy is not None and end_doy is not None:
 		if start_doy > end_doy:
 			logger.critical("\nCRITICAL ERROR, [doy]: start_doy must be less than/equal to end_doy")
 			exit()
-		if start_doy == end_doy:
+		if start_doy != end_doy:
+			return
+		if start_hour is not None and end_hour is not None:
 			if start_hour > end_hour:
 				logger.critical("\nCRITICAL ERROR, [hour]: start_hour must be less than/equal to end_hour")
 				exit()
-
-			if start_hour == end_hour:
-				if start_minute > end_minute:
-					logger.critical("\nCRITICAL ERROR, [minute]: start_minute must be less than/equal to end_minute")
+		if start_hour != end_hour:
+			return
+		if start_minute is not None and end_minute is not None:
+			if start_minute > end_minute:
+				logger.critical("\nCRITICAL ERROR, [minute]: start_minute must be less than/equal to end_minute")
+				exit()
+		if start_minute != end_minute:
+			return
+		if start_second is not None and end_second is not None:
+			if start_second > end_second:
+				logger.critical("\nCRITICAL ERROR, [second]: start_second must be less than/equal to end_second")
+				exit()
+			if start_second != end_second:
+				return
+			if start_millisecond is not None and end_millisecond is not None:
+				if start_millisecond > end_millisecond:
+					logger.critical("\nCRITICAL ERROR, [millisecond]: start_millisecond must be less than/equal to end_millisecond")
 					exit()
-				if start_minute == end_minute:
-					if start_second > end_second:
-						logger.critical("\nCRITICAL ERROR, [second]: start_second must be less than/equal to end_second")
-						exit()
-					if start_second == end_second:
-						if start_millisecond > end_millisecond:
-							logger.critical("\nCRITICAL ERROR, [millisecond]: start_millisecond must be less than/equal to end_millisecond")
-							exit()
