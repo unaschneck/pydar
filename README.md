@@ -5,20 +5,20 @@
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
-* Find relevant flyby observation numbers and IDs for a range of regions, feature, or specific latitude/longitude
+* **Find relevant flyby observation numbers and IDs for a range of regions, feature, or specific latitude/longitude**
 	* retrieveIDSByFeatureName()
 	* retrieveIDSByLatitudeLongitude(), retrieveIDSByLatitudeLongitudeRange()
 	* retrieveIDSByTime(), retrieveIDSByTimeRange()
-* Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
+* **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default**
 	* extractFlybyDataImages()
 	* convertFlybyIDToObservationNumber()
 	* convertObservationNumberToFlybyID
-* Access specific observation data AAREADME and .LBL readme information
+* **Access specific observation data AAREADME and .LBL readme information**
 	* readAAREADME(), returnAllAAREADMEOptions()
 	* readLBLREADME(), returnAllLBLOptions()
-* Display PDS image retrieved for flyby observation
+* **Display PDS image retrieved for flyby observation**
 	* displayImages()
-* Extract Metadata from .FMT and .TAB files
+* **Extract Metadata from .FMT and .TAB files**
 	* extractMetadata()
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
@@ -192,7 +192,6 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 
 ![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
 Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
-## Documentation
 
 ## Data Files
 
@@ -430,8 +429,8 @@ Print AAREADME.TXT to console for viewing
 
 ```
 readAAREADME(coradr_results_directory=None,
-			section_to_print=None, 
-			print_to_console=True)
+	section_to_print=None, 
+	print_to_console=True)
 ```
 
 * **[REQUIRED]** coradr_results_directory (string):
@@ -442,7 +441,7 @@ readAAREADME(coradr_results_directory=None,
 import pydar
 # Print AAREADME.TXT
 pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
-						section_to_print="Volume")
+		section_to_print="Volume")
 ```
 Output = "Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005"
 
@@ -453,7 +452,7 @@ import pydar
 pydar.returnAllAAREADMEOptions()
 ```
 
-['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']
+Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
 
 **readLBLREADME**
 
@@ -461,8 +460,8 @@ Print .LBL README to console for viewing
 
 ```
 readLBLREADME(coradr_results_directory=None,
-			section_to_print=None, 
-			print_to_console=True)
+	section_to_print=None, 
+	print_to_console=True)
 ```
 
 * **[REQUIRED]** coradr_results_directory (string):
@@ -505,10 +504,10 @@ retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None)
 
 ```python
 import pydar
-feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
+pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 ```
 
-feature_names_list = `['Ontario Lacus']`
+Output = `['Ontario Lacus']`
 
 **retrieveFeaturesFromLatitudeLongitudeRange**
 
@@ -525,12 +524,12 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 
 ```python
 import pydar
-feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
+pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
 								southernmost_latitude=-80,
 								easternmost_longitude=339,
 								westernmost_longitude=341)
 ```
-feature_names_list = `['Aaru', 'Rossak Planitia']`
+Output = `['Aaru', 'Rossak Planitia']`
 
 **retrieveIDSByTime**
 
@@ -578,26 +577,26 @@ Output for the entire day of 301 = `{'T8': ['S02', 'S03', 'S01']}`
 import pydar
 pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
 ```
-Output for the day 301 but within just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
+Output for the day 301 but just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
 
 
 **retrieveIDSByTimeRange**
 
-Retrieve a dictionary of flyby IDs and segment numbers based on a range in timestamps
+Retrieve a dictionary of flyby IDs and segment numbers based on a start and end datetime
 
 ```
 retrieveIDSByTimeRange(start_year=None, 
-					start_doy=None,
-					start_hour=None,
-					start_minute=None, 
-					start_second=None,
-					start_millisecond=None,
-					end_year=None, 
-					end_doy=None,
-					end_hour=None,
-					end_minute=None, 
-					end_second=None,
-					end_millisecond=None)
+			start_doy=None,
+			start_hour=None,
+			start_minute=None, 
+			start_second=None,
+			start_millisecond=None,
+			end_year=None, 
+			end_doy=None,
+			end_hour=None,
+			end_minute=None, 
+			end_second=None,
+			end_millisecond=None)
 ```
 
 * **[REQUIRED]** start_year (int): Year for observation, range from 2004 to 2014, start_year must be less than/equal to end_year
@@ -616,17 +615,17 @@ retrieveIDSByTimeRange(start_year=None,
 ```python
 import pydar
 pydar.retrieveIDSByTimeRange(start_year=2004,
-					start_doy=299,
-					start_hour=2,
-					start_minute=15,
-					start_second=23,
-					start_millisecond=987,
-					end_year=2005, 
-					end_doy=301,
-					end_hour=2,
-					end_minute=15,
-					end_second=23,
-					end_millisecond=987):
+				start_doy=299,
+				start_hour=2,
+				start_minute=15,
+				start_second=23,
+				start_millisecond=987,
+				end_year=2005, 
+				end_doy=301,
+				end_hour=2,
+				end_minute=15,
+				end_second=23,
+				end_millisecond=987):
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
