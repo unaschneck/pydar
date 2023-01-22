@@ -537,29 +537,29 @@ Retrieve a dictionary of flyby IDs and segment numbers based on a specific times
 
 ```
 retrieveIDSByTime(year=None,
-	doy=None,
-	hour=0,
-	minute=0,
-	second=0,
-	millisecond=0)
+		doy=None,
+		hour=0,
+		minute=0,
+		second=0,
+		millisecond=0)
 ```
 * **[REQUIRED]** year (int): Year for obserivation, range from 2004 to 2014
 * **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year)
-* [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC
-* [OPTIONAL] minute (int): Minute, from 0 to 59
-* [OPTIONAL] second (int): Second, from 0 to 59
-* [OPTIONAL] millisecond (int): Milliscond, from 0 to 999
+* [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC, defaults to 0
+* [OPTIONAL] minute (int): Minute, from 0 to 59, defaults to 0
+* [OPTIONAL] second (int): Second, from 0 to 59, defaults to 0
+* [OPTIONAL] millisecond (int): Milliscond, from 0 to 999, defaults to 0
 
 Where `2005 year, 301 doy, 4 hour, 33 minute, 35 second, 987 millisecond` becomes `2005-301T04:33:35.987`
 
 ```python
 import pydar
 pydar.retrieveIDSByTime(year=2005,
-				doy=301,
-				hour=4,
-				minute=33, 
-				second=35, 
-				millisecond=987)
+			doy=301,
+			hour=4,
+			minute=33, 
+			second=35, 
+			millisecond=987)
 ```
 Output = `{'T8': ['S02', 'S01']}`
 

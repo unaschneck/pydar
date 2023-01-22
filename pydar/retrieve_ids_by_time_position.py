@@ -152,9 +152,32 @@ def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, milliseco
 
 	return flyby_ids
 
-def retrieveIDSByTimeRange():
+def retrieveIDSByTimeRange(start_year=None, 
+							start_doy=None,
+							start_hour=0, 
+							start_minute=0, 
+							start_second=0, 
+							start_millisecond=0,
+							end_year=None, 
+							end_doy=None,
+							end_hour=0, 
+							end_minute=0, 
+							end_second=0, 
+							end_millisecond=0):
 	# Retrieve Flyby IDs based on a range of Timestamps
 	# YYYY-DOYThh:mm:ss.sss
+	pydar.errorHandlingRetrieveIDSByTimeRange(start_year=start_year, 
+											start_doy=start_doy,
+											start_hour=start_hour, 
+											start_minute=start_minute, 
+											start_second=start_second, 
+											start_millisecond=start_millisecond,
+											end_year=end_year, 
+											end_doy=end_doy,
+											end_hour=end_hour, 
+											end_minute=end_minute, 
+											end_second=end_second, 
+											end_millisecond=end_millisecond)
 	logger.info("TODO: retrieveIDSByTimeRange()")
 	flyby_ids = {}
 	return flyby_ids

@@ -260,5 +260,56 @@ def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second
 		logger.critical("\nCRITICAL ERROR, [millisecond]: second must be a postive value from 0 to 999")
 		exit()
 
-def errorHandlingRetrieveIDSByTimeRange():
-	return
+def errorHandlingRetrieveIDSByTimeRange(start_year=None, 
+										start_doy=None,
+										start_hour=0, 
+										start_minute=0, 
+										start_second=0, 
+										start_millisecond=0,
+										end_year=None, 
+										end_doy=None,
+										end_hour=0, 
+										end_minute=0, 
+										end_second=0, 
+										end_millisecond=0):
+
+	if start_year is None:
+		logger.critical("\nCRITICAL ERROR, [start_year]: start_year is required")
+		exit()
+	if start_doy is None:
+		logger.critical("\nCRITICAL ERROR, [start_doy]: start_doy is required")
+		exit()
+
+	if end_year is None:
+		logger.critical("\nCRITICAL ERROR, [end_year]: end_year is required")
+		exit()
+	if end_doy is None:
+		logger.critical("\nCRITICAL ERROR, [end_doy]: end_doy is required")
+		exit()
+
+	errorHandlingRetrieveIDSByTime(year=start_year, doy=start_doy, hour=start_hour, minute=start_minute, second=start_second, millisecond=start_millisecond)
+	errorHandlingRetrieveIDSByTime(year=end_year, doy=end_doy, hour=end_hour, minute=end_minute, second=end_second, millisecond=end_millisecond)
+
+	if start_year > end_year:
+		logger.critical("\nCRITICAL ERROR, [year]: start_year must be less than/equal to end_year")
+		exit()
+
+	if start_doy > end_doy:
+		logger.critical("\nCRITICAL ERROR, [doy]: start_doy must be less than/equal to end_doy")
+		exit()
+
+	if start_hour > end_hour:
+		logger.critical("\nCRITICAL ERROR, [hour]: start_hour must be less than/equal to end_hour")
+		exit()
+
+	if start_minute > end_minute:
+		logger.critical("\nCRITICAL ERROR, [minute]: start_minute must be less than/equal to end_minute")
+		exit()
+
+	if start_second > end_second:
+		logger.critical("\nCRITICAL ERROR, [second]: start_second must be less than/equal to end_second")
+		exit()
+
+	if start_millisecond > end_millisecond:
+		logger.critical("\nCRITICAL ERROR, [millisecond]: start_millisecond must be less than/equal to end_millisecond")
+		exit()

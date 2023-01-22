@@ -2,20 +2,24 @@ import pydar
 
 if __name__ == '__main__':
 	## Get swatch coverage based on latitude/longitude, Time, or Feature
-	#pydar.csvFeatureNameDetails()
 	feature_name = "ontario lAcus"
 	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
 	#print("Flyby IDS based on Feature Name '{0}' = {1}\n".format(feature_name.title(), flyby_ids_name))
+
 	#flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
 	#print("Flyby IDS based on Latitude/Longitude = {0}\n".format(flyby_ids_with_segments))
+
 	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=15,
 	#															southernmost_latitude=10,
 	#															easternmost_longitude=12,
 	#															westernmost_longitude=17)
 	#print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
-	flyby_ids_time = pydar.retrieveIDSByTime(year=2005, doy=301, hour=4, minute=33, second=35, millisecond=987)
-	print("Flyby IDS based on a specific Time = {0}".format(flyby_ids_time))
-	flyby_ids_time_range = pydar.retrieveIDSByTimeRange()
+
+	#flyby_ids_time = pydar.retrieveIDSByTime(year=2005, doy=301, hour=4, minute=33, second=35, millisecond=987)
+	#print("Flyby IDS based on a specific Time = {0}".format(flyby_ids_time))
+
+	flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004, start_doy=301, end_year=2005, end_doy=301)
+
 	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 	#print("Feature Names Found at -72 latitude and 183 longitude = {0}".format(feature_names_list))
 	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
