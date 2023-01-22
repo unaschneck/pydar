@@ -12,6 +12,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 * Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default
 	* extractFlybyDataImages()
 	* convertFlybyIDToObservationNumber()
+	* convertObservationNumberToFlybyID
 * Access specific observation data AAREADME and .LBL readme information
 	* readAAREADME(), returnAllAAREADMEOptions()
 	* readLBLREADME(), returnAllLBLOptions()
@@ -543,43 +544,79 @@ retrieveIDSByTime(year=None,
 		second=0,
 		millisecond=0)
 ```
-* **[REQUIRED]** year (int): Year for obserivation, range from 2004 to 2014
+* **[REQUIRED]** year (int): Year for observation, range from 2004 to 2014
 * **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year)
 * [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC, defaults to 0
 * [OPTIONAL] minute (int): Minute, from 0 to 59, defaults to 0
 * [OPTIONAL] second (int): Second, from 0 to 59, defaults to 0
 * [OPTIONAL] millisecond (int): Milliscond, from 0 to 999, defaults to 0
 
-Where `2005 year, 301 doy, 4 hour, 33 minute, 35 second, 987 millisecond` becomes `2005-301T04:33:35.987`
+Where `2004 year, 300 doy, 15 hour, 30 minute, 7 second, 789 millisecond` becomes `2004-300T15:30:07.789`
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2005,
-			doy=301,
-			hour=4,
-			minute=33, 
-			second=35, 
-			millisecond=987)
+pydar.retrieveIDSByTime(year=2004,
+			doy=300,
+			hour=15,
+			minute=30, 
+			second=7, 
+			millisecond=789)
 ```
-Output = `{'T8': ['S02', 'S01']}`
+Output = `{'Ta': ['S01']}`
 
 **retrieveIDSByTimeRange**
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a range in timestamps
 
 ```
-retrieveIDSByTimeRange()
+retrieveIDSByTimeRange(start_year=None, 
+					start_doy=None,
+					start_hour=0, 
+					start_minute=0, 
+					start_second=0, 
+					start_millisecond=0,
+					end_year=None, 
+					end_doy=None,
+					end_hour=0, 
+					end_minute=0, 
+					end_second=0, 
+					end_millisecond=0)
 ```
+
+* **[REQUIRED]** start_year (int): Year for observation, range from 2004 to 2014, start_year must be less than/equal to end_year
+* **[REQUIRED]** end_year (int): Year for observation, range from 2004 to 2014, end_year must be greater than/equal to start_year
+* **[REQUIRED]** start_doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year), start_doy must be less than/equal to end_doy
+* **[REQUIRED]** end_doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year), end_doy must be less than/equal to start_doy
+* [OPTIONAL] start_hour (int): Hour, from 0 to 23 in UTC, defaults to 0, start_hour must be less than/equal to end_hour
+* [OPTIONAL] end_hour (int): Hour, from 0 to 23 in UTC, defaults to 0, end_hour must be less than/equal to start_hour
+* [OPTIONAL] start_minute (int): Minute, from 0 to 59, defaults to 0, start_minute must be less than/equal to end_minute
+* [OPTIONAL] end_minute (int): Minute, from 0 to 59, defaults to 0, end_minute must be greater than/equal to start_minute
+* [OPTIONAL] start_second (int): Second, from 0 to 59, defaults to 0, start_second must be less than/equal to end_second
+* [OPTIONAL] end_second (int): Second, from 0 to 59, defaults to 0, end_second must be greater than/equal to start_second
+* [OPTIONAL] start_millisecond (int): Milliscond, from 0 to 999, defaults to 0, start_millisecond must be less than/equal to end_millisecond
+* [OPTIONAL] end_millisecond (int): Milliscond, from 0 to 999, defaults to 0, end_millisecond must be greater than/equal to start_millisecond
 
 ```python
 import pydar
-pydar.retrieveIDSByTimeRange()
+pydar.retrieveIDSByTimeRange(start_year=2004,
+					start_doy=299,
+					start_hour=2,
+					start_minute=15,
+					start_second=23,
+					start_millisecond=987,
+					end_year=2005, 
+					end_doy=301,
+					end_hour=2,
+					end_minute=15,
+					end_second=23,
+					end_millisecond=987):
 ```
-Output = `{TODO}`
+Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
 ## TODO:
 ### TODO Code:
 * retrieveIDSByTime() based on time or time range
+* retrieve from a day should capture all hours of the day, default values should find all possible range (doy=201 returns all ids for the entire doy)
 * to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
 * extract pdr functionality to reduce overhead
 * make README options for .LBL and AAREADME case-insensitive

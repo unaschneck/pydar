@@ -1,6 +1,7 @@
 # Retrieve Flyby Observation and IDs based on Feature Name, Latitude/Longitude or Time
 import logging
 import math
+from datetime import datetime, timedelta
 import os
 
 import pandas as pd
@@ -88,7 +89,6 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 																																southernmost_latitude,
 																																westernmost_longitude,
 																																easternmost_longitude))
-		exit()
 
 	return flyby_ids
 
@@ -100,55 +100,19 @@ def retrieveIDSByTime(year=None, doy=None, hour=0, minute=0, second=0, milliseco
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
-	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
-	for index, row in swath_dataframe.iterrows():
-		flyby = str(row['FLYBY ID'])
-
-		start_time_year = int(row["START_TIME"][:4])
-		start_time_doy = int(row["START_TIME"][5:8])
-		start_time_hour = int(row["START_TIME"][9:11])
-		start_time_minute = int(row["START_TIME"][12:14])
-		start_time_second = int(row["START_TIME"][15:17])
-		start_time_millisecond = int(row["START_TIME"][18:])
-
-		stop_time_year = int(row["STOP_TIME"][:4])
-		stop_time_doy = int(row["STOP_TIME"][5:8])
-		stop_time_hour = int(row["STOP_TIME"][9:11])
-		stop_time_minute = int(row["STOP_TIME"][12:14])
-		stop_time_second = int(row["STOP_TIME"][15:17])
-		stop_time_millisecond = int(row["STOP_TIME"][18:])
-
-		# Check if time stamp lies between time ranges, otherwise skip to next to check
-		if year < start_time_year or year > stop_time_year:
-			continue
-		if doy < start_time_doy or doy > stop_time_doy:
-			continue
-		if hour < start_time_hour or hour > stop_time_hour:
-			continue
-		if (stop_time_hour - start_time_hour) < 1: # if crosses between two difference hours
-			if minute < start_time_minute or minute > stop_time_minute:
-				continue
-			if (stop_time_minute - start_time_minute) < 1: # if the difference between the two minutes is greater than one minute, then further checking can be ignored since is always true
-				if second < start_time_second or second > stop_time_second:
-					continue 
-				if millisecond < start_time_millisecond or millisecond > stop_time_millisecond:
-					continue
-
-		# Add Flby ID and Segment Number to returned dict
-		if flyby not in flyby_ids.keys():
-			flyby_ids[flyby] = []
-		segment_number = "S0" + str(row["SEGMENT NUMBER"])
-		if segment_number not in flyby_ids[flyby]:
-			flyby_ids[flyby].append(segment_number)
-
-	if len(flyby_ids) == 0:
-		logger.info("\n[WARNING]: No flyby IDs found at timestamp: {0} year, {1} doy, {2} hours, {3} minutes, {4} seconds, {5} milliseconds".format(year,
-																																					doy,
-																																					hour,
-																																					minute,
-																																					second,
-																																					millisecond))
-		exit()
+	# Retrieve using the time range function for the same time for start/end
+	flyby_ids = retrieveIDSByTimeRange(start_year=year, 
+										start_doy=doy,
+										start_hour=hour, 
+										start_minute=minute, 
+										start_second=second, 
+										start_millisecond=millisecond,
+										end_year=year, 
+										end_doy=doy,
+										end_hour=hour, 
+										end_minute=minute, 
+										end_second=second, 
+										end_millisecond=millisecond)
 
 	return flyby_ids
 
@@ -178,8 +142,56 @@ def retrieveIDSByTimeRange(start_year=None,
 											end_minute=end_minute, 
 											end_second=end_second, 
 											end_millisecond=end_millisecond)
-	logger.info("TODO: retrieveIDSByTimeRange()")
-	flyby_ids = {}
+
+	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
+	swath_dataframe = pd.read_csv(swath_csv_file)
+
+	# User Values: As datetime objects
+	start_of_year_start_datetime = datetime(year=start_year, month=1, day=1)
+	start_datetime = start_of_year_start_datetime + timedelta(days=start_doy, hours=start_hour, minutes=start_minute, seconds=start_second, milliseconds=start_millisecond)
+
+	start_of_year_end_datetime = datetime(year=end_year, month=1, day=1)
+	end_datetime = start_of_year_end_datetime + timedelta(days=end_doy, hours=end_hour, minutes=end_minute, seconds=end_second, milliseconds=end_millisecond)
+
+	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
+	for index, row in swath_dataframe.iterrows():
+		flyby = str(row['FLYBY ID'])
+
+		start_time_year = int(row["START_TIME"][:4])
+		start_time_doy = int(row["START_TIME"][5:8])
+		start_time_hour = int(row["START_TIME"][9:11])
+		start_time_minute = int(row["START_TIME"][12:14])
+		start_time_second = int(row["START_TIME"][15:17])
+		start_time_millisecond = int(row["START_TIME"][18:])
+
+		stop_time_year = int(row["STOP_TIME"][:4])
+		stop_time_doy = int(row["STOP_TIME"][5:8])
+		stop_time_hour = int(row["STOP_TIME"][9:11])
+		stop_time_minute = int(row["STOP_TIME"][12:14])
+		stop_time_second = int(row["STOP_TIME"][15:17])
+		stop_time_millisecond = int(row["STOP_TIME"][18:])
+	
+		# Row values: As datetime objects
+		row_start_of_year_start_datetime = datetime(year=start_time_year, month=1, day=1)
+		row_start_datetime = row_start_of_year_start_datetime + timedelta(days=start_time_doy, hours=start_time_hour, minutes=start_time_minute, seconds=start_time_second, milliseconds=start_time_millisecond)
+
+		row_start_of_year_stop_datetime = datetime(year=stop_time_year, month=1, day=1)
+		row_stop_datetime = row_start_of_year_stop_datetime + timedelta(days=stop_time_doy, hours=stop_time_hour, minutes=stop_time_minute, seconds=stop_time_second, milliseconds=stop_time_millisecond)
+
+		if row_start_datetime <= end_datetime and row_stop_datetime >= start_datetime:
+			# Add Flyby ID and Segment Number to returned dict
+				if flyby not in flyby_ids.keys():
+					flyby_ids[flyby] = []
+				segment_number = "S0" + str(row["SEGMENT NUMBER"])
+				if segment_number not in flyby_ids[flyby]:
+					flyby_ids[flyby].append(segment_number)
+
+	if len(flyby_ids) == 0:
+		if start_datetime == end_datetime: # only display one datetime if both are the same
+			logger.info("\n[WARNING]: No flyby IDs found at timestamp: {0}".format(start_datetime))
+		else:
+			logger.info("\n[WARNING]: No flyby IDs found at timestamp range: {0} to {1}".format(start_datetime, end_datetime))
+
 	return flyby_ids
 
 def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
@@ -217,6 +229,5 @@ def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 																																southernmost_latitude,
 																																westernmost_longitude,
 																																easternmost_longitude))
-		exit()
 
 	return feature_names_list

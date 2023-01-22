@@ -15,10 +15,12 @@ if __name__ == '__main__':
 	#															westernmost_longitude=17)
 	#print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
-	#flyby_ids_time = pydar.retrieveIDSByTime(year=2005, doy=301, hour=4, minute=33, second=35, millisecond=987)
-	#print("Flyby IDS based on a specific Time = {0}".format(flyby_ids_time))
+	flyby_ids_time = pydar.retrieveIDSByTime(year=2004, doy=300, hour=15, minute=30, second=7, millisecond=789)
+	print("Flyby IDS based on a specific timestamp = {0}".format(flyby_ids_time))
 
-	flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004, start_doy=301, end_year=2005, end_doy=301)
+	flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004, start_doy=299, start_hour=2, start_minute=15, start_second=23, start_millisecond=987,
+														end_year=2005, end_doy=301, end_hour=2, end_minute=15, end_second=23, end_millisecond=987)
+	print("Flyby IDS based on a range of timestamps = {0}".format(flyby_ids_time_range))
 
 	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 	#print("Feature Names Found at -72 latitude and 183 longitude = {0}".format(feature_names_list))
