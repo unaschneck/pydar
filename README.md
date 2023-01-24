@@ -197,9 +197,9 @@ Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
 
 ### Dynamically Updated Data Files
 
-Scripts pull from datafiles that have been complied in advance.
+Scripts web scrap from URLs to generate some of the data files
 
-Last updated by developers `1/20/2023` via `python3 update_csv.py`
+Last updated by developers `1/22/2023` via `python3 update_csv.py`
 
 **coradr_jpl_options.csv**
 
@@ -271,6 +271,7 @@ pip install pydar
 ```
 
 ## Examples
+### Retrieve Data from CASSINI
 
 To collect flyby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
 
@@ -394,34 +395,11 @@ observation_number = convertFlybyIDToObservationNumber(flyby_id)
 
 Observation number based on the 'Radar Data Take Number' in the cassini_flyby.csv file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
 
+**convertObservationNumberToFlybyID**
+
+TODO: fill out
+
 Requires each Titan flyby ID to be a valid value the cassini_flyby.csv 
-
-**displayImages**
-
-```
-displayImages(image_directory=None)
-```
-
-* **[REQUIRED]** image_directory (string): 
-
-Displays downloaded image .IMG files (unzipped from within the .ZIP files)
-
-```python
-import pydar
-# Display all Images in pydar_results/ directory
-pydar.displayImages("pydar_results/CORADR_0065_V03_S01")
-```
-displayImages() will plt.show() all images in the saved results directory
-
-**extractMetadata**
-
-Extract metadata from .TAB file (using .FMT as a reference)
-
-```python
-import pydar
-# Extract Metadata from .FMT and .TAB files
-pydar.extractMetadata()
-```
 
 **readAAREADME**
 
@@ -517,17 +495,17 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 					easternmost_longitude=None,
 					westernmost_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, north must be greater than or equal to the south
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, south must be less than or euqal to the north
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West = + and East = -, west must be less than or equal to the east
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where West = + and East = -, east must be greater than or equal to the west
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west
 
 ```python
 import pydar
 pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
-								southernmost_latitude=-80,
-								easternmost_longitude=339,
-								westernmost_longitude=341)
+						southernmost_latitude=-80,
+						easternmost_longitude=339,
+						westernmost_longitude=341)
 ```
 Output = `['Aaru', 'Rossak Planitia']`
 
@@ -629,9 +607,39 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
+### Use Downloaded Data
+**displayImages**
+
+```
+displayImages(image_directory=None)
+```
+
+* **[REQUIRED]** image_directory (string): 
+
+Displays downloaded image .IMG files (unzipped from within the .ZIP files)
+
+```python
+import pydar
+# Display all Images in pydar_results/ directory
+pydar.displayImages("pydar_results/CORADR_0065_V03_S01")
+```
+displayImages() will plt.show() all images in the saved results directory
+
+**extractMetadata**
+
+Extract metadata from .TAB file (using .FMT as a reference)
+
+```python
+import pydar
+# Extract Metadata from .FMT and .TAB files
+pydar.extractMetadata()
+```
+
 ## TODO:
 ### TODO Code:
 * to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
+* bug: pydar.retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=150, southernmost_latitude=10, easternmost_longitude=12,westernmost_longitude=17) should include the same values from 10-15
+* save image pixel to an array
 * extract pdr functionality to reduce overhead
 * make README options for .LBL and AAREADME case-insensitive
 * bug fix: "NOTE" in .lbl
@@ -639,6 +647,7 @@ Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 * displayImages() bug fix: 87 displays invalid integer
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
 * progress bars print to command line (still downloading...)
+* save .IMG as .SHP for ArcGIS
 
 ### TODO Questions:
 * what is the timestamp for start/stop time: "2005-301T03:53:56.971" format? YYYY-MDDTHH:MM:SS.mms?

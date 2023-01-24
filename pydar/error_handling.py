@@ -206,8 +206,8 @@ def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
 		logger.critical("\nCRITICAL ERROR, [latitude]: northernmost_latitude must be greater than southernmost_latitude")
 		exit()
 
-	if westernmost_longitude < easternmost_longitude:
-		logger.critical("\nCRITICAL ERROR, [longitude]: westernmost_longitude must be greater than easternmost_longitude")
+	if westernmost_longitude > easternmost_longitude:
+		logger.critical("\nCRITICAL ERROR, [longitude]: westernmost_longitude must be less than easternmost_longitude")
 		exit()
 
 
