@@ -2,18 +2,18 @@ import pydar
 
 if __name__ == '__main__':
 	## Get swatch coverage based on latitude/longitude, Time, or Feature
-	#feature_name = "ontario lAcus"
-	#flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
-	#print("Flyby IDS based on Feature Name '{0}' = {1}\n".format(feature_name.title(), flyby_ids_name))
+	feature_name = "ontario lAcus"
+	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+	print("Flyby IDS based on Feature Name '{0}' = {1}\n".format(feature_name.title(), flyby_ids_name))
 
 	#flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
 	#print("Flyby IDS based on Latitude/Longitude = {0}\n".format(flyby_ids_with_segments))
 
-	flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
-																northernmost_latitude=30,
-																westernmost_longitude=130,
-																easternmost_longitude=140)
-	print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
+	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
+	#															northernmost_latitude=30,
+	#															westernmost_longitude=130,
+	#															easternmost_longitude=140)
+	#print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
 	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
 	#															northernmost_latitude=30,

@@ -295,7 +295,7 @@ Feature names are retrieved from [feature_name_details.csv](https://github.com/u
 import pydar
 pydar.retrieveIDSByFeatureName(feature_name="Ontario Lacus")
 ```
-Output = `{'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
+Output = `{'T7': ['S01'], 'T39': ['S04'], 'T71': ['S01']}`
 
 **retrieveIDSByLatitudeLongitude**
 
