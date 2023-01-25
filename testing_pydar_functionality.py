@@ -15,19 +15,19 @@ if __name__ == '__main__':
 																easternmost_longitude=140)
 	print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
-	flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
-																northernmost_latitude=30,
-																westernmost_longitude=130,
-																easternmost_longitude=340)
-	print("Flyby IDS based on Exapnded Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
+	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
+	#															northernmost_latitude=30,
+	#															westernmost_longitude=130,
+	#															easternmost_longitude=340)
+	#print("Flyby IDS based on Exapnded Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
 	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
-	#print("Feature Names Found at -72 latitude and 183 longitude = {0}".format(feature_names_list))
+	#print("Feature Names Found at -72 latitude and 183 longitude = {0}\n".format(feature_names_list))
 
-	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
-	#															southernmost_latitude=-80,
-	#															easternmost_longitude=339,
-	#															westernmost_longitude=341)
+	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(southernmost_latitude=-80,
+	#																	northernmost_latitude=-50,
+	#																	westernmost_longitude=170,
+	#																	easternmost_longitude=190)
 	#print("Feature Names Found in Latitude/Longitude Range = {0}".format(feature_names_list))
 
 	#flyby_ids_time = pydar.retrieveIDSByTime(year=2001, doy=301)

@@ -73,7 +73,7 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
-	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
+	flyby_ids = {} # {'flyby_id': ['S01', S03']
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
 		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= northernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= southernmost_latitude:
@@ -164,7 +164,7 @@ def retrieveIDSByTimeRange(start_year=None,
 	start_of_year_end_datetime = datetime(year=end_year, month=1, day=1)
 	end_datetime = start_of_year_end_datetime + timedelta(days=end_doy, hours=delta_hour, minutes=delta_minute, seconds=delta_second, milliseconds=delta_millisecond)
 
-	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
+	flyby_ids = {} # {'flyby_id': ['S01', S03']
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
 
@@ -242,8 +242,8 @@ def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 	feature_names_list = []
 
 	for feature_name, position_dict in feature_name_csv_dict.items():
-		if float(position_dict["Southernmost Latitude"]) >= southernmost_latitude and float(position_dict["Northernmost Latitude"]) <= northernmost_latitude:
-			if float(position_dict["Easternmost Longitude"]) >= easternmost_longitude and float(position_dict["Westernmost Longitude"]) <= westernmost_longitude:
+		if float(position_dict["Southernmost Latitude"]) <= northernmost_latitude and float(position_dict["Northernmost Latitude"]) >= southernmost_latitude:
+			if float(position_dict["Easternmost Longitude"]) <= easternmost_longitude and float(position_dict["Westernmost Longitude"]) >= westernmost_longitude:
 				feature_names_list.append(feature_name)
 
 	if len(feature_names_list) == 0:

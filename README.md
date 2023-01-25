@@ -304,14 +304,14 @@ Retrieve a list of flyby IDs with their associated segments based on specific la
 ```python
 retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
 ```
-* **[REQUIRED]** latitude (float/int): Latitude (in degrees) where North = + and South = -
-* **[REQUIRED]** longitude (float/int): Longitude (in degrees) where West = + and East = -
+* **[REQUIRED]** latitude (float/int): Latitude (in degrees)
+* **[REQUIRED]** longitude (float/int): Longitude (in degrees)
 
 ```python
 import pydar
 pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
 ```
-Output = `{'T19': ['S01'], 'T29': ['S01'], 'T55': ['S01'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T64': ['S01'], 'T83': ['S02'], 'T84': ['S02'], 'T92': ['S01'], 'T98': ['S02'], 'T104': ['S01']}`
+Output = `{'T104': ['S01']}`
 
 **retrieveIDSByLatitudeLongitudeRange**
 
@@ -321,18 +321,18 @@ retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 				easternmost_longitude=None,
 				westernmost_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, north must be greater than or equal to the south
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where North = + and South = -, south must be less than or euqal to the north
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West = + and East = -, west must be less than or equal to the east
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where West = + and East = -, east must be greater than or equal to the west
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west
 
 ```python
-retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=15,
-				southernmost_latitude=10,
-				easternmost_longitude=12,
-				westernmost_longitude=17)
+retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
+				northernmost_latitude=30,
+				westernmost_longitude=130,
+				easternmost_longitude=140)
 ```
-Output = `{'T19': ['S01'], 'T29': ['S01'], 'T55': ['S01'], 'T56': ['S01'], 'T57': ['S01'], 'T64': ['S01'], 'T83': ['S02'], 'T84': ['S02'], 'T92': ['S01'], 'T98': ['S02'], 'T104': ['S01']}`
+Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T23': ['S01'], 'T25': ['S01'], 'T28': ['S01'], 'T50': ['S01'], 'T69': ['S02'], 'T84': ['S03', 'S01'], 'T86': ['S01'], 'T104': ['S01', 'S02']}`
 
 Ontario Lacus was visible in four swath observations: T57, T58, T65, T98 [(Page 163)](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf).
 
@@ -502,12 +502,13 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 
 ```python
 import pydar
-pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=11,
-						southernmost_latitude=-80,
-						easternmost_longitude=339,
-						westernmost_longitude=341)
+
+pydar.retrieveFeaturesFromLatitudeLongitudeRange(southernmost_latitude=-80,
+						northernmost_latitude=-50,
+						westernmost_longitude=170,
+						easternmost_longitude=190)
 ```
-Output = `['Aaru', 'Rossak Planitia']`
+Output = `'[Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Saraswati Flumen']`
 
 **retrieveIDSByTime**
 
@@ -637,8 +638,8 @@ pydar.extractMetadata()
 
 ## TODO:
 ### TODO Code:
+* add East/West and Noth/South range error checking and details in reading
 * to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
-* bug: pydar.retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=150, southernmost_latitude=10, easternmost_longitude=12,westernmost_longitude=17) should include the same values from 10-15
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
 * make README options for .LBL and AAREADME case-insensitive
