@@ -662,8 +662,6 @@ pydar.extractMetadata()
 * to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
-* make README options for .LBL and AAREADME case-insensitive
-* bug fix: "NOTE" in .lbl
 * add a colored outline around a feature when displaying as a 2D image
 * displayImages() bug fix: 87 displays invalid integer
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
@@ -671,9 +669,6 @@ pydar.extractMetadata()
 * save .IMG as .SHP for ArcGIS
 
 ### TODO Questions:
-* what is the timestamp for start/stop time: "2005-301T03:53:56.971" format? YYYY-MDDTHH:MM:SS.mms?
-* what is the range of the hours for timestamp?
-* get longitude values when greater than 180 (everything is relative to west)
 * add details for what a segement_num is
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values

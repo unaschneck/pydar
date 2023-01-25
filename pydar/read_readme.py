@@ -312,7 +312,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		output_string = ""
 		for line in output_lines:
 			if "END_OBJECT" not in line:
-				output_string += line
+				output_string += " " + line.strip() + " " # fix additional tabs added in text file by stripping out
 			else:
 				break
 
