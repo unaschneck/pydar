@@ -76,8 +76,8 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	flyby_ids = {} # {'flyby_id': ['seg1', seg4']
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
-		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= southernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= northernmost_latitude:
-			if float(row["EASTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude and float(row["WESTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude:
+		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= northernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= southernmost_latitude:
+			if float(row["WESTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude and float(row["EASTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude:
 				if flyby not in flyby_ids.keys():
 					flyby_ids[flyby] = []
 				segment_number = "S0" + str(row["SEGMENT NUMBER"])

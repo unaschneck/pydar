@@ -10,10 +10,16 @@ if __name__ == '__main__':
 	#print("Flyby IDS based on Latitude/Longitude = {0}\n".format(flyby_ids_with_segments))
 
 	flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
-																northernmost_latitude=20,
+																northernmost_latitude=30,
 																westernmost_longitude=130,
-																easternmost_longitude=138)
+																easternmost_longitude=140)
 	print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
+
+	flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
+																northernmost_latitude=30,
+																westernmost_longitude=130,
+																easternmost_longitude=340)
+	print("Flyby IDS based on Exapnded Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
 	#feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 	#print("Feature Names Found at -72 latitude and 183 longitude = {0}".format(feature_names_list))
