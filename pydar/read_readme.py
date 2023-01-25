@@ -47,16 +47,20 @@ def returnAllAAREADMEOptions():
 
 def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print AAREADME to console
-
 	pydar.errorHandlingREADME(coradr_results_directory=coradr_results_directory,
 							section_to_print=section_to_print,
 							print_to_console=print_to_console)
 
 	sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 	if sectionList is None:
-		# TODO: error handling if section_to_print doesn't exist
-		logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
-		exit()
+		section_to_print = section_to_print.upper() # check if the section is case-senstive
+		sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+		if sectionList is None:
+			section_to_print = section_to_print.title() # check if the section is case-senstive
+			sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+			if sectionList is None:
+				logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
+				exit()
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -221,9 +225,12 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 
 	sectionList = determineSectionToPrint(section_to_print, "LBL")
 	if sectionList is None:
-		# TODO: error handling if section_to_print doesn't exist
-		logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
-		exit()
+		# check if the section is case-senstive
+		section_to_print = section_to_print.upper()
+		sectionList = determineSectionToPrint(section_to_print, "LBL")
+		if sectionList is None:
+			logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
+			exit()
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:

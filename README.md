@@ -304,8 +304,8 @@ Retrieve a list of flyby IDs with their associated segments based on specific la
 ```python
 retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
 ```
-* **[REQUIRED]** latitude (float/int): Latitude (in degrees)
-* **[REQUIRED]** longitude (float/int): Longitude (in degrees)
+* **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90 to 90
+* **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0 to 360
 
 ```python
 import pydar
@@ -321,10 +321,10 @@ retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 				easternmost_longitude=None,
 				westernmost_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90 to 90
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90 to 90
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0 to 360
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west, range from 0 to 360
 
 ```python
 retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
@@ -368,8 +368,6 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 
 ```python
 import pydar
-
-# Extract Flyby Data Files to pydar_results/ directory: 
 pydar.extractFlybyDataImages(flyby_id='T65',
 			resolution='D',
 			segment_num="S01",
@@ -389,7 +387,6 @@ convertFlybyIDToObservationNumber(flyby_id)
 
 ```python
 import pydar
-
 observation_number = convertFlybyIDToObservationNumber(flyby_id)
 ```
 
@@ -397,7 +394,19 @@ Observation number based on the 'Radar Data Take Number' in the cassini_flyby.cs
 
 **convertObservationNumberToFlybyID**
 
-TODO: fill out
+Converts a Titan Observation Number (for example: '211' or '0211') to an flyby id ('0211' -> 'T65')
+
+```python
+convertObservationNumberToFlybyID(flyby_observation_num)
+```
+* **[REQUIRED/OPTIONAL]** flyby_observation_num (string): a valid observation number
+
+```python
+import pydar
+observation_number = flyby_observation_num(flyby_observation_num='211')
+```
+
+Flyby ids are based on the 'Radar Data Take Number' in the cassini_flyby.csv file
 
 Requires each Titan flyby ID to be a valid value the cassini_flyby.csv 
 
@@ -412,8 +421,14 @@ readAAREADME(coradr_results_directory=None,
 ```
 
 * **[REQUIRED]** coradr_results_directory (string):
-* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT (readme options: ['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information'])
+* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
+
+<details closed>
+<summary>List of section_to_print Options (Click to view all)</summary>
+<br>
+['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']
+</details>
 
 ```python
 import pydar
@@ -443,8 +458,14 @@ readLBLREADME(coradr_results_directory=None,
 ```
 
 * **[REQUIRED]** coradr_results_directory (string):
-* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT (readme options: ['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information'])
+* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
+
+<details closed>
+<summary>List of section_to_print Options (Click to view all)</summary>
+<br>
+['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']
+</details>
 
 ```python
 import pydar
@@ -477,8 +498,8 @@ Return a list of features found at a specific latitude/longitude position
 ```
 retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None)
 ```
-* **[REQUIRED]** latitude (float/int): Latitude (in degrees) where North = + and South = -
-* **[REQUIRED]** longitude (float/int): Longitude (in degrees) where West = + and East = -
+* **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90 to 90
+* **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0 to 360
 
 ```python
 import pydar
@@ -495,10 +516,10 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 					easternmost_longitude=None,
 					westernmost_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90 to 90
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90 to 90
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0 to 360
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west, range from 0 to 360
 
 ```python
 import pydar
@@ -638,7 +659,6 @@ pydar.extractMetadata()
 
 ## TODO:
 ### TODO Code:
-* add East/West and Noth/South range error checking and details in reading
 * to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
 * save image pixel to an array
 * extract pdr functionality to reduce overhead

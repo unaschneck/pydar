@@ -54,11 +54,11 @@ if __name__ == '__main__':
 	# Read AAREADME to console
 	#pydar.returnAllAAREADMEOptions()
 	#pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
-	#					section_to_print="INSTRUMENT_NAME")
+	#					section_to_print="INSTRUMENT_name")
 
 	# Read .LBL to console
 	#pydar.returnAllLBLOptions()
 	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
-	#					section_to_print="LOOK_DIRECTION")
+	#					section_to_print="LOOK_DIREcTION")
 
 	#pydar.extractMetadata()

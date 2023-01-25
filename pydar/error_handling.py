@@ -143,7 +143,7 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 			observation_num_found = True
 			break
 	if not observation_num_found:
-		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(observation_num, valid_observation_nums))
+		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(flyby_observation_num, valid_observation_nums))
 		exit()
 
 def errorHandlingDisplayImages(image_directory=None):
