@@ -5,17 +5,21 @@
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
-* **Find relevant flyby observation numbers and IDs for a range of regions, feature, or specific latitude/longitude**
+* **Find relevant flyby observation numbers and IDs for a feature, range of regions, or specific latitude/longitude**
 	* retrieveIDSByFeatureName()
-	* retrieveIDSByLatitudeLongitude(), retrieveIDSByLatitudeLongitudeRange()
-	* retrieveIDSByTime(), retrieveIDSByTimeRange()
+	* retrieveIDSByLatitudeLongitude()
+	* retrieveIDSByLatitudeLongitudeRange()
+	* retrieveIDSByTime()
+	* retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default**
 	* extractFlybyDataImages()
 	* convertFlybyIDToObservationNumber()
-	* convertObservationNumberToFlybyID
+	* convertObservationNumberToFlybyID()
 * **Access specific observation data AAREADME and .LBL readme information**
-	* readAAREADME(), returnAllAAREADMEOptions()
-	* readLBLREADME(), returnAllLBLOptions()
+	* returnAllAAREADMEOptions()
+	* readAAREADME()
+	* returnAllLBLOptions()
+	* readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
 	* displayImages()
 * **Extract Metadata from .FMT and .TAB files**
@@ -116,28 +120,10 @@ Download time varies depending on the number and size of files of interest. On a
 ### Cross-Reference Table for Observations and Flybys
 The Titan flybys ID is not used in the naming convention for the CORADR filenames. The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-```
-Flyby ID Cross Reference Table
-Prime Mission and Extended Mission
-
-Column 1: Titan flyby id
-Column 2: Radar Data Take Number
-Column 3: Sequence number
-Column 4: Orbit Number/ID
-
-Ta   DTN 035   S05 Rev 0A
-T3   DTN 045   S08 Rev 03
-T4   DTN 048   S09 Rev 04
-T7   DTN 059   S14 Rev 14
-T8   DTN 065   S15 Rev 17
-
-...
-```
-
-To convert between a Titan Flyby ID and an observation number: `pydar.convertFlybyIDToObservationNumber(flyby_id)`
+To convert between a Titan Flyby ID and an observation number use either `pydar.convertFlybyIDToObservationNumber(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
 
 ### Observation Information as filename
-The data filename contains a lot of information about the observation 
+The data filename contains a lot of information about the observation
 
 (EXAMPLE) Filename: "BIBQD05S184_D065_T008S03_V03"
 
@@ -153,13 +139,13 @@ The data filename contains a lot of information about the observation
 - S03 = 2-digit segment number (00-99)
 - V03 = 2-digit version number (01-99)
 
-BIBQD05S184_D065_T008S03_V03.JPG:
+Image file from BIBQD05S184_D065_T008S03_V03.JPG:
 
 ![BIFQI10S251_D065_T008S01_V03](https://user-images.githubusercontent.com/24469269/210164143-427003ed-0043-45b4-a80f-8e9ddf28543a.jpg)
 
 ### Volume Version of Data
 
-Some passes have multiple versions of the data.
+Some passes have multiple versions of the data, up to 3 different versions currently.
 
 * Version 1 (V01) was the first archived version of the data and assumed Titan had zero obliquity, which resulted in misregistration between passes
 
@@ -175,9 +161,9 @@ Only some Titan passes produced all of the version numbers.
 
 * T108-T126: labeled only once as V02 but is actually V03
 
-The version number is listed in the filenanme and in VOLDESC.CAT under the 'VOLUME_VERSION_ID'
+The version number is listed in the filename and in VOLDESC.CAT under the 'VOLUME_VERSION_ID'
 
-*Version 3 is the latest and preferred version*
+**Version 3 is the latest and preferred version**
 
 Example:
 
@@ -191,15 +177,15 @@ Version 3 is named BIFQI49N071_D035_T00AS01_V03.IMG
 A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.  
 
 ![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
-Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)
+*Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)*
 
 ## Data Files
 
 ### Dynamically Updated Data Files
 
-Scripts web scrap from URLs to generate some of the data files
+Pydar includes multiple scripts to web scrap from revelant URLs to generate some of the data files
 
-Last updated by developers `1/22/2023` via `python3 update_csv.py`
+Last updated by developers `1/25/2023` via `python3 update_csv.py`
 
 **coradr_jpl_options.csv**
 
@@ -227,16 +213,18 @@ Reference for converting between a Titan Flyby ID (e.g. "T7") to an Observation 
 
 Columns: ["Titan flyby id", "Radar Data Take Number", "Sequence number", "Orbit Number/ID"]
 
-**sar_swath_details.csv*
+**sar_swath_details.csv**
 
-TEMP: potentially will be removed, replaced by swath_coverage_by_time_position.csv
+Currently unused, but will potentially be used in the future for incidence angle, polarization, azimuth, SAR range resolution, SAR azimuth resolution, and number of looks
+
+Converted to a static csv file from the Cassini User Guide (pg. 136-139)
 
 ## SBDR Files
-[SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
-
 Total width of the RADAR swath is created by combining the five individual sub-swaths, where the center beam is the highest gain
 ![image](https://user-images.githubusercontent.com/24469269/211431884-c201ac74-114a-4c17-b95a-f9edf0178d2e.png)
 (_The Cassini Huygens Mission: Orbiter Remote Sensing Observation 2004_)
+
+[SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
 
 ```
 test_file = "SBDR_15_D065_V03.TAB"
@@ -259,10 +247,16 @@ CORADR_0209 (T63) only has scatterometry and radiometry
 
 CORADR_0234 (T80) only has scatterometry and radiometry 
 ## Dependencies
-Python 3.9
+Python 3.7+
+
+Verified compatibility with Python 3.7, 3.8, and 3.9
+
 ```
 pip3 install -r requirements.txt
 ```
+
+Requirements will also be downloaded as part of the pip download
+
 ## Install
 PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
 
@@ -270,8 +264,7 @@ PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
 pip install pydar
 ```
 
-## Examples
-### Retrieve Data from CASSINI
+## Retrieve Data from CASSINI
 
 To collect flyby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
 
@@ -360,11 +353,10 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 
 * **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
-* **[REQUIRED]** segment_num (string): 
+* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03"]
 * [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 * [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
 * [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
-
 
 ```python
 import pydar
@@ -424,15 +416,10 @@ readAAREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-<details closed>
-<summary>List of section_to_print Options (Click to view all)</summary>
-<br>
-['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']
-</details>
+To see a list of all section_to_print options, see: returnAllAAREADMEOptions()
 
 ```python
 import pydar
-# Print AAREADME.TXT
 pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
 		section_to_print="Volume")
 ```
@@ -461,15 +448,10 @@ readLBLREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-<details closed>
-<summary>List of section_to_print Options (Click to view all)</summary>
-<br>
-['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'OBJECT', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']
-</details>
+To see a list of all section_to_print options, see: returnAllLBLOptions()
 
 ```python
 import pydar
-# Print .LBL README
 pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
 		section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 ```
@@ -629,7 +611,7 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
-### Use Downloaded Data
+## Use Downloaded Data
 **displayImages**
 
 ```
@@ -638,11 +620,10 @@ displayImages(image_directory=None)
 
 * **[REQUIRED]** image_directory (string): 
 
-Displays downloaded image .IMG files (unzipped from within the .ZIP files)
+Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
 
 ```python
 import pydar
-# Display all Images in pydar_results/ directory
 pydar.displayImages("pydar_results/CORADR_0065_V03_S01")
 ```
 displayImages() will plt.show() all images in the saved results directory
@@ -653,13 +634,11 @@ Extract metadata from .TAB file (using .FMT as a reference)
 
 ```python
 import pydar
-# Extract Metadata from .FMT and .TAB files
 pydar.extractMetadata()
 ```
 
 ## TODO:
 ### TODO Code:
-* to check: verify that same ids for all resolutions since only returns flyby/seg (check retrieve by position/time)
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
 * add a colored outline around a feature when displaying as a 2D image
