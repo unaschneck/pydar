@@ -359,12 +359,17 @@ def errorHandlingSbdrMakeShapeFile(filename=None,
 									saronly=0, 
 									usepassive=False, 
 									ind=None, 
-									file_out=[], 
+									file_out=None, 
 									lon360=False):
 	logger.critical("TODO: errorHandlingSbdrMakeShapeFile")
 
 	if type(filename) != str:
 		logger.critical("\nCRITICAL ERROR, [filename]: Must be an str, current type = '{0}'".format(type(filename)))
+		exit()
+
+	valid_file_extensions = ["sbdr", "lbdr", "tab"]
+	if filename.split(".")[1].lower() not in valid_file_extensions:
+		logger.critical("\nCRITICAL ERROR, [filename]: Unrecognized Data File Format '{0}', must be within '{1}'".format(filename.split(".")[1], valid_file_extensions))
 		exit()
 
 	if type(fields) != list:
@@ -383,6 +388,10 @@ def errorHandlingSbdrMakeShapeFile(filename=None,
 
 	if saronly not in [0, 1, 2, 3]:
 		logger.critical("\nCRITICAL ERROR, [saronly]: Must be a valid option, not '{0}', chose from {1}".format(saronly, [0, 1, 2, 3]))
+		exit()
+
+	if file_out is not None and type(file_out) != str:
+		logger.critical("\nCRITICAL ERROR, [file_out]: Must be an str, current type = '{0}'".format(type(file_out)))
 		exit()
 
 	if type(lon360) != bool:

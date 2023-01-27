@@ -63,4 +63,4 @@ if __name__ == '__main__':
 	#pydar.extractMetadata()
 
 	# SBDR Shapefile
-	pydar.sbdrMakeShapeFile(filename="pydar/testing_files/SBDR_15_D065_V03")
+	pydar.sbdrMakeShapeFile(filename="pydar/testing_files/SBDR_15_D065_V03.TAB", saronly=3, usepassive=False)

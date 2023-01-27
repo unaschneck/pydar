@@ -39,6 +39,7 @@ setup(
 	install_requires=[
 			"beautifulsoup4>=4.11.1",
 			"matplotlib>=3.1.0",
+			"pandas>=1.5.2",
 			"pdr>=0.7.3",
 			"planetaryimage>=0.5.0",
 			"urllib3>=1.26.9"
