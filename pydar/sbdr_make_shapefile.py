@@ -1,6 +1,7 @@
 # Script to generate an ARC Shape File from SBDR Table Data
 import time
 import logging
+import math
 
 import pandas as pd
 import pdr
@@ -143,10 +144,12 @@ def sbdrMakeShapeFile(filename=None,
 		act_pt2_lat = info.iloc[ind_lst].PASS_ELLIPSE_PT2_LAT
 		act_pt3_lat = info.iloc[ind_lst].PASS_ELLIPSE_PT3_LAT
 		act_pt4_lat = info.iloc[ind_lst].PASS_ELLIPSE_PT3_LAT
+		
 		act_pt1_lon = info.iloc[ind_lst].PASS_ELLIPSE_PT1_LON
 		act_pt2_lon = info.iloc[ind_lst].PASS_ELLIPSE_PT2_LON
 		act_pt3_lon = info.iloc[ind_lst].PASS_ELLIPSE_PT3_LON
 		act_pt4_lon = info.iloc[ind_lst].PASS_ELLIPSE_PT4_LON
+		
 		act_min_wid = info.iloc[ind_lst].PASS_MINOR_WIDTH
 		act_maj_wid = info.iloc[ind_lst].PASS_MINOR_WIDTH
 		act_cen_lat = info.iloc[ind_lst].PASS_CENTROID_LAT
@@ -157,10 +160,12 @@ def sbdrMakeShapeFile(filename=None,
 		act_pt2_lat = info.iloc[ind_lst].ACT_ELLIPSE_PT2_LAT
 		act_pt3_lat = info.iloc[ind_lst].ACT_ELLIPSE_PT3_LAT
 		act_pt4_lat = info.iloc[ind_lst].ACT_ELLIPSE_PT3_LAT
+		
 		act_pt1_lon = info.iloc[ind_lst].ACT_ELLIPSE_PT1_LON
 		act_pt2_lon = info.iloc[ind_lst].ACT_ELLIPSE_PT2_LON
 		act_pt3_lon = info.iloc[ind_lst].ACT_ELLIPSE_PT3_LON
 		act_pt4_lon = info.iloc[ind_lst].ACT_ELLIPSE_PT4_LON
+		
 		act_min_wid = info.iloc[ind_lst].ACT_MINOR_WIDTH
 		act_maj_wid = info.iloc[ind_lst].ACT_MINOR_WIDTH
 		act_cen_lat = info.iloc[ind_lst].ACT_CENTROID_LAT
@@ -171,3 +176,190 @@ def sbdrMakeShapeFile(filename=None,
 		min_wid = info.iloc[ind_lst].ACT_MINOR_WIDTH
 		maj_wid = info.iloc[ind_lst].ACT_MAJOR_WIDTH
 
+	# Loop through Data fields
+	cnt = 1
+	gfields = {}
+	for field in fields:
+		if field.upper() in list(info): # checks that field is an element in the info dataframe 
+			gfields[cnt] = field # Convert matlab structure to dict
+			cnt += 1
+		else:
+			logger.info("{0} Not a Valid Field!".format(field))
+	if cnt == 1: # If the fields are not moved through, then no fields are returned
+		logger.info("No Valid Fields Returning...")
+		return
+
+	# Progress Bar: Print an update to the screen
+	# TODO: Currently does nothing
+	#eta_start = time.time()
+	#for num in range(num_record):
+	#	if num < num_record:
+	#		print("{0} of {1} ({2} Percent Complete".format(num+1, num_record, num+1/num_record), end="\r")
+	#print("") # reset printing to terminal
+
+	# Step through each footprint and create 100 latitude/longitude points around the ellipse to create a perimeter
+	for i in range(num_record): # TODO: check if i should be the index or the value?
+		# TODO: num_record + 1? to get all?
+		# 1 to all valid data points
+		# Get the ellipse center and semi-major axis, eccentricity, and azimuth
+		pt1x = float(act_pt1_lat.iloc[[i]])
+		pt1y = float(act_pt1_lon.iloc[[i]])
+		pt2x = float(act_pt2_lat.iloc[[i]])
+		pt2y = float(act_pt2_lon.iloc[[i]])
+		pt3x = float(act_pt3_lat.iloc[[i]])
+		pt3y = float(act_pt3_lon.iloc[[i]])
+		pt4x = float(act_pt4_lat.iloc[[i]])
+		pt4y = float(act_pt4_lon.iloc[[i]])
+		ptx = [pt1x, pt2x, pt3x, pt4x] # TODO: duplicate of below line, remove?
+		pty = [pt1y, pt2y, pt3y, pt4y]
+
+		# Convert lons into -180 to 180
+		if pt1y > 180: pt1y = pt1y - 360
+		if pt2y > 180: pt2y = pt2y - 360
+		if pt3y > 180: pt3y = pt3y - 360
+		if pt4y > 180: pt4y = pt4y - 360
+		if pt1y < -180: pt1y = pt1y + 360
+		if pt2y < -180: pt2y = pt2y + 360
+		if pt3y < -180: pt3y = pt3y + 360
+		if pt4y < -180: pt4y = pt4y + 360
+
+		ptx = [pt1x, pt2x, pt3x, pt4x] # Latitudes
+		pty = [-x for x in pty] # Convert Longitudes to negative
+
+		# Check if Crosses 180 or 360
+		if (min([abs(i) - 360 for i in pty]) < 2) or (min([abs(i) for i in pty]) < 2):
+			# Convert to -180 or 180
+			for i, pt in enumerate(pty):
+				if pt > 180:
+					pty[i] = pt - 360 # TODO: verify: pty(pty > 180) = pty(pty > 180) -360
+		elif (min([abs(i) - -180 for i in pty]) < 2):
+			# Convert between 0 and 360
+			for i, pt in enumerate(pty):
+				if pt < 0:
+					pty[i] = pt + 360 # TODO: verify: pty(pty < 0) = pty(pty < 0) + 360
+
+		# If lon360, convert to between 0 and 360
+		if lon360:
+			for i, pt in enumerate(pty):
+				if pt < 0:
+					pty[i] = pt + 360 # TODO: verify: pty(pty < 0) = pty(pty < 0) + 360
+
+		# Ensure that single records exist
+		pt1y = pty[0]
+		pt2y = pty[1]
+		pt3y = pty[2]
+		pt4y = pty[3]
+		pt1x = ptx[0]
+		pt2x = ptx[1]
+		pt3x = ptx[2]
+		pt4x = ptx[3]
+
+		"""
+		# Set azimuth for intersecton of ellipsis
+		gc_az1 = azimuth(pt1x, pt2x, pt2x, pt2y, titan_def)
+		gc_az1 = azimuth(pt3x, pt3x, pt4x, pt4y, titan_def)
+
+		# Calculate the intersection point
+		[lat0, lon0] = gcxgc(pt1x, pt1y ,gc_az1 ,pt3x ,pt3y ,gc_az2)
+
+		# Use intersection point that is within the elipse
+		dist1 = distanc(pt1x, pt1y, lat0[0], lon0[0])
+		dist2 = distance(pt1x, pt1y, lat0[1], lon0[1])
+
+		if dist1 < dist2:
+			lat0 = lat0[0]
+			lon0 = lon0[0]
+		else: # use interaction with a flat surface
+			lat0 = lat0[1]
+			lon0 = lon0[1]
+
+		if lon0 < -180:
+			lon0 += 360
+		if lon0 > 180:
+			lon0 -= 360
+		lat0s[i] = lat0
+		lon0s[i] = lon0
+
+		# Center of elipse
+		latcens[i] = act_cent_lat[i]
+		loncens[i] = -act_cen_long[i]
+		if loncens[i] < 180:
+			loncens[i] += 360
+		if loncens[i] > 180:
+			loncens[i] -= 360
+		if ( (abs(lon0 - loncens[i]) < 4 ): # Check if crosses 180 or 360
+			lat0 = -lat0
+		if ( (abs(lon0 - loncens[i]) > 4 ): # Check if crosses 180 or 360
+			lon0 -= 180
+		if lon0 < -180: # Convert between -180 to 180
+			lon0 += 360 
+		if lon0 > 180: # Convert between -180 to 180
+			lon0 += 360
+		if lon0 > 180: # Convert between -180 to 180
+			lon0 -= 360
+
+		# Converting back to 0 to 360
+		if lon360:
+			for i, lon in lon0:
+				if lon < 0:
+					lon0[i] = lon + 360
+			for i, lon in lon0s:
+				if lon < 0:
+					lon0s[i] = lon + 350
+			for i, lon in loncens:
+				if lon < 0:
+					loncens[i] = lon + 360
+
+		# Calculate the Ellipse
+		minor = act_min_wid[i]
+		major = act_maj_wid[i]
+
+		# Defining the eccentricity of ellipse
+		if major == 0 or minor == 0:
+			ecc = 0
+		else:
+			ecc = math.sqrt( 1 - (minor/major)**2)
+
+		[lat, lon] = ellipse1(latcens[i], loncens[i], (major/ 2 * ecc), gc_az1, [], titan_def)
+
+		# Get the reported azimutal look direction
+		az = -1 * act_az[i]
+
+		# Convert the longitude values into -180 to 180
+		for i, l in enumerate(lon):
+			if l > 180:
+				lon[i] = l -360
+		for i, l in enumerate(lon0s):
+			if l > 180:
+				lon0s[i] = l - 360
+		for i, l in enumerate(loncens):
+			if l > 180:
+				loncens[i] = l - 360
+
+		# If passes through 180 in the middle, fix it
+		if (max(lon) > 170) and min(lon) < -170)):
+			for i, l in enumerate(lon):
+				if l < 0:
+					lon[i] = lon + 360
+
+		# Center the ellipse on pt1 (top of ellipse)
+		# Minimum between top of ellipse and lat and long of perimeter of ellipse
+		[trash, minind] = min( math.sqrt( (pt1x - lat)**2 + (pt1y - lon)**2 ) )
+		latoff1 = pt1x - lat(minind)
+		lonoff1 = pt1y - lon(minind)
+		[trash,minind] = min(math.sqrt( (pt2x - lat)**2 + (pt2y - lon)**2 ) );
+		latoff2 = pt2x - lat(minind)
+		lonoff2 = pt2y - lon(minind)
+		[trash,minind] = min( sqrt( (pt3x - lat)**2 + (pt3y - lon)**2 ) );
+		latoff3 = pt3x - lat(minind)
+		lonoff3 = pt3y - lon(minind)
+		[trash,minind] = min( sqrt( (pt4x - lat)**2 + (pt4y - lon)**2 ) );
+		latoff4 = pt4x - lat(minind)
+		lonoff4 = pt4y - lon(minind)
+
+		latoff = mean([latoff1,latoff2,latoff3,latoff4]) # mean of offsets in lat
+		lonoff = mean([lonoff1,lonoff2,lonoff3,lonoff4]) # mean of offesets in lon
+
+		lat = lat + latoff
+		lon = lon + lonoff
+		"""
