@@ -31,6 +31,10 @@ from .retrieve_ids_by_time_position import retrieveIDSByTimeRange
 from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitude
 from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitudeRange
 
+# sbdr_make_shapefile.py function calls
+from .sbdr_make_shapefile import sbdrMakeShapeFile
+from .sbdr_make_shapefile import field_options
+
 # error_handling.py function calls for testing
 from .error_handling import errorHandlingExtractFlybyDataImages
 from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
@@ -42,3 +46,4 @@ from .error_handling import errorHandlingRetrieveByLatitudeLongitude
 from .error_handling import errorHandlingRetrieveByLatitudeLongitudeRange
 from .error_handling import errorHandlingRetrieveIDSByTime
 from .error_handling import errorHandlingRetrieveIDSByTimeRange
+from .error_handling import errorHandlingSbdrMakeShapeFile

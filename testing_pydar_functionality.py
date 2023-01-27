@@ -2,9 +2,9 @@ import pydar
 
 if __name__ == '__main__':
 	## Get swatch coverage based on latitude/longitude, Time, or Feature
-	feature_name = "ontario lAcus"
-	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
-	print("Flyby IDS based on Feature Name '{0}' = {1}\n".format(feature_name.title(), flyby_ids_name))
+	#feature_name = "ontario lAcus"
+	#flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+	#print("Flyby IDS based on Feature Name '{0}' = {1}\n".format(feature_name.title(), flyby_ids_name))
 
 	#flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
 	#print("Flyby IDS based on Latitude/Longitude = {0}\n".format(flyby_ids_with_segments))
@@ -61,3 +61,6 @@ if __name__ == '__main__':
 	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
 	#					section_to_print="note")
 	#pydar.extractMetadata()
+
+	# SBDR Shapefile
+	pydar.sbdrMakeShapeFile(filename="pydar/testing_files/SBDR_15_D065_V03")

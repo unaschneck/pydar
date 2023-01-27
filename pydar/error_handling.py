@@ -9,7 +9,7 @@ import pandas as pd
 
 import pydar
 
-## Logging set up for .INFO
+## Logging set up for .CRITICAL
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.CRITICAL)
 stream_handler = logging.StreamHandler()
@@ -352,3 +352,39 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
 				if start_millisecond > end_millisecond:
 					logger.critical("\nCRITICAL ERROR, [millisecond]: start_millisecond must be less than/equal to end_millisecond")
 					exit()
+
+def errorHandlingSbdrMakeShapeFile(filename=None, 
+									fields=[],
+									write_files=False,
+									saronly=0, 
+									usepassive=False, 
+									ind=None, 
+									file_out=[], 
+									lon360=False):
+	logger.critical("TODO: errorHandlingSbdrMakeShapeFile")
+
+	if type(filename) != str:
+		logger.critical("\nCRITICAL ERROR, [filename]: Must be an str, current type = '{0}'".format(type(filename)))
+		exit()
+
+	if type(fields) != list:
+		logger.critical("\nCRITICAL ERROR, [fields]: Must be an list, current type = '{0}'".format(type(fields)))
+		exit()
+
+	if len(fields) != 0:
+		for field_item in fields:
+			if field_item not in pydar.field_options:
+				logger.critical("\nCRITICAL ERROR, [fields]: Must be a valid option, not '{0}', chose from {1}".format(field_item, pydar.field_options))
+				exit()
+
+	if type(saronly) != int:
+		logger.critical("\nCRITICAL ERROR, [saronly]: Must be an int, current type = '{0}'".format(type(saronly)))
+		exit()
+
+	if saronly not in [0, 1, 2, 3]:
+		logger.critical("\nCRITICAL ERROR, [saronly]: Must be a valid option, not '{0}', chose from {1}".format(saronly, [0, 1, 2, 3]))
+		exit()
+
+	if type(lon360) != bool:
+		logger.critical("\nCRITICAL ERROR, [lon360]: Must be an bool, current type = '{0}'".format(type(lon360)))
+		exit()
