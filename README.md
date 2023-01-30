@@ -297,8 +297,8 @@ Retrieve a list of flyby IDs with their associated segments based on specific la
 ```python
 retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
 ```
-* **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90 to 90
-* **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0 to 360
+* **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90° to 90°
+* **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0° to 360°
 
 ```python
 import pydar
@@ -314,10 +314,10 @@ retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 				easternmost_longitude=None,
 				westernmost_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90 to 90
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90 to 90
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0 to 360
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west, range from 0 to 360
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90° to 90°
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90° to 90°
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0° to 360°
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west, range from 0° to 360°
 
 ```python
 retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
@@ -354,7 +354,7 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 * **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
 * **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03"]
-* [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
+* [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"] (__NOTE__: current functionality does not download any additional data types)
 * [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
 * [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
 
@@ -480,8 +480,8 @@ Return a list of features found at a specific latitude/longitude position
 ```
 retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None)
 ```
-* **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90 to 90
-* **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0 to 360
+* **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90° to 90°
+* **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0° to 360°
 
 ```python
 import pydar
@@ -498,10 +498,10 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 					easternmost_longitude=None,
 					westernmost_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90 to 90
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90 to 90
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0 to 360
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west, range from 0 to 360
+* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90° to 90°
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90° to 90°
+* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0° to 360°
+* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west, range from 0° to 360°
 
 ```python
 import pydar
@@ -658,6 +658,7 @@ pydar.extractMetadata()
 ### TODO: Tech Debt
 * use README information to gather files for download (save computing, tech debt)
 * set up constant config file
+* Add functionality for extractFlybyDataImages(): additional_data_types_to_download
 * Include URL for access to AAREADME and .LBL readme files
 * rm -rf pydar_results/ between runs for clean image output
 * research Zenodo
@@ -666,6 +667,7 @@ pydar.extractMetadata()
 * test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
 * test: pull beam information and number of looks for each pixel 
 
+## Credits
 ## Bug and Feature Request
 
 Submit a bug fix, question, or feature request as a [Github Issue](https://github.com/unaschneck/pydar/issues) or to ugschneck@gmail.com/cyschneck@gmail.com
