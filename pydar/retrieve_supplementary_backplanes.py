@@ -1,4 +1,6 @@
 # Extract metadata from SBDR files (.TAB files)
+
+# External Python libraries (installed via pip install)
 import numpy as np
 import pdr
 

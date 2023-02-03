@@ -1,12 +1,16 @@
 ########################################################################
-# ERROR CATCHES AND LOGGING
+# ERROR CATCHES AND LOGGING FOR CLARITY WHEN USING PYDAR
 ########################################################################
+
+# Built in Python functions
 import logging
 import os
 import csv
 
+# External Python libraries (installed via pip install)
 import pandas as pd
 
+# Internal Pydar reference to access functions, global variables, and error handling
 import pydar
 
 ## Logging set up for .CRITICAL

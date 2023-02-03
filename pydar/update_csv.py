@@ -1,16 +1,28 @@
-# Update CSVs
-# Run Script by Developer to update Dynamical CSV
-# Run: python3 update_csv.py
+########################################################################
+# Update Dynamically Created CSVs: 
+#		coradr_jpl_options.csv
+#		swath_coverage_by_time_position.csv
+#		feature_name_details.csv
+	# Estimated Runtime: 25 minutes
+# Script is run by developer before each release to ensure that all .csvs are up to date
+# Note: Script not accessible via __init__.py and is run directly by the developer
+# Run Python script, wiht python3
+#		python3 update_csv.py
 
+# Built in Python functions
 import logging
 import os
 import re
 
+# External Python libraries (installed via pip install)
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error
 
+# Internal Pydar reference to access functions, global variables, and error handling
 import pydar
+
+########################################################################
 
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
@@ -18,13 +30,19 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
+########################################################################
+
+## FUNCTIONS TO UPDATE CSV FILES BASED ON WEB SCRAPPING ################
+
 def updateCsvCORADRJPLOptions():
-	# runs to access the most up to date optiosn from the JPL webpage
-	# Generate: coradr_jpl_options.csv
-	# Estimated runtime: 5 minutes
+	# Update the csv script for coradr_jpl_options.csv from the most recent JPL webpage
+	# Retrieves information for each CORADAR option and the data types it has available
+	#		Estimated runtime: 5 minutes
+	#		Returns: coradr_jpl_options.csv in data/ folder
+
+	logger.info("Refreshing: coradr_jpl_options.csv")
 
 	# BeautifulSoup web scrapping to find observation file number full title
-	logger.info("Refreshing: coradr_jpl_options.csv")
 	logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 	cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
 	cassini_html = request.urlopen(cassini_root_url).read()
@@ -68,8 +86,11 @@ def updateCsvCORADRJPLOptions():
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'), header=header_options, index=False)
 
 def updateCsvSwathCoverage():
-	# generate swath_coverage_by_time_position.csv
-	# Estimated runtime: 15 minutes
+	# Update the csv script for swath_coverage_by_time_position.csv from the most recent JPL webpage
+	# Retrieves information for each .LBL file that exists for CASSINI
+	#		Estimated runtime: 15 minutes
+	#		Returns: swath_coverage_by_time_position.csv in data/ folder
+
 	logger.info("Refreshing: swath_coverage_by_time_position.csv")
 
 	# Get all Titan Flybys with most up to date versions
@@ -175,25 +196,25 @@ def updateCsvSwathCoverage():
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv'), header=header_options, index=False)
 
 def updateCsvFeatureNameDetails():
-	# runs to access the most up to date options from the JPL webpage
-	# Generate: feature_name_details.csv
-	# Estimated runtime: 3 minutes
+	# Update the csv script for feature_name_details.csv from the planetary names database
+	# Retrieves information for each Titan feature
+	#		Estimated runtime: 3 minutes
+	#		Returns: feature_name_details.csv in data/ folder
+
+	logger.info("Refreshing: feature_name_details.csv")
 
 	# BeautifulSoup web scrapping to find observation file number full title
-	logger.info("Refreshing: feature_name_details.csv")
 	logger.info("Retrieving observation information from https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan....")
 	titan_root_url = "https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan"
 	titan_html = request.urlopen(titan_root_url).read()
 	soup = BeautifulSoup(titan_html, 'html.parser')
-	#table_feature_names = soup.find_all("td", {"class":"featureNameColumn"})
-	#feature_name_lst = [feature_name.text.strip() for feature_name in table_feature_names]
 	ahref_feature_names = soup.findAll('a')
 	ahref_lst = []
 	for link in ahref_feature_names:
 		feature_link = link.get('href')
 		if feature_link is not None:
 			if feature_link.startswith("/Feature/"):
-				if feature_link != "/Feature/7014": # ignore a dropped column for 'Sotra Facula'
+				if feature_link != "/Feature/7014": # ignore a dropped column for 'Sotra Facula' (a feature that has been dropped from the table, but still exists)
 					ahref_lst.append(feature_link)
 
 	feature_options = []
@@ -227,6 +248,7 @@ def updateCsvFeatureNameDetails():
 					feature_object[7] = feature_row[1]
 		feature_options.append(feature_object)
 
+	# Add Huygens landing site manually
 	huygens_landing_site = ["Huygens Landing Site", 
 							"-10.576",
 							"-10.576",
@@ -235,7 +257,7 @@ def updateCsvFeatureNameDetails():
 							"-10.576",
 							"167.547",
 							"where the Huygens probe landed east Adiri"]
-	feature_options.append(huygens_landing_site) # Add Huygens landing site manually
+	feature_options.append(huygens_landing_site)
 
 	# Wrte to CSV
 	header_options = ["Feature Name", 
@@ -250,9 +272,12 @@ def updateCsvFeatureNameDetails():
 	df = df.sort_values(by=["Feature Name"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv'), header=header_options, index=False)
 
+########################################################################
+
 if __name__ == '__main__':
 	# update csvs: python3 update_csv.py
+	# Run all CSV update scripts
 	logger.info("running html capture to update csv data files (will take about 25 minutes):")
-	updateCsvCORADRJPLOptions() # coradr_jpl_options.csv
-	updateCsvSwathCoverage() # swath_coverage_by_time_position.csv
-	updateCsvFeatureNameDetails() #feature_name_details.csv
+	updateCsvCORADRJPLOptions() # 	updates coradr_jpl_options.csv
+	updateCsvSwathCoverage() # 		updates swath_coverage_by_time_position.csv
+	updateCsvFeatureNameDetails() #	updates feature_name_details.csv

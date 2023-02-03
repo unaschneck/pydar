@@ -1,13 +1,17 @@
 # Extract flyby parameters from CASSINI
-import zipfile
-import os
+
+# Built in Python functions
 from datetime import datetime, timedelta
+import os
+import zipfile
 
-import pandas as pd
-import logging
-from urllib import request, error
+# External Python libraries (installed via pip install)
 from bs4 import BeautifulSoup
+import logging
+import pandas as pd
+from urllib import request, error
 
+# Internal Pydar reference to access functions, global variables, and error handling
 import pydar
 
 ## Logging set up for .INFO
