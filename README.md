@@ -5,7 +5,7 @@
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
-* **Find relevant flyby observation numbers and IDs for a feature, range of regions, or specific latitude/longitude**
+* **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes, or specific latitude/longitude**
 	* retrieveIDSByFeatureName()
 	* retrieveIDSByLatitudeLongitude()
 	* retrieveIDSByLatitudeLongitudeRange()
@@ -113,7 +113,7 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
 
 .IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/)
 ### Download Time
-Download time varies depending on the number and size of files of interest. On average, most single feature downloads take between 2-5 minutes to download.
+Download time varies depending on the number and size of files of interest. On average, most single feature downloads take between 2-10 minutes to download.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
@@ -185,7 +185,7 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 
 Pydar includes multiple scripts to web scrap from revelant URLs to generate some of the data files
 
-Last updated by developers `1/25/2023` via `python3 update_csv.py`
+Last updated by developers `2/07/2023` via `python3 update_csv.py`
 
 **coradr_jpl_options.csv**
 
