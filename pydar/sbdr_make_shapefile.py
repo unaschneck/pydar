@@ -1,11 +1,16 @@
 # Script to generate an ARC Shape File from SBDR Table Data
+
+# Built in Python functions
 import time
 import logging
 import math
 
+# External Python libraries (installed via pip install)
+import numpy as np
 import pandas as pd
 import pdr
 
+# Internal Pydar reference to access functions, global variables, and error handling
 import pydar
 
 ## Logging set up for .DEBUG
@@ -176,6 +181,18 @@ def sbdrMakeShapeFile(filename=None,
 		min_wid = info.iloc[ind_lst].ACT_MINOR_WIDTH
 		maj_wid = info.iloc[ind_lst].ACT_MAJOR_WIDTH
 
+	def azimuth(lat1, lat2, long1, long2, radius):
+		# convert decimal degrees to radians 
+		long1, lat1, long2, lat2 = map(math.radians, [long1, lat1, long2, lat2])
+		
+		diff_lats = lat2 - lat1
+		diff_long = long2 - long1
+		a = math.sin(diff_lats/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(diff_long/2)**2
+		c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+		az = c * radius
+		return az
+
+
 	# Loop through Data fields
 	cnt = 1
 	gfields = {}
@@ -254,11 +271,13 @@ def sbdrMakeShapeFile(filename=None,
 		pt3x = ptx[2]
 		pt4x = ptx[3]
 
-		"""
 		# Set azimuth for intersecton of ellipsis
-		gc_az1 = azimuth(pt1x, pt2x, pt2x, pt2y, titan_def)
-		gc_az1 = azimuth(pt3x, pt3x, pt4x, pt4y, titan_def)
+		print(azimuth(pt1x, pt2x, pt1y, pt2y, titan_def[0]))
+		exit()
+		gc_az1 = azimuth([pt1x, pt1y], [pt2x, pt2y], titan_def)
+		gc_az2 = azimuth([pt3x, pt3x], [pt4x, pt4y], titan_def)
 
+		"""
 		# Calculate the intersection point
 		[lat0, lon0] = gcxgc(pt1x, pt1y ,gc_az1 ,pt3x ,pt3y ,gc_az2)
 

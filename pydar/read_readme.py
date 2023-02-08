@@ -13,6 +13,8 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
+#######################################################################
+# Find relevant section to print by referencing built in options
 def determineSectionToPrint(section_to_print=None, aareadmeOrLBL=None):
 	# check which list the section_to_print is from
 	if aareadmeOrLBL == "LBL":
@@ -86,10 +88,6 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 				end_position = None # display the last element in the list
 		else:
 			end_position = sectionList[end_index]
-
-	logger.debug("section_to_print = {0}".format(section_to_print))
-	logger.debug("start_position = {0}".format(start_position))
-	logger.debug("end_position = {0}\n".format(end_position))
 
 	output_string = ''
 	with open("{0}/AAREADME.TXT".format(coradr_results_directory), "r") as readme_file:
@@ -214,13 +212,13 @@ def returnAllLBLOptions():
 
 def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print .LBL to console
-
 	if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
+		# Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file
 		logger.critical("CRITICAL ERROR: Specify {0} as either '{0} UNCOMPRESSED' or '{0} COMPRESSED'".format(section_to_print))
 		exit()
 	# Catch common mispelling: not including the ^ at the front of a line name
 	if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
-		section_to_print = "^{0}".format(section_to_print) # set to specific object, easy to miss the ^
+		section_to_print = "^{0}".format(section_to_print) # sets the user's option to include the easy to miss ^
 
 	pydar.errorHandlingREADME(coradr_results_directory=coradr_results_directory,
 							section_to_print=section_to_print,
@@ -273,17 +271,17 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 	output_string = ''
 	lbl_file = [i for i in os.listdir(coradr_results_directory) if '.LBL' in i]
 	if len(lbl_file) != 1:
+		# error handling to check that .LBL exists
 		if len(lbl_file) == 0:
+			# No .LBL files found
 			logger.critical("No .LBL file found at {0}".format(coradr_results_directory))
 			exit()
 		if len(lbl_file) > 1:
+			# Multiple .LBL files found
 			logger.critical("Multiple .LBL file found = {0}, need to choose one to read from".format(lbl_file))
-			exit() # TODO: error handling to check that .LBL exists
-	lbl_file = lbl_file[0]
+			exit()
 
-	logger.debug("section_to_print = {0}".format(section_to_print))
-	logger.debug("start_position = {0}".format(start_position))
-	logger.debug("end_position = {0}\n".format(end_position))
+	lbl_file = lbl_file[0] # set to the LBL file, without extension
 
 	output_string = ''
 	with open("{0}/{1}".format(coradr_results_directory, lbl_file), "r") as readme_file:

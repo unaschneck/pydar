@@ -30,7 +30,7 @@ if __name__ == '__main__':
 	#																	easternmost_longitude=190)
 	#print("Feature Names Found in Latitude/Longitude Range = {0}".format(feature_names_list))
 
-	#flyby_ids_time = pydar.retrieveIDSByTime(year=2001, doy=301)
+	#flyby_ids_time = pydar.retrieveIDSByTime(year=2004, doy=301)
 	#print("Flyby IDS based on a specific timestamp = {0}".format(flyby_ids_time))
 
 	#flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004, start_doy=299, start_hour=2, start_minute=15, start_second=23, start_millisecond=987,
@@ -40,6 +40,9 @@ if __name__ == '__main__':
 	# Convert Flby Id into an Observation Number
 	#observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id='T65')
 	#print(observation_num)
+
+	#flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
+	#print(flyby_id)
 
 	# Extract Flyby Data Files to results/ directory
 	#pydar.extractFlybyDataImages(flyby_id='T43',

@@ -365,8 +365,6 @@ def errorHandlingSbdrMakeShapeFile(filename=None,
 									ind=None, 
 									file_out=None, 
 									lon360=False):
-	logger.critical("TODO: errorHandlingSbdrMakeShapeFile")
-
 	if type(filename) != str:
 		logger.critical("\nCRITICAL ERROR, [filename]: Must be an str, current type = '{0}'".format(type(filename)))
 		exit()

@@ -379,8 +379,9 @@ convertFlybyIDToObservationNumber(flyby_id)
 
 ```python
 import pydar
-observation_number = convertFlybyIDToObservationNumber(flyby_id)
+observation_number = convertFlybyIDToObservationNumber(flyby_id='T65')
 ```
+Output = `0211`
 
 Observation number based on the 'Radar Data Take Number' in the cassini_flyby.csv file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
 
@@ -395,10 +396,11 @@ convertObservationNumberToFlybyID(flyby_observation_num)
 
 ```python
 import pydar
-observation_number = flyby_observation_num(flyby_observation_num='211')
+flyby_id = convertObservationNumberToFlybyID(flyby_observation_num='211')
 ```
+Output = `T65`
 
-Flyby ids are based on the 'Radar Data Take Number' in the cassini_flyby.csv file
+Flyby ids are based on the 'Radar Data Take Number' in the cassini_flyby.csv file with front padding of 'T'
 
 Requires each Titan flyby ID to be a valid value the cassini_flyby.csv 
 
@@ -639,6 +641,7 @@ pydar.extractMetadata()
 
 ## TODO:
 ### TODO Code:
+* convert matlab azimuth code
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
 * add a colored outline around a feature when displaying as a 2D image

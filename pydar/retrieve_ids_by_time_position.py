@@ -3,7 +3,6 @@
 # Built in Python functions
 from datetime import datetime, timedelta
 import logging
-import math
 import os
 
 # External Python libraries (installed via pip install)
