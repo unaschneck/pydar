@@ -42,8 +42,8 @@ from .error_handling import errorHandlingConvertObservationNumberToFlybyID
 from .error_handling import errorHandlingDisplayImages
 from .error_handling import errorHandlingREADME
 from .error_handling import errorHandlingRetrieveIDSByFeature
-from .error_handling import errorHandlingRetrieveByLatitudeLongitude
-from .error_handling import errorHandlingRetrieveByLatitudeLongitudeRange
+from .error_handling import errorHandlingRetrieveIDSByLatitudeLongitude
+from .error_handling import errorHandlingRetrieveIDSByLatitudeLongitudeRange
 from .error_handling import errorHandlingRetrieveIDSByTime
 from .error_handling import errorHandlingRetrieveIDSByTimeRange
 from .error_handling import errorHandlingSbdrMakeShapeFile

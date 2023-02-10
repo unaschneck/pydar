@@ -25,7 +25,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 										additional_data_types_to_download=[],
 										resolution=None,
 										top_x_resolutions=None):
-	# Error Handling for extract_flyby_parameters variables
+	# Error Handling for extract_flyby_parameters variables: extractFlybyDataImages()
 	avaliable_flyby_id, avaliable_observation_numbers = pydar.getFlybyData()
 
 	if flyby_observation_num is None and flyby_id is None:
@@ -112,7 +112,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 			exit()
 
 def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
-	# Error Handling for Converting a Flyby ID into an Observation Number
+	# Error Handling for Converting a Flyby ID into an Observation Number: convertFlybyIDToObservationNumber()
 	if type(flyby_id) != str:
 		logger.critical("\nCRITICAL ERROR, [flyby_id]: Must be a str, current type = '{0}'".format(type(flyby_id)))
 		exit()
@@ -131,7 +131,7 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 		exit()
 
 def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
-	# Error Handling for Converting an Observation Number to a Flyby ID
+	# Error Handling for Converting an Observation Number to a Flyby ID: convertObservationNumberToFlybyID()
 	if type(flyby_observation_num) != str:
 		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
 		exit()
@@ -151,7 +151,7 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 		exit()
 
 def errorHandlingDisplayImages(image_directory=None):
-	# Error Handling for Displaying Images from an Image Directory
+	# Error Handling for Displaying Images from an Image Directory: displayImages()
 	if type(image_directory) != str:
 		logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
 		exit()
@@ -159,6 +159,7 @@ def errorHandlingDisplayImages(image_directory=None):
 def errorHandlingREADME(coradr_results_directory=None,
 						section_to_print=None,
 						print_to_console=True):
+	# Error Handling for README options: read_readme
 	if type(coradr_results_directory) != str:
 		logger.critical("\nCRITICAL ERROR, [coradr_results_directory]: Must be a str, current type = '{0}'".format(type(coradr_results_directory)))
 		exit()
@@ -172,12 +173,14 @@ def errorHandlingREADME(coradr_results_directory=None,
 		exit()
 
 def errorHandlingRetrieveIDSByFeature(feature_name=None):
+	# Error Handling for retrieving the IDs for a specific feature name: retrieveIDSByFeature()
 	if type(feature_name) != str:
 		logger.critical("\nCRITICAL ERROR, [feature_name]: Must be a str, current type = '{0}'".format(type(feature_name)))
 		exit()
 
-def errorHandlingRetrieveByLatitudeLongitude(latitude=None,
-											longitude=None):
+def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
+												longitude=None):
+	# Error Handling for retrieving IDs based on latitude and longitude
 	if type(latitude) != float and type(latitude) != int:
 		logger.critical("\nCRITICAL ERROR, [latitude]: Must be a float or int, current type = '{0}'".format(type(latitude)))
 		exit()
@@ -194,10 +197,11 @@ def errorHandlingRetrieveByLatitudeLongitude(latitude=None,
 		logger.critical("\nCRITICAL ERROR, [longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(longitude))
 		exit()
 
-def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
+def errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 												southernmost_latitude=None,
 												easternmost_longitude=None,
 												westernmost_longitude=None):
+	# Error Handling for retrieving IDs based on a range of latitude and longitudes
 	if type(northernmost_latitude) != float and type(northernmost_latitude) != int:
 		logger.critical("\nCRITICAL ERROR, [northernmost_latitude]: Must be a float or int, current type = '{0}'".format(type(northernmost_latitude)))
 		exit()
@@ -240,6 +244,7 @@ def errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=None,
 
 
 def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=None, minute=None, second=None, millisecond=None):
+	# Error handling for retrieving IDs based on a specific time
 	if year == None:
 		logger.critical("\nCRITICAL ERROR, [year]: year is required")
 		exit()
@@ -304,7 +309,7 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
 										end_minute=None, 
 										end_second=None,
 										end_millisecond=None):
-
+	# Error handling for retrieving IDs based on a range of times
 	if start_year is None:
 		logger.critical("\nCRITICAL ERROR, [start_year]: start_year is required")
 		exit()
@@ -365,6 +370,7 @@ def errorHandlingSbdrMakeShapeFile(filename=None,
 									ind=None, 
 									file_out=None, 
 									lon360=False):
+	# Error handling for using SBDR to make a shapefile
 	if type(filename) != str:
 		logger.critical("\nCRITICAL ERROR, [filename]: Must be an str, current type = '{0}'".format(type(filename)))
 		exit()

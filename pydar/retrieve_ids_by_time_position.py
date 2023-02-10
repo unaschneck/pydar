@@ -54,7 +54,7 @@ def retrieveIDSByFeatureName(feature_name=None):
 
 def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
 	# Retrieve all FLyby Ids at a specific latitude/longitude
-	pydar.errorHandlingRetrieveByLatitudeLongitude(latitude=latitude, longitude=longitude)
+	pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude, longitude=longitude)
 
 	# Runs range check, but the range is 0 for an exact spot
 	flyby_ids = retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=latitude,
@@ -68,7 +68,7 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 										easternmost_longitude=None,
 										westernmost_longitude=None):
 	# Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
-	pydar.errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
+	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
 														southernmost_latitude=southernmost_latitude,
 														easternmost_longitude=easternmost_longitude,
 														westernmost_longitude=westernmost_longitude)
@@ -221,7 +221,7 @@ def retrieveIDSByTimeRange(start_year=None,
 
 def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
 	# Retrieve all Feature Names that at a specific latitude/longitude
-	pydar.errorHandlingRetrieveByLatitudeLongitude(latitude=latitude, longitude=longitude)
+	pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude, longitude=longitude)
 
 	# Runs range check, but the range is 0 for an exact spot
 	feature_names_list = retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=latitude,
@@ -236,7 +236,7 @@ def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 												easternmost_longitude=None,
 												westernmost_longitude=None):
 	# Retrieve all Feature Names that are within a range of latitude/longitude
-	pydar.errorHandlingRetrieveByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
+	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
 														southernmost_latitude=southernmost_latitude,
 														easternmost_longitude=easternmost_longitude,
 														westernmost_longitude=westernmost_longitude)
