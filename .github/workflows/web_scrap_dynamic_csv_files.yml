@@ -1,4 +1,4 @@
-name: web-scrapper-update-dynamic-csv-files-jpl
+name: update-dynamic-csv-data-files
 
 on:
   schedule:
