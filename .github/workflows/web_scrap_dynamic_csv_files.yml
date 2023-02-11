@@ -1,0 +1,40 @@
+name: web-scrapper-update-dynamic-csv-files-jpl
+
+on:
+  schedule:
+    - cron: '0 0 1 * *' # “At 00:00 on day-of-month 1” (runs once a month)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.0' # install the python version needed
+          
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: execute python update_csv.py script # web scrap to get any new changes
+        run: python update_csv.py
+          
+      - name: commit files if changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "Github Actions: update dynamically generated csv scripts" --allow-empty)
+
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.ACTION_SECRET }}
+          branch: main 
