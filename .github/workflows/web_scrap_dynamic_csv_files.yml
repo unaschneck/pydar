@@ -2,7 +2,7 @@ name: update-dynamic-csv-data-files
 
 on:
   schedule:
-    - cron: '*/20 * * * *' #'0 0 1 * *' # “At 00:00 on day-of-month 1”
+    - cron: '*/15 * * * *' #'0 0 1 * *' # “At 00:00 on day-of-month 1”
 
 jobs:
   build:
@@ -21,6 +21,7 @@ jobs:
 
     - name: pip install
       run: |
+        pip install -r requirements.txt # installs all changes not currently on pydar
         pip install pydar
 
     - name: execute python update_csv.py script # web scrap to get any new changes
