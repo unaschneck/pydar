@@ -21,11 +21,12 @@ jobs:
 
     - name: pip install
       run: |
-        pip install -r requirements.txt # installs all changes not currently on pydar
+        pip install -r requirements.txt
         pip install pydar
 
     - name: execute python update_csv.py script # web scrap to get any new changes
       working-directory: pydar
+      command_timeout: 40m
       run: |
         python update_csv.py
 
