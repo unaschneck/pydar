@@ -26,7 +26,6 @@ jobs:
 
     - name: execute python update_csv.py script # web scrap to get any new changes
       working-directory: pydar
-      command_timeout: 40m
       run: |
         python update_csv.py
 
