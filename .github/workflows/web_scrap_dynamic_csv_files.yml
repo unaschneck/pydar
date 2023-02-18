@@ -20,6 +20,7 @@ jobs:
 
     - name: pip install requirements
       run: |
+        export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
         pip install -r requirements.txt
         pip install pydar
 
@@ -29,10 +30,12 @@ jobs:
         git config user.email "actions@users.noreply.github.com"
         git pull
 
-    - name: execute python update_csv.py script to web scrap for new changes
+    - name: Web Scrap for New Changes
       working-directory: pydar
       run: |
-        python update_csv.py
+        python updateCsvSwathCoverage.py
+        python updateCsvCORADARJPLOptions.py
+        python updateCsvFeatureNameDetails.py
 
     - name: Check if script results in changes in files
       uses: tj-actions/verify-changed-files@v13
