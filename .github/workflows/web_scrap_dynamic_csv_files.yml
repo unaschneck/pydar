@@ -2,11 +2,10 @@ name: update-dynamic-csv-data-files
 
 on:
   schedule:
-    - cron: '*/15 * * * *' #'0 0 1 * *' # “At 00:00 on day-of-month 1”
+    - cron: '0 0 1 * *' # “At 00:00 on day-of-month 1”
 
 jobs:
   build:
-
     runs-on: ubuntu-20.04 # specifically calls the version number instead of lastest to work on 'act'
 
     steps:
@@ -19,27 +18,38 @@ jobs:
       env:
           AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
 
-    - name: pip install
+    - name: pip install requirements
       run: |
+        export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
         pip install -r requirements.txt
         pip install pydar
 
-    - name: execute python update_csv.py script # web scrap to get any new changes
+    - name: Set Github credentials
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "actions@users.noreply.github.com"
+        git pull
+
+    - name: Web Scrap for New Changes
       working-directory: pydar
       run: |
-        python update_csv.py
+        python updateCsvSwathCoverage.py
+        python updateCsvCORADARJPLOptions.py
+        python updateCsvFeatureNameDetails.py
 
-    - name: Find changed files
+    - name: Check if script results in changes in files
       uses: tj-actions/verify-changed-files@v13
       id: verify-changed-files
 
-    - name: Commit and push if files have been changed
-      run: |-
-        git config user.name "GitHub Action"
-        git config user.email "actions@users.noreply.github.com"
+    - name: If file changed, commit and push if files
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      run: |
         git add -A
         timestamp=$(date -u)
-        git commit --allow-empty -m "Github Actions: update csv scripts (${timestamp}), change files = ${{ steps.verify-changed-files.outputs.files_changed }}"
+        git commit -m "Github Actions: update csv scripts (${timestamp})"
         git push
 
-
+    - name: If file not changed, do not commit empty changes
+      if: steps.verify-changed-files.outputs.files_changed == 'false'
+      run: |
+        echo "Github Actions: update csv scripts (${timestamp}) has no changes"
