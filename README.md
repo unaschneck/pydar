@@ -1,5 +1,8 @@
 # PYDAR
-![pydar_logo](https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo_white.jpg)
+<picture>
+  <source srcset="https://raw.githubusercontent.com/unaschneck/pydar/assets/pydar_logo_white_outline.png" media="(prefers-color-scheme: dark)">
+  <img src="https://raw.githubusercontent.com/unaschneck/pydar/assets/pydar_logo_black_outline.png">
+</picture>
 
 ![PyPi](https://img.shields.io/pypi/v/pydar)
 ![license](https://img.shields.io/github/license/unaschneck/pydar)
