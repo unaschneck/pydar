@@ -1,4 +1,6 @@
 # PYDAR
+![pydar_logo](https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo_white.jpg)
+
 ![PyPi](https://img.shields.io/pypi/v/pydar)
 ![license](https://img.shields.io/github/license/unaschneck/pydar)
 [![NSF-2141064](https://img.shields.io/badge/NSF-2141064-blue)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2141064&HistoricalAwards=false)
@@ -642,7 +644,6 @@ pydar.extractMetadata()
 
 ## TODO:
 ### TODO Code:
-* convert matlab azimuth code
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
 * add a colored outline around a feature when displaying as a 2D image
