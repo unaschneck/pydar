@@ -52,4 +52,4 @@ jobs:
     - name: If file not changed, do not commit empty changes
       if: steps.verify-changed-files.outputs.files_changed == 'false'
       run: |
-        echo "Github Actions: update csv scripts (${timestamp}) has no changes"
+        echo "Github Actions: update csv scripts has no changes"

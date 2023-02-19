@@ -1,3 +1,6 @@
+# Note: Script not accessible via __init__.py and is run directly by the developer
+# updates feature_name_details.csv
+
 # Built in Python functions
 import logging
 import os
@@ -8,9 +11,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error
 
-# Internal Pydar reference to access functions, global variables, and error handling
-import pydar
-
 ########################################################################
 
 ## Logging set up for .INFO
@@ -19,6 +19,7 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
+## FUNCTIONS TO UPDATE CSV FILES BASED ON WEB SCRAPPING ################
 def updateCsvFeatureNameDetails():
 	# Update the csv script for feature_name_details.csv from the planetary names database
 	# Retrieves information for each Titan feature

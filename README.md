@@ -186,7 +186,7 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 
 Pydar includes multiple scripts to web scrap from revelant URLs to generate some of the data files
 
-Last updated by developers `2/07/2023` via `python3 update_csv.py`
+Changes are checked once a month via Github Actions to keep csv files up to date
 
 **coradr_jpl_options.csv**
 

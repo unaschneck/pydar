@@ -1,7 +1,9 @@
+# Note: Script not accessible via __init__.py and is run directly by the developer
+# updates swath_coverage_by_time_position.csv
+
 # Built in Python functions
 import logging
 import os
-import re
 
 # External Python libraries (installed via pip install)
 from bs4 import BeautifulSoup
@@ -19,6 +21,7 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
+## FUNCTIONS TO UPDATE CSV FILES BASED ON WEB SCRAPPING ################
 def updateCsvSwathCoverage():
 	# Update the csv script for swath_coverage_by_time_position.csv from the most recent JPL webpage
 	# Retrieves information for each .LBL file that exists for CASSINI
