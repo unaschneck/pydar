@@ -9,6 +9,7 @@ import math
 import numpy as np
 import pandas as pd
 import pdr
+import pyproj # replicate gc_az1 = azimuth( [pt1x,pt1y],[pt2x,pt2y],titan_def ) [Matlab]
 
 # Internal Pydar reference to access functions, global variables, and error handling
 import pydar
@@ -85,7 +86,7 @@ def sbdrMakeShapeFile(filename=None,
 
 	# Define the Titan Ellipsoid
 	r_titan = 2575000 # radius in meters
-	flat_titan = 0
+	flat_titan = 0 # titan simplified to a sphere (no eccentricity)
 	titan_def = [r_titan/1000 , flat_titan] # [radius in km, 0]
 
 	# Create Output Filename
@@ -272,10 +273,14 @@ def sbdrMakeShapeFile(filename=None,
 		pt4x = ptx[3]
 
 		# Set azimuth for intersecton of ellipsis
-		print(azimuth(pt1x, pt2x, pt1y, pt2y, titan_def[0]))
+		geodesic = pyproj.Geod(a =r_titan,es=0) # define Titan ellipsoid
+		
+		fwd_azimuth, back_azimuth, distance = geodesic.inv(pt1y, pt1x, pt2y, pt2x)
+		gc_az1 = fwd_azimuth # considering azimuth from starting lat,lon pair like in the matlab function
+		
+		fwd_azimuth, back_azimuth, distance = geodesic.inv(pt3y, pt3x, pt4y, pt4x)
+		gc_az2 = fwd_azimuth # considering azimuth from starting lat,lon pair like in the matlab function
 		exit()
-		gc_az1 = azimuth([pt1x, pt1y], [pt2x, pt2y], titan_def)
-		gc_az2 = azimuth([pt3x, pt3x], [pt4x, pt4y], titan_def)
 
 		"""
 		# Calculate the intersection point

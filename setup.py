@@ -42,6 +42,7 @@ setup(
 			"pandas>=1.5.2",
 			"pdr>=0.7.3",
 			"planetaryimage>=0.5.0",
+			"pyproj>=3.4.1",
 			"urllib3>=1.26.9"
 			],
 	python_requires='>=3.9'
