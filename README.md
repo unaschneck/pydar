@@ -1,6 +1,6 @@
 # PYDAR
 <picture>
-  <source srcset="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo_white_outline.png" media="(prefers-color-scheme: dark)">
+  <source srcset="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo.jpg" media="(prefers-color-scheme: dark)">
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo_black_outline.png">
 </picture>
 
@@ -118,11 +118,13 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
 ```
 
 .IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/)
+
 ### Download Time
 Download time varies depending on the number and size of files of interest. On average, most single feature downloads take between 2-10 minutes to download.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
+
 ### Cross-Reference Table for Observations and Flybys
 The Titan flybys ID is not used in the naming convention for the CORADR filenames. The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
@@ -252,6 +254,7 @@ CORADR_189 (T53) only has rad and compressed scatterometry because of what appea
 CORADR_0209 (T63) only has scatterometry and radiometry
 
 CORADR_0234 (T80) only has scatterometry and radiometry 
+
 ## Dependencies
 Python 3.7+
 
@@ -313,6 +316,8 @@ pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
 Output = `{'T104': ['S01']}`
 
 **retrieveIDSByLatitudeLongitudeRange**
+
+Retrieve a list of flyby IDs with their associated segments based on range of latitudes and longitudes
 
 ```python
 retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
@@ -499,6 +504,8 @@ pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 Output = `['Ontario Lacus']`
 
 **retrieveFeaturesFromLatitudeLongitudeRange**
+
+Return a list of features found at a range of latitude/longitude positions
 
 ```
 retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
