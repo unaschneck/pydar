@@ -9,7 +9,7 @@ import math
 import numpy as np
 import pandas as pd
 import pdr
-import pyproj # replicate gc_az1 = azimuth( [pt1x,pt1y],[pt2x,pt2y],titan_def ) [Matlab]
+import pyproj # replicate gc_az1 = azimuth( [pt1x,pt1y],[pt2x,pt2y],titan_def ) [from Matlab]
 
 # Internal Pydar reference to access functions, global variables, and error handling
 import pydar
@@ -20,7 +20,6 @@ logger.setLevel(logging.DEBUG)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-
 field_options = ["act_pol_angle",
 				"act_incidence_angle",
 				"act_azimuth_angle",
@@ -30,6 +29,53 @@ field_options = ["act_pol_angle",
 				"sigma0_corrected",
 				"sigma0_uncorrected",
 				"sigma0_uncorrected_std"]
+
+def intersectionOfTwoGreatCircles(p1_lat1, p1_long1, p1_lat2, p1_long2,
+								p2_lat1, p2_long1, p2_lat2, p2_long2):
+	# Intersection Point of Two Great Circles (latitude/longitude)
+
+	# Convert points in great circle 1 from degrees to radians
+	p1_lat1_rad = np.deg2rad(p1_lat1)
+	p1_long1_rad = np.deg2rad(p1_long1)
+	p1_lat2_rad = np.deg2rad(p1_lat2)
+	p1_long2_rad = np.deg2rad(p1_long2)
+	# Convert points in great circle 2 from degrees to radians
+	p2_lat1_rad = np.deg2rad(p2_lat1)
+	p2_long1_rad = np.deg2rad(p2_long1)
+	p2_lat2_rad = np.deg2rad(p2_lat2)
+	p2_long2_rad = np.deg2rad(p2_long2)
+
+	# Convert to Polar coordinates
+	x1 = math.cos(p1_lat1_rad) * math.cos(p1_long1_rad)
+	y1 = math.cos(p1_lat1_rad) * math.sin(p1_long1_rad)
+	z1 = math.sin(p1_lat1_rad)
+	x2 = math.cos(p1_lat2_rad) * math.cos(p1_long2_rad)
+	y2 = math.cos(p1_lat2_rad) * math.sin(p1_long2_rad)
+	z2 = math.sin(p1_lat2_rad)
+	cx1 = math.cos(p2_lat1_rad) * math.cos(p2_long1_rad)
+	cy1 = math.cos(p2_lat1_rad) * math.sin(p2_long1_rad)
+	cz1 = math.sin(p2_lat1_rad)
+	cx2 = math.cos(p2_lat2_rad) * math.cos(p2_long2_rad)
+	cy2 = math.cos(p2_lat2_rad) * math.sin(p2_long2_rad)
+	cz2 = math.sin(p2_lat2_rad)
+
+	# Find normal to the planes containing great circles
+	# np.cross is the product of vector to each point from the origin
+	N1 = np.cross([x1, y1, z1], [x2, y2, z2])
+	N2 = np.cross([cx1, cy1, cz1], [cx2, cy2, cz2])
+
+	# Find line of intersection between two planes
+	L = np.cross(N1, N2)
+
+	# Find two intersection points
+	X1 = L / np.sqrt(L[0]**2 + L[1]**2 + L[2]**2)
+	X2 = -X1
+	i_lat1 = math.asin(X1[2]) * 180./np.pi
+	i_long1 = math.atan2(X1[1], X1[0]) * 180./np.pi
+	i_lat2 = math.asin(X2[2]) * 180./np.pi
+	i_long2 = math.atan2(X2[1], X2[0]) * 180./np.pi
+
+	return i_lat1, i_long1, i_lat2, i_long2
 
 def sbdrMakeShapeFile(filename=None, 
 						fields=[],
@@ -267,123 +313,20 @@ def sbdrMakeShapeFile(filename=None,
 		pt2y = pty[1]
 		pt3y = pty[2]
 		pt4y = pty[3]
+		
 		pt1x = ptx[0]
 		pt2x = ptx[1]
 		pt3x = ptx[2]
 		pt4x = ptx[3]
 
-		# Set azimuth for intersecton of ellipsis
+		# Setting azimuth for intersection of ellipsis 
 		geodesic = pyproj.Geod(a =r_titan,es=0) # define Titan ellipsoid
 		
 		fwd_azimuth, back_azimuth, distance = geodesic.inv(pt1y, pt1x, pt2y, pt2x)
 		gc_az1 = fwd_azimuth # considering azimuth from starting lat,lon pair like in the matlab function
 		
 		fwd_azimuth, back_azimuth, distance = geodesic.inv(pt3y, pt3x, pt4y, pt4x)
-		gc_az2 = fwd_azimuth # considering azimuth from starting lat,lon pair like in the matlab function
-		exit()
 
-		"""
-		# Calculate the intersection point
-		[lat0, lon0] = gcxgc(pt1x, pt1y ,gc_az1 ,pt3x ,pt3y ,gc_az2)
-
-		# Use intersection point that is within the elipse
-		dist1 = distanc(pt1x, pt1y, lat0[0], lon0[0])
-		dist2 = distance(pt1x, pt1y, lat0[1], lon0[1])
-
-		if dist1 < dist2:
-			lat0 = lat0[0]
-			lon0 = lon0[0]
-		else: # use interaction with a flat surface
-			lat0 = lat0[1]
-			lon0 = lon0[1]
-
-		if lon0 < -180:
-			lon0 += 360
-		if lon0 > 180:
-			lon0 -= 360
-		lat0s[i] = lat0
-		lon0s[i] = lon0
-
-		# Center of elipse
-		latcens[i] = act_cent_lat[i]
-		loncens[i] = -act_cen_long[i]
-		if loncens[i] < 180:
-			loncens[i] += 360
-		if loncens[i] > 180:
-			loncens[i] -= 360
-		if ( (abs(lon0 - loncens[i]) < 4 ): # Check if crosses 180 or 360
-			lat0 = -lat0
-		if ( (abs(lon0 - loncens[i]) > 4 ): # Check if crosses 180 or 360
-			lon0 -= 180
-		if lon0 < -180: # Convert between -180 to 180
-			lon0 += 360 
-		if lon0 > 180: # Convert between -180 to 180
-			lon0 += 360
-		if lon0 > 180: # Convert between -180 to 180
-			lon0 -= 360
-
-		# Converting back to 0 to 360
-		if lon360:
-			for i, lon in lon0:
-				if lon < 0:
-					lon0[i] = lon + 360
-			for i, lon in lon0s:
-				if lon < 0:
-					lon0s[i] = lon + 350
-			for i, lon in loncens:
-				if lon < 0:
-					loncens[i] = lon + 360
-
-		# Calculate the Ellipse
-		minor = act_min_wid[i]
-		major = act_maj_wid[i]
-
-		# Defining the eccentricity of ellipse
-		if major == 0 or minor == 0:
-			ecc = 0
-		else:
-			ecc = math.sqrt( 1 - (minor/major)**2)
-
-		[lat, lon] = ellipse1(latcens[i], loncens[i], (major/ 2 * ecc), gc_az1, [], titan_def)
-
-		# Get the reported azimutal look direction
-		az = -1 * act_az[i]
-
-		# Convert the longitude values into -180 to 180
-		for i, l in enumerate(lon):
-			if l > 180:
-				lon[i] = l -360
-		for i, l in enumerate(lon0s):
-			if l > 180:
-				lon0s[i] = l - 360
-		for i, l in enumerate(loncens):
-			if l > 180:
-				loncens[i] = l - 360
-
-		# If passes through 180 in the middle, fix it
-		if (max(lon) > 170) and min(lon) < -170)):
-			for i, l in enumerate(lon):
-				if l < 0:
-					lon[i] = lon + 360
-
-		# Center the ellipse on pt1 (top of ellipse)
-		# Minimum between top of ellipse and lat and long of perimeter of ellipse
-		[trash, minind] = min( math.sqrt( (pt1x - lat)**2 + (pt1y - lon)**2 ) )
-		latoff1 = pt1x - lat(minind)
-		lonoff1 = pt1y - lon(minind)
-		[trash,minind] = min(math.sqrt( (pt2x - lat)**2 + (pt2y - lon)**2 ) );
-		latoff2 = pt2x - lat(minind)
-		lonoff2 = pt2y - lon(minind)
-		[trash,minind] = min( sqrt( (pt3x - lat)**2 + (pt3y - lon)**2 ) );
-		latoff3 = pt3x - lat(minind)
-		lonoff3 = pt3y - lon(minind)
-		[trash,minind] = min( sqrt( (pt4x - lat)**2 + (pt4y - lon)**2 ) );
-		latoff4 = pt4x - lat(minind)
-		lonoff4 = pt4y - lon(minind)
-
-		latoff = mean([latoff1,latoff2,latoff3,latoff4]) # mean of offsets in lat
-		lonoff = mean([lonoff1,lonoff2,lonoff3,lonoff4]) # mean of offesets in lon
-
-		lat = lat + latoff
-		lon = lon + lonoff
-		"""
+		# Calculate the Intersection Point
+		#i_lat1, i_long1, i_lat2, i_long2 = intersectionOfTwoGreatCircles(p1_lat1, p1_long1, p1_lat2, p1_long2,
+		#																p2_lat1, p2_long1, p2_lat2, p2_long2)
