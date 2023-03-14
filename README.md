@@ -11,7 +11,7 @@
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
-* **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes, or specific latitude/longitude**
+* **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
 	* retrieveIDSByFeatureName()
 	* retrieveIDSByLatitudeLongitude()
 	* retrieveIDSByLatitudeLongitudeRange()
@@ -189,11 +189,11 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 
 ## Data Files
 
-### Dynamically Updated Data Files
+### Dynamically Updated Backend Data Files
 
-Pydar includes multiple scripts to web scrap from revelant URLs to generate some of the data files
+Pydar includes multiple scripts to web scrap from revelant URLs to generate some of the backend data files
 
-Changes are checked once a month via Github Actions to keep csv files up to date
+Changes are checked once a month via Github Actions to keep csv files up to date and any changes found will be bundled into the subsequent release
 
 **coradr_jpl_options.csv**
 
@@ -201,17 +201,23 @@ Contains all the CORADR IDs and data types from [pds-imaging.jpl.nasa.gov/data/c
 
 Columns: ["CORADR ID", "Is a Titan Flyby", "Contains ABDR", "Contains ASUM", "Contains BIDR", "Contains LBDR", "Contains SBDR", "Contains STDR"]
 
+View data file: [coradr_jpl_options.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/coradr_jpl_options.csv)
+
 **swath_coverage_by_time_position.csv**
 
 Contains all the information for .LBL files within a CORADR ID page (for each segment and resolution file) by looking within a specific CORADR IDs /DATA/BIDR for .LBL files
 
 Columns: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
 
+View data file: [swath_coverage_by_time_position.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/swath_coverage_by_time_position.csv)
+
 **feature_name_details.csv**
 
 Contains all named features on Titan with names with their associated position and the origin of their name. Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
 
 Columns: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
+
+View data file: [feature_name_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/feature_name_details.csv)
 
 ### Static Data Files
 
@@ -221,11 +227,15 @@ Reference for converting between a Titan Flyby ID (e.g. "T7") to an Observation 
 
 Columns: ["Titan flyby id", "Radar Data Take Number", "Sequence number", "Orbit Number/ID"]
 
+View data file: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
+
 **sar_swath_details.csv**
 
 Currently unused, but will potentially be used in the future for incidence angle, polarization, azimuth, SAR range resolution, SAR azimuth resolution, and number of looks
 
 Converted to a static csv file from the Cassini User Guide (pg. 136-139)
+
+View data file: [sar_swath_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/sar_swath_details.csv)
 
 ## SBDR Files
 Total width of the RADAR swath is created by combining the five individual sub-swaths, where the center beam is the highest gain
@@ -654,9 +664,9 @@ pydar.extractMetadata()
 
 ## TODO:
 ### TODO Code:
+* add a colored outline around a feature when displaying as a 2D image
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
-* add a colored outline around a feature when displaying as a 2D image
 * displayImages() bug fix: 87 displays invalid integer
 * segments will be less than 99 (default to 1 - 01 is the primary imaging)
 * progress bars print to command line (still downloading...)
