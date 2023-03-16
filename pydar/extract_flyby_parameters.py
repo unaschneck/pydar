@@ -54,8 +54,9 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
 
 def convertObservationNumberToFlybyID(flyby_observation_num=None):
 	# convert Flyby ID to Observation Number to find data files
-	while len(flyby_observation_num) < 4:
-		flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
+	if flyby_observation_num is not None:
+		while len(flyby_observation_num) < 4:
+			flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
 
 	pydar.errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num)
 

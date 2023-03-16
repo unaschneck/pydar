@@ -113,6 +113,10 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
 def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 	# Error Handling for Converting a Flyby ID into an Observation Number: convertFlybyIDToObservationNumber()
+	if flyby_id is None:
+		logger.critical("\nCRITICAL ERROR, [flyby_id]: A valid flyby_id string is required")
+		exit()
+
 	if type(flyby_id) != str:
 		logger.critical("\nCRITICAL ERROR, [flyby_id]: Must be a str, current type = '{0}'".format(type(flyby_id)))
 		exit()
@@ -132,6 +136,10 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 
 def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 	# Error Handling for Converting an Observation Number to a Flyby ID: convertObservationNumberToFlybyID()
+	if flyby_observation_num is None:
+		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: A valid flyby_observation_num string is required")
+		exit()
+
 	if type(flyby_observation_num) != str:
 		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
 		exit()

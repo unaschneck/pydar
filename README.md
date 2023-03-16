@@ -28,7 +28,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 	* readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
 	* displayImages()
-* **Extract Metadata from .FMT and .TAB files**
+* **COMING SOON: Extract Metadata from .FMT and .TAB files**
 	* extractMetadata()
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  

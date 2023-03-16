@@ -37,12 +37,11 @@ if __name__ == '__main__':
 	flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004, start_doy=299, start_hour=2, start_minute=15, start_second=23, start_millisecond=987,
 														end_year=2004, end_doy=299, end_hour=2, end_minute=15, end_second=23, end_millisecond=987)
 	print("Flyby IDS based on a range of timestamps = {0}".format(flyby_ids_time_range))
-
 	# Convert Flby Id into an Observation Number
 	observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id='T65')
 	print(observation_num)
 
-	flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
+	flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num=None)
 	print(flyby_id)
 
 	# Extract Flyby Data Files to results/ directory
@@ -64,11 +63,12 @@ if __name__ == '__main__':
 	#pydar.returnAllLBLOptions()
 	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
 	#					section_to_print="note")
-	#pydar.extractMetadata()
 	'''
+	# VERSION 2:
+	pydar.extractMetadata()
 
 	# SBDR Shapefile
-	pydar.sbdrMakeShapeFile(filename="pydar/testing_files/SBDR_15_D065_V03.TAB",
-							saronly=3,
-							usepassive=False,
-							lon360=True)
+	#pydar.sbdrMakeShapeFile(filename="pydar/testing_files/SBDR_15_D065_V03.TAB",
+	#						saronly=3,
+	#						usepassive=False,
+	#						lon360=True)
