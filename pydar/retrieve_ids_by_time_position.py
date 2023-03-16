@@ -76,11 +76,11 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
 
-	flyby_ids = {} # {'flyby_id': ['S01', S03']
+	flyby_ids = {} # {'flyby_id': ['S01', S03'] } 
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
 		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= northernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= southernmost_latitude:
-			if float(row["WESTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude and float(row["EASTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude:
+			if float(row["WESTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude and float(row["EASTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude:
 				if flyby not in flyby_ids.keys():
 					flyby_ids[flyby] = []
 				segment_number = "S0" + str(row["SEGMENT NUMBER"])

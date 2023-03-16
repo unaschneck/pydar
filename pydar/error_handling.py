@@ -48,7 +48,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: '{0}' not in avaliable observation options '{1}'".format(flyby_observation_num, avaliable_observation_numbers))
 			exit()
 
-	segement_options = ['S01', 'S02', 'S03']
+	segement_options = ['S01', 'S02', 'S03', 'S04']
 	if segment_num is None:
 		logger.critical("\nCRITICAL ERROR, [segment_num]: segment_num number required out of avaliable options {0}, none given".format(segement_options))
 		exit()
@@ -158,12 +158,15 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(flyby_observation_num, valid_observation_nums))
 		exit()
 
-def errorHandlingDisplayImages(image_directory=None):
+def errorHandlingDisplayImages(image_directory=None, figsize_n=None):
 	# Error Handling for Displaying Images from an Image Directory: displayImages()
 	if type(image_directory) != str:
 		logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
 		exit()
 
+	if type(figsize_n) != int:
+		logger.critical("\nCRITICAL ERROR, [figsize_n]: Must be a int, current type = '{0}'".format(type(figsize_n)))
+		exit()
 def errorHandlingREADME(coradr_results_directory=None,
 						section_to_print=None,
 						print_to_console=True):

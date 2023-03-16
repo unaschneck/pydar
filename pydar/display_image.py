@@ -13,16 +13,16 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-def displayImages(image_directory=None):
+def displayImages(image_directory=None, figsize_n=6):
 	# Display all images in the image directory specified
-	pydar.errorHandlingDisplayImages(image_directory=image_directory)
+	pydar.errorHandlingDisplayImages(image_directory=image_directory, figsize_n=figsize_n)
 	for filename in os.listdir(image_directory):
 		if 'IMG' in filename:
 			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
 			logger.info("Displaying Image: {0}".format(image_file))
 			image = PDS3Image.open(image_file)
 			logger.info("Displaying Dimensions: {0}".format(image.shape))
-			fig = plt.figure(figsize=(4,6), dpi=120)
+			fig = plt.figure(figsize=(figsize_n,figsize_n), dpi=120)
 			plt.title(filename)
 			plt.xlabel("Pixels #")
 			plt.ylabel("Pixels #")

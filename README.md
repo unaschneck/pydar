@@ -191,7 +191,7 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 
 ### Dynamically Updated Backend Data Files
 
-Pydar includes multiple scripts to web scrap from revelant URLs to generate some of the backend data files
+Pydar includes multiple scripts to web scrape from revelant URLs to generate some of the backend data files
 
 Changes are checked once a month via Github Actions to keep csv files up to date and any changes found will be bundled into the subsequent release
 
@@ -282,8 +282,32 @@ PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
 ```
 pip install pydar
 ```
+## Getting Started with PYDAR
 
-## Retrieve Data from CASSINI
+All data is retrieved based on flyby observation numbers or IDs, but specific flybys can be found for a specific time range, latitude/longitude position, or feature name
+
+```python
+import pydar
+
+feature_name = "ontario lacus"
+flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+```
+Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
+
+Note: extractFlybyDataImages() only needs to be run to retrieve new data and will take a few minutes to download
+
+```
+# Extract Flyby Data Files to results/ directory
+pydar.extractFlybyDataImages(flyby_id='T65',
+								resolution='D',
+								segment_num="S01")
+
+# Display all Images in pydar_results/ directory
+pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
+```
+![ontario_example+png](https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.jpg)
+
+## Retrieve Data from CASSINI Functions
 
 To collect flyby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
 
@@ -336,7 +360,7 @@ retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 				westernmost_longitude=None)
 ```
 * **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90° to 90°
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90° to 90°
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or equal to the north, range from -90° to 90°
 * **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0° to 360°
 * **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west, range from 0° to 360°
 
@@ -519,7 +543,7 @@ retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 					westernmost_longitude=None)
 ```
 * **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90° to 90°
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or euqal to the north, range from -90° to 90°
+* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or equal to the north, range from -90° to 90°
 * **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0° to 360°
 * **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west, range from 0° to 360°
 
@@ -635,10 +659,11 @@ Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 **displayImages**
 
 ```
-displayImages(image_directory=None)
+displayImages(image_directory=None, figsize_n=6)
 ```
 
-* **[REQUIRED]** image_directory (string): 
+* **[REQUIRED]** image_directory (string): directory containing pydar_results with IMG file
+* [OPTIONAL] figsize_n (int): plot dimensions, defaults to 6x6
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
 
