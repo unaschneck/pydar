@@ -21,7 +21,7 @@ def displayImages(image_directory=None, figsize_n=6):
 			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
 			logger.info("Displaying Image: {0}".format(image_file))
 			image = PDS3Image.open(image_file)
-			logger.info("Displaying Dimensions: {0}".format(image.shape))
+			#logger.info("Displaying Dimensions: {0}".format(image.shape))
 			fig = plt.figure(figsize=(figsize_n,figsize_n), dpi=120)
 			plt.title(filename)
 			plt.xlabel("Pixels #")

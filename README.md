@@ -651,7 +651,7 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 				end_hour=2,
 				end_minute=15,
 				end_second=23,
-				end_millisecond=987):
+				end_millisecond=987)
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
@@ -671,7 +671,11 @@ Displays downloaded image .IMG files (unzipped from within the .ZIP files) and d
 import pydar
 pydar.displayImages("pydar_results/CORADR_0065_V03_S01")
 ```
-displayImages() will plt.show() all images in the saved results directory
+ <p align="center">
+  <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
+</p>
+
+Note: displayImages() will plt.show() all images in the saved results directory
 
 **COMING SOON: extractMetadata**
 

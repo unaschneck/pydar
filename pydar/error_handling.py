@@ -160,6 +160,10 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 
 def errorHandlingDisplayImages(image_directory=None, figsize_n=None):
 	# Error Handling for Displaying Images from an Image Directory: displayImages()
+	if image_directory == None:
+		logger.critical("\nCRITICAL ERROR, [image_directory]: image_directory is required")
+		exit()
+
 	if type(image_directory) != str:
 		logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
 		exit()
