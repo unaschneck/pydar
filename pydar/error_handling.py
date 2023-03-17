@@ -249,8 +249,8 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 		logger.critical("\nCRITICAL ERROR, [latitude]: northernmost_latitude must be greater than southernmost_latitude")
 		exit()
 
-	if westernmost_longitude > easternmost_longitude:
-		logger.critical("\nCRITICAL ERROR, [longitude]: westernmost_longitude must be less than easternmost_longitude")
+	if easternmost_longitude < westernmost_longitude:
+		logger.critical("\nCRITICAL ERROR, [longitude]: easternmost_longitude must be greater than westernmost_longitude")
 		exit()
 
 

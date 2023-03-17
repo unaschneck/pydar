@@ -80,7 +80,10 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
 		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= northernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= southernmost_latitude:
-			if float(row["WESTERNMOST_LONGITUDE (Degrees)"]) >= westernmost_longitude and float(row["EASTERNMOST_LONGITUDE (Degrees)"]) <= easternmost_longitude:
+			# ensure that min longitude value is compared against, some Easternmost < Westernmost and some Westernmost < Easternmost
+			min_longitude = min([float(row["EASTERNMOST_LONGITUDE (Degrees)"]), float(row["WESTERNMOST_LONGITUDE (Degrees)"])])
+			max_longitude = max([float(row["EASTERNMOST_LONGITUDE (Degrees)"]), float(row["WESTERNMOST_LONGITUDE (Degrees)"])])
+			if min_longitude <= westernmost_longitude and max_longitude >= easternmost_longitude:
 				if flyby not in flyby_ids.keys():
 					flyby_ids[flyby] = []
 				segment_number = "S0" + str(row["SEGMENT NUMBER"])
@@ -240,13 +243,29 @@ def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 														southernmost_latitude=southernmost_latitude,
 														easternmost_longitude=easternmost_longitude,
 														westernmost_longitude=westernmost_longitude)
+	min_latitude = southernmost_latitude
+	max_latitude = northernmost_latitude
+	min_longitude = westernmost_longitude
+	max_longitude = easternmost_longitude
 
 	feature_name_csv_dict = latitudeLongitudeWithFeatureNameFromCSV()
 	feature_names_list = []
 
+	def twoRangesIntersect(min_feature, max_feature, min_user, max_user):
+		# Check if two ranges of latitude/longitudes overlap
+		range1 = (min_feature <= max_user and min_feature >= min_user)
+		range2 = (max_feature >= min_user and max_feature <= max_user)
+		range3 = (min_feature <= min_user and max_feature >= max_user)
+		intersectionFound = (range1 or range2 or range3)
+		return intersectionFound
+
 	for feature_name, position_dict in feature_name_csv_dict.items():
-		if float(position_dict["Southernmost Latitude"]) <= northernmost_latitude and float(position_dict["Northernmost Latitude"]) >= southernmost_latitude:
-			if float(position_dict["Easternmost Longitude"]) <= easternmost_longitude and float(position_dict["Westernmost Longitude"]) >= westernmost_longitude:
+		min_feature_latitude = min([float(position_dict["Northernmost Latitude"]), float(position_dict["Southernmost Latitude"])])
+		max_feature_latitude = max([float(position_dict["Northernmost Latitude"]), float(position_dict["Southernmost Latitude"])])
+		if twoRangesIntersect(min_feature_latitude, max_feature_latitude, min_latitude, max_latitude):
+			min_feature_longitude = min([float(position_dict["Westernmost Longitude"]), float(position_dict["Easternmost Longitude"])])
+			max_feature_longitude = max([float(position_dict["Westernmost Longitude"]), float(position_dict["Easternmost Longitude"])])
+			if twoRangesIntersect(min_feature_longitude, max_feature_longitude, min_longitude, max_longitude):
 				feature_names_list.append(feature_name)
 
 	if len(feature_names_list) == 0:
