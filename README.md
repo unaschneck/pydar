@@ -292,7 +292,7 @@ import pydar
 feature_name = "ontario lacus"
 flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
 ```
-Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
+Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
 Note: extractFlybyDataImages() only needs to be run to retrieve new data and will take a few minutes to download
 
@@ -331,7 +331,7 @@ Feature names are retrieved from [feature_name_details.csv](https://github.com/u
 import pydar
 pydar.retrieveIDSByFeatureName(feature_name="Ontario Lacus")
 ```
-Output = `{'T7': ['S01'], 'T39': ['S04'], 'T71': ['S01']}`
+Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
 **retrieveIDSByLatitudeLongitude**
 
@@ -345,34 +345,33 @@ retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
 
 ```python
 import pydar
-pydar.retrieveIDSByLatitudeLongitude(latitude=10, longitude=10)
+pydar.retrieveIDSByLatitudeLongitude(latitude=-80, longitude=170)
 ```
-Output = `{'T104': ['S01']}`
+Output = `{'T39': ['S06', 'S05', 'S01'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S03'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
 **retrieveIDSByLatitudeLongitudeRange**
 
 Retrieve a list of flyby IDs with their associated segments based on range of latitudes and longitudes
 
 ```python
-retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
-				southernmost_latitude=None,
-				easternmost_longitude=None,
-				westernmost_longitude=None)
+retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
+				max_latitude=None,
+				min_longitude=None,
+				max_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90° to 90°
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or equal to the north, range from -90° to 90°
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0° to 360°
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East be greater than or equal to the west, range from 0° to 360°
+* **[REQUIRED]** min_latitude (float/int): Latitude (in degrees) where min_latitude must be greater than or equal to the max_latitude, range from -90° to 90°
+* **[REQUIRED]** max_latitude (float/int): Latitude (in degrees) where max_latitude must be less than or equal to the min_latitude, range from -90° to 90°
+* **[REQUIRED]** min_longitude (float/int): Longitude (in degrees) where min_longitude must be less than or equal to the max_longitude, range from 0° to 360°
+* **[REQUIRED]** max_longitude (float/int): Longitude (in degrees) where max_longitude be greater than or equal to the min_longitude, range from 0° to 360°
 
 ```python
-retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=19,
-				northernmost_latitude=30,
-				westernmost_longitude=130,
-				easternmost_longitude=140)
+import pydar
+pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
+									max_latitude=-72,
+									min_longitude=183,
+									max_longitude=185)
 ```
-Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T23': ['S01'], 'T25': ['S01'], 'T28': ['S01'], 'T50': ['S01'], 'T69': ['S02'], 'T84': ['S03', 'S01'], 'T86': ['S01'], 'T104': ['S01', 'S02']}`
-
-Ontario Lacus was visible in four swath observations: T57, T58, T65, T98 [(Page 163)](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf).
+Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
 To access flyby of Ontario, first specify a flyby. For this example, Ontario Lacus with the features:
 
@@ -408,7 +407,7 @@ convertObservationNumberToFlybyID(flyby_observation_num)
 
 ```python
 import pydar
-flyby_id = convertObservationNumberToFlybyID(flyby_observation_num='211')
+flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
 ```
 Output = `T65`
 
@@ -530,32 +529,32 @@ import pydar
 pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 ```
 
-Output = `['Ontario Lacus']`
+Output = `['Ontario Lacus', 'Rossak Planitia']`
 
 **retrieveFeaturesFromLatitudeLongitudeRange**
 
 Return a list of features found at a range of latitude/longitude positions
 
 ```
-retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
-					southernmost_latitude=None,
-					easternmost_longitude=None,
-					westernmost_longitude=None)
+retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
+					max_latitude=None,
+					min_longitude=None,
+					max_longitude=None)
 ```
-* **[REQUIRED]** northernmost_latitude (float/int): Latitude (in degrees) where North must be greater than or equal to the south, range from -90° to 90°
-* **[REQUIRED]** southernmost_latitude (float/int): Latitude (in degrees) where South must be less than or equal to the north, range from -90° to 90°
-* **[REQUIRED]** easternmost_longitude (float/int): Longitude (in degrees) where West must be less than or equal to the east, range from 0° to 360°
-* **[REQUIRED]** westernmost_longitude (float/int): Longitude (in degrees) where East must be greater than or equal to the west, range from 0° to 360°
+* **[REQUIRED]** min_latitude (float/int): Latitude (in degrees) where min_latitude must be less than or equal to the max_latitude, range from -90° to 90°
+* **[REQUIRED]** max_latitude (float/int): Latitude (in degrees) where max_latitude must be greater than or equal to the min_latitude, range from -90° to 90°
+* **[REQUIRED]** min_longitude (float/int): Longitude (in degrees) where min_longitude must be less than or equal to the max_longitude, range from 0° to 360°
+* **[REQUIRED]** max_longitude (float/int): Longitude (in degrees) where max_longitude must be greater than or equal to the min_longitude, range from 0° to 360°
 
 ```python
 import pydar
 
-pydar.retrieveFeaturesFromLatitudeLongitudeRange(southernmost_latitude=-80,
-						northernmost_latitude=-50,
-						westernmost_longitude=170,
-						easternmost_longitude=190)
+pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
+											max_latitude=-72,
+											min_longitude=183,
+											max_longitude=190)
 ```
-Output = `'[Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Saraswati Flumen']`
+Output = `['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']`
 
 **retrieveIDSByTime**
 

@@ -46,10 +46,14 @@ def retrieveIDSByFeatureName(feature_name=None):
 		exit()
 
 	feature_dict = feature_name_csv_dict[feature_name]
-	flyby_ids = retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=feature_dict["Northernmost Latitude"],
-													southernmost_latitude=feature_dict["Southernmost Latitude"],
-													easternmost_longitude=feature_dict["Easternmost Longitude"],
-													westernmost_longitude=feature_dict["Westernmost Longitude"])
+	min_feature_latitude = min([feature_dict["Northernmost Latitude"], feature_dict["Southernmost Latitude"]])
+	max_feature_latitude = max([feature_dict["Northernmost Latitude"], feature_dict["Southernmost Latitude"]])
+	min_feature_longtidue = min([feature_dict["Easternmost Longitude"], feature_dict["Westernmost Longitude"]])
+	max_feature_longtidue = max([feature_dict["Easternmost Longitude"], feature_dict["Westernmost Longitude"]])
+	flyby_ids = retrieveIDSByLatitudeLongitudeRange(min_latitude=min_feature_latitude,
+													max_latitude=max_feature_latitude,
+													min_longitude=min_feature_longtidue,
+													max_longitude=max_feature_longtidue)
 	return flyby_ids
 
 def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
@@ -57,21 +61,21 @@ def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
 	pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude, longitude=longitude)
 
 	# Runs range check, but the range is 0 for an exact spot
-	flyby_ids = retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=latitude,
-													southernmost_latitude=latitude,
-													easternmost_longitude=longitude,
-													westernmost_longitude=longitude)
+	flyby_ids = retrieveIDSByLatitudeLongitudeRange(min_latitude=latitude,
+													max_latitude=latitude,
+													min_longitude=longitude,
+													max_longitude=longitude)
 	return flyby_ids
 
-def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
-										southernmost_latitude=None,
-										easternmost_longitude=None,
-										westernmost_longitude=None):
+def retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
+										max_latitude=None,
+										min_longitude=None,
+										max_longitude=None):
 	# Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
-	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
-														southernmost_latitude=southernmost_latitude,
-														easternmost_longitude=easternmost_longitude,
-														westernmost_longitude=westernmost_longitude)
+	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=min_latitude,
+														max_latitude=max_latitude,
+														min_longitude=min_longitude,
+														max_longitude=max_longitude)
 
 	swath_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'swath_coverage_by_time_position.csv')  # get file's directory, up one level, /data/*.csv
 	swath_dataframe = pd.read_csv(swath_csv_file)
@@ -79,11 +83,10 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 	flyby_ids = {} # {'flyby_id': ['S01', S03'] } 
 	for index, row in swath_dataframe.iterrows():
 		flyby = str(row['FLYBY ID'])
-		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= northernmost_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= southernmost_latitude:
-			# ensure that min longitude value is compared against, some Easternmost < Westernmost and some Westernmost < Easternmost
-			min_longitude = min([float(row["EASTERNMOST_LONGITUDE (Degrees)"]), float(row["WESTERNMOST_LONGITUDE (Degrees)"])])
-			max_longitude = max([float(row["EASTERNMOST_LONGITUDE (Degrees)"]), float(row["WESTERNMOST_LONGITUDE (Degrees)"])])
-			if min_longitude <= westernmost_longitude and max_longitude >= easternmost_longitude:
+		if float(row["MINIMUM_LATITUDE (Degrees)"]) <= max_latitude and float(row["MAXIMUM_LATITUDE (Degrees)"]) >= min_latitude:
+			min_id_longitude = min([float(row["EASTERNMOST_LONGITUDE (Degrees)"]), float(row["WESTERNMOST_LONGITUDE (Degrees)"])])
+			max_id_longitude = max([float(row["EASTERNMOST_LONGITUDE (Degrees)"]), float(row["WESTERNMOST_LONGITUDE (Degrees)"])])
+			if min_id_longitude <= min_longitude and max_id_longitude >= max_longitude:
 				if flyby not in flyby_ids.keys():
 					flyby_ids[flyby] = []
 				segment_number = "S0" + str(row["SEGMENT NUMBER"])
@@ -91,10 +94,10 @@ def retrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
 					flyby_ids[flyby].append(segment_number)
 
 	if len(flyby_ids) == 0:
-		logger.info("\n[WARNING]: No flyby IDs found at latitude from {0} N to {1} S and longitude from {2} W to {3} E\n".format(northernmost_latitude,
-																																southernmost_latitude,
-																																westernmost_longitude,
-																																easternmost_longitude))
+		logger.info("\n[WARNING]: No Features found at latitude from {0} to {1} and longitude from {2} to {3} \n".format(min_latitude,
+																														max_latitude,
+																														min_longitude,
+																														max_longitude))
 
 	return flyby_ids
 
@@ -227,26 +230,22 @@ def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
 	pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude, longitude=longitude)
 
 	# Runs range check, but the range is 0 for an exact spot
-	feature_names_list = retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=latitude,
-																	southernmost_latitude=latitude,
-																	easternmost_longitude=longitude,
-																	westernmost_longitude=longitude)
+	feature_names_list = retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=latitude,
+																	max_latitude=latitude,
+																	min_longitude=longitude,
+																	max_longitude=longitude)
 	return feature_names_list
 
 
-def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
-												southernmost_latitude=None,
-												easternmost_longitude=None,
-												westernmost_longitude=None):
+def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
+												max_latitude=None,
+												min_longitude=None,
+												max_longitude=None):
 	# Retrieve all Feature Names that are within a range of latitude/longitude
-	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=northernmost_latitude,
-														southernmost_latitude=southernmost_latitude,
-														easternmost_longitude=easternmost_longitude,
-														westernmost_longitude=westernmost_longitude)
-	min_latitude = southernmost_latitude
-	max_latitude = northernmost_latitude
-	min_longitude = westernmost_longitude
-	max_longitude = easternmost_longitude
+	pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=min_latitude,
+														max_latitude=max_latitude,
+														min_longitude=min_longitude,
+														max_longitude=max_longitude)
 
 	feature_name_csv_dict = latitudeLongitudeWithFeatureNameFromCSV()
 	feature_names_list = []
@@ -269,9 +268,9 @@ def retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=None,
 				feature_names_list.append(feature_name)
 
 	if len(feature_names_list) == 0:
-		logger.info("\n[WARNING]: No Features found at latitude from {0} N to {1} S and longitude from {2} W to {3} E\n".format(northernmost_latitude,
-																																southernmost_latitude,
-																																westernmost_longitude,
-																																easternmost_longitude))
+		logger.info("\n[WARNING]: No Features found at latitude from {0} to {1} and longitude from {2} to {3} \n".format(min_latitude,
+																														max_latitude,
+																														min_longitude,
+																														max_longitude))
 
 	return feature_names_list

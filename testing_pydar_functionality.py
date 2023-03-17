@@ -7,30 +7,28 @@ if __name__ == '__main__':
 	#flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
 	#print("Flyby IDS based on Feature Name '{0}' = {1}\n".format(feature_name.title(), flyby_ids_name))
 
-	#flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=-88, longitude=140)
+	flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(latitude=-80, longitude=170)
 	#print("Flyby IDS based on Latitude/Longitude = {0}\n".format(flyby_ids_with_segments))
-
-	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=10,
-	#															northernmost_latitude=15,
-	#															westernmost_longitude=130,
-	#															easternmost_longitude=140)
+	
+	flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
+																max_latitude=-72,
+																min_longitude=183,
+																max_longitude=185)
 	#print("Flyby IDS based on Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
-	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(southernmost_latitude=10,
-	#															northernmost_latitude=30,
-	#															westernmost_longitude=130,
-	#															easternmost_longitude=150)
+	#flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=10,
+	#															max_latitude=30,
+	#															min_longitude=130,
+	#															max_longitude=150)
 	#print("Flyby IDS based on Expanded Latitude/Longitude Range = {0}\n".format(flyby_ids_range))
 
 	feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
-	print("Feature Names Found at -72 latitude and 183 longitude = {0}\n".format(feature_names_list))
-
-	feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(northernmost_latitude=-70,
-																		southernmost_latitude=-90,
-																		westernmost_longitude=180,
-																		easternmost_longitude=185)
+	#print("Feature Names Found at -72 latitude and 183 longitude = {0}\n".format(feature_names_list))
+	feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
+																		max_latitude=-72,
+																		min_longitude=183,
+																		max_longitude=190)
 	print("Feature Names Found in Latitude/Longitude Range = {0}".format(feature_names_list))
-	exit()
 
 	flyby_ids_time = pydar.retrieveIDSByTime(year=2004, doy=301)
 	print("Flyby IDS based on a specific timestamp = {0}".format(flyby_ids_time))
@@ -42,7 +40,7 @@ if __name__ == '__main__':
 	observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id='T65')
 	print(observation_num)
 
-	flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num=None)
+	flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num=211)
 	print(flyby_id)
 
 	# Extract Flyby Data Files to results/ directory

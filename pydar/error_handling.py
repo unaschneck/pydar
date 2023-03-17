@@ -208,49 +208,49 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 		logger.critical("\nCRITICAL ERROR, [longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(longitude))
 		exit()
 
-def errorHandlingRetrieveIDSByLatitudeLongitudeRange(northernmost_latitude=None,
-												southernmost_latitude=None,
-												easternmost_longitude=None,
-												westernmost_longitude=None):
+def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
+												max_latitude=None,
+												min_longitude=None,
+												max_longitude=None):
 	# Error Handling for retrieving IDs based on a range of latitude and longitudes
-	if type(northernmost_latitude) != float and type(northernmost_latitude) != int:
-		logger.critical("\nCRITICAL ERROR, [northernmost_latitude]: Must be a float or int, current type = '{0}'".format(type(northernmost_latitude)))
+	if type(min_latitude) != float and type(min_latitude) != int:
+		logger.critical("\nCRITICAL ERROR, [min_latitude]: Must be a float or int, current type = '{0}'".format(type(min_latitude)))
 		exit()
 
-	if type(southernmost_latitude) != float and type(southernmost_latitude) != int:
-		logger.critical("\nCRITICAL ERROR, [southernmost_latitude]: Must be a float or int, current type = '{0}'".format(type(southernmost_latitude)))
+	if type(max_latitude) != float and type(max_latitude) != int:
+		logger.critical("\nCRITICAL ERROR, [max_latitude]: Must be a float or int, current type = '{0}'".format(type(max_latitude)))
 		exit()
 
-	if northernmost_latitude > 90 or northernmost_latitude < -90:
-		logger.critical("\nCRITICAL ERROR, [northernmost_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(northernmost_latitude))
+	if min_latitude > 90 or min_latitude < -90:
+		logger.critical("\nCRITICAL ERROR, [min_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(min_latitude))
 		exit()
 
-	if southernmost_latitude > 90 or southernmost_latitude < -90:
-		logger.critical("\nCRITICAL ERROR, [southernmost_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(southernmost_latitude))
+	if max_latitude > 90 or max_latitude < -90:
+		logger.critical("\nCRITICAL ERROR, [max_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(max_latitude))
 		exit()
 
-	if type(easternmost_longitude) != float and type(easternmost_longitude) != int:
-		logger.critical("\nCRITICAL ERROR, [easternmost_longitude]: Must be a float or int, current type = '{0}'".format(type(easternmost_longitude)))
+	if type(min_longitude) != float and type(min_longitude) != int:
+		logger.critical("\nCRITICAL ERROR, [min_longitude]: Must be a float or int, current type = '{0}'".format(type(min_longitude)))
 		exit()
 
-	if type(westernmost_longitude) != float and type(westernmost_longitude) != int:
-		logger.critical("\nCRITICAL ERROR, [westernmost_longitude]: Must be a float or int, current type = '{0}'".format(type(westernmost_longitude)))
+	if type(max_longitude) != float and type(max_longitude) != int:
+		logger.critical("\nCRITICAL ERROR, [max_longtiude]: Must be a float or int, current type = '{0}'".format(type(max_longitude)))
 		exit()
 
-	if easternmost_longitude < 0 or easternmost_longitude > 360:
-		logger.critical("\nCRITICAL ERROR, [easternmost_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(easternmost_longitude))
+	if min_longitude < 0 or min_longitude > 360:
+		logger.critical("\nCRITICAL ERROR, [min_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(min_longitude))
 		exit()
 
-	if westernmost_longitude < 0 or westernmost_longitude > 360:
-		logger.critical("\nCRITICAL ERROR, [westernmost_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(westernmost_longitude))
+	if max_longitude < 0 or max_longitude > 360:
+		logger.critical("\nCRITICAL ERROR, [max_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(max_longitude))
 		exit()
 
-	if northernmost_latitude < southernmost_latitude:
-		logger.critical("\nCRITICAL ERROR, [latitude]: northernmost_latitude must be greater than southernmost_latitude")
+	if max_latitude < min_latitude:
+		logger.critical("\nCRITICAL ERROR, [latitude]: max_latitude must be greater than min_latitude")
 		exit()
 
-	if easternmost_longitude < westernmost_longitude:
-		logger.critical("\nCRITICAL ERROR, [longitude]: easternmost_longitude must be greater than westernmost_longitude")
+	if max_longitude < min_longitude:
+		logger.critical("\nCRITICAL ERROR, [longitude]: max_longitude must be greater than min_longtiude")
 		exit()
 
 
