@@ -288,9 +288,8 @@ All data is retrieved based on flyby observation numbers or IDs, but specific fl
 
 ```python
 import pydar
-
 feature_name = "ontario lacus"
-flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
 ```
 Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
@@ -299,13 +298,15 @@ Note: extractFlybyDataImages() only needs to be run to retrieve new data and wil
 ```
 # Extract Flyby Data Files to results/ directory
 pydar.extractFlybyDataImages(flyby_id='T65',
-								resolution='D',
-								segment_num="S01")
+				resolution='D',
+				segment_num="S01")
 
 # Display all Images in pydar_results/ directory
 pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
 ```
-![ontario_example+png](https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.jpg)
+ <p align="center">
+  <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
+</p>
 
 ## Retrieve Data from CASSINI Functions
 
@@ -367,9 +368,9 @@ retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 ```python
 import pydar
 pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
-									max_latitude=-72,
-									min_longitude=183,
-									max_longitude=185)
+					max_latitude=-72,
+					min_longitude=183,
+					max_longitude=185)
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
@@ -550,9 +551,9 @@ retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 import pydar
 
 pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
-											max_latitude=-72,
-											min_longitude=183,
-											max_longitude=190)
+						max_latitude=-72,
+						min_longitude=183,
+						max_longitude=190)
 ```
 Output = `['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']`
 
@@ -683,6 +684,7 @@ pydar.extractMetadata()
 
 ## TODO:
 ### TODO Code:
+* verify error handling for all v1 functions
 * add a colored outline around a feature when displaying as a 2D image
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
