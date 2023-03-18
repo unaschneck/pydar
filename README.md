@@ -12,22 +12,22 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
-	* retrieveIDSByFeatureName()
-	* retrieveIDSByLatitudeLongitude()
-	* retrieveIDSByLatitudeLongitudeRange()
-	* retrieveIDSByTime()
-	* retrieveIDSByTimeRange()
+	* [retrieveIDSByFeatureName()](https://github.com/unaschneck/pydar#retrieveIDSByFeatureName)
+	* [retrieveIDSByLatitudeLongitude()](https://github.com/unaschneck/pydar#retrieveIDSByLatitudeLongitude)
+	* [retrieveIDSByLatitudeLongitudeRange()](https://github.com/unaschneck/pydar#retrieveIDSByLatitudeLongitudeRange)
+	* [retrieveIDSByTime()](https://github.com/unaschneck/pydar#retrieveIDSByTime)
+	* [retrieveIDSByTimeRange()](https://github.com/unaschneck/pydar#retrieveIDSByTimeRange)
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default**
-	* convertFlybyIDToObservationNumber()
-	* convertObservationNumberToFlybyID()
-	* extractFlybyDataImages()
+	* [convertFlybyIDToObservationNumber()](https://github.com/unaschneck/pydar#convertFlybyIDToObservationNumber)
+	* [convertObservationNumberToFlybyID()](https://github.com/unaschneck/pydar#convertObservationNumberToFlybyID)
+	* [extractFlybyDataImages()](https://github.com/unaschneck/pydar#extractFlybyDataImages)
 * **Access specific observation data AAREADME and .LBL readme information**
-	* returnAllAAREADMEOptions()
-	* readAAREADME()
-	* returnAllLBLOptions()
-	* readLBLREADME()
+	* [returnAllAAREADMEOptions()](https://github.com/unaschneck/pydar#returnAllAAREADMEOptions)
+	* [readAAREADME()](https://github.com/unaschneck/pydar#readAAREADME)
+	* [returnAllLBLOptions()](https://github.com/unaschneck/pydar#returnAllLBLOptions)
+	* [readLBLREADME()](https://github.com/unaschneck/pydar#readLBLREADME)
 * **Display PDS image retrieved for flyby observation**
-	* displayImages()
+	* [displayImages()](https://github.com/unaschneck/pydar#displayImages)
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
@@ -314,7 +314,7 @@ CORADR_0234 (T80) only has scatterometry and radiometry
 
 To collect flyby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
 
-**retrieveIDSByFeatureName**
+### retrieveIDSByFeatureName()
 
 Retrieve a list of flyby IDs with their associated segments based on a feature name from titan
 
@@ -336,7 +336,7 @@ pydar.retrieveIDSByFeatureName(feature_name="Ontario Lacus")
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-**retrieveIDSByLatitudeLongitude**
+### retrieveIDSByLatitudeLongitude()
 
 Retrieve a list of flyby IDs with their associated segments based on specific latitude and longitude
 
@@ -352,7 +352,7 @@ pydar.retrieveIDSByLatitudeLongitude(latitude=-80, longitude=170)
 ```
 Output = `{'T39': ['S06', 'S05', 'S01'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S03'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-**retrieveIDSByLatitudeLongitudeRange**
+### retrieveIDSByLatitudeLongitudeRange()
 
 Retrieve a list of flyby IDs with their associated segments based on range of latitudes and longitudes
 
@@ -382,7 +382,7 @@ To access flyby of Ontario, first specify a flyby. For this example, Ontario Lac
 * resolution: 'D' (8 pixels/degree)
 * Main imaging segement 1: 'S01'
 
-**convertFlybyIDToObservationNumber**
+### convertFlybyIDToObservationNumber()
 
 Converts a Titan Flyby ID (for example: 'T65') to an observation number with front padding ('T65' -> '0211')
 
@@ -399,7 +399,7 @@ Output = `0211`
 
 Observation number based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
 
-**convertObservationNumberToFlybyID**
+### convertObservationNumberToFlybyID()
 
 Converts a Titan Observation Number (for example: '211' or '0211') to an flyby id ('0211' -> 'T65')
 
@@ -418,7 +418,7 @@ Flyby ids are based on the 'Radar Data Take Number' in the [cassini_flyby.csv](h
 
 Requires each Titan flyby ID to be a valid flyby ID in [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-**extractFlybyDataImages**
+### extractFlybyDataImages()
 
 Downloads flyby data SBDR for a selected flyby observation number or flyby id: .FMT and .TAB files (for example: [SBDR.FMT](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT) and [SBDR_15_D087_V03.TAB](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB))
 
@@ -451,7 +451,7 @@ pydar.extractFlybyDataImages(flyby_id='T65',
 
 extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby obsrevation number, version number, and segement number in the title (for example pydar_results/CORADR_0065_V03_S01)
 
-**readAAREADME**
+### readAAREADME()
 
 Print AAREADME.TXT to console for viewing
 
@@ -480,7 +480,7 @@ pydar.returnAllAAREADMEOptions()
 
 Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
 
-**readLBLREADME**
+### readLBLREADME()
 
 Print .LBL README to console for viewing
 
@@ -517,7 +517,7 @@ pydar.returnAllLBLOptions()
 ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES', 'POINTERS TO START RECORDS OF OBJECTS IN FILE', 'DESCRIPTION OF OBJECTS CONTAINED IN FILE']
 </details>
 
-**retrieveFeaturesFromLatitudeLongitude**
+### retrieveFeaturesFromLatitudeLongitude()
 
 Return a list of features found at a specific latitude/longitude position
 
@@ -534,7 +534,7 @@ pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
 
 Output = `['Ontario Lacus', 'Rossak Planitia']`
 
-**retrieveFeaturesFromLatitudeLongitudeRange**
+### retrieveFeaturesFromLatitudeLongitudeRange()
 
 Return a list of features found at a range of latitude/longitude positions
 
@@ -559,7 +559,7 @@ pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
 ```
 Output = `['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']`
 
-**retrieveIDSByTime**
+### retrieveIDSByTime()
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a specific timestamp
 
@@ -607,8 +607,7 @@ pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
 ```
 Output for the day 301 but just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
 
-
-**retrieveIDSByTimeRange**
+### retrieveIDSByTimeRange()
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a start and end datetime
 
@@ -658,7 +657,7 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
 ## Use Downloaded Data
-**displayImages**
+### displayImages()
 
 ```
 displayImages(image_directory=None, figsize_n=6)
