@@ -33,6 +33,49 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
+## Dependencies
+Python 3.7+
+
+Verified compatibility with Python 3.7, 3.8, and 3.9
+
+```
+pip3 install -r requirements.txt
+```
+
+Requirements will also be downloaded as part of the pip download
+
+## Install
+PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
+
+```
+pip install pydar
+```
+## Getting Started with PYDAR
+
+All data is retrieved based on flyby observation numbers or IDs, but specific flybys can be found for a specific time range, latitude/longitude position, or feature name
+
+```python
+import pydar
+feature_name = "ontario lacus"
+flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+```
+Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
+
+Note: extractFlybyDataImages() only needs to be run to retrieve new data and will take a few minutes to download
+
+```
+# Extract Flyby Data Files to pydar_results/ directory
+pydar.extractFlybyDataImages(flyby_id='T65',
+				resolution='D',
+				segment_num="S01")
+
+# Display all Images in pydar_results/ directory
+pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
+```
+ <p align="center">
+  <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
+</p>
+
 ## Overview
 For information on instrument specifics and acronyms refer to the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
@@ -265,50 +308,7 @@ CORADR_0209 (T63) only has scatterometry and radiometry
 
 CORADR_0234 (T80) only has scatterometry and radiometry 
 
-## Dependencies
-Python 3.7+
-
-Verified compatibility with Python 3.7, 3.8, and 3.9
-
-```
-pip3 install -r requirements.txt
-```
-
-Requirements will also be downloaded as part of the pip download
-
-## Install
-PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
-
-```
-pip install pydar
-```
-## Getting Started with PYDAR
-
-All data is retrieved based on flyby observation numbers or IDs, but specific flybys can be found for a specific time range, latitude/longitude position, or feature name
-
-```python
-import pydar
-feature_name = "ontario lacus"
-flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
-```
-Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
-
-Note: extractFlybyDataImages() only needs to be run to retrieve new data and will take a few minutes to download
-
-```
-# Extract Flyby Data Files to results/ directory
-pydar.extractFlybyDataImages(flyby_id='T65',
-				resolution='D',
-				segment_num="S01")
-
-# Display all Images in pydar_results/ directory
-pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
-```
- <p align="center">
-  <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
-</p>
-
-## Retrieve Data from CASSINI Functions
+## Retrieve Data from CASSINI Function Calls
 
 To collect flyby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
 
