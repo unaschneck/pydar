@@ -28,8 +28,6 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 	* readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
 	* displayImages()
-* **COMING SOON: Extract Metadata from .FMT and .TAB files**
-	* extractMetadata()
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
@@ -679,12 +677,9 @@ Note: displayImages() will plt.show() all images in the saved results directory
 
 **COMING SOON: extractMetadata**
 
-COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
+Extract Metadata from .FMT and .TAB files
 
-```python
-import pydar
-pydar.extractMetadata()
-```
+COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 
 ## TODO:
 ### TODO Code:

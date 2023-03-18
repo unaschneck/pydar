@@ -4,8 +4,18 @@
 import numpy as np
 import pdr
 
-def extractMetadata():
+## Logging set up for .INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler()
+logger.addHandler(stream_handler)
+
+def extractMetadata(isVersionComplete=False):
 	# Note: need both the .TAB and the .FMT file to run
+	isVersionComplete = False
+	if not isVersionComplete:
+		logger.critical("\nCRITICAL ERROR: no version complete, extractMetadata() not currently working")
+		exit()
 	
 	tab_file = "pydar/testing_files/SBDR_15_D065_V03.TAB"
 	SBDR_FILE = pdr.read(tab_file)
