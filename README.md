@@ -246,7 +246,9 @@ View data file: [coradr_jpl_options.csv](https://github.com/unaschneck/pydar/blo
 
 **swath_coverage_by_time_position.csv**
 
-Contains all the information for .LBL files within a CORADR ID page (for each segment and resolution file) by looking within a specific CORADR IDs /DATA/BIDR for .LBL files
+Contains all the information for .LBL files within all CORADR ID pages (for each segment and resolution file)
+
+Collected from URLs matching: pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/*/DATA/BIDR/
 
 Columns: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
 
@@ -254,7 +256,9 @@ View data file: [swath_coverage_by_time_position.csv](https://github.com/unaschn
 
 **feature_name_details.csv**
 
-Contains all named features on Titan with names with their associated position and the origin of their name. Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
+Contains all named features on Titan with names with their associated position and the origin of their name
+
+Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
 
 Columns: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
 
@@ -681,9 +685,8 @@ Extract Metadata from .FMT and .TAB files
 
 COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 
-## TODO:
+## Developer Notes TODO:
 ### TODO Code:
-* verify error handling for all v1 functions
 * add a colored outline around a feature when displaying as a 2D image
 * save image pixel to an array
 * extract pdr functionality to reduce overhead

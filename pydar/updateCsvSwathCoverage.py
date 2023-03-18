@@ -1,4 +1,4 @@
-# Note: Script not accessible via __init__.py and is run directly by the developer
+# Note: Script not accessible via __init__.py and is run directly by the developer and Github Action
 # updates swath_coverage_by_time_position.csv
 
 # Built in Python functions
@@ -60,7 +60,7 @@ def updateCsvSwathCoverage():
 					"N":"Longitude Map",
 					"M":"Beam Mask Map",
 					"L":"Number of Looks Map"}
-	resolution_dict = {"B":2, "D":8, "F":32, "G": 64, "H":128, "I":256} #  pixels/degree
+	resolution_dict = {"B": 2, "D": 8, "F": 32, "G": 64, "H": 128, "I": 256} #  pixels/degree
 	lbl_information = []
 	for radar_id in coradr_ids:
 		if radar_id not in ids_with_no_bidr:

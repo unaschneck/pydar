@@ -81,9 +81,9 @@ def retrieveJPLCoradrOptions(flyby_observiation_num):
 		jpl_coradr_options.append(row[0])
 
 	find_cordar_listing = 'CORADR_{0}'.format(flyby_observiation_num)
-	version_types_avaliable = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
-	more_accurate_model_number = version_types_avaliable[-1] # always choose the last and more up to date version number
-	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_avaliable))
+	version_types_available = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
+	more_accurate_model_number = version_types_available[-1] # always choose the last and more up to date version number
+	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_available))
 	return more_accurate_model_number
 
 def downloadAAREADME(cordar_file_name, segment_id):
@@ -232,25 +232,25 @@ def extractFlybyDataImages(flyby_observation_num=None,
 											resolution=resolution,
 											top_x_resolutions=top_x_resolutions)
 
-	logger.info("flyby_observation_num = {0}".format(flyby_observation_num))
-	logger.info("flyby_id = {0}".format(flyby_id))
-	logger.info("segment_num = {0}".format(segment_num))
-	logger.info("additional_data_types_to_download = {0}".format(additional_data_types_to_download))
-	logger.info("resolution = {0}".format(resolution))
-	logger.info("top_x_resolutions = {0}".format(top_x_resolutions))
+	logger.debug("flyby_observation_num = {0}".format(flyby_observation_num))
+	logger.debug("flyby_id = {0}".format(flyby_id))
+	logger.debug("segment_num = {0}".format(segment_num))
+	logger.debug("additional_data_types_to_download = {0}".format(additional_data_types_to_download))
+	logger.debug("resolution = {0}".format(resolution))
+	logger.debug("top_x_resolutions = {0}".format(top_x_resolutions))
 
 	download_files = True # for debugging, does not always download files before running data
 
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
 
-	avaliable_flyby_id, avaliable_observation_numbers = getFlybyData()
+	available_flyby_id, available_observation_numbers = getFlybyData()
 
-	if flyby_observation_num not in avaliable_observation_numbers:
-		logger.critical("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
+	if flyby_observation_num not in available_observation_numbers:
+		logger.critical("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
 		exit()
 	else:
-		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, avaliable_observation_numbers))
+		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
 
 	# Download information from pds-imaging site for CORADR
 	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
@@ -276,5 +276,4 @@ def extractFlybyDataImages(flyby_observation_num=None,
 				downloadAdditionalDataTypes(flyby_observation_cordar_name, segment_num, data_type)
 
 	if len(os.listdir("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
-		logger.critical("Unable to find any images with current parameters")
-		exit()
+		logger.critical("pydar_results/{0}_{1} is empty. Unable to find any images with current parameters".format(flyby_observation_cordar_name, segment_num))
