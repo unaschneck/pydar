@@ -12,22 +12,22 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
-	* [retrieveIDSByFeatureName()](https://github.com/unaschneck/pydar#retrieveIDSByFeatureName)
-	* [retrieveIDSByLatitudeLongitude()](https://github.com/unaschneck/pydar#retrieveIDSByLatitudeLongitude)
-	* [retrieveIDSByLatitudeLongitudeRange()](https://github.com/unaschneck/pydar#retrieveIDSByLatitudeLongitudeRange)
-	* [retrieveIDSByTime()](https://github.com/unaschneck/pydar#retrieveIDSByTime)
-	* [retrieveIDSByTimeRange()](https://github.com/unaschneck/pydar#retrieveIDSByTimeRange)
+	* retrieveIDSByFeatureName()
+	* retrieveIDSByLatitudeLongitude()
+	* retrieveIDSByLatitudeLongitudeRange()
+	* retrieveIDSByTime()
+	* retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default**
-	* [convertFlybyIDToObservationNumber()](https://github.com/unaschneck/pydar#convertFlybyIDToObservationNumber)
-	* [convertObservationNumberToFlybyID()](https://github.com/unaschneck/pydar#convertObservationNumberToFlybyID)
-	* [extractFlybyDataImages()](https://github.com/unaschneck/pydar#extractFlybyDataImages)
+	* convertFlybyIDToObservationNumber()
+	* convertObservationNumberToFlybyID()
+	* extractFlybyDataImages()
 * **Access specific observation data AAREADME and .LBL readme information**
-	* [returnAllAAREADMEOptions()](https://github.com/unaschneck/pydar#returnAllAAREADMEOptions)
-	* [readAAREADME()](https://github.com/unaschneck/pydar#readAAREADME)
-	* [returnAllLBLOptions()](https://github.com/unaschneck/pydar#returnAllLBLOptions)
-	* [readLBLREADME()](https://github.com/unaschneck/pydar#readLBLREADME)
+	* returnAllAAREADMEOptions()
+	* readAAREADME()
+	* returnAllLBLOptions()
+	* readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
-	* [displayImages()](https://github.com/unaschneck/pydar#displayImages)
+	* displayImages()
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
@@ -50,16 +50,16 @@ pip install pydar
 ```
 ## Getting Started with PYDAR
 
-All data is retrieved based on flyby observation numbers or IDs, but specific flybys can be found for a specific time range, latitude/longitude position, or feature name
+All data is retrieved based on flyby observation numbers or IDs, but relevant flybys can be found for a specific time range, latitude/longitude position, or a feature name on Titan
 
 ```python
 import pydar
-feature_name = "ontario lacus"
-flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+feature_name_example = "ontario lacus"
+flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name_example)
 ```
 Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-Note: extractFlybyDataImages() only needs to be run to retrieve new data and will take a few minutes to download
+Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data and will take a few minutes to download
 
 ```
 # Extract Flyby Data Files to pydar_results/ directory
@@ -74,7 +74,7 @@ pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
 </p>
 
-## Overview
+## Overview and Background
 For information on instrument specifics and acronyms refer to the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
 The Cassini Radar data can be found at the [PDS Imaging Node](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/). The directory is organized by [PDS standards](https://pdssbn.astro.umd.edu/howto/understand.shtml). The file format are defined in the [Small Body Node](https://pdssbn.astro.umd.edu/howto/file_types.shtml). The radar echo is stored originally as floating points in LBDR files. The SAR processors turns the LBDR files to BIDR image. The BIDR data is organized as follows:
@@ -158,10 +158,10 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |_VOLDESC.CAT <--- VERSION INFORMATION LISTED HERE ('VOLUME_VERSION_ID' = "Version 1", "Version 2", "Version 3") and in filename
 ```
 
-.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/)
+.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via the displayImages() function
 
 ### Download Time
-Download time varies depending on the number and size of files of interest. On average, most single feature downloads take between 2-10 minutes to download.
+Download time varies for extractFlybyDataImages() and depends on the number and size of files of interest. On average, most single feature downloads take between 2-10 minutes to download.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
@@ -212,7 +212,7 @@ Only some Titan passes produced all of the version numbers.
 
 The version number is listed in the filename and in VOLDESC.CAT under the 'VOLUME_VERSION_ID'
 
-**Version 3 is the latest and preferred version**
+**Version 3 is currently the latest and preferred version**
 
 Example:
 
@@ -228,19 +228,19 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 ![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
 *Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)*
 
-## Data Files
+## Data Files (on the backend)
 
-### Dynamically Updated Backend Data Files
+### Dynamically Updated Backend Files
 
-Pydar includes multiple scripts to web scrape from revelant URLs to generate some of the backend data files
+Pydar includes multiple scripts to web scrape from relevant URLs to generate some of the backend data files
 
-Changes are checked once a month via Github Actions to keep csv files up to date and any changes found will be bundled into the subsequent release
+Changes in the relevant URLs are checked once a month via Github Actions to keep csv files up to date and any changes found will be bundled into the subsequent release
 
 **coradr_jpl_options.csv**
 
 Contains all the CORADR IDs and data types from [pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter)
 
-Columns: ["CORADR ID", "Is a Titan Flyby", "Contains ABDR", "Contains ASUM", "Contains BIDR", "Contains LBDR", "Contains SBDR", "Contains STDR"]
+Headers: ["CORADR ID", "Is a Titan Flyby", "Contains ABDR", "Contains ASUM", "Contains BIDR", "Contains LBDR", "Contains SBDR", "Contains STDR"]
 
 View data file: [coradr_jpl_options.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/coradr_jpl_options.csv)
 
@@ -250,7 +250,7 @@ Contains all the information for .LBL files within all CORADR ID pages (for each
 
 Collected from URLs matching: pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/*/DATA/BIDR/
 
-Columns: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
+Headers: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
 
 View data file: [swath_coverage_by_time_position.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/swath_coverage_by_time_position.csv)
 
@@ -260,7 +260,7 @@ Contains all named features on Titan with names with their associated position a
 
 Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
 
-Columns: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
+Headers: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
 
 View data file: [feature_name_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/feature_name_details.csv)
 
@@ -270,7 +270,7 @@ View data file: [feature_name_details.csv](https://github.com/unaschneck/pydar/b
 
 Reference for converting between a Titan Flyby ID (e.g. "T7") to an Observation Number (e.g. "059") (and back)
 
-Columns: ["Titan flyby id", "Radar Data Take Number", "Sequence number", "Orbit Number/ID"]
+Headers: ["Titan flyby id", "Radar Data Take Number", "Sequence number", "Orbit Number/ID"]
 
 View data file: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
