@@ -15,6 +15,8 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 	* retrieveIDSByFeatureName()
 	* retrieveIDSByLatitudeLongitude()
 	* retrieveIDSByLatitudeLongitudeRange()
+	* retrieveFeaturesFromLatitudeLongitude()
+	* retrieveFeaturesFromLatitudeLongitudeRange()
 	* retrieveIDSByTime()
 	* retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default**
@@ -37,7 +39,7 @@ Python 3.7+
 Verified compatibility with Python 3.7, 3.8, and 3.9
 
 ```
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Requirements will also be downloaded as part of the pip download
@@ -50,23 +52,24 @@ pip install pydar
 ```
 ## Getting Started with PYDAR
 
-All data is retrieved based on flyby observation numbers or IDs, but relevant flybys can be found for a specific time range, latitude/longitude position, or a feature name on Titan
+All Cassini data for Titan is retrieved based on flyby observation numbers or IDs, so relevant flybys can be found based on time range, latitude/longitude position, or a known feature name
 
 ```python
 import pydar
 feature_name_example = "ontario lacus"
 flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name_example)
 ```
-Returns a dictionary of flybys (and their relevant segements) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
+Returns a dictionary of flyby IDs (and their relevant segments) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data and will take a few minutes to download
-
+The relevant data files can be downloaded for any combination of these flyby IDs and segment numbers. For example, flyby ID 'T65' and segment 'S01' at resolution 'D' for 8 pixels/degree
 ```
 # Extract Flyby Data Files to pydar_results/ directory
 pydar.extractFlybyDataImages(flyby_id='T65',
 				resolution='D',
 				segment_num="S01")
-
+```
+Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data and will take a few minutes to download
+```
 # Display all Images in pydar_results/ directory
 pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
 ```
@@ -75,9 +78,9 @@ pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
 </p>
 
 ## Overview and Background
-For information on instrument specifics and acronyms refer to the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
+For information on Cassini instrument specifics and acronyms refer to the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
-The Cassini Radar data can be found at the [PDS Imaging Node](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/). The directory is organized by [PDS standards](https://pdssbn.astro.umd.edu/howto/understand.shtml). The file format are defined in the [Small Body Node](https://pdssbn.astro.umd.edu/howto/file_types.shtml). The radar echo is stored originally as floating points in LBDR files. The SAR processors turns the LBDR files to BIDR image. The BIDR data is organized as follows:
+The Cassini Radar data can be found at the [PDS Imaging Node](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/). The directory is organized by [PDS standards](https://pdssbn.astro.umd.edu/howto/understand.shtml). The file format are defined in the [Small Body Node](https://pdssbn.astro.umd.edu/howto/file_types.shtml). The radar echo is stored originally as floating points in LBDR files. The SAR processors turn the LBDR files into BIDR image. The BIDR data is organized as follows:
 ```
 Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take number and Vxx is the data version number
   |_ AAREADME.txt
@@ -157,17 +160,16 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |_SOFTWARE/
   |_VOLDESC.CAT <--- VERSION INFORMATION LISTED HERE ('VOLUME_VERSION_ID' = "Version 1", "Version 2", "Version 3") and in filename
 ```
-
-.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via the displayImages() function
+.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via `pydar.displayImages()`
 
 ### Download Time
-Download time varies for extractFlybyDataImages() and depends on the number and size of files of interest. On average, most single feature downloads take between 2-10 minutes to download.
+Download time for data files vary when using `pydar.extractFlybyDataImages()` and depends on the number and size of files of interest. On average, most single feature downloads take between 5-30 minutes to download, but can be longer for higher resolution files.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
 
 ### Cross-Reference Table for Observations and Flybys
-The Titan flybys ID is not used in the naming convention for the CORADR filenames. The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
+The Titan flyby IDs (e.g. 'T65') are not used in the naming convention for the CORADR filenames. Instead, all files are referred to by their observation number (e.g. '0211'). The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
 To convert between a Titan Flyby ID and an observation number use either `pydar.convertFlybyIDToObservationNumber(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
 
@@ -196,11 +198,9 @@ Image file from BIBQD05S184_D065_T008S03_V03.JPG:
 
 Some passes have multiple versions of the data, up to 3 different versions currently.
 
-* Version 1 (V01) was the first archived version of the data and assumed Titan had zero obliquity, which resulted in misregistration between passes
-
-* Version 2 (V02) used a Titan spin model that reduced misregistration error 
-
-* Version 3 (V03) used a long-term, accurate spin model for Titan along with other improvements
+* **Version 1 (V01)** was the first archived version of the data and assumed Titan had zero obliquity, which resulted in misregistration between passes
+* **Version 2 (V02)** used a Titan spin model that reduced misregistration error 
+* **Version 3 (V03)** used a long-term, accurate spin model for Titan along with other improvements
 
 Only some Titan passes produced all of the version numbers.
 
@@ -212,7 +212,7 @@ Only some Titan passes produced all of the version numbers.
 
 The version number is listed in the filename and in VOLDESC.CAT under the 'VOLUME_VERSION_ID'
 
-**Version 3 is currently the latest and preferred version**
+_**Version 3 is currently the latest and preferred version and will be the version included when downloaded**_
 
 Example:
 
@@ -228,7 +228,7 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 ![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
 *Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)*
 
-## Data Files (on the backend)
+## Backend Data Files
 
 ### Dynamically Updated Backend Files
 
@@ -238,7 +238,7 @@ Changes in the relevant URLs are checked once a month via Github Actions to keep
 
 **coradr_jpl_options.csv**
 
-Contains all the CORADR IDs and data types from [pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter)
+Contains all the CORADR IDs and available data types from [pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter)
 
 Headers: ["CORADR ID", "Is a Titan Flyby", "Contains ABDR", "Contains ASUM", "Contains BIDR", "Contains LBDR", "Contains SBDR", "Contains STDR"]
 
@@ -248,7 +248,7 @@ View data file: [coradr_jpl_options.csv](https://github.com/unaschneck/pydar/blo
 
 Contains all the information for .LBL files within all CORADR ID pages (for each segment and resolution file)
 
-Collected from URLs matching: pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/*/DATA/BIDR/
+Collected from URLs matching: pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/[CORADAR_ID]/DATA/BIDR/
 
 Headers: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
 
@@ -256,9 +256,9 @@ View data file: [swath_coverage_by_time_position.csv](https://github.com/unaschn
 
 **feature_name_details.csv**
 
-Contains all named features on Titan with names with their associated position and the origin of their name
+Contains all named features on Titan with their furthest latitude/longitude position and origin of name
 
-Taken from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
+Collected from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
 
 Headers: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
 
@@ -268,7 +268,7 @@ View data file: [feature_name_details.csv](https://github.com/unaschneck/pydar/b
 
 **cassini_flyby.csv**
 
-Reference for converting between a Titan Flyby ID (e.g. "T7") to an Observation Number (e.g. "059") (and back)
+Reference for converting between a Titan Flyby ID (e.g. "T7") and its Observation Number (e.g. "059") (and back)
 
 Headers: ["Titan flyby id", "Radar Data Take Number", "Sequence number", "Orbit Number/ID"]
 
@@ -312,16 +312,16 @@ CORADR_0234 (T80) only has scatterometry and radiometry
 
 ## Retrieve Data from CASSINI Function Calls
 
-To collect flyby information and images from a feature on Titan, start by selecting a feature, for example: "Ontario Lacus"
+To collect flyby information and images for the latitude/longitude range of a named feature on Titan
 
 ### retrieveIDSByFeatureName()
 
-Retrieve a list of flyby IDs with their associated segments based on a feature name from titan
+Retrieve a list of flyby IDs with their associated segment numbers based on a feature name from Titan
 
 ```python
 retrieveIDSByFeatureName(feature_name=None)
 ```
-* **[REQUIRED]** feature_name (string): Feature name on Titan to give flyby ids and segments, not case-sensitive
+* **[REQUIRED]** feature_name (string): Feature name on Titan, not case-sensitive
 
 Feature names are retrieved from [feature_name_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/feature_name_details.csv)
 <details closed>
@@ -375,147 +375,6 @@ pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
 					max_longitude=185)
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
-
-To access flyby of Ontario, first specify a flyby. For this example, Ontario Lacus with the features:
-
-* Titan flyby id: 'T65'
-* resolution: 'D' (8 pixels/degree)
-* Main imaging segement 1: 'S01'
-
-### convertFlybyIDToObservationNumber()
-
-Converts a Titan Flyby ID (for example: 'T65') to an observation number with front padding ('T65' -> '0211')
-
-```python
-convertFlybyIDToObservationNumber(flyby_id)
-```
-* **[REQUIRED]** flyby_id (string): a valid flyby ID with prefix 'T'
-
-```python
-import pydar
-observation_number = convertFlybyIDToObservationNumber(flyby_id='T65')
-```
-Output = `0211`
-
-Observation number based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
-
-### convertObservationNumberToFlybyID()
-
-Converts a Titan Observation Number (for example: '211' or '0211') to an flyby id ('0211' -> 'T65')
-
-```python
-convertObservationNumberToFlybyID(flyby_observation_num)
-```
-* **[REQUIRED]** flyby_observation_num (string): a valid observation number
-
-```python
-import pydar
-flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
-```
-Output = `T65`
-
-Flyby ids are based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding of 'T'
-
-Requires each Titan flyby ID to be a valid flyby ID in [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
-
-### extractFlybyDataImages()
-
-Downloads flyby data SBDR for a selected flyby observation number or flyby id: .FMT and .TAB files (for example: [SBDR.FMT](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT) and [SBDR_15_D087_V03.TAB](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB))
-
-Downloads flyby data BIDR for a selected flyby observation number or flyby id: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T016S01_V03.LBL](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL) and [BIBQH80N051_D087_T016S01_V03.ZIP](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP))
-
-```
-extractFlybyDataImages(flyby_observation_num=None,
-			flyby_id=None,
-			segment_num=None,
-			additional_data_types_to_download=[],
-			resolution='I',
-			top_x_resolutions=None)
-```
-Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: '0065') is required. Note: a flyby_id will be translated into a flyby_observation_number to access on the backend and the results will be saved under the observation number. For example, 'T65' will become observation number '0021'
-
-* **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
-* **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
-* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03"]
-* [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"] (__NOTE__: current v1 functionality does not download any additional data types)
-* [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
-* [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
-
-```python
-import pydar
-pydar.extractFlybyDataImages(flyby_id='T65',
-			resolution='D',
-			segment_num="S01",
-			additional_data_types_to_download=["STDR", "LBDR"])
-```
-
-extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby obsrevation number, version number, and segement number in the title (for example pydar_results/CORADR_0065_V03_S01)
-
-### readAAREADME()
-
-Print AAREADME.TXT to console for viewing
-
-```
-readAAREADME(coradr_results_directory=None,
-	section_to_print=None, 
-	print_to_console=True)
-```
-
-* **[REQUIRED]** coradr_results_directory (string): CORADAR results folder downloaded (example: "pydar_results/CORADR_0211_V03_S01/")
-* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
-* [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
-
-To see a list of all section_to_print options, see: returnAllAAREADMEOptions()
-
-```python
-import pydar
-pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
-		section_to_print="Volume")
-```
-Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`
-```python
-import pydar
-pydar.returnAllAAREADMEOptions()
-```
-
-Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
-
-### readLBLREADME()
-
-Print .LBL README to console for viewing
-
-```
-readLBLREADME(coradr_results_directory=None,
-	section_to_print=None, 
-	print_to_console=True)
-```
-
-* **[REQUIRED]** coradr_results_directory (string):
-* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
-* [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
-
-To see a list of all section_to_print options, see: returnAllLBLOptions()
-
-```python
-import pydar
-pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
-		section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
-```
-Output = `(0.13498322,0.00221225,-0.99084542)`
-```python
-import pydar
-pydar.returnAllLBLOptions()
-```
-<details closed>
-<summary>Line-By-Line Options (Click to view all)</summary>
-<br>
-['PDS_VERSION_ID', 'DATA_SET_ID', 'DATA_SET_NAME', 'PRODUCER_INSTITUTION_NAME', 'PRODUCER_ID', 'PRODUCER_FULL_NAME', 'PRODUCT_ID', 'PRODUCT_VERSION_ID', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_HOST_ID', 'INSTRUMENT_NAME', 'INSTRUMENT_ID', 'TARGET_NAME', 'START_TIME', 'STOP_TIME', 'SPACECRAFT_CLOCK_START_COUNT', 'SPACECRAFT_CLOCK_STOP_COUNT', 'PRODUCT_CREATION_TIME', 'SOURCE_PRODUCT_ID', 'MISSION_PHASE_NAME', 'MISSION_NAME', 'SOFTWARE_VERSION_ID', 'FILE_NAME COMPRESSED', 'RECORD_TYPE COMPRESSED', 'ENCODING_TYPE', 'INTERCHANGE_FORMAT', 'UNCOMPRESSED_FILE_NAME', 'REQUIRED_STORAGE_BYTES', '^DESCRIPTION', 'FILE_NAME UNCOMPRESSED', 'RECORD_TYPE UNCOMPRESSED', 'RECORD_BYTES', 'FILE_RECORDS', 'LABEL_RECORDS', '^IMAGE', 'LINES', 'LINE_SAMPLES', 'SAMPLE_TYPE', 'SAMPLE_BITS', 'CHECKSUM', 'SCALING_FACTOR', 'OFFSET', 'MISSING_CONSTANT', 'NOTE', '^DATA_SET_MAP_PROJECTION', 'MAP_PROJECTION_TYPE', 'FIRST_STANDARD_PARALLEL', 'SECOND_STANDARD_PARALLEL', 'A_AXIS_RADIUS', 'B_AXIS_RADIUS', 'C_AXIS_RADIUS', 'POSITIVE_LONGITUDE_DIRECTION', 'CENTER_LATITUDE', 'CENTER_LONGITUDE', 'REFERENCE_LATITUDE', 'REFERENCE_LONGITUDE', 'LINE_FIRST_PIXEL', 'LINE_LAST_PIXEL', 'SAMPLE_FIRST_PIXEL', 'SAMPLE_LAST_PIXEL', 'MAP_PROJECTION_ROTATION', 'MAP_RESOLUTION', 'MAP_SCALE', 'MAXIMUM_LATITUDE', 'MINIMUM_LATITUDE', 'EASTERNMOST_LONGITUDE', 'WESTERNMOST_LONGITUDE', 'LINE_PROJECTION_OFFSET', 'SAMPLE_PROJECTION_OFFSET', 'OBLIQUE_PROJ_POLE_LATITUDE', 'OBLIQUE_PROJ_POLE_LONGITUDE', 'OBLIQUE_PROJ_POLE_ROTATION', 'OBLIQUE_PROJ_X_AXIS_VECTOR', 'OBLIQUE_PROJ_Y_AXIS_VECTOR', 'OBLIQUE_PROJ_Z_AXIS_VECTOR', 'LOOK_DIRECTION', 'COORDINATE_SYSTEM_NAME', 'COORDINATE_SYSTEM_TYPE']
-</details>
-<details closed>
-<summary>Section Header Options (Click to view all)</summary>
-<br>
-['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES', 'POINTERS TO START RECORDS OF OBJECTS IN FILE', 'DESCRIPTION OF OBJECTS CONTAINED IN FILE']
-</details>
 
 ### retrieveFeaturesFromLatitudeLongitude()
 
@@ -655,6 +514,140 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 				end_millisecond=987)
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
+
+### convertFlybyIDToObservationNumber()
+
+Converts a Titan Flyby ID (for example: 'T65') to an observation number with front padding ('T65' -> '0211')
+
+```python
+convertFlybyIDToObservationNumber(flyby_id)
+```
+* **[REQUIRED]** flyby_id (string): a valid flyby ID with prefix 'T'
+
+```python
+import pydar
+observation_number = convertFlybyIDToObservationNumber(flyby_id='T65')
+```
+Output = `0211`
+
+Observation number based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
+
+### convertObservationNumberToFlybyID()
+
+Converts a Titan Observation Number (for example: '211' or '0211') to an flyby id ('0211' -> 'T65')
+
+```python
+convertObservationNumberToFlybyID(flyby_observation_num)
+```
+* **[REQUIRED]** flyby_observation_num (string): a valid observation number
+
+```python
+import pydar
+flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
+```
+Output = `T65`
+
+Flyby ids are based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding of 'T'
+
+Requires each Titan flyby ID to be a valid flyby ID in [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
+
+### extractFlybyDataImages()
+
+Downloads flyby data SBDR for a selected flyby observation number or flyby id: .FMT and .TAB files (for example: [SBDR.FMT](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT) and [SBDR_15_D087_V03.TAB](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB))
+
+Downloads flyby data BIDR for a selected flyby observation number or flyby id: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T016S01_V03.LBL](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL) and [BIBQH80N051_D087_T016S01_V03.ZIP](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP))
+
+```
+extractFlybyDataImages(flyby_observation_num=None,
+			flyby_id=None,
+			segment_num=None,
+			additional_data_types_to_download=[],
+			resolution='I',
+			top_x_resolutions=None)
+```
+Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: '0065') is required. Note: a flyby_id will be translated into a flyby_observation_number to access on the backend and the results will be saved under the observation number. For example, 'T65' will become observation number '0021'
+
+* **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
+* **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
+* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03"]
+* [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
+* [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
+* [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"] (__NOTE__: current v1 functionality does not download any additional data types)
+
+```python
+import pydar
+pydar.extractFlybyDataImages(flyby_id='T65',
+			resolution='D',
+			segment_num="S01")
+```
+
+extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example pydar_results/CORADR_0065_V03_S01). Download time depends on file and resolution size but ranges from 5-30 minutes
+
+### readAAREADME()
+
+Print AAREADME.TXT to console for viewing
+
+```
+readAAREADME(coradr_results_directory=None,
+	section_to_print=None, 
+	print_to_console=True)
+```
+
+* **[REQUIRED]** coradr_results_directory (string): CORADAR results folder downloaded (example: "pydar_results/CORADR_0211_V03_S01/")
+* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
+* [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
+
+To see a list of all section_to_print options, see: returnAllAAREADMEOptions()
+
+```python
+import pydar
+pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
+		section_to_print="Volume")
+```
+Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`
+```python
+import pydar
+pydar.returnAllAAREADMEOptions()
+```
+
+Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
+
+### readLBLREADME()
+
+Print .LBL README to console for viewing
+
+```
+readLBLREADME(coradr_results_directory=None,
+	section_to_print=None, 
+	print_to_console=True)
+```
+
+* **[REQUIRED]** coradr_results_directory (string):
+* [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
+* [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
+
+To see a list of all section_to_print options, see: returnAllLBLOptions()
+
+```python
+import pydar
+pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
+		section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
+```
+Output = `(0.13498322,0.00221225,-0.99084542)`
+```python
+import pydar
+pydar.returnAllLBLOptions()
+```
+<details closed>
+<summary>Line-By-Line Options (Click to view all)</summary>
+<br>
+['PDS_VERSION_ID', 'DATA_SET_ID', 'DATA_SET_NAME', 'PRODUCER_INSTITUTION_NAME', 'PRODUCER_ID', 'PRODUCER_FULL_NAME', 'PRODUCT_ID', 'PRODUCT_VERSION_ID', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_HOST_ID', 'INSTRUMENT_NAME', 'INSTRUMENT_ID', 'TARGET_NAME', 'START_TIME', 'STOP_TIME', 'SPACECRAFT_CLOCK_START_COUNT', 'SPACECRAFT_CLOCK_STOP_COUNT', 'PRODUCT_CREATION_TIME', 'SOURCE_PRODUCT_ID', 'MISSION_PHASE_NAME', 'MISSION_NAME', 'SOFTWARE_VERSION_ID', 'FILE_NAME COMPRESSED', 'RECORD_TYPE COMPRESSED', 'ENCODING_TYPE', 'INTERCHANGE_FORMAT', 'UNCOMPRESSED_FILE_NAME', 'REQUIRED_STORAGE_BYTES', '^DESCRIPTION', 'FILE_NAME UNCOMPRESSED', 'RECORD_TYPE UNCOMPRESSED', 'RECORD_BYTES', 'FILE_RECORDS', 'LABEL_RECORDS', '^IMAGE', 'LINES', 'LINE_SAMPLES', 'SAMPLE_TYPE', 'SAMPLE_BITS', 'CHECKSUM', 'SCALING_FACTOR', 'OFFSET', 'MISSING_CONSTANT', 'NOTE', '^DATA_SET_MAP_PROJECTION', 'MAP_PROJECTION_TYPE', 'FIRST_STANDARD_PARALLEL', 'SECOND_STANDARD_PARALLEL', 'A_AXIS_RADIUS', 'B_AXIS_RADIUS', 'C_AXIS_RADIUS', 'POSITIVE_LONGITUDE_DIRECTION', 'CENTER_LATITUDE', 'CENTER_LONGITUDE', 'REFERENCE_LATITUDE', 'REFERENCE_LONGITUDE', 'LINE_FIRST_PIXEL', 'LINE_LAST_PIXEL', 'SAMPLE_FIRST_PIXEL', 'SAMPLE_LAST_PIXEL', 'MAP_PROJECTION_ROTATION', 'MAP_RESOLUTION', 'MAP_SCALE', 'MAXIMUM_LATITUDE', 'MINIMUM_LATITUDE', 'EASTERNMOST_LONGITUDE', 'WESTERNMOST_LONGITUDE', 'LINE_PROJECTION_OFFSET', 'SAMPLE_PROJECTION_OFFSET', 'OBLIQUE_PROJ_POLE_LATITUDE', 'OBLIQUE_PROJ_POLE_LONGITUDE', 'OBLIQUE_PROJ_POLE_ROTATION', 'OBLIQUE_PROJ_X_AXIS_VECTOR', 'OBLIQUE_PROJ_Y_AXIS_VECTOR', 'OBLIQUE_PROJ_Z_AXIS_VECTOR', 'LOOK_DIRECTION', 'COORDINATE_SYSTEM_NAME', 'COORDINATE_SYSTEM_TYPE']
+</details>
+<details closed>
+<summary>Section Header Options (Click to view all)</summary>
+<br>
+['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES', 'POINTERS TO START RECORDS OF OBJECTS IN FILE', 'DESCRIPTION OF OBJECTS CONTAINED IN FILE']
+</details>
 
 ## Use Downloaded Data
 ### displayImages()
