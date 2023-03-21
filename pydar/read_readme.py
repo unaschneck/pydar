@@ -89,6 +89,7 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 		else:
 			end_position = sectionList[end_index]
 
+	# Find relevant line to print based on the starting text
 	output_string = ''
 	with open("{0}/AAREADME.TXT".format(coradr_results_directory), "r") as readme_file:
 		within_readme_section = False
@@ -110,7 +111,7 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 				if 'OBJECT' not in line and 'END' not in line:
 					output_string += line
 
-	output_string = output_string.rstrip()
+	output_string = output_string.rstrip() # remove excessive whitespace
 
 	if "=" in output_string and sectionList != aareadme_section_options:
 		output_string = (output_string.split("=")[1]).strip() # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
@@ -317,10 +318,10 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 			else:
 				break
 
-	output_string = output_string.rstrip()
+	output_string = output_string.rstrip() # remove excessive whitespace
+
 	if sectionList != lblreadme_section_options:
 		output_string = (output_string.split("=")[1]).strip() # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
 	if print_to_console: logger.info(output_string)
 	return output_string
-
 ########################################################################

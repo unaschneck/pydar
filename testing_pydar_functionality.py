@@ -4,7 +4,7 @@ if __name__ == '__main__':
 	# VERSION 1:
 	## Get swatch coverage based on latitude/longitude, Time, or Feature
 	'''
-	feature_name = "ontario lAcus"
+	feature_name = "Ontario Lacus"
 	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
 	print("Flyby IDS based on Feature Name '{0}' = {1}".format(feature_name.title(), flyby_ids_name))
 
@@ -51,14 +51,15 @@ if __name__ == '__main__':
 	observation_num = "211"
 	flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num=observation_num)
 	print("\nObservation Number '{0}' is flyby id = {1}".format(observation_num, flyby_id))
+
 	'''
 	# Extract Flyby Data Files to results/ directory
-	pydar.extractFlybyDataImages(flyby_id='T65',
-								resolution='D',
-								segment_num="S01")
+	#pydar.extractFlybyDataImages(flyby_id='T65',
+	#							resolution='D',
+	#							segment_num="S01")
 
 	# Display all Images in pydar_results/ directory
-	#pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01/", figsize_n=5)
+	pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01/")
 	# TODO: bug fix for 87 displays invalid integer
 
 	# Read AAREADME to console

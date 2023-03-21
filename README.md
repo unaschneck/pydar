@@ -660,17 +660,19 @@ Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 ### displayImages()
 
 ```
-displayImages(image_directory=None, figsize_n=6)
+displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120)
 ```
 
 * **[REQUIRED]** image_directory (string): directory containing pydar_results with IMG file
+* [OPTIONAL] fig_title (str): figure title, defaults to filename
 * [OPTIONAL] figsize_n (int): plot dimensions, defaults to 6x6
+* [OPTIONAL] fig_dpi (int): plot dpi, defaults to 120
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
 
 ```python
 import pydar
-pydar.displayImages("pydar_results/CORADR_0065_V03_S01")
+pydar.displayImages(image_directory="pydar_results/CORADR_0065_V03_S01")
 ```
  <p align="center">
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />

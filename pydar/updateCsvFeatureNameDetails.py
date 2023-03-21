@@ -19,7 +19,7 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-## FUNCTIONS TO UPDATE CSV FILES BASED ON WEB SCRAPPING ################
+## FUNCTIONS TO WEB SCRAPE TO POPULATE feature_name_details.csv ################
 def updateCsvFeatureNameDetails():
 	# Update the csv script for feature_name_details.csv from the planetary names database
 	# Retrieves information for each Titan feature
@@ -28,7 +28,7 @@ def updateCsvFeatureNameDetails():
 
 	logger.info("Refreshing: feature_name_details.csv")
 
-	# BeautifulSoup web scrapping to find observation file number full title
+	# BeautifulSoup web scrapping to find Titan feature names with details
 	logger.info("Retrieving observation information from https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan....")
 	titan_root_url = "https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan"
 	titan_html = request.urlopen(titan_root_url).read()

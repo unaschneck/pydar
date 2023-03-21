@@ -1,10 +1,14 @@
-## Display Image
+## Display PDR images in Matplotlib
+
+# Built in Python functions
 import logging
 import os
 
+# External Python libraries (installed via pip install)
 from planetaryimage import PDS3Image
 import matplotlib.pyplot as plt
 
+# Internal Pydar reference to access functions, global variables, and error handling
 import pydar
 
 ## Logging set up for .INFO
@@ -13,17 +17,30 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-def displayImages(image_directory=None, figsize_n=6):
+#### DISPLAY ALL PDR IMAGES IN A DIRECTORY #############################
+def displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120):
 	# Display all images in the image directory specified
-	pydar.errorHandlingDisplayImages(image_directory=image_directory, figsize_n=figsize_n)
+	#	plt.show() all imgs in a given directory
+
+	pydar.errorHandlingDisplayImages(image_directory=image_directory,
+									fig_title=fig_title,
+									figsize_n=figsize_n,
+									fig_dpi=fig_dpi)
+	
 	for filename in os.listdir(image_directory):
 		if 'IMG' in filename:
 			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
+
 			logger.info("Displaying Image: {0}".format(image_file))
+
 			image = PDS3Image.open(image_file)
-			#logger.info("Displaying Dimensions: {0}".format(image.shape))
-			fig = plt.figure(figsize=(figsize_n,figsize_n), dpi=120)
-			plt.title(filename)
+			logger.debug("Displaying Dimensions: {0}".format(image.shape))
+
+			fig = plt.figure(figsize=(figsize_n,figsize_n), dpi=fig_dpi)
+			if fig_title is None:
+				plt.title(filename)
+			else:
+				plt.title(fig_title)
 			plt.xlabel("Pixels #")
 			plt.ylabel("Pixels #")
 			plt.imshow(image.image, cmap='gray')

@@ -21,7 +21,7 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-## FUNCTIONS TO UPDATE CSV FILES BASED ON WEB SCRAPPING ################
+## FUNCTIONS TO WEB SCRAPE TO POPULATE coradr_jpl_options.csv ################
 def updateCsvCORADRJPLOptions():
 	# Update the csv script for coradr_jpl_options.csv from the most recent JPL webpage
 	# Retrieves information for each CORADAR option and the data types it has available
@@ -30,7 +30,7 @@ def updateCsvCORADRJPLOptions():
 
 	logger.info("Refreshing: coradr_jpl_options.csv")
 
-	# BeautifulSoup web scrapping to find observation file number full title
+	# BeautifulSoup web scrapping to find CASSINI data types
 	logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 	cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
 	cassini_html = request.urlopen(cassini_root_url).read()

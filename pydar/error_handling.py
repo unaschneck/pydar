@@ -158,19 +158,28 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(flyby_observation_num, valid_observation_nums))
 		exit()
 
-def errorHandlingDisplayImages(image_directory=None, figsize_n=None):
+def errorHandlingDisplayImages(image_directory=None, fig_title=None, figsize_n=None, fig_dpi=None):
 	# Error Handling for Displaying Images from an Image Directory: displayImages()
 	if image_directory == None:
 		logger.critical("\nCRITICAL ERROR, [image_directory]: image_directory is required")
 		exit()
+	else:
+		if type(image_directory) != str:
+			logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
+			exit()
 
-	if type(image_directory) != str:
-		logger.critical("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
+	if fig_title is not None and type(fig_title) != str:
+		logger.critical("\nCRITICAL ERROR, [fig_title]: Must be a int, current type = '{0}'".format(type(fig_title)))
 		exit()
 
 	if type(figsize_n) != int:
 		logger.critical("\nCRITICAL ERROR, [figsize_n]: Must be a int, current type = '{0}'".format(type(figsize_n)))
 		exit()
+
+	if type(fig_dpi) != int:
+		logger.critical("\nCRITICAL ERROR, [fig_dpi]: Must be a int, current type = '{0}'".format(type(fig_dpi)))
+		exit()
+
 def errorHandlingREADME(coradr_results_directory=None,
 						section_to_print=None,
 						print_to_console=True):

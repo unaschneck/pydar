@@ -1,4 +1,4 @@
-# Note: Script not accessible via __init__.py and is run directly by the developer and Github Action
+# Note: Script not accessible via __init__.py and is run directly by the developer and Github Actions
 # updates swath_coverage_by_time_position.csv
 
 # Built in Python functions
@@ -21,10 +21,10 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-## FUNCTIONS TO UPDATE CSV FILES BASED ON WEB SCRAPPING ################
+## FUNCTIONS TO WEB SCRAPE TO POPULATE swath_coverage_by_time_position.csv ################
 def updateCsvSwathCoverage():
 	# Update the csv script for swath_coverage_by_time_position.csv from the most recent JPL webpage
-	# Retrieves information for each .LBL file that exists for CASSINI
+	# Retrieves information for each .LBL file that exists for CASSINI data files
 	#		Estimated runtime: 15 minutes
 	#		Returns: swath_coverage_by_time_position.csv in data/ folder
 
@@ -48,7 +48,6 @@ def updateCsvSwathCoverage():
 			else:
 				coradr_ids.append(row[0])
 
-	# Retrieve a list of all the .lbl for each CORADR ID (different for each resolution)
 	data_type_dict = {"F":"Primary Dataset (Linear Scale)", 
 					"B": "Primary Dataset in Unsigned Byte Format (Normalized dB)",
 					"S": "Normalized SAR (Physical Scale) with Thermal/Quantized Noise Removed",
@@ -60,7 +59,10 @@ def updateCsvSwathCoverage():
 					"N":"Longitude Map",
 					"M":"Beam Mask Map",
 					"L":"Number of Looks Map"}
+
 	resolution_dict = {"B": 2, "D": 8, "F": 32, "G": 64, "H": 128, "I": 256} #  pixels/degree
+
+	# Retrieve a list of all the .LBL for each CORADR ID (different for each resolution)
 	lbl_information = []
 	for radar_id in coradr_ids:
 		if radar_id not in ids_with_no_bidr:
