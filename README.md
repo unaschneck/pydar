@@ -1,12 +1,12 @@
 # PYDAR
-<picture>
-  <source srcset="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo.jpg" media="(prefers-color-scheme: dark)">
-  <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo_black_outline.png">
-</picture>
+ <p align="center">
+  <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/pydar_logo.jpg" />
+</p>
 
 ![PyPi](https://img.shields.io/pypi/v/pydar)
-![license](https://img.shields.io/github/license/unaschneck/pydar)
+![license](https://img.shields.io/pypi/l/pydar)
 [![NSF-2141064](https://img.shields.io/badge/NSF-2141064-blue)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2141064&HistoricalAwards=false)
+![PyPi-Versions](https://img.shields.io/pypi/pyversions/pydar)
 [![update-dynamic-csv-data-files](https://github.com/unaschneck/pydar/actions/workflows/web_scrap_dynamic_csv_files.yml/badge.svg)](https://github.com/unaschneck/pydar/actions/workflows/web_scrap_dynamic_csv_files.yml)
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
