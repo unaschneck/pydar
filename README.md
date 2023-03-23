@@ -50,7 +50,7 @@ PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
 ```
 pip install pydar
 ```
-## Getting Started with PYDAR
+## Quickstart: PYDAR
 
 All Cassini data for Titan is retrieved based on flyby observation numbers or IDs, so relevant flybys can be found based on time range, latitude/longitude position, or a known feature name
 
@@ -573,7 +573,7 @@ Note: a flyby_id will be translated into a flyby_observation_number to access on
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
 * **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03", "S04"]
 * [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
-* [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions)
+* [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions), will override any default resolution string
 * [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"] (__NOTE__: current v1 functionality does not download any additional data types)
 
 ```python

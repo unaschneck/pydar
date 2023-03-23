@@ -26,40 +26,45 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 										resolution=None,
 										top_x_resolutions=None):
 	# Error Handling for extract_flyby_parameters variables: extractFlybyDataImages()
-	avaliable_flyby_id, avaliable_observation_numbers = pydar.getFlybyData()
+	available_flyby_id, available_observation_numbers = pydar.getFlybyData()
 
 	if flyby_observation_num is None and flyby_id is None:
-		logger.critical("\nCRITICAL ERROR: Requires either a flyby_observation_num OR flyby_id.\nAvaliable flyby_observation_num: {0}\nAvaliable flyby_id: {1}".format(avaliable_flyby_id, avaliable_observation_numbers))
+		logger.critical("\nCRITICAL ERROR: Requires either a flyby_observation_num OR flyby_id.\nAvailable flyby_observation_num: {0}\nAvailable flyby_id: {1}".format(available_flyby_id, available_observation_numbers))
+		exit()
+
+	if flyby_observation_num is not None and flyby_id is not None:
+		logger.critical("\nCRITICAL ERROR: Requires either a flyby_observation_num OR flyby_id, not both.")
 		exit()
 
 	if flyby_id is not None:
 		if type(flyby_id) != str:
 			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_id)))
 			exit()
-		if flyby_id not in avaliable_flyby_id:
-			logger.critical("\nCRITICAL ERROR, [flyby_id]: '{0}' not in avaliable ids options '{1}'".format(flyby_id, avaliable_flyby_id))
+		if flyby_id not in available_flyby_id:
+			logger.critical("\nCRITICAL ERROR, [flyby_id]: '{0}' not in available ids options '{1}'".format(flyby_id, available_flyby_id))
 			exit()
 
 	if flyby_observation_num is not None:
 		if type(flyby_observation_num) != str:
 			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
 			exit()
-		if flyby_observation_num not in avaliable_observation_numbers:
-			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: '{0}' not in avaliable observation options '{1}'".format(flyby_observation_num, avaliable_observation_numbers))
+		if flyby_observation_num not in available_observation_numbers:
+			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: '{0}' not in available observation options '{1}'".format(flyby_observation_num, available_observation_numbers))
 			exit()
 
-	segement_options = ['S01', 'S02', 'S03', 'S04']
+	segment_options = ['S01', 'S02', 'S03', 'S04']
 	if segment_num is None:
-		logger.critical("\nCRITICAL ERROR, [segment_num]: segment_num number required out of avaliable options {0}, none given".format(segement_options))
+		logger.critical("\nCRITICAL ERROR, [segment_num]: segment_num number required out of available options {0}, none given".format(segment_options))
 		exit()
 	if type(segment_num) != str:
 		logger.critical("\nCRITICAL ERROR, [segment_num]: Must be a str, current type = '{0}'".format(type(segment_num)))
 		exit()
-	if segment_num not in segement_options:
-		logger.critical("\nCRITICAL ERROR, [segment_num]: '{0}' not an avaliable segment option '{1}'".format(segment_num, segement_options))
+	if segment_num not in segment_options:
+		logger.critical("\nCRITICAL ERROR, [segment_num]: '{0}' not an available segment option '{1}'".format(segment_num, segment_options))
 		exit()
 
 	if len(additional_data_types_to_download) != 0:
+		logger.critical("\nINFO [additional_data_types_to_download]: Current v1 behavior does not support additional_data_types_to_download, so no additional files will be included in the download")
 		if type(additional_data_types_to_download) != list:
 			logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{0}'".format(type(additional_data_types_to_download)))
 			exit()
@@ -88,11 +93,11 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
 		for data_type in additional_data_types_to_download:
 			if data_type not in coradr_data_types:
-				logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not avaliable in {1}".format(data_type, coradr_data_types))
+				logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not available in {1}".format(data_type, coradr_data_types))
 				exit()
 
 	if resolution is not None and top_x_resolutions is not None:
-		logger.critical("\nCRITICAL ERROR: Requires either a resolution OR a top_x_resolutions, not both".format(type(resolution)))
+		logger.critical("\nCRITICAL ERROR: Requires either a resolution OR a top_x_resolutions, not both")
 		exit()
 
 	if resolution is not None :

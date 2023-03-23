@@ -3,7 +3,7 @@
 # Python Package Setup
 from setuptools import setup, find_namespace_packages
 
-VERSION="0.1.0"
+VERSION="1.0.0"
 DESCRIPTION="A Python package to access, download, view, and manipulate Cassini RADAR images"
 
 with open("README.md", "r") as f:
@@ -28,6 +28,8 @@ setup(
 		"License :: OSI Approved :: MIT License",
 		"Programming Language :: Python",
 		"Programming Language :: Python :: 3.9",
+		"Programming Language :: Python :: 3.8",
+		"Programming Language :: Python :: 3.7",
 		"Intended Audience :: Education",
 		"Intended Audience :: Science/Research",
 		"Topic :: Scientific/Engineering :: Physics",
