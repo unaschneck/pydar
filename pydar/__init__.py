@@ -17,9 +17,9 @@ from .display_image import displayImages
 from .retrieve_supplementary_backplanes import extractMetadata
 
 # read_readme.py function calls
-from .read_readme import returnAllAAREADMEOptions
+from .read_readme import returnAAREADMEOptions
 from .read_readme import readAAREADME
-from .read_readme import returnAllLBLOptions
+from .read_readme import returnLBLOptions
 from .read_readme import readLBLREADME
 
 # retrieve_ids_by_time_position.py function calls

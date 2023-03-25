@@ -46,7 +46,7 @@ aareadme_section_options = ["Introduction",
 							"Version Status",
 							"Contact Information"]
 
-def returnAllAAREADMEOptions():
+def returnAAREADMEOptions():
 	logger.info("Line-By-Line Options: {0}".format(aareadme_general_options))
 	logger.info("Section Header Options: {0}".format(aareadme_section_options))
 
@@ -64,7 +64,7 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 			section_to_print = section_to_print.title() # check if the section is case-senstive
 			sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 			if sectionList is None:
-				logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
+				logger.critical("\nCRITICAL ERROR [readAAREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
 				exit()
 
 	# Define position to start console print, default to 'All' if no section is specified
@@ -206,7 +206,7 @@ lblreadme_section_options = ["PRODUCT DESCRIPTION",
 							"POINTERS TO START RECORDS OF OBJECTS IN FILE",
 							"DESCRIPTION OF OBJECTS CONTAINED IN FILE"]
 
-def returnAllLBLOptions():
+def returnLBLOptions():
 	# Print out all the .LBL options
 	logger.info("Line-By-Line Options: {0}".format(lblreadme_general_options))
 	logger.info("Section Header Options: {0}".format(lblreadme_section_options))
@@ -231,7 +231,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		section_to_print = section_to_print.upper()
 		sectionList = determineSectionToPrint(section_to_print, "LBL")
 		if sectionList is None:
-			logger.critical("Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
+			logger.critical("\nCRITICAL ERROR: [readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
 			exit()
 
 	# Define position to start console print, default to 'All' if no section is specified

@@ -33,6 +33,7 @@ setup(
 		"Intended Audience :: Education",
 		"Intended Audience :: Science/Research",
 		"Topic :: Scientific/Engineering :: Physics",
+		"Topic :: Scientific/Engineering :: Image Processing",
 		"Topic :: Scientific/Engineering :: Visualization",
 		"Topic :: Scientific/Engineering :: Astronomy"
 	],

@@ -60,19 +60,18 @@ if __name__ == '__main__':
 
 	# Display all Images in pydar_results/ directory
 	pydar.displayImages(image_directory="pydar_results/CORADR_0035_S01")
-	# TODO: bug fix for 87 displays invalid integer
 
 	# Read AAREADME to console
-	#pydar.returnAllAAREADMEOptions()
+	#pydar.returnAAREADMEOptions()
 	#pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
 	#					section_to_print="INSTRUMENT_name")
 
 	# Read .LBL to console
-	#pydar.returnAllLBLOptions()
+	#pydar.returnLBLOptions()
 	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
-	#					section_to_print="note")
+	#					section_to_print="LOOK_DIrecTION")
 
-	# VERSION 2:
+	# VERSION 2: (Upcoming)
 	#pydar.extractMetadata()
 
 	# SBDR Shapefile

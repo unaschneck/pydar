@@ -24,9 +24,9 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 	* convertObservationNumberToFlybyID()
 	* extractFlybyDataImages()
 * **Access specific observation data AAREADME and .LBL readme information**
-	* returnAllAAREADMEOptions()
+	* returnAAREADMEOptions()
 	* readAAREADME()
-	* returnAllLBLOptions()
+	* returnLBLOptions()
 	* readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
 	* displayImages()
@@ -282,19 +282,6 @@ Converted to a static csv file from the Cassini User Guide (pg. 136-139)
 
 View data file: [sar_swath_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/sar_swath_details.csv)
 
-## SBDR Files
-Total width of the RADAR swath is created by combining the five individual sub-swaths, where the center beam is the highest gain
-![image](https://user-images.githubusercontent.com/24469269/211431884-c201ac74-114a-4c17-b95a-f9edf0178d2e.png)
-(_The Cassini Huygens Mission: Orbiter Remote Sensing Observation 2004_)
-
-[SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
-
-```
-test_file = "SBDR_15_D065_V03.TAB"
-SBDR_FILE = pdr.read(test_file)
-print("Table options: {0}".format(SBDR_FILE.keys()))
-```
-
 ## BIDR and SBDR Files
 Note: "CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234" do not have associated BIDR values.
 
@@ -309,6 +296,13 @@ CORADR_189 (T53) only has rad and compressed scatterometry because of what appea
 CORADR_0209 (T63) only has scatterometry and radiometry
 
 CORADR_0234 (T80) only has scatterometry and radiometry 
+
+## Coming Soon: SBDR Files
+Total width of the RADAR swath is created by combining the five individual sub-swaths, where the center beam is the highest gain
+![image](https://user-images.githubusercontent.com/24469269/211431884-c201ac74-114a-4c17-b95a-f9edf0178d2e.png)
+(_The Cassini Huygens Mission: Orbiter Remote Sensing Observation 2004_)
+
+[SBDR column descriptions](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0045/DOCUMENT/BODPSIS.PDF)
 
 ## Retrieve Data from CASSINI Function Calls
 
@@ -599,7 +593,7 @@ readAAREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-To see a list of all section_to_print options, see: returnAllAAREADMEOptions()
+To see a list of all section_to_print options, see: `returnAAREADMEOptions()`
 
 ```python
 import pydar
@@ -609,7 +603,7 @@ pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
 Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`
 ```python
 import pydar
-pydar.returnAllAAREADMEOptions()
+pydar.returnAAREADMEOptions()
 ```
 
 Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
@@ -628,7 +622,7 @@ readLBLREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-To see a list of all section_to_print options, see: returnAllLBLOptions()
+To see a list of all section_to_print options, see: `returnLBLOptions()`
 
 ```python
 import pydar
@@ -638,7 +632,7 @@ pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
 Output = `(0.13498322,0.00221225,-0.99084542)`
 ```python
 import pydar
-pydar.returnAllLBLOptions()
+pydar.returnLBLOptions()
 ```
 <details closed>
 <summary>Line-By-Line Options (Click to view all)</summary>
@@ -713,6 +707,8 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 
 ## Credits
 Feature Names collected from [Gazetteer of Planetary Nomenclature](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
+
+Instrument information and naming conventions collected from the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
 ## Bug and Feature Request
 
