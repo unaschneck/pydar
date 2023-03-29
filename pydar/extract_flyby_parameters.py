@@ -71,20 +71,35 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
 		if take_ob_num == flyby_observation_num:
 			return row[0] # returns flyby ID
 
-def retrieveJPLCoradrOptions(flyby_observiation_num):
+def retrieveJPLCoradrOptions():
 	# Read JPL Options from CSV
-	jpl_coradr_options = []
 	coradr_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
 	coradr_dataframe = pd.read_csv(coradr_csv_file)
+	return coradr_dataframe
+
+def retrieveMostRecentVersionNumber(flyby_observiation_num=None):
+	# Return the CORADAR value with the most recent version from a list of possible options
+	coradr_dataframe = retrieveJPLCoradrOptions()
+	jpl_coradr_options = []
 	for index, row in coradr_dataframe.iterrows():
 		row = row.tolist()
 		jpl_coradr_options.append(row[0])
 
 	find_cordar_listing = 'CORADR_{0}'.format(flyby_observiation_num)
 	version_types_available = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
-	more_accurate_model_number = version_types_available[-1] # always choose the last and more up to date version number
+	more_accurate_model_number = version_types_available[-1] # always choose the last and more up to date version number (Currently, v3)
 	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_available))
 	return more_accurate_model_number
+
+def retrieveCoradrWithoutBIDR():
+	# Return a list of valid flyby observation numbers that do not contain BIDR
+	coradr_dataframe = retrieveJPLCoradrOptions()
+	coradar_without_bidr = []
+	for index, row in coradr_dataframe.iterrows():
+		if row["Is a Titan Flyby"]: # check only flybys that are valid Titan flybys
+			if "V" not in row["CORADR ID"] and row["Contains BIDR"] is False: # if not a version row, and does not contain BIDR
+				coradar_without_bidr.append(row["CORADR ID"].split("_")[1]) # store the observation number from the CORADR
+	return coradar_without_bidr
 
 def downloadAAREADME(cordar_file_name, segment_id):
 	# Download AAREADME.txt within a CORADR directory
@@ -246,19 +261,21 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
 
 	# Data gaps and problems from the original downlinking and satellite location, report some special cases to user
-	no_associated_bidr_values = ["0048", "0186", "0189", "0209", "0234"]
+	no_associated_bidr_values = retrieveCoradrWithoutBIDR() # currently: ["0048", "0186", "0189", "0209", "0234"]
 	if flyby_observation_num in no_associated_bidr_values:
 		logger.info("\nINFO: due to data gaps or issues with downlinking, flyby does not have not have associated BIDR data.")
 		if flyby_observation_num == "0048":
 			logger.info("0048 (T4) did not have SAR data, only scatterometry and radiometery\n")
-		if flyby_observation_num == "0186":
-			logger.info("0186 (T52) only have radiometery and compressed scatterometry\n")
-		if flyby_observation_num == "0189":
+		elif flyby_observation_num == "0186":
+			logger.info("0186 (T52) only has radiometery and compressed scatterometry\n")
+		elif flyby_observation_num == "0189":
 			logger.info("0189 (T53) only has radiometery and compressed scatterometry\n")
-		if flyby_observation_num == "0209":
+		elif flyby_observation_num == "0209":
 			logger.info("0209 (T63) only has scatterometry and radiometry\n")
-		if flyby_observation_num == "0234":
+		elif flyby_observation_num == "0234":
 			logger.info("0234 (T80) only has scatterometry and radiometry\n")
+		else:
+			logger.info("{0} does not BIDR data\n".format(flyby_observation_num)) # possible catch for new files found without BIDR
 
 	available_flyby_id, available_observation_numbers = getFlybyData()
 
@@ -269,29 +286,29 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
 
 	# Download information from pds-imaging site for CORADR
-	flyby_observation_cordar_name = retrieveJPLCoradrOptions(flyby_observation_num)
+	flyby_observation_cordar_name = retrieveMostRecentVersionNumber(flyby_observation_num)
 	if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
 	if not os.path.exists("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
 
 	if download_files:
-		# AAREADME.TXT
+		# Download AAREADME.TXT
 		downloadAAREADME(flyby_observation_cordar_name, segment_num)
 		
-		# BIDR
+		# Download BIDR
 		if flyby_observation_num not in no_associated_bidr_values: # only attempt to download BIDR files for flybys that have BIDR files
 			if top_x_resolutions is not None:
 				downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
 			else:
 				downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution)
 
-		# SBDR
+		# Download SBDR
 		downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
 
-		# Download additional data types
+		# Download additional data types (TODO)
 		for data_type in additional_data_types_to_download:
 			if data_type not in ["BIDR", "SBDR"]: # ignore data files that have already been downloaded
 				downloadAdditionalDataTypes(flyby_observation_cordar_name, segment_num, data_type)
 
 	# No valid parameters given, empty file
 	if len(os.listdir("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
-		logger.critical("\npydar_results/{0}_{1} is empty. Unable to find any images with current parameters".format(flyby_observation_cordar_name, segment_num))
+		logger.critical("\npydar_results/{0}_{1} is empty. Unable to find any data files with current parameters".format(flyby_observation_cordar_name, segment_num))

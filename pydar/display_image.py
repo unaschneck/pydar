@@ -48,5 +48,5 @@ def displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120
 			plt.show()
 
 	# Log error to user if no image files given
-	if 'IMG' not in os.listdir(image_directory):
+	if not any(".IMG" in sub for sub in os.listdir(image_directory)): # if directory files does not contain any .IMG files
 		logger.info("\nINFO: Unable to display images, {0} does not contain an IMG file\n".format(image_directory))
