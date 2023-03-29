@@ -19,11 +19,11 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 	* retrieveFeaturesFromLatitudeLongitudeRange()
 	* retrieveIDSByTime()
 	* retrieveIDSByTimeRange()
-* **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR by default**
+* **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
 	* convertFlybyIDToObservationNumber()
 	* convertObservationNumberToFlybyID()
 	* extractFlybyDataImages()
-* **Access specific observation data AAREADME and .LBL readme information**
+* **Access specific observation data from AAREADME and .LBL readme information**
 	* returnAAREADMEOptions()
 	* readAAREADME()
 	* returnLBLOptions()
@@ -33,23 +33,22 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
-## Dependencies
-Python 3.7+
-
-Verified compatibility with Python 3.7, 3.8, and 3.9
-
-```
-pip install -r requirements.txt
-```
-
-Requirements will also be downloaded as part of the pip download
-
 ## Install
 PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
 
 ```
 pip install pydar
 ```
+
+## Dependencies
+Python 3.7+
+
+Verified compatibility with Python 3.7, 3.8, and 3.9
+```
+pip install -r requirements.txt
+```
+Requirements will also be downloaded as part of the pip download
+
 ## Quickstart: PYDAR
 
 All Cassini data for Titan is retrieved based on flyby observation numbers or IDs, so relevant flybys can be found based on time range, latitude/longitude position, or a known feature name
@@ -68,7 +67,7 @@ pydar.extractFlybyDataImages(flyby_id='T65',
 				resolution='D',
 				segment_num="S01")
 ```
-Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data and will take a few minutes to download
+Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data but will take some time to download
 ```
 # Display all Images in pydar_results/ directory
 pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
@@ -289,9 +288,9 @@ There are data gaps and problems from the original downlinking and satellite loc
 
 CORADR_0048 (T4) did not have SAR data, only scatterometry and radiometery because of telemetry reasons in the handbook
 
-CORADR_0186 (T52) only have rad and compressed scatterometry
+CORADR_0186 (T52) only have radiometry and compressed scatterometry
 
-CORADR_189 (T53) only has rad and compressed scatterometry because of what appears to be a downlink problem
+CORADR_0189 (T53) only has radiometry and compressed scatterometry because of what appears to be a downlink problem
 
 CORADR_0209 (T63) only has scatterometry and radiometry
 

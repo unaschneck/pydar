@@ -17,11 +17,11 @@ setup(
 	long_description_content_type='text/markdown',
 	url="https://github.com/unaschneck/pydar",
 	download_url="https://github.com/unaschneck/pydar/archive/refs/tags/v{0}.tar.gz".format(VERSION),
-	author="Una Schneck (unaschneck), C. Y. Schneck (cyschneck)",
+	author="Una Schneck (unaschneck), Cora Schneck (cyschneck)",
 	keywords=[],
 	license="MIT",
 	classifiers=[
-		"Development Status :: 1 - Planning",
+		"Development Status :: 4 - Beta",
 		"Intended Audience :: Developers",
 		"Intended Audience :: Education",
 		"Intended Audience :: Science/Research",

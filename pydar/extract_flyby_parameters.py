@@ -245,10 +245,25 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	if flyby_id is not None:  # convert flyby Id to an Observation Number
 		flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
 
+	# Data gaps and problems from the original downlinking and satellite location, report some special cases to user
+	no_associated_bidr_values = ["0048", "0186", "0189", "0209", "0234"]
+	if flyby_observation_num in no_associated_bidr_values:
+		logger.info("\nINFO: due to data gaps or issues with downlinking, flyby does not have not have associated BIDR data.")
+		if flyby_observation_num == "0048":
+			logger.info("0048 (T4) did not have SAR data, only scatterometry and radiometery\n")
+		if flyby_observation_num == "0186":
+			logger.info("0186 (T52) only have radiometery and compressed scatterometry\n")
+		if flyby_observation_num == "0189":
+			logger.info("0189 (T53) only has radiometery and compressed scatterometry\n")
+		if flyby_observation_num == "0209":
+			logger.info("0209 (T63) only has scatterometry and radiometry\n")
+		if flyby_observation_num == "0234":
+			logger.info("0234 (T80) only has scatterometry and radiometry\n")
+
 	available_flyby_id, available_observation_numbers = getFlybyData()
 
 	if flyby_observation_num not in available_observation_numbers:
-		logger.critical("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
+		logger.critical("\nObservation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
 		exit()
 	else:
 		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
@@ -263,10 +278,11 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		downloadAAREADME(flyby_observation_cordar_name, segment_num)
 		
 		# BIDR
-		if top_x_resolutions is not None:
-			downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
-		else:
-			downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution)
+		if flyby_observation_num not in no_associated_bidr_values: # only attempt to download BIDR files for flybys that have BIDR files
+			if top_x_resolutions is not None:
+				downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution_types[-top_x_resolutions:])
+			else:
+				downloadBIDRCORADRData(flyby_observation_cordar_name, segment_num, resolution)
 
 		# SBDR
 		downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
@@ -276,5 +292,6 @@ def extractFlybyDataImages(flyby_observation_num=None,
 			if data_type not in ["BIDR", "SBDR"]: # ignore data files that have already been downloaded
 				downloadAdditionalDataTypes(flyby_observation_cordar_name, segment_num, data_type)
 
+	# No valid parameters given, empty file
 	if len(os.listdir("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
-		logger.critical("pydar_results/{0}_{1} is empty. Unable to find any images with current parameters".format(flyby_observation_cordar_name, segment_num))
+		logger.critical("\npydar_results/{0}_{1} is empty. Unable to find any images with current parameters".format(flyby_observation_cordar_name, segment_num))

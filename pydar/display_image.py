@@ -26,7 +26,8 @@ def displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120
 									fig_title=fig_title,
 									figsize_n=figsize_n,
 									fig_dpi=fig_dpi)
-	
+
+	# Display all IMG files in directory
 	for filename in os.listdir(image_directory):
 		if 'IMG' in filename:
 			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
@@ -45,3 +46,7 @@ def displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120
 			plt.ylabel("Pixels #")
 			plt.imshow(image.image, cmap='gray')
 			plt.show()
+
+	# Log error to user if no image files given
+	if 'IMG' not in os.listdir(image_directory):
+		logger.info("\nINFO: Unable to display images, {0} does not contain an IMG file\n".format(image_directory))
