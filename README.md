@@ -8,6 +8,7 @@
 [![NSF-2141064](https://img.shields.io/badge/NSF-2141064-blue)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2141064&HistoricalAwards=false)
 ![PyPi-Versions](https://img.shields.io/pypi/pyversions/pydar)
 [![update-dynamic-csv-data-files](https://github.com/unaschneck/pydar/actions/workflows/web_scrap_dynamic_csv_files.yml/badge.svg)](https://github.com/unaschneck/pydar/actions/workflows/web_scrap_dynamic_csv_files.yml)
+[![pytests](https://github.com/unaschneck/pydar/actions/workflows/pytests.yml/badge.svg)](https://github.com/unaschneck/pydar/actions/workflows/pytests.yml)
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
