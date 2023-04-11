@@ -265,7 +265,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	if flyby_observation_num in no_associated_bidr_values:
 		logger.info("\nINFO: due to data gaps or issues with downlinking, flyby does not have not have associated BIDR data.")
 		if flyby_observation_num == "0048":
-			logger.info("0048 (T4) did not have SAR data, only scatterometry and radiometery\n")
+			logger.info("0048 (T4) did not have SAR data, only scatterometry and radiometry\n")
 		elif flyby_observation_num == "0186":
 			logger.info("0186 (T52) only has radiometery and compressed scatterometry\n")
 		elif flyby_observation_num == "0189":

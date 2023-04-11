@@ -1,5 +1,6 @@
 # Pytest for extract_flyby_parameters.py
-# pytest -vs --disable-pytest-warnings
+# pytest -vs --disable-pytest-warnings --show-capture=no
+import logging
 
 # External Python libraries (installed via pip install)
 import pytest
@@ -22,3 +23,18 @@ def testConvertFlybyIDToObservationNumber(flyby_id_value, flyby_observation_outp
 						("0199", "T57")])
 def testconvertObservationNumberToFlybyID(flyby_observation_num_value, flyby_id_output):
 	assert pydar.convertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num_value) == flyby_id_output
+
+'''
+def testExtractFlybyDataImages(caplog):
+	caplog.clear()
+	with caplog.at_level(logging.CRITICAL):
+		with pytest.raises(SystemExit) as cm:
+			pydar.extractFlybyDataImages()
+		assert "CRITICAL ERROR: Requires either a flyby_observation_num OR flyby_id." in caplog.text
+	caplog.clear()
+
+def testTesting():
+	with pytest.raises(ValueError) as exc_info:
+		pydar.testing()
+	assert str(exc_info.value) == "hello Titan"
+'''

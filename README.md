@@ -180,7 +180,7 @@ The data filename contains a lot of information about the observation
 
 - BI = BIDR data
 - B = data in dB normalized
-- Q = obliquid dylindrical
+- Q = oblique cylindrical
 - D = 8 pixels/degree
 - 05 = absolute value of latitude at center rounded to nearest degree
 - S = hemisphere of center of file (Southern)
@@ -287,7 +287,7 @@ Note: "CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234" 
 
 There are data gaps and problems from the original downlinking and satellite location
 
-CORADR_0048 (T4) did not have SAR data, only scatterometry and radiometery because of telemetry reasons in the handbook
+CORADR_0048 (T4) did not have SAR data, only scatterometry and radiometry because of telemetry reasons in the handbook
 
 CORADR_0186 (T52) only have radiometry and compressed scatterometry
 
@@ -686,7 +686,7 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 * save .IMG as .SHP for ArcGIS
 
 ### TODO Questions:
-* add details for what a segement_num is
+* add details for what a segment_num is
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * save .IMG as .SHP for ArcGIS
