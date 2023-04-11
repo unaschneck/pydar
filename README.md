@@ -697,7 +697,6 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 * set up constant config file
 * Add functionality for extractFlybyDataImages(): additional_data_types_to_download
 * Include URL for access to AAREADME and .LBL readme files
-* rm -rf pydar_results/ between runs for clean image output
 * research Zenodo
 
 ### TODO: Test

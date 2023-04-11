@@ -3,6 +3,7 @@ import pydar
 if __name__ == '__main__':
 	# VERSION 1:
 	## Get swatch coverage based on latitude/longitude, Time, or Feature
+	#pydar.testing()
 	'''
 	feature_name = "Ontario Lacus"
 	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
@@ -54,10 +55,10 @@ if __name__ == '__main__':
 
 	'''
 	# Extract Flyby Data Files to results/ directory
-	#pydar.extractFlybyDataImages(flyby_id="T65",
-	#							flyby_observation_num=None,
-	#							resolution='D',
-	#							segment_num="S01")
+	pydar.extractFlybyDataImages(flyby_id="T65",
+								flyby_observation_num=None,
+								resolution='D',
+								segment_num="S01")
 
 	# Display all Images in pydar_results/ directory
 	pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
