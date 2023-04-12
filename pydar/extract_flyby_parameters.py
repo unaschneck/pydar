@@ -237,7 +237,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		while len(flyby_observation_num) < 4:
 			flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
 	if top_x_resolutions is not None:
-		logger.info("\nINFO: [top_x_resolutions] in use, overriding resolution '{0}' to save the top {1} resolutions".format(resolution, top_x_resolutions))
+		#logger.info("\nINFO: [top_x_resolutions] in use, overriding resolution '{0}' to save the top {1} resolutions".format(resolution, top_x_resolutions))
 		resolution = None # set default resolution to None if selecting the top x resolutions
 
 	# Error handling:

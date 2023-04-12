@@ -681,7 +681,7 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 * save image pixel to an array
 * extract pdr functionality to reduce overhead
 * displayImages() bug fix: 87 displays invalid integer
-* segments will be less than 99 (default to 1 - 01 is the primary imaging)
+* segments will be less than 99 (default to 1 - 01 is the primary imaging) (requires segment_options = ['S01', 'S02', 'S03', 'S04'])
 * progress bars print to command line (still downloading...)
 * save .IMG as .SHP for ArcGIS
 

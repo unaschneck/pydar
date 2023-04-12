@@ -38,7 +38,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
 	if flyby_id is not None:
 		if type(flyby_id) != str:
-			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_id)))
+			logger.critical("\nCRITICAL ERROR, [flyby_id]: Must be a str, current type = '{0}'".format(type(flyby_id)))
 			exit()
 		if flyby_id not in available_flyby_id:
 			logger.critical("\nCRITICAL ERROR, [flyby_id]: '{0}' not in available ids options '{1}'".format(flyby_id, available_flyby_id))
@@ -65,6 +65,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
 	if len(additional_data_types_to_download) != 0:
 		logger.critical("\nINFO [additional_data_types_to_download]: Current v1 behavior does not support additional_data_types_to_download, so no additional files will be included in the download")
+		"""
 		if type(additional_data_types_to_download) != list:
 			logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{0}'".format(type(additional_data_types_to_download)))
 			exit()
@@ -95,10 +96,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 			if data_type not in coradr_data_types:
 				logger.critical("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not available in {1}".format(data_type, coradr_data_types))
 				exit()
-
-	if resolution is not None and top_x_resolutions is not None:
-		logger.critical("\nCRITICAL ERROR: Requires either a resolution OR a top_x_resolutions, not both")
-		exit()
+		"""
 
 	if resolution is not None :
 		if type(resolution) != str:
