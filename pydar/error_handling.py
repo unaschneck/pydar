@@ -172,7 +172,7 @@ def errorHandlingDisplayImages(image_directory=None, fig_title=None, figsize_n=N
 			exit()
 
 	if fig_title is not None and type(fig_title) != str:
-		logger.critical("\nCRITICAL ERROR, [fig_title]: Must be a int, current type = '{0}'".format(type(fig_title)))
+		logger.critical("\nCRITICAL ERROR, [fig_title]: Must be a str, current type = '{0}'".format(type(fig_title)))
 		exit()
 
 	if type(figsize_n) != int:
