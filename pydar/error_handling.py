@@ -187,11 +187,15 @@ def errorHandlingREADME(coradr_results_directory=None,
 						section_to_print=None,
 						print_to_console=True):
 	# Error Handling for README options: read_readme
-	if type(coradr_results_directory) != str:
-		logger.critical("\nCRITICAL ERROR, [coradr_results_directory]: Must be a str, current type = '{0}'".format(type(coradr_results_directory)))
+	if coradr_results_directory is None:
+		logger.critical("\nCRITICAL ERROR, [coradr_results_directory]: coradr_results_directory is required")
 		exit()
+	else:
+		if type(coradr_results_directory) != str:
+			logger.critical("\nCRITICAL ERROR, [coradr_results_directory]: Must be a str, current type = '{0}'".format(type(coradr_results_directory)))
+			exit()
 
-	if type(section_to_print) != str:
+	if section_to_print is not None and type(section_to_print) != str:
 		logger.critical("\nCRITICAL ERROR, [section_to_print]: Must be a str, current type = '{0}'".format(type(section_to_print)))
 		exit()
 
