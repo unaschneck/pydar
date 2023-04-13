@@ -8,29 +8,33 @@ import pytest
 # Internal Pydar reference to access functions, global variables, and error handling
 import pydar
 
-@pytest.mark.parametrize("flyby_id_value, flyby_observation_output",
-						[("T65", "0211"),
-						("T13", "0082"),
-						("Ta", "0035"),
-						("T57", "0199")])
-def testConvertFlybyIDToObservationNumber(flyby_id_value, flyby_observation_output):
-	assert pydar.convertFlybyIDToObservationNumber(flyby_id=flyby_id_value) == flyby_observation_output
-
-@pytest.mark.parametrize("flyby_observation_num_value, flyby_id_output",
-						[("0211", "T65"),
-						("0082", "T13"),
-						("0035", "Ta"),
-						("0199", "T57")])
-def testconvertObservationNumberToFlybyID(flyby_observation_num_value, flyby_id_output):
-	assert pydar.convertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num_value) == flyby_id_output
-
-### extractFlybyDataImages() Function Call
 invalid_non_str_options = [(1961, "<class 'int'>"),
 						(3.1415, "<class 'float'>"),
 						([], "<class 'list'>"),
 						(False, "<class 'bool'>")]
 
-def testEmptyExtractFlybyDataImages(caplog):
+## convertFlybyIDToObservationNumber() #################################
+@pytest.mark.parametrize("flyby_id_value, flyby_observation_output",
+						[("T65", "0211"),
+						("T13", "0082"),
+						("Ta", "0035"),
+						("T57", "0199")])
+def test_convertFlybyIDToObservationNumber_verifyFlybyConversion(flyby_id_value, flyby_observation_output):
+	assert pydar.convertFlybyIDToObservationNumber(flyby_id=flyby_id_value) == flyby_observation_output
+## convertFlybyIDToObservationNumber() #################################
+
+## convertObservationNumberToFlybyID() #################################
+@pytest.mark.parametrize("flyby_observation_num_value, flyby_id_output",
+						[("0211", "T65"),
+						("0082", "T13"),
+						("0035", "Ta"),
+						("0199", "T57")])
+def test_convertObservationNumberToFlybyID_verifyObservationNumberConversion(flyby_observation_num_value, flyby_id_output):
+	assert pydar.convertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num_value) == flyby_id_output
+## convertObservationNumberToFlybyID() #################################
+
+## extractFlybyDataImages() ############################################
+def test_extractFlybyDataImages_verifyFlybyIDOrObservationNumberRequired(caplog):
 	# Test: Error thrown when extractFlybyDataImages() given no arguments
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages()
@@ -43,7 +47,7 @@ def testEmptyExtractFlybyDataImages(caplog):
 	available_id_types_message = log_record.message.split("\n")[3]
 	assert available_id_types_message == "Available flyby_id: ['0035', '0045', '0048', '0059', '0065', '0082', '0086', '0087', '0093', '0098', '0100', '0101', '0108', '0111', '0120', '0126', '0127', '0131', '0149', '0157', '0161', '0166', '0167', '0174', '0177', '0181', '0186', '0189', '0193', '0195', '0199', '0200', '0201', '0203', '0209', '0210', '0211', '0218', '0220', '0229', '0234', '0239', '0240', '0243', '0248', '0250', '0253', '0257', '0261']"
 
-def testBothFlybyTypesExtractFlybyDataImage(caplog):
+def test_extractFlybyDataImages_bothFlybyTypesInvalid(caplog):
 	# Test: Error thrown when extractFlybyDataImages() given both flyby_observation_num and flyby_id
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="0211",
@@ -53,7 +57,7 @@ def testBothFlybyTypesExtractFlybyDataImage(caplog):
 	assert log_record.message == "\nCRITICAL ERROR: Requires either a flyby_observation_num OR flyby_id, not both."
 
 @pytest.mark.parametrize("flyby_id_invalid, flyby_error_output", invalid_non_str_options)
-def testFlybyIDInvalidTypesExtractFlybyDataImage(caplog, flyby_id_invalid, flyby_error_output):
+def test_extractFlybyDataImages_flybyIDInvalidTypes(caplog, flyby_id_invalid, flyby_error_output):
 	# Test: Error thrown when extractFlybyDataImages() given invalid flyby_id type values
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_id=flyby_id_invalid, segment_num="S01")
@@ -61,7 +65,7 @@ def testFlybyIDInvalidTypesExtractFlybyDataImage(caplog, flyby_id_invalid, flyby
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: Must be a str, current type = '{0}'".format(flyby_error_output)
 
-def testNotAvailableFlybyIDNotAvailableExtractFlybyDataImage(caplog):
+def test_extractFlybyDataImages_notAvailableFlybyID(caplog):
 	# Test: Error thrown when extractFlybyDataImages() given a valid flyby_id that is not in available list
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_id="T32", segment_num="S01")
@@ -70,7 +74,7 @@ def testNotAvailableFlybyIDNotAvailableExtractFlybyDataImage(caplog):
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: 'T32' not in available ids options '['Ta', 'T3', 'T4', 'T7', 'T8', 'T13', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T23', 'T25', 'T28', 'T29', 'T30', 'T36', 'T39', 'T41', 'T43', 'T44', 'T48', 'T49', 'T50', 'T52', 'T53', 'T55', 'T56', 'T57', 'T58', 'T59', 'T61', 'T63', 'T64', 'T65', 'T69', 'T71', 'T77', 'T80', 'T83', 'T84', 'T86', 'T91', 'T92', 'T95', 'T98', 'T104']'"
 
 @pytest.mark.parametrize("flyby_observation_num_invalid, flyby_error_output", invalid_non_str_options)
-def testFlybyObservationNumInvalidTypesExtractFlybyDataImage(caplog, flyby_observation_num_invalid, flyby_error_output):
+def test_extractFlybyDataImages_observationNumInvalidTypes(caplog, flyby_observation_num_invalid, flyby_error_output):
 	# Test: Error thrown when extractFlybyDataImages() given invalid flyby_observation_num type values
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num=flyby_observation_num_invalid, segment_num="S01")
@@ -78,7 +82,7 @@ def testFlybyObservationNumInvalidTypesExtractFlybyDataImage(caplog, flyby_obser
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(flyby_error_output)
 
-def testNotAvailableFlybyObservationNumNotAvailableExtractFlybyDataImage(caplog):
+def test_extractFlybyDataImages_notAvailableObservationNum(caplog):
 	# Test: Error thrown when extractFlybyDataImages() given a valid flyby_observation_num that is not in available list
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="1234", segment_num="S01")
@@ -86,7 +90,7 @@ def testNotAvailableFlybyObservationNumNotAvailableExtractFlybyDataImage(caplog)
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_observation_num]: '1234' not in available observation options '['0035', '0045', '0048', '0059', '0065', '0082', '0086', '0087', '0093', '0098', '0100', '0101', '0108', '0111', '0120', '0126', '0127', '0131', '0149', '0157', '0161', '0166', '0167', '0174', '0177', '0181', '0186', '0189', '0193', '0195', '0199', '0200', '0201', '0203', '0209', '0210', '0211', '0218', '0220', '0229', '0234', '0239', '0240', '0243', '0248', '0250', '0253', '0257', '0261']'"
 
-def testSegmentNumRequiredExtractFlybyDataImage(caplog):
+def test_extractFlybyDataImages_segmentNumRequired(caplog):
 	# Test: Error thrown when extractFlybyDataImages() requires a segment_num (is not None)
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num=None)
@@ -95,7 +99,7 @@ def testSegmentNumRequiredExtractFlybyDataImage(caplog):
 	assert log_record.message == "\nCRITICAL ERROR, [segment_num]: segment_num number required out of available options ['S01', 'S02', 'S03', 'S04'], none given"
 
 @pytest.mark.parametrize("segment_num_invalid, segment_error_output", invalid_non_str_options)
-def testSegmentNumInvalidTypesExtractFlybyDataImage(caplog, segment_num_invalid, segment_error_output):
+def test_extractFlybyDataImages_segmentNumInvalidTypes(caplog, segment_num_invalid, segment_error_output):
 	# Test: Error thrown when extractFlybyDataImages() given invalid segment_num type values
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num=segment_num_invalid)
@@ -103,7 +107,7 @@ def testSegmentNumInvalidTypesExtractFlybyDataImage(caplog, segment_num_invalid,
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [segment_num]: Must be a str, current type = '{0}'".format(segment_error_output)
 
-def testNotAvailableSegmentNumExtractFlybyDataImage(caplog):
+def test_extractFlybyDataImages_notAvailableSegmentNum(caplog):
 	# Test: Error thrown when extractFlybyDataImages() requires a segment_num (is not None)
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num="S05")
@@ -112,7 +116,7 @@ def testNotAvailableSegmentNumExtractFlybyDataImage(caplog):
 	assert log_record.message == "\nCRITICAL ERROR, [segment_num]: 'S05' not an available segment option '['S01', 'S02', 'S03', 'S04']'"
 
 @pytest.mark.parametrize("resolution_invalid, resolution_error_output", invalid_non_str_options)
-def testResolutionInvalidTypesExtractFlybyDataImage(caplog, resolution_invalid, resolution_error_output):
+def test_extractFlybyDataImages_resolutionInvalidTypes(caplog, resolution_invalid, resolution_error_output):
 	# Test: Error thrown when extractFlybyDataImages() is given invalid resolution types
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num="S01", resolution=resolution_invalid)
@@ -120,7 +124,7 @@ def testResolutionInvalidTypesExtractFlybyDataImage(caplog, resolution_invalid, 
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [resolution]: Must be a str, current type = '{0}'".format(resolution_error_output)
 
-def testNotAvailableResolutionExtractFlybyDataImage(caplog):
+def test_extractFlybyDataImages_notAvailableResolution(caplog):
 	# Test: Error thrown when extractFlybyDataImages() is given a resolution that is not available
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num="S01", resolution="INVALID")
@@ -133,7 +137,7 @@ def testNotAvailableResolutionExtractFlybyDataImage(caplog):
 						(3.1415, "<class 'float'>"),
 						([], "<class 'list'>"),
 						(False, "<class 'bool'>")])
-def testTopResolutionInvalidTypesExtractFlybyDataImage(caplog, top_resolution_invalid, top_resolution_error_output):
+def test_extractFlybyDataImages_topResolutionInvalidTypes(caplog, top_resolution_invalid, top_resolution_error_output):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num="S01", top_x_resolutions=top_resolution_invalid)
@@ -142,15 +146,17 @@ def testTopResolutionInvalidTypesExtractFlybyDataImage(caplog, top_resolution_in
 	assert log_record.message == "\nCRITICAL ERROR, [top_x_resolutions]: Must be a int, current type = '{0}'".format(top_resolution_error_output)
 
 @pytest.mark.parametrize("top_resolution_invalid_range", [(-1), (10)])
-def testTopResolutionInvalidTypesExtractFlybyDataImage(caplog, top_resolution_invalid_range):
+def test_extractFlybyDataImages_topResolutionInvalidRange(caplog, top_resolution_invalid_range):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.extractFlybyDataImages(flyby_observation_num="211", segment_num="S01", top_x_resolutions=top_resolution_invalid_range)
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [top_x_resolutions]: Must be a value from 1 to 5, not '{0}'".format(top_resolution_invalid_range)
+## extractFlybyDataImages() ############################################
 
-def testConvertEmptyFlybyIDExtractFylbyDataImage(caplog):
+## convertFlybyIDToObservationNumber() #################################
+def test_convertFlybyIDToObservationNumber_flybyIDRequired(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.convertFlybyIDToObservationNumber(flyby_id=None)
@@ -159,7 +165,7 @@ def testConvertEmptyFlybyIDExtractFylbyDataImage(caplog):
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: A valid flyby_id string is required"
 
 @pytest.mark.parametrize("flyby_id_invalid, flyby_error_output", invalid_non_str_options)
-def testConvertFlybyIDInvalidTypesExtractFlybyDataImage(caplog, flyby_id_invalid, flyby_error_output):
+def test_convertFlybyIDToObservationNumber_flybyIDInvalidTypes(caplog, flyby_id_invalid, flyby_error_output):
 	# Test: 
 	with pytest.raises(SystemExit):
 		pydar.convertFlybyIDToObservationNumber(flyby_id=flyby_id_invalid)
@@ -167,15 +173,17 @@ def testConvertFlybyIDInvalidTypesExtractFlybyDataImage(caplog, flyby_id_invalid
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: Must be a str, current type = '{0}'".format(flyby_error_output)
 
-def testConvertInvalidFlybyIDExtractFylbyDataImage(caplog):
+def test_convertFlybyIDToObservationNumber_invalidFlybyID(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.convertFlybyIDToObservationNumber(flyby_id="T32")
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: Invalid flyby_id, 'T32', choose from:\n['Ta', 'T3', 'T4', 'T7', 'T8', 'T13', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T23', 'T25', 'T28', 'T29', 'T30', 'T36', 'T39', 'T41', 'T43', 'T44', 'T48', 'T49', 'T50', 'T52', 'T53', 'T55', 'T56', 'T57', 'T58', 'T59', 'T61', 'T63', 'T64', 'T65', 'T69', 'T71', 'T77', 'T80', 'T83', 'T84', 'T86', 'T91', 'T92', 'T95', 'T98', 'T104']"
+## convertFlybyIDToObservationNumber() #################################
 
-def testConvertEmptyFlybyObservationNumExtractFylbyDataImage(caplog):
+## convertObservationNumberToFlybyID() #################################
+def test_convertObservationNumberToFlybyID_observationNumRequired(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.convertObservationNumberToFlybyID(flyby_observation_num=None)
@@ -184,7 +192,7 @@ def testConvertEmptyFlybyObservationNumExtractFylbyDataImage(caplog):
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_observation_num]: A valid flyby_observation_num string is required"
 
 @pytest.mark.parametrize("flyby_observation_num_invalid, flyby_error_output", invalid_non_str_options)
-def testConvertFlybyObservationNumInvalidTypesExtractFlybyDataImage(caplog, flyby_observation_num_invalid, flyby_error_output):
+def test_convertObservationNumberToFlybyID_observationNumInvalidTypes(caplog, flyby_observation_num_invalid, flyby_error_output):
 	# Test: 
 	with pytest.raises(SystemExit):
 		pydar.convertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num_invalid)
@@ -192,11 +200,11 @@ def testConvertFlybyObservationNumInvalidTypesExtractFlybyDataImage(caplog, flyb
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(flyby_error_output)
 
-def testConvertInvalidFlybyObservationNumExtractFylbyDataImage(caplog):
+def test_convertObservationNumberToFlybyID_invalidObservationNum(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.convertObservationNumberToFlybyID(flyby_observation_num="1234")
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '1234', choose from:\n['0035', '0045', '0048', '0059', '0065', '0082', '0086', '0087', '0093', '0098', '0100', '0101', '0108', '0111', '0120', '0126', '0127', '0131', '0149', '0157', '0161', '0166', '0167', '0174', '0177', '0181', '0186', '0189', '0193', '0195', '0199', '0200', '0201', '0203', '0209', '0210', '0211', '0218', '0220', '0229', '0234', '0239', '0240', '0243', '0248', '0250', '0253', '0257', '0261']"
-
+## convertObservationNumberToFlybyID() #################################

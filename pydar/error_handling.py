@@ -304,25 +304,27 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 
 def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=None, minute=None, second=None, millisecond=None):
 	# Error handling for retrieving IDs based on a specific time
-	if year == None:
+	if year is None:
 		logger.critical("\nCRITICAL ERROR, [year]: year is required")
 		exit()
-	if type(year) != int:
-		logger.critical("\nCRITICAL ERROR, [year]: Must be an int, current type = '{0}'".format(type(year)))
-		exit()
-	if year < 2004 or year > 2014:
-		logger.critical("\nCRITICAL ERROR, [year]: year must be between 2004-2014")
-		exit()
+	else:
+		if type(year) != int:
+			logger.critical("\nCRITICAL ERROR, [year]: Must be an int, current type = '{0}'".format(type(year)))
+			exit()
+		if year < 2004 or year > 2014:
+			logger.critical("\nCRITICAL ERROR, [year]: year must be between 2004-2014")
+			exit()
 
-	if doy == None:
+	if doy is None:
 		logger.critical("\nCRITICAL ERROR, [doy]: doy is required")
 		exit()
-	if type(doy) != int:
-		logger.critical("\nCRITICAL ERROR, [doy]: Must be an int, current type = '{0}'".format(type(doy)))
-		exit()
-	if doy < 0 or doy > 365:
-		logger.critical("\nCRITICAL ERROR, [doy]: doy must be between 0-365")
-		exit()
+	else:
+		if type(doy) != int:
+			logger.critical("\nCRITICAL ERROR, [doy]: Must be an int, current type = '{0}'".format(type(doy)))
+			exit()
+		if doy < 0 or doy > 365:
+			logger.critical("\nCRITICAL ERROR, [doy]: doy must be between 0-365")
+			exit()
 
 	if hour is not None:
 		if type(hour) != int:

@@ -8,7 +8,18 @@ import pytest
 # Internal Pydar reference to access functions, global variables, and error handling
 import pydar
 
-def testAAREADMEOptionsREADME(caplog):
+invalid_non_str_options = [(1961, "<class 'int'>"),
+						(3.1415, "<class 'float'>"),
+						([], "<class 'list'>"),
+						(False, "<class 'bool'>")]
+
+invalid_non_bool_options = [(1961, "<class 'int'>"),
+						(3.1415, "<class 'float'>"),
+						([], "<class 'list'>"),
+						("Testing", "<class 'str'>")]
+
+## returnAAREADMEOptions() #############################################
+def test_returnAAREADMEOptions_verifyOptionsOutput(caplog):
 	# Test:
 	pydar.returnAAREADMEOptions()
 	log_record = caplog.records[0]
@@ -17,8 +28,10 @@ def testAAREADMEOptionsREADME(caplog):
 	log_record = caplog.records[1]
 	assert log_record.levelno == logging.INFO
 	assert log_record.message == "Section Header Options: ['Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']"
+## returnAAREADMEOptions() #############################################
 
-def testLBLOptionsREADME(caplog):
+## returnLBLOptions() ##################################################
+def test_returnLBLOptions_verifyOptionsOutput(caplog):
 	# Test:
 	pydar.returnLBLOptions()
 	log_record = caplog.records[0]
@@ -27,8 +40,10 @@ def testLBLOptionsREADME(caplog):
 	log_record = caplog.records[1]
 	assert log_record.levelno == logging.INFO
 	assert log_record.message == "Section Header Options: ['PRODUCT DESCRIPTION', 'DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES', 'POINTERS TO START RECORDS OF OBJECTS IN FILE', 'DESCRIPTION OF OBJECTS CONTAINED IN FILE']"
+## returnLBLOptions() ##################################################
 
-def testAAREADMECORADRRequiredREADME(caplog):
+## readAAREADME() ######################################################
+def test_readAAREADME_coradrRequired(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readAAREADME(coradr_results_directory=None)
@@ -36,21 +51,8 @@ def testAAREADMECORADRRequiredREADME(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [coradr_results_directory]: coradr_results_directory is required"
 
-def testLBLCORADRRequiredREADME(caplog):
-	# Test:
-	with pytest.raises(SystemExit):
-		pydar.readLBLREADME(coradr_results_directory=None)
-	log_record = caplog.records[0]
-	assert log_record.levelno == logging.CRITICAL
-	assert log_record.message == "\nCRITICAL ERROR, [coradr_results_directory]: coradr_results_directory is required"
-
-invalid_non_str_options = [(1961, "<class 'int'>"),
-						(3.1415, "<class 'float'>"),
-						([], "<class 'list'>"),
-						(False, "<class 'bool'>")]
-
 @pytest.mark.parametrize("aareadme_invalid, aareadme_error_output", invalid_non_str_options)
-def testAAREADMECORADRInvalidTypesREADME(caplog, aareadme_invalid, aareadme_error_output):
+def test_readAAREADME_coradrInvalidTypes(caplog, aareadme_invalid, aareadme_error_output):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readAAREADME(coradr_results_directory=aareadme_invalid)
@@ -59,7 +61,7 @@ def testAAREADMECORADRInvalidTypesREADME(caplog, aareadme_invalid, aareadme_erro
 	assert log_record.message == "\nCRITICAL ERROR, [coradr_results_directory]: Must be a str, current type = '{0}'".format(aareadme_error_output)
 
 @pytest.mark.parametrize("aareadme_invalid, aareadme_error_output", invalid_non_str_options)
-def testAAREADMESectionInvalidTypesREADME(caplog, aareadme_invalid, aareadme_error_output):
+def test_readAAREADME_SectionInvalidTypes(caplog, aareadme_invalid, aareadme_error_output):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readAAREADME(coradr_results_directory="coradr_directory", section_to_print=aareadme_invalid)
@@ -67,7 +69,7 @@ def testAAREADMESectionInvalidTypesREADME(caplog, aareadme_invalid, aareadme_err
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [section_to_print]: Must be a str, current type = '{0}'".format(aareadme_error_output)
 
-def testAAREADMENotValidSectionREADME(caplog):
+def test_readAAREADME_NotValidSection(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readAAREADME(coradr_results_directory="coradr_directory", section_to_print="invalid section")
@@ -75,8 +77,27 @@ def testAAREADMENotValidSectionREADME(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR [readAAREADME]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
 
+@pytest.mark.parametrize("aareadme_invalid, aareadme_error_output", invalid_non_bool_options)
+def test_readAAREADME_PrintInvalidTypes(caplog, aareadme_invalid, aareadme_error_output):
+	# Test:
+	with pytest.raises(SystemExit):
+		pydar.readAAREADME(coradr_results_directory="coradr_directory", print_to_console=aareadme_invalid)
+	log_record = caplog.records[0]
+	assert log_record.levelno == logging.CRITICAL
+	assert log_record.message == "\nCRITICAL ERROR, [print_to_console]: Must be a bool, current type = '{0}'".format(aareadme_error_output)
+## readAAREADME() ######################################################
+
+## readLBLREADME() #####################################################
+def test_readLBLREADME_coradrRequired(caplog):
+	# Test:
+	with pytest.raises(SystemExit):
+		pydar.readLBLREADME(coradr_results_directory=None)
+	log_record = caplog.records[0]
+	assert log_record.levelno == logging.CRITICAL
+	assert log_record.message == "\nCRITICAL ERROR, [coradr_results_directory]: coradr_results_directory is required"
+
 @pytest.mark.parametrize("lbl_invalid, lbl_error_output", invalid_non_str_options)
-def testLBLCORADRInvalidTypesREADME(caplog, lbl_invalid, lbl_error_output):
+def test_readLBLREADME_coradrInvalidTypes(caplog, lbl_invalid, lbl_error_output):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readLBLREADME(coradr_results_directory=lbl_invalid)
@@ -85,7 +106,7 @@ def testLBLCORADRInvalidTypesREADME(caplog, lbl_invalid, lbl_error_output):
 	assert log_record.message == "\nCRITICAL ERROR, [coradr_results_directory]: Must be a str, current type = '{0}'".format(lbl_error_output)
 
 @pytest.mark.parametrize("lbl_invalid, lbl_error_output", invalid_non_str_options)
-def testLBLSectionInvalidTypesREADME(caplog, lbl_invalid, lbl_error_output):
+def test_readLBLREADME_SectionInvalidTypes(caplog, lbl_invalid, lbl_error_output):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readLBLREADME(coradr_results_directory="coradr_directory", section_to_print=lbl_invalid)
@@ -93,7 +114,7 @@ def testLBLSectionInvalidTypesREADME(caplog, lbl_invalid, lbl_error_output):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [section_to_print]: Must be a str, current type = '{0}'".format(lbl_error_output)
 
-def testLBLNotValidSectionREADME(caplog):
+def test_readLBLREADME_NotValidSection(caplog):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readLBLREADME(coradr_results_directory="coradr_directory", section_to_print="invalid section")
@@ -102,7 +123,7 @@ def testLBLNotValidSectionREADME(caplog):
 	assert log_record.message == "\nCRITICAL ERROR: [readLBLREADME]: Cannot find a revelant section_to_print: Invalid 'INVALID SECTION'"
 
 @pytest.mark.parametrize("unspecific_section", [("FILE_NAME"), ("RECORD_TYPE")])
-def testLBLUnspecificSectionREADME(caplog, unspecific_section):
+def test_readLBLREADME_unspecificSection(caplog, unspecific_section):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readLBLREADME(coradr_results_directory="coradr_directory", section_to_print=unspecific_section)
@@ -110,25 +131,12 @@ def testLBLUnspecificSectionREADME(caplog, unspecific_section):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "CRITICAL ERROR: Specify {0} as either '{0} UNCOMPRESSED' or '{0} COMPRESSED'".format(unspecific_section)
 
-invalid_non_bool_options = [(1961, "<class 'int'>"),
-						(3.1415, "<class 'float'>"),
-						([], "<class 'list'>"),
-						("Testing", "<class 'str'>")]
-
-@pytest.mark.parametrize("aareadme_invalid, aareadme_error_output", invalid_non_bool_options)
-def testAAREADMEPrintInvalidTypesREADME(caplog, aareadme_invalid, aareadme_error_output):
-	# Test:
-	with pytest.raises(SystemExit):
-		pydar.readAAREADME(coradr_results_directory="coradr_directory", print_to_console=aareadme_invalid)
-	log_record = caplog.records[0]
-	assert log_record.levelno == logging.CRITICAL
-	assert log_record.message == "\nCRITICAL ERROR, [print_to_console]: Must be a bool, current type = '{0}'".format(aareadme_error_output)
-
 @pytest.mark.parametrize("lbl_invalid, lbl_error_output", invalid_non_bool_options)
-def testLBLPrintInvalidTypesREADME(caplog, lbl_invalid, lbl_error_output):
+def test_readLBLREADME_PrintInvalidTypes(caplog, lbl_invalid, lbl_error_output):
 	# Test:
 	with pytest.raises(SystemExit):
 		pydar.readLBLREADME(coradr_results_directory="coradr_directory", print_to_console=lbl_invalid)
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [print_to_console]: Must be a bool, current type = '{0}'".format(lbl_error_output)
+## readLBLREADME() #####################################################

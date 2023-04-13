@@ -104,10 +104,10 @@ def retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 					flyby_ids[flyby].append(segment_number)
 
 	if len(flyby_ids) == 0:
-		logger.info("\n[WARNING]: No Features found at latitude from {0} to {1} and longitude from {2} to {3} \n".format(min_latitude,
-																														max_latitude,
-																														min_longitude,
-																														max_longitude))
+		logger.info("\n[WARNING]: No IDs found at latitude from {0} to {1} and longitude from {2} to {3}\n".format(min_latitude,
+																													max_latitude,
+																													min_longitude,
+																													max_longitude))
 
 	return flyby_ids
 
@@ -284,7 +284,7 @@ def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 				feature_names_list.append(feature_name)
 
 	if len(feature_names_list) == 0:
-		logger.info("\n[WARNING]: No Features found at latitude from {0} to {1} and longitude from {2} to {3} \n".format(min_latitude,
+		logger.info("\n[WARNING]: No Features found at latitude from {0} to {1} and longitude from {2} to {3}\n".format(min_latitude,
 																														max_latitude,
 																														min_longitude,
 																														max_longitude))
