@@ -1,4 +1,4 @@
-# Pytest for retrieve_ids_by_time_position.py
+# Pytest for retrieve_ids_by_time_position.pyc
 # pydar/pydar/: pytest -vs --disable-pytest-warnings --show-capture=no --capture=sys -vv
 import logging
 
@@ -30,6 +30,11 @@ def test_retrieveIDSByFeatureName_featureNameRequired(caplog):
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [feature_name]: feature_name is required"
+
+def test_retrieveIDSByFeatureName_verifyOutput(caplog):
+	# Test:
+	flyby_ids = pydar.retrieveIDSByFeatureName(feature_name="ontario lacus")
+	assert flyby_ids == {'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}
 
 @pytest.mark.parametrize("feature_name_invalid, feature_error_output", invalid_non_str_options)
 def test_retrieveIDSByFeatureName_featureNameInvalidTypes(caplog, feature_name_invalid, feature_error_output):
@@ -65,6 +70,11 @@ def test_retrieveIDSByLatitudeLongitude_longitudeRequired(caplog):
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [longitude]: longitude is required"
+
+def test_retrieveIDSByLatitudeLongitude_verifyOutput(caplog):
+	# Test:
+	flyby_ids = pydar.retrieveIDSByLatitudeLongitude(latitude=-80, longitude=170)
+	assert flyby_ids == {'T39': ['S06', 'S05', 'S01'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S03'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}
 
 @pytest.mark.parametrize("latitude_invalid, latitude_error_output", invalid_non_num_options)
 def test_retrieveIDSByLatitudeLongitude_latitudeInvalidTypes(caplog, latitude_invalid, latitude_error_output):
@@ -111,6 +121,14 @@ def test_retrieveIDSByLatitudeLongitude_latitudeLongitudeNoIDsRetrieved(caplog):
 ## retrieveIDSByLatitudeLongitude() ####################################
 
 ## retrieveIDSByLatitudeLongitudeRange() ###############################
+def test_retrieveIDSByLatitudeLongitudeRange_verifyOutput(caplog):
+	# Test:
+	flyby_ids = pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
+															max_latitude=-72,
+															min_longitude=183,
+															max_longitude=185)
+	assert flyby_ids == {'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}
+
 @pytest.mark.parametrize("type_invalid, type_error_output", invalid_non_num_options)
 def test_retrieveIDSByLatitudeLongitudeRange_minLatitudeInvalidTypes(caplog, type_invalid, type_error_output):
 	# Test:
@@ -301,7 +319,22 @@ def test_retrieveFeaturesFromLatitudeLongitude_noFeaturesRetrieved(caplog):
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.INFO
 	assert log_record.message == "\n[WARNING]: No Features found at latitude from 90 to 90 and longitude from 360 to 360\n"
+
+def test_retrieveIDSByLatitudeLongitude_verifyOutput(caplog):
+	# Test:
+	found_features = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
+	assert found_features == ['Ontario Lacus', 'Rossak Planitia']
 ## retrieveFeaturesFromLatitudeLongitude() #############################
+
+## retrieveFeaturesFromLatitudeLongitudeRange() ##########################
+def test_retrieveFeaturesFromLatitudeLongitudeRange_verifyOutput(caplog):
+	# Test:
+	found_features = pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
+																	max_latitude=-72,
+																	min_longitude=183,
+																	max_longitude=190)
+	assert found_features == ['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']
+## retrieveFeaturesFromLatitudeLongitudeRange() ##########################
 
 ## retrieveIDSByTime() #################################################
 def test_retrieveIDSByTime_yearRequired(caplog):
@@ -317,6 +350,13 @@ def test_retrieveIDSByTime_DOYRequired(caplog):
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [doy]: doy is required"
+
+def test_retrieveIDSByTime_verifyOutput(caplog):
+	# Test:
+	flyby_ids = pydar.retrieveIDSByTime(year=2005, doy=301)
+	assert flyby_ids == {'T8': ['S02', 'S03', 'S01']}
+	flyby_ids = pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
+	assert flyby_ids == {'T8': ['S03', 'S01']}
 
 @pytest.mark.parametrize("year_invalid_range", [(2003), (2015)])
 def test_retrieveIDSByTime_yearInvalidRange(caplog, year_invalid_range):
@@ -436,6 +476,22 @@ def test_retrieveIDSByTimeRange_DOYStartRequired(caplog):
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [start_doy]: start_doy is required"
+
+def test_retrieveIDSByTimeRange_verifyOutput(caplog):
+	# Test:
+	flyby_ids = pydar.retrieveIDSByTimeRange(start_year=2004,
+											start_doy=299,
+											start_hour=2,
+											start_minute=15,
+											start_second=23,
+											start_millisecond=987,
+											end_year=2005, 
+											end_doy=301,
+											end_hour=2,
+											end_minute=15,
+											end_second=23,
+											end_millisecond=987)
+	assert flyby_ids == {'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}
 
 def test_retrieveIDSByTimeRange_DOYEndRequired(caplog):
 	with pytest.raises(SystemExit):

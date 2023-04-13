@@ -404,7 +404,6 @@ retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 
 ```python
 import pydar
-
 pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
 						max_latitude=-72,
 						min_longitude=183,
