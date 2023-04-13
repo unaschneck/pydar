@@ -205,13 +205,22 @@ def errorHandlingREADME(coradr_results_directory=None,
 
 def errorHandlingRetrieveIDSByFeature(feature_name=None):
 	# Error Handling for retrieving the IDs for a specific feature name: retrieveIDSByFeature()
-	if type(feature_name) != str:
-		logger.critical("\nCRITICAL ERROR, [feature_name]: Must be a str, current type = '{0}'".format(type(feature_name)))
+	if feature_name is None:
+		logger.critical("\nCRITICAL ERROR, [feature_name]: feature_name is required")
 		exit()
+	else:
+		if type(feature_name) != str:
+			logger.critical("\nCRITICAL ERROR, [feature_name]: Must be a str, current type = '{0}'".format(type(feature_name)))
+			exit()
 
 def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 												longitude=None):
 	# Error Handling for retrieving IDs based on latitude and longitude
+
+	if latitude is None:
+		logger.critical("\nCRITICAL ERROR, [latitude]: latitude is required")
+		exit()
+
 	if type(latitude) != float and type(latitude) != int:
 		logger.critical("\nCRITICAL ERROR, [latitude]: Must be a float or int, current type = '{0}'".format(type(latitude)))
 		exit()
@@ -220,6 +229,9 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 		logger.critical("\nCRITICAL ERROR, [latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(latitude))
 		exit()
 
+	if longitude is None:
+		logger.critical("\nCRITICAL ERROR, [longitude]: longitude is required")
+		exit()
 	if type(longitude) != float and type(longitude) != int:
 		logger.critical("\nCRITICAL ERROR, [longitude]: Must be a float or int, current type = '{0}'".format(type(longitude)))
 		exit()
@@ -229,17 +241,25 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 		exit()
 
 def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
-												max_latitude=None,
-												min_longitude=None,
-												max_longitude=None):
+													max_latitude=None,
+													min_longitude=None,
+													max_longitude=None):
 	# Error Handling for retrieving IDs based on a range of latitude and longitudes
-	if type(min_latitude) != float and type(min_latitude) != int:
-		logger.critical("\nCRITICAL ERROR, [min_latitude]: Must be a float or int, current type = '{0}'".format(type(min_latitude)))
+	if min_latitude is None:
+		logger.critical("\nCRITICAL ERROR, [min_latitude]: min_latitude is required")
 		exit()
+	else:
+		if type(min_latitude) != float and type(min_latitude) != int:
+			logger.critical("\nCRITICAL ERROR, [min_latitude]: Must be a float or int, current type = '{0}'".format(type(min_latitude)))
+			exit()
 
-	if type(max_latitude) != float and type(max_latitude) != int:
-		logger.critical("\nCRITICAL ERROR, [max_latitude]: Must be a float or int, current type = '{0}'".format(type(max_latitude)))
+	if max_latitude is None:
+		logger.critical("\nCRITICAL ERROR, [max_latitude]: max_latitude is required")
 		exit()
+	else:
+		if type(max_latitude) != float and type(max_latitude) != int:
+			logger.critical("\nCRITICAL ERROR, [max_latitude]: Must be a float or int, current type = '{0}'".format(type(max_latitude)))
+			exit()
 
 	if min_latitude > 90 or min_latitude < -90:
 		logger.critical("\nCRITICAL ERROR, [min_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(min_latitude))
@@ -249,13 +269,21 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 		logger.critical("\nCRITICAL ERROR, [max_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(max_latitude))
 		exit()
 
-	if type(min_longitude) != float and type(min_longitude) != int:
-		logger.critical("\nCRITICAL ERROR, [min_longitude]: Must be a float or int, current type = '{0}'".format(type(min_longitude)))
+	if min_longitude is None:
+		logger.critical("\nCRITICAL ERROR, [min_longitude]: min_longitude is required")
 		exit()
+	else:
+		if type(min_longitude) != float and type(min_longitude) != int:
+			logger.critical("\nCRITICAL ERROR, [min_longitude]: Must be a float or int, current type = '{0}'".format(type(min_longitude)))
+			exit()
 
-	if type(max_longitude) != float and type(max_longitude) != int:
-		logger.critical("\nCRITICAL ERROR, [max_longtiude]: Must be a float or int, current type = '{0}'".format(type(max_longitude)))
+	if max_longitude is None:
+		logger.critical("\nCRITICAL ERROR, [max_longitude]: max_longitude is required")
 		exit()
+	else:
+		if type(max_longitude) != float and type(max_longitude) != int:
+			logger.critical("\nCRITICAL ERROR, [max_longitude]: Must be a float or int, current type = '{0}'".format(type(max_longitude)))
+			exit()
 
 	if min_longitude < 0 or min_longitude > 360:
 		logger.critical("\nCRITICAL ERROR, [min_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(min_longitude))

@@ -25,10 +25,10 @@ def testconvertObservationNumberToFlybyID(flyby_observation_num_value, flyby_id_
 	assert pydar.convertObservationNumberToFlybyID(flyby_observation_num=flyby_observation_num_value) == flyby_id_output
 
 ### extractFlybyDataImages() Function Call
-invalid_types = [(1961, "<class 'int'>"),
-				(3.1415, "<class 'float'>"),
-				([], "<class 'list'>"),
-				(False, "<class 'bool'>")]
+invalid_non_str_options = [(1961, "<class 'int'>"),
+						(3.1415, "<class 'float'>"),
+						([], "<class 'list'>"),
+						(False, "<class 'bool'>")]
 
 def testEmptyExtractFlybyDataImages(caplog):
 	# Test: Error thrown when extractFlybyDataImages() given no arguments
@@ -52,7 +52,7 @@ def testBothFlybyTypesExtractFlybyDataImage(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR: Requires either a flyby_observation_num OR flyby_id, not both."
 
-@pytest.mark.parametrize("flyby_id_invalid, flyby_error_output", invalid_types)
+@pytest.mark.parametrize("flyby_id_invalid, flyby_error_output", invalid_non_str_options)
 def testFlybyIDInvalidTypesExtractFlybyDataImage(caplog, flyby_id_invalid, flyby_error_output):
 	# Test: Error thrown when extractFlybyDataImages() given invalid flyby_id type values
 	with pytest.raises(SystemExit):
@@ -69,7 +69,7 @@ def testNotAvailableFlybyIDNotAvailableExtractFlybyDataImage(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: 'T32' not in available ids options '['Ta', 'T3', 'T4', 'T7', 'T8', 'T13', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T23', 'T25', 'T28', 'T29', 'T30', 'T36', 'T39', 'T41', 'T43', 'T44', 'T48', 'T49', 'T50', 'T52', 'T53', 'T55', 'T56', 'T57', 'T58', 'T59', 'T61', 'T63', 'T64', 'T65', 'T69', 'T71', 'T77', 'T80', 'T83', 'T84', 'T86', 'T91', 'T92', 'T95', 'T98', 'T104']'"
 
-@pytest.mark.parametrize("flyby_observation_num_invalid, flyby_error_output", invalid_types)
+@pytest.mark.parametrize("flyby_observation_num_invalid, flyby_error_output", invalid_non_str_options)
 def testFlybyObservationNumInvalidTypesExtractFlybyDataImage(caplog, flyby_observation_num_invalid, flyby_error_output):
 	# Test: Error thrown when extractFlybyDataImages() given invalid flyby_observation_num type values
 	with pytest.raises(SystemExit):
@@ -94,7 +94,7 @@ def testSegmentNumRequiredExtractFlybyDataImage(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [segment_num]: segment_num number required out of available options ['S01', 'S02', 'S03', 'S04'], none given"
 
-@pytest.mark.parametrize("segment_num_invalid, segment_error_output", invalid_types)
+@pytest.mark.parametrize("segment_num_invalid, segment_error_output", invalid_non_str_options)
 def testSegmentNumInvalidTypesExtractFlybyDataImage(caplog, segment_num_invalid, segment_error_output):
 	# Test: Error thrown when extractFlybyDataImages() given invalid segment_num type values
 	with pytest.raises(SystemExit):
@@ -111,7 +111,7 @@ def testNotAvailableSegmentNumExtractFlybyDataImage(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [segment_num]: 'S05' not an available segment option '['S01', 'S02', 'S03', 'S04']'"
 
-@pytest.mark.parametrize("resolution_invalid, resolution_error_output", invalid_types)
+@pytest.mark.parametrize("resolution_invalid, resolution_error_output", invalid_non_str_options)
 def testResolutionInvalidTypesExtractFlybyDataImage(caplog, resolution_invalid, resolution_error_output):
 	# Test: Error thrown when extractFlybyDataImages() is given invalid resolution types
 	with pytest.raises(SystemExit):
@@ -158,7 +158,7 @@ def testConvertEmptyFlybyIDExtractFylbyDataImage(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_id]: A valid flyby_id string is required"
 
-@pytest.mark.parametrize("flyby_id_invalid, flyby_error_output", invalid_types)
+@pytest.mark.parametrize("flyby_id_invalid, flyby_error_output", invalid_non_str_options)
 def testConvertFlybyIDInvalidTypesExtractFlybyDataImage(caplog, flyby_id_invalid, flyby_error_output):
 	# Test: 
 	with pytest.raises(SystemExit):
@@ -183,7 +183,7 @@ def testConvertEmptyFlybyObservationNumExtractFylbyDataImage(caplog):
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [flyby_observation_num]: A valid flyby_observation_num string is required"
 
-@pytest.mark.parametrize("flyby_observation_num_invalid, flyby_error_output", invalid_types)
+@pytest.mark.parametrize("flyby_observation_num_invalid, flyby_error_output", invalid_non_str_options)
 def testConvertFlybyObservationNumInvalidTypesExtractFlybyDataImage(caplog, flyby_observation_num_invalid, flyby_error_output):
 	# Test: 
 	with pytest.raises(SystemExit):
