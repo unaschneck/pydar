@@ -178,10 +178,18 @@ def errorHandlingDisplayImages(image_directory=None, fig_title=None, figsize_n=N
 	if type(figsize_n) != int:
 		logger.critical("\nCRITICAL ERROR, [figsize_n]: Must be a int, current type = '{0}'".format(type(figsize_n)))
 		exit()
+	else:
+		if figsize_n < 1:
+			logger.critical("\nCRITICAL ERROR, [figsize_n]: figsize_n must be greater than 1, current value = '{0}'".format(figsize_n))
+			exit()
 
 	if type(fig_dpi) != int:
 		logger.critical("\nCRITICAL ERROR, [fig_dpi]: Must be a int, current type = '{0}'".format(type(fig_dpi)))
 		exit()
+	else:
+		if fig_dpi < 1:
+			logger.critical("\nCRITICAL ERROR, [fig_dpi]: fig_dpi must be greater than 1, current value = '{0}'".format(fig_dpi))
+			exit()
 
 def errorHandlingREADME(coradr_results_directory=None,
 						section_to_print=None,

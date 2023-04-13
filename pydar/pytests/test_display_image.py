@@ -73,4 +73,20 @@ def test_displayImages_figureDPIInvalidTypes(caplog, fig_dpi_invalid, fig_dpi_er
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [fig_dpi]: Must be a int, current type = '{0}'".format(fig_dpi_error_output)
+
+def test_displayImages_figureSizeInvalidRange(caplog):
+	# Test:
+	with pytest.raises(SystemExit):
+		pydar.displayImages(image_directory="pydar_results/testing", figsize_n=0)
+	log_record = caplog.records[0]
+	assert log_record.levelno == logging.CRITICAL
+	assert log_record.message == "\nCRITICAL ERROR, [figsize_n]: figsize_n must be greater than 1, current value = '0'"
+
+def test_displayImages_figureDPIInvalidRange(caplog):
+	# Test:
+	with pytest.raises(SystemExit):
+		pydar.displayImages(image_directory="pydar_results/testing", fig_dpi=0)
+	log_record = caplog.records[0]
+	assert log_record.levelno == logging.CRITICAL
+	assert log_record.message == "\nCRITICAL ERROR, [fig_dpi]: fig_dpi must be greater than 1, current value = '0'"
 ## displayImages() #####################################################
