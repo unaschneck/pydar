@@ -56,6 +56,15 @@ def test_displayImages_figureTitleInvalidTypes(caplog, fig_title_invalid, fig_ti
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [fig_title]: Must be a str, current type = '{0}'".format(fig_title_error_output)
 
+@pytest.mark.parametrize("cmap_invalid, cmap_error_output", invalid_non_str_options)
+def test_displayImages_cmapInvalidTypes(caplog, cmap_invalid, cmap_error_output):
+	# Test:
+	with pytest.raises(SystemExit):
+		pydar.displayImages(image_directory="pydar_results/testing", cmap=cmap_invalid)
+	log_record = caplog.records[0]
+	assert log_record.levelno == logging.CRITICAL
+	assert log_record.message == "\nCRITICAL ERROR, [cmap]: Must be a str, current type = '{0}'".format(cmap_error_output)
+
 @pytest.mark.parametrize("figsize_n_invalid, figsize_n_error_output", invalid_non_int_options)
 def test_displayImages_figureSizeInvalidTypes(caplog, figsize_n_invalid, figsize_n_error_output):
 	# Test:
@@ -89,4 +98,5 @@ def test_displayImages_figureDPIInvalidRange(caplog):
 	log_record = caplog.records[0]
 	assert log_record.levelno == logging.CRITICAL
 	assert log_record.message == "\nCRITICAL ERROR, [fig_dpi]: fig_dpi must be greater than 1, current value = '0'"
+
 ## displayImages() #####################################################

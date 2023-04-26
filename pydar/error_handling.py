@@ -161,7 +161,7 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 		logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(flyby_observation_num, valid_observation_nums))
 		exit()
 
-def errorHandlingDisplayImages(image_directory=None, fig_title=None, figsize_n=None, fig_dpi=None):
+def errorHandlingDisplayImages(image_directory=None, fig_title=None, cmap=None, figsize_n=None, fig_dpi=None):
 	# Error Handling for Displaying Images from an Image Directory: displayImages()
 	if image_directory == None:
 		logger.critical("\nCRITICAL ERROR, [image_directory]: image_directory is required")
@@ -173,6 +173,10 @@ def errorHandlingDisplayImages(image_directory=None, fig_title=None, figsize_n=N
 
 	if fig_title is not None and type(fig_title) != str:
 		logger.critical("\nCRITICAL ERROR, [fig_title]: Must be a str, current type = '{0}'".format(type(fig_title)))
+		exit()
+
+	if cmap is not None and type(cmap) != str:
+		logger.critical("\nCRITICAL ERROR, [cmap]: Must be a str, current type = '{0}'".format(type(cmap)))
 		exit()
 
 	if type(figsize_n) != int:

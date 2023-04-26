@@ -647,16 +647,19 @@ pydar.returnLBLOptions()
 ## Use Downloaded Data
 ### displayImages()
 
+Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
+
 ```
-displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120)
+displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fig_dpi=120)
 ```
 
 * **[REQUIRED]** image_directory (string): directory containing pydar_results with IMG file
 * [OPTIONAL] fig_title (str): figure title, defaults to filename
+* [OPTIONAL] cmap (str): optional colormaps ([see more options](https://matplotlib.org/stable/tutorials/colors/colormaps.html)), defaults to 'gray'
 * [OPTIONAL] figsize_n (int): plot dimensions, defaults to 6x6
 * [OPTIONAL] fig_dpi (int): plot dpi, defaults to 120
 
-Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
+Requires a .LBL and .IMG file
 
 ```python
 import pydar
