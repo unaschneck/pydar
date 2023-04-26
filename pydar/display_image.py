@@ -50,3 +50,13 @@ def displayImages(image_directory=None, fig_title=None, figsize_n=6, fig_dpi=120
 	# Log error to user if no image files given
 	if not any(".IMG" in sub for sub in os.listdir(image_directory)): # if directory files does not contain any .IMG files
 		logger.info("\nINFO: Unable to display images, {0} does not contain an IMG file\n".format(image_directory))
+
+#########################################################################################
+# more stable/generic way to display .IMG files?
+#import rasterio
+#import matplotlib.pyplot as plt
+
+#image = rasterio.open(image_directory/LDAM_50N_1000M_FLOAT.LBL').read()
+#image = image[0,:,:]
+#plt.imshow(image, cmap='gray')
+#plt.show()
