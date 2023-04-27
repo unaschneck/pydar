@@ -653,13 +653,12 @@ Displays downloaded image .IMG files (unzipped from within the .ZIP files) and d
 displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fig_dpi=120)
 ```
 
-* **[REQUIRED]** image_directory (string): directory containing pydar_results with IMG file
+* **[REQUIRED]** image_directory (string): directory containing a .LBL and .IMG file
 * [OPTIONAL] fig_title (str): figure title, defaults to filename
 * [OPTIONAL] cmap (str): optional colormaps ([see more options](https://matplotlib.org/stable/tutorials/colors/colormaps.html)), defaults to 'gray'
 * [OPTIONAL] figsize_n (int): plot dimensions, defaults to 6x6
 * [OPTIONAL] fig_dpi (int): plot dpi, defaults to 120
 
-Requires a .LBL and .IMG file
 
 ```python
 import pydar
@@ -681,8 +680,6 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 ### TODO Code:
 * add a colored outline around a feature when displaying as a 2D image
 * save image pixel to an array
-* extract pdr functionality to reduce overhead
-* displayImages() bug fix: 87 displays invalid integer
 * segments will be less than 99 (default to 1 - 01 is the primary imaging) (requires segment_options = ['S01', 'S02', 'S03', 'S04'])
 * progress bars print to command line (still downloading...)
 * save .IMG as .SHP for ArcGIS
