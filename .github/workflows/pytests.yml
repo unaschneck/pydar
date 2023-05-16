@@ -24,7 +24,6 @@ jobs:
       run: |
         export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
         pip install -r requirements.txt
-        pip install pydar
     - name: Test with pytest
       run: |
-        pytest
+        python3 -m pytest
