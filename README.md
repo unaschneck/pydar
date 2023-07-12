@@ -717,17 +717,7 @@ Please acknowledge the use of this software in any publications by citing:
 Cassini RADAR data extraction software was provided by C. Y. Schneck and U. G. Schneck and is available at URL: https://github.com/unaschneck/pydar
 ```
 
-Please send a copy of such publications to:
-
-```
-cyschneck@gmail.com
-ugschneck@gmail.com
-```
-
-This material is based upon work supported by the National Science Foundation Graduate Fellowship under Grant No. 2141064. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
-
-
-This material is based upon work supported by the National Science Foundation Graduate Fellowship under Grant No. 2141064. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not neccessarily reflect the views of the National Science Foundation.
+Please send a copy of such publications to: cyschneck@gmail.com & ugschneck@gmail.com
 
 
 ## Bug and Feature Request
