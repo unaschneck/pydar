@@ -3,8 +3,6 @@ import pydar
 if __name__ == '__main__':
 	# VERSION 1:
 	## Get swatch coverage based on latitude/longitude, Time, or Feature
-	#pydar.testing()
-	'''
 	feature_name = "Ontario Lacus"
 	flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
 	print("Flyby IDS based on Feature Name '{0}' = {1}".format(feature_name.title(), flyby_ids_name))
@@ -53,7 +51,6 @@ if __name__ == '__main__':
 	flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num=observation_num)
 	print("\nObservation Number '{0}' is flyby id = {1}".format(observation_num, flyby_id))
 
-	'''
 	# Extract Flyby Data Files to results/ directory
 	pydar.extractFlybyDataImages(flyby_id="T65",
 								flyby_observation_num=None,
@@ -64,14 +61,14 @@ if __name__ == '__main__':
 	pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
 
 	# Read AAREADME to console
-	#pydar.returnAAREADMEOptions()
-	#pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
-	#					section_to_print="INSTRUMENT_name")
+	pydar.returnAAREADMEOptions()
+	pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
+						section_to_print="INSTRUMENT_name")
 
 	# Read .LBL to console
-	#pydar.returnLBLOptions()
-	#pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
-	#					section_to_print="LOOK_DIrecTION")
+	pydar.returnLBLOptions()
+	pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
+						section_to_print="LOOK_DIrecTION")
 
 	# VERSION 2: (Upcoming)
 	#pydar.extractMetadata()
