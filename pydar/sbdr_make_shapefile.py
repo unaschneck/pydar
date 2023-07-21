@@ -322,11 +322,14 @@ def sbdrMakeShapeFile(filename=None,
 		# Setting azimuth for intersection of ellipsis 
 		geodesic = pyproj.Geod(a =r_titan,es=0) # define Titan ellipsoid
 		
-		fwd_azimuth, back_azimuth, distance = geodesic.inv(pt1y, pt1x, pt2y, pt2x)
+		fwd_azimuth, _, distance = geodesic.inv(pt1y, pt1x, pt2y, pt2x)
 		gc_az1 = fwd_azimuth # considering azimuth from starting lat,lon pair like in the matlab function
 		
-		fwd_azimuth, back_azimuth, distance = geodesic.inv(pt3y, pt3x, pt4y, pt4x)
+		fwd_azimuth, _, distance = geodesic.inv(pt3y, pt3x, pt4y, pt4x)
+		gc_z2 = fwd_azimuth
 
 		# Calculate the Intersection Point
 		#i_lat1, i_long1, i_lat2, i_long2 = intersectionOfTwoGreatCircles(p1_lat1, p1_long1, p1_lat2, p1_long2,
 		#																p2_lat1, p2_long1, p2_lat2, p2_long2)
+
+	
