@@ -21,6 +21,7 @@ jobs:
     - name: pip install requirements
       run: |
         export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
+        pip install --upgrade pip
         pip install -r requirements.txt
         pip install pydar
 
