@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Please acknowledge the use of this software in any publications by citing:"
+authors:
+- family-names: "Schneck, Schneck"
+  given-names: "Cora Y, Una G"
+title: "Pydar: Cassini RADAR data extraction software"
+version: 1.1.0
+url: "https://github.com/unaschneck/pydar"
