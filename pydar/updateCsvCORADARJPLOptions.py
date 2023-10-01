@@ -33,7 +33,8 @@ def updateCsvCORADRJPLOptions():
 	# BeautifulSoup web scrapping to find CASSINI data types
 	logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 	cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
-	cassini_html = request.urlopen(cassini_root_url).read()
+	req_with_headers = request.Request(url=cassini_root_url, headers={'User-Agent': 'Mozilla/5.0'})
+	cassini_html = request.urlopen(req_with_headers).read()
 	soup = BeautifulSoup(cassini_html, 'html.parser')
 	table = soup.find('table', {"id": "indexlist"})
 	table_text = (table.text).split("\n")

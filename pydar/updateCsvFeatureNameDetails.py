@@ -31,7 +31,8 @@ def updateCsvFeatureNameDetails():
 	# BeautifulSoup web scrapping to find Titan feature names with details
 	logger.info("Retrieving observation information from https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan....")
 	titan_root_url = "https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan"
-	titan_html = request.urlopen(titan_root_url).read()
+	req_with_headers = request.Request(url=titan_root_url, headers={'User-Agent': 'Mozilla/5.0'})
+	titan_html = request.urlopen(req_with_headers).read()
 	soup = BeautifulSoup(titan_html, 'html.parser')
 	ahref_feature_names = soup.findAll('a')
 	ahref_lst = []
