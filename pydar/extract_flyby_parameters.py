@@ -104,7 +104,7 @@ def retrieveCoradrWithoutBIDR():
 def downloadAAREADME(cordar_file_name, segment_id):
 	# Download AAREADME.txt within a CORADR directory
 	aareadme_name = "AAREADME.TXT"
-	aareadme_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/{1}".format(cordar_file_name, aareadme_name)
+	aareadme_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/{1}".format(cordar_file_name, aareadme_name)
 
 	# Retrieve a list of all elements from the base URL to download AAREADME.txt
 	logger.info("Retrieving {0} {1}".format(cordar_file_name, aareadme_name))
@@ -119,7 +119,7 @@ def downloadAAREADME(cordar_file_name, segment_id):
 
 def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 	# Download BDIR files
-	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
+	base_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
 	logger.info("Retrieving BIDR filenames from: {0}\n".format(base_url))
 
 	# Retrieve a list of all elements from the base URL to download
@@ -151,7 +151,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 
 	for i, coradr_file in enumerate(url_filenames):
 		if 'LBL' in coradr_file:
-			label_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
+			label_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
 			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), label_url))
 			label_name = label_url.split("/")[-1].split(".")[0] + ".LBL"
 			label_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
@@ -163,7 +163,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			else:
 				response = request.urlretrieve(label_url, label_name)
 		if 'ZIP' in coradr_file:
-			data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
+			data_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
 			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), data_url))
 			zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
 			zipfile_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), zipfile_name)
@@ -181,7 +181,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 
 def downloadSBDRCORADRData(cordar_file_name, segment_id):
 	# Download SBDR files
-	base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/".format(cordar_file_name)
+	base_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/SBDR/".format(cordar_file_name)
 	logger.info("\nRetrieving SBDR filenames from: {0}".format(base_url))
 
 	# Retrieve a SBDR file from filename at SBDR URL
@@ -206,7 +206,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 		exit()
 
 	for sbdr_file in sbdr_files:
-		sbdr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
+		sbdr_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
 		logger.info("Retrieving SBDR file '{0}': {1}".format(sbdr_file, sbdr_url))
 		sbdr_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_file)
 		try:
@@ -219,7 +219,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 
 def downloadAdditionalDataTypes(cordar_file_name, segment_id, additional_data_type):
 	# Download additional data types
-	additional_data_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/{1}".format(cordar_file_name, additional_data_type)
+	additional_data_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/{1}".format(cordar_file_name, additional_data_type)
 	logger.info("\n[TODO: does not currently download] '{0}': {1}".format(additional_data_type, additional_data_url))
 	# TODO: add functionality for which files should be downloaded
 	# This function does not currently have functionality in pydar

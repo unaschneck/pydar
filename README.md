@@ -80,7 +80,7 @@ pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
 ## Overview and Background
 For information on Cassini instrument specifics and acronyms refer to the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
-The Cassini Radar data can be found at the [PDS Imaging Node](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/). The directory is organized by [PDS standards](https://pdssbn.astro.umd.edu/howto/understand.shtml). The file format are defined in the [Small Body Node](https://pdssbn.astro.umd.edu/howto/file_types.shtml). The radar echo is stored originally as floating points in LBDR files. The SAR processors turn the LBDR files into BIDR image. The BIDR data is organized as follows:
+The Cassini Radar data can be found at the [PDS Imaging Node](https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/). The directory is organized by [PDS standards](https://pdssbn.astro.umd.edu/howto/understand.shtml). The file format are defined in the [Small Body Node](https://pdssbn.astro.umd.edu/howto/file_types.shtml). The radar echo is stored originally as floating points in LBDR files. The SAR processors turn the LBDR files into BIDR image. The BIDR data is organized as follows:
 ```
 Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take number and Vxx is the data version number
   |_ AAREADME.txt
@@ -238,7 +238,7 @@ Changes in the relevant URLs are checked once a month via Github Actions to keep
 
 **coradr_jpl_options.csv**
 
-Contains all the CORADR IDs and available data types from [pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter)
+Contains all the CORADR IDs and available data types from [planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/](https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/)
 
 Headers: ["CORADR ID", "Is a Titan Flyby", "Contains ABDR", "Contains ASUM", "Contains BIDR", "Contains LBDR", "Contains SBDR", "Contains STDR"]
 
@@ -248,7 +248,7 @@ View data file: [coradr_jpl_options.csv](https://github.com/unaschneck/pydar/blo
 
 Contains all the information for .LBL files within all CORADR ID pages (for each segment and resolution file)
 
-Collected from URLs matching: pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/[CORADAR_ID]/DATA/BIDR/
+Collected from URLs matching: `https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/[CORADAR_ID]/DATA/BIDR/`
 
 Headers: ["CORADR ID", "FLYBY ID", "SEGMENT NUMBER", "FILENAME", "DATE TYPE SYMBOL", "DATE TYPE", "RESOLUTION (pixels/degrees)", "TARGET_NAME", "MAXIMUM_LATITUDE (Degrees)", "MINIMUM_LATITUDE (Degrees)", "EASTERNMOST_LONGITUDE (Degrees)", "WESTERNMOST_LONGITUDE (Degrees)", "START_TIME", "STOP_TIME"]
 
