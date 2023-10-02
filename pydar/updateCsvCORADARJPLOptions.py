@@ -4,6 +4,7 @@
 # Built in Python functions
 import logging
 import os
+import random
 
 # External Python libraries (installed via pip install)
 from bs4 import BeautifulSoup
@@ -30,10 +31,21 @@ def updateCsvCORADRJPLOptions():
 
 	logger.info("Refreshing: coradr_jpl_options.csv")
 
+	user_agents = [
+		'Mozilla/6.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+		'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'Mozilla/6.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
+	]
+	random_agent = random.choice(user_agents)
+
 	# BeautifulSoup web scrapping to find CASSINI data types
 	logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
 	cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
-	req_with_headers = request.Request(url=cassini_root_url, headers={'User-Agent': 'Mozilla/5.0'})
+	req_with_headers = request.Request(url=cassini_root_url, headers={'User-Agent': random_agent})
 	cassini_html = request.urlopen(req_with_headers).read()
 	soup = BeautifulSoup(cassini_html, 'html.parser')
 	table = soup.find('table', {"id": "indexlist"})

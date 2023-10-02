@@ -5,6 +5,7 @@
 import logging
 import os
 import re
+import random
 
 # External Python libraries (installed via pip install)
 from bs4 import BeautifulSoup
@@ -28,10 +29,21 @@ def updateCsvFeatureNameDetails():
 
 	logger.info("Refreshing: feature_name_details.csv")
 
+	user_agents = [
+		'Mozilla/6.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+		'Mozilla/6.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'Mozilla/6.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
+	]
+	random_agent = random.choice(user_agents)
+
 	# BeautifulSoup web scrapping to find Titan feature names with details
 	logger.info("Retrieving observation information from https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan....")
 	titan_root_url = "https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan"
-	req_with_headers = request.Request(url=titan_root_url, headers={'User-Agent': 'Mozilla/5.0'})
+	req_with_headers = request.Request(url=titan_root_url, headers={'User-Agent': random_agent})
 	titan_html = request.urlopen(req_with_headers).read()
 	soup = BeautifulSoup(titan_html, 'html.parser')
 	ahref_feature_names = soup.findAll('a')
