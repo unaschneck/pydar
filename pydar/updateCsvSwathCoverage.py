@@ -78,7 +78,7 @@ def updateCsvSwathCoverage():
 	lbl_information = []
 	for radar_id in coradr_ids:
 		if radar_id not in ids_with_no_bidr:
-			base_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(radar_id)
+			base_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(radar_id)
 			req_with_headers = request.Request(url=base_url, headers={'User-Agent': random_agent})
 			base_html = request.urlopen(req_with_headers).read()
 			soup = BeautifulSoup(base_html, 'html.parser')
@@ -92,7 +92,7 @@ def updateCsvSwathCoverage():
 					if 'LBL' in (txt.split('/')[0]).split(".")[1]:
 						lbl = []
 						filename += '.LBL'
-						bidr_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(radar_id, filename)
+						bidr_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(radar_id, filename)
 						logger.info("Retrieving LBL information: {0}".format(bidr_url))
 						lbl = [radar_id, None, None, None, None, None, None, None, None, None, None, None, None, None]
 						lbl[1] = pydar.convertObservationNumberToFlybyID(radar_id.split("_")[1])

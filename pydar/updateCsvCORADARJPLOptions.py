@@ -43,8 +43,8 @@ def updateCsvCORADRJPLOptions():
 	random_agent = random.choice(user_agents)
 
 	# BeautifulSoup web scrapping to find CASSINI data types
-	logger.info("Retrieving observation information from pds-imaging.jpl.nasa.gov/ata/cassini/cassini_orbital....")
-	cassini_root_url = "https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter"
+	logger.info("Retrieving observation information from planetarydata.jpl.nasa.gov/data/cassini/cassini_orbital....")
+	cassini_root_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/"
 	req_with_headers = request.Request(url=cassini_root_url, headers={'User-Agent': random_agent})
 	cassini_html = request.urlopen(req_with_headers).read()
 	soup = BeautifulSoup(cassini_html, 'html.parser')
