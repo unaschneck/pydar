@@ -15,9 +15,8 @@ def extractMetadata(isVersionComplete=False):
 	# Note: need both the .TAB and the .FMT file to run
 	isVersionComplete = False
 	if not isVersionComplete:
-		logger.critical("\nCRITICAL ERROR: extractMetadata() not available for v1 release")
-		exit()
-	
+		raise ValueError("extractMetadata() not available for v1 release")
+
 	tab_file = "pydar/testing_files/SBDR_15_D065_V03.TAB"
 	SBDR_FILE = pdr.read(tab_file)
 	#logger.info(SBDR_FILE['SBDR_TABLE'])

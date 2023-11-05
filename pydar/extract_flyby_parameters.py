@@ -56,8 +56,7 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
 	# convert Flyby ID to Observation Number to find data files
 	if flyby_observation_num is not None:
 		if type(flyby_observation_num) != str:
-			logger.critical("\nCRITICAL ERROR, [flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
-			exit()
+			raise ValueError("[flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
 		else:
 			while len(flyby_observation_num) < 4:
 				flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
@@ -112,8 +111,7 @@ def downloadAAREADME(cordar_file_name, segment_id):
 	try:
 		request.urlretrieve(aareadme_url)
 	except error.HTTPError as err:
-		logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(aareadme_url, err.code))
-		exit()
+		raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(aareadme_url, err.code))
 	else:
 		response = request.urlretrieve(aareadme_url, aareadme_name)
 
@@ -146,8 +144,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 
 	logger.info("All BIDR files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
 	if len(url_filenames) == 0:
-		logger.critical("No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll files found: {0}".format(all_bidr_files))
-		exit()
+		raise ValueError("No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll files found: {0}".format(all_bidr_files))
 
 	for i, coradr_file in enumerate(url_filenames):
 		if 'LBL' in coradr_file:
@@ -158,8 +155,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			try:
 				request.urlretrieve(label_url)
 			except error.HTTPError as err:
-				logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
-				exit()
+				raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
 			else:
 				response = request.urlretrieve(label_url, label_name)
 		if 'ZIP' in coradr_file:
@@ -170,8 +166,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			try:
 				request.urlretrieve(data_url)
 			except error.HTTPError as err:
-				logger.info("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
-				exit()
+				raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
 			else:
 				response = request.urlretrieve(data_url, zipfile_name)
 				zipped_image = zipfile_name.split(".")[0] + ".IMG"
@@ -202,8 +197,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 
 	logger.info("SBDR files found: {0}".format(sbdr_files))
 	if len(sbdr_files) == 0:
-		logger.critical("No SBDR files were found with resolution, segment, and flyby identification. Please use different parameters to retrieve data")
-		exit()
+		raise ValueError("No SBDR files were found with resolution, segment, and flyby identification. Please use different parameters to retrieve data")
 
 	for sbdr_file in sbdr_files:
 		sbdr_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
@@ -212,8 +206,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 		try:
 			request.urlretrieve(sbdr_url)
 		except error.HTTPError as err:
-			logger.critical("Unable to access: {0}\nError (and exiting): '{1}'".format(sbdr_url, err.code))
-			exit()
+			raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(sbdr_url, err.code))
 		else:
 			response = request.urlretrieve(sbdr_url, sbdr_name)
 
@@ -280,8 +273,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 	available_flyby_id, available_observation_numbers = getFlybyData()
 
 	if flyby_observation_num not in available_observation_numbers:
-		logger.critical("\nObservation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
-		exit()
+		raise ValueError("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
 	else:
 		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
 

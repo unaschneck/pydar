@@ -47,8 +47,7 @@ def retrieveIDSByFeatureName(feature_name=None):
 	feature_name = feature_name.title() # convert 'ligeria mare' to 'Ligeria Mare' to make input not sensitive to case
 
 	if feature_name not in feature_name_csv_dict.keys():
-		logger.critical("Feature Name '{0}' not in available in features list = {1}".format(feature_name, list(feature_name_csv_dict.keys())))
-		exit()
+		raise ValueError("Feature Name '{0}' not in available in features list = {1}".format(feature_name, list(feature_name_csv_dict.keys())))
 
 	feature_dict = feature_name_csv_dict[feature_name]
 	min_feature_latitude = min([feature_dict["Northernmost Latitude"], feature_dict["Southernmost Latitude"]])

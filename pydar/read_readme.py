@@ -64,8 +64,7 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 			section_to_print = section_to_print.title() # check if the section is case-senstive
 			sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 			if sectionList is None:
-				logger.critical("\nCRITICAL ERROR [readAAREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
-				exit()
+				raise ValueError ("[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -215,8 +214,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 	# Print .LBL to console
 	if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
 		# Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file
-		logger.critical("CRITICAL ERROR: Specify {0} as either '{0} UNCOMPRESSED' or '{0} COMPRESSED'".format(section_to_print))
-		exit()
+		raise ValueError("Specify {0} as either '{0} UNCOMPRESSED' or '{0} COMPRESSED'".format(section_to_print))
 	# Catch common mispelling: not including the ^ at the front of a line name
 	if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
 		section_to_print = "^{0}".format(section_to_print) # sets the user's option to include the easy to miss ^
@@ -231,8 +229,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		section_to_print = section_to_print.upper()
 		sectionList = determineSectionToPrint(section_to_print, "LBL")
 		if sectionList is None:
-			logger.critical("\nCRITICAL ERROR: [readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
-			exit()
+			raise ValueError("[readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -275,12 +272,10 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		# error handling to check that .LBL exists
 		if len(lbl_file) == 0:
 			# No .LBL files found
-			logger.critical("No .LBL file found at {0}".format(coradr_results_directory))
-			exit()
+			raise ValueError("No .LBL file found at {0}".format(coradr_results_directory))
 		if len(lbl_file) > 1:
 			# Multiple .LBL files found
-			logger.critical("Multiple .LBL file found = {0}, need to choose one to read from".format(lbl_file))
-			exit()
+			raise ValueError("Multiple .LBL file found = {0}, need to choose one to read from".format(lbl_file))
 
 	lbl_file = lbl_file[0] # set to the LBL file, without extension
 
