@@ -23,30 +23,30 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 	available_flyby_id, available_observation_numbers = pydar.getFlybyData()
 
 	if flyby_observation_num is None and flyby_id is None:
-		raise ValueError("Requires either a flyby_observation_num OR flyby_id.\nAvailable flyby_observation_num: {0}\nAvailable flyby_id: {1}".format(available_flyby_id, available_observation_numbers))
+		raise ValueError(f"Requires either a flyby_observation_num OR flyby_id.\nAvailable flyby_observation_num: {available_flyby_id}\nAvailable flyby_id: {available_observation_numbers}")
 
 	if flyby_observation_num is not None and flyby_id is not None:
 		raise ValueError("Requires either a flyby_observation_num OR flyby_id, not both.")
 
 	if flyby_id is not None:
 		if type(flyby_id) != str:
-			raise ValueError("[flyby_id]: Must be a str, current type = '{0}'".format(type(flyby_id)))
+			raise ValueError(f"[flyby_id]: Must be a str, current type = '{type(flyby_id)}'")
 		if flyby_id not in available_flyby_id:
-			raise ValueError("[flyby_id]: '{0}' not in available ids options '{1}'".format(flyby_id, available_flyby_id))
+			raise ValueError(f"[flyby_id]: '{flyby_id}' not in available ids options '{available_flyby_id}'")
 
 	if flyby_observation_num is not None:
 		if type(flyby_observation_num) != str:
-			raise ValueError("[flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
+			raise ValueError(f"[flyby_observation_num]: Must be a str, current type = '{type(flyby_observation_num)}'")
 		if flyby_observation_num not in available_observation_numbers:
-			raise ValueError("[flyby_observation_num]: '{0}' not in available observation options '{1}'".format(flyby_observation_num, available_observation_numbers))
+			raise ValueError(f"[flyby_observation_num]: '{flyby_observation_num}' not in available observation options '{available_observation_numbers}'")
 
 	segment_options = ['S01', 'S02', 'S03', 'S04']
 	if segment_num is None:
-		raise ValueError("[segment_num]: segment_num number required out of available options {0}, none given".format(segment_options))
+		raise ValueError(f"[segment_num]: segment_num number required out of available options {segment_options}, none given")
 	if type(segment_num) != str:
-		raise ValueError("[segment_num]: Must be a str, current type = '{0}'".format(type(segment_num)))
+		raise ValueError(f"[segment_num]: Must be a str, current type = '{type(segment_num)}'")
 	if segment_num not in segment_options:
-		raise ValueError("[segment_num]: '{0}' not an available segment option '{1}'".format(segment_num, segment_options))
+		raise ValueError(f"[segment_num]: '{segment_num}' not an available segment option '{segment_options}'")
 
 	if len(additional_data_types_to_download) != 0:
 		raise ValueError("\nINFO [additional_data_types_to_download]: Current v1 behavior does not support additional_data_types_to_download, so no additional files will be included in the download")
@@ -85,15 +85,15 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
 	if resolution is not None :
 		if type(resolution) != str:
-			raise ValueError("[resolution]: Must be a str, current type = '{0}'".format(type(resolution)))
+			raise ValueError(f"[resolution]: Must be a str, current type = '{type(resolution)}'")
 		if resolution not in pydar.resolution_types:
-			raise ValueError("[resolution]: resolution '{0}' must be a valid resolution type in {1}".format(resolution, pydar.resolution_types))
+			raise ValueError(f"[resolution]: resolution '{resolution}' must be a valid resolution type in {pydar.resolution_types}")
 
 	if top_x_resolutions is not None:
 		if type(top_x_resolutions) != int:
-			raise ValueError("[top_x_resolutions]: Must be a int, current type = '{0}'".format(type(top_x_resolutions)))
+			raise ValueError(f"[top_x_resolutions]: Must be a int, current type = '{type(top_x_resolutions)}'")
 		if top_x_resolutions < 1 or top_x_resolutions > 5:
-			raise ValueError("\nCRITICAL ERROR, [top_x_resolutions]: Must be a value from 1 to 5, not '{0}'".format(top_x_resolutions))
+			raise ValueError(f"[top_x_resolutions]: Must be a value from 1 to 5, not '{top_x_resolutions}'")
 
 def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 	# Error Handling for Converting a Flyby ID into an Observation Number: convertFlybyIDToObservationNumber()
@@ -101,7 +101,7 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 		raise ValueError("[flyby_id]: A valid flyby_id string is required")
 
 	if type(flyby_id) != str:
-		raise ValueError("[flyby_id]: Must be a str, current type = '{0}'".format(type(flyby_id)))
+		raise ValueError(f"[flyby_id]: Must be a str, current type = '{type(flyby_id)}'")
 
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
@@ -113,7 +113,7 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 			flyby_id_found = True
 			break
 	if not flyby_id_found:
-		raise ValueError("[flyby_id]: Invalid flyby_id, '{0}', choose from:\n{1}".format(flyby_id, valid_flyby_ids))
+		raise ValueError(f"[flyby_id]: Invalid flyby_id, '{flyby_id}', choose from:\n{valid_flyby_ids}")
 
 def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 	# Error Handling for Converting an Observation Number to a Flyby ID: convertObservationNumberToFlybyID()
@@ -121,7 +121,7 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 		raise ValueError("[flyby_observation_num]: A valid flyby_observation_num string is required")
 
 	if type(flyby_observation_num) != str:
-		raise ValueError("[flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
+		raise ValueError(f"[flyby_observation_num]: Must be a str, current type = '{type(flyby_observation_num)}'")
 
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
@@ -134,7 +134,7 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 			observation_num_found = True
 			break
 	if not observation_num_found:
-		raise ValueError("[flyby_observation_num]: Invalid flyby_observation_num, '{0}', choose from:\n{1}".format(flyby_observation_num, valid_observation_nums))
+		raise ValueError(f"[flyby_observation_num]: Invalid flyby_observation_num, '{flyby_observation_num}', choose from:\n{valid_observation_nums}")
 
 def errorHandlingDisplayImages(image_directory=None, fig_title=None, cmap=None, figsize_n=None, fig_dpi=None):
 	# Error Handling for Displaying Images from an Image Directory: displayImages()
@@ -142,25 +142,25 @@ def errorHandlingDisplayImages(image_directory=None, fig_title=None, cmap=None, 
 		raise ValueError("[image_directory]: image_directory is required")
 	else:
 		if type(image_directory) != str:
-			raise ValueError("\nCRITICAL ERROR, [image_directory]: Must be a str, current type = '{0}'".format(type(image_directory)))
+			raise ValueError(f"[image_directory]: Must be a str, current type = '{type(image_directory)}'")
 
 	if fig_title is not None and type(fig_title) != str:
-		raise ValueError("[fig_title]: Must be a str, current type = '{0}'".format(type(fig_title)))
+		raise ValueError(f"[fig_title]: Must be a str, current type = '{type(fig_title)}'")
 
 	if cmap is not None and type(cmap) != str:
-		raise ValueError("[cmap]: Must be a str, current type = '{0}'".format(type(cmap)))
+		raise ValueError(f"[cmap]: Must be a str, current type = '{type(cmap)}'")
 
 	if type(figsize_n) != int:
-		raise ValueError("[figsize_n]: Must be a int, current type = '{0}'".format(type(figsize_n)))
+		raise ValueError(f"[figsize_n]: Must be a int, current type = '{type(figsize_n)}'")
 	else:
 		if figsize_n < 1:
-			raise ValueError("[figsize_n]: figsize_n must be greater than 1, current value = '{0}'".format(figsize_n))
+			raise ValueError(f"[figsize_n]: figsize_n must be greater than 1, current value = '{figsize_n}'")
 
 	if type(fig_dpi) != int:
-		raise ValueError("[fig_dpi]: Must be a int, current type = '{0}'".format(type(fig_dpi)))
+		raise ValueError(f"[fig_dpi]: Must be a int, current type = '{type(fig_dpi)}'")
 	else:
 		if fig_dpi < 1:
-			raise ValueError("[fig_dpi]: fig_dpi must be greater than 1, current value = '{0}'".format(fig_dpi))
+			raise ValueError(f"[fig_dpi]: fig_dpi must be greater than 1, current value = '{fig_dpi}'")
 
 def errorHandlingREADME(coradr_results_directory=None,
 						section_to_print=None,
@@ -170,13 +170,13 @@ def errorHandlingREADME(coradr_results_directory=None,
 		raise ValueError("[coradr_results_directory]: coradr_results_directory is required")
 	else:
 		if type(coradr_results_directory) != str:
-			raise ValueError("[coradr_results_directory]: Must be a str, current type = '{0}'".format(type(coradr_results_directory)))
+			raise ValueError(f"[coradr_results_directory]: Must be a str, current type = '{type(coradr_results_directory)}'")
 
 	if section_to_print is not None and type(section_to_print) != str:
-		raise ValueError("[section_to_print]: Must be a str, current type = '{0}'".format(type(section_to_print)))
+		raise ValueError(f"[section_to_print]: Must be a str, current type = '{type(section_to_print)}'")
 
 	if type(print_to_console) != bool:
-		raise ValueError("[print_to_console]: Must be a bool, current type = '{0}'".format(type(print_to_console)))
+		raise ValueError(f"[print_to_console]: Must be a bool, current type = '{type(print_to_console)}'")
 
 def errorHandlingRetrieveIDSByFeature(feature_name=None):
 	# Error Handling for retrieving the IDs for a specific feature name: retrieveIDSByFeature()
@@ -184,7 +184,7 @@ def errorHandlingRetrieveIDSByFeature(feature_name=None):
 		raise ValueError("[feature_name]: feature_name is required")
 	else:
 		if type(feature_name) != str:
-			raise ValueError("[feature_name]: Must be a str, current type = '{0}'".format(type(feature_name)))
+			raise ValueError(f"[feature_name]: Must be a str, current type = '{type(feature_name)}'")
 
 def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 												longitude=None):
@@ -194,18 +194,18 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None,
 		raise ValueError("[latitude]: latitude is required")
 
 	if type(latitude) != float and type(latitude) != int:
-		raise ValueError("[latitude]: Must be a float or int, current type = '{0}'".format(type(latitude)))
+		raise ValueError(f"[latitude]: Must be a float or int, current type = '{type(latitude)}'")
 
 	if latitude > 90 or latitude < -90:
-		raise ValueError("[latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(latitude))
+		raise ValueError(f"[latitude]: Latitude must be between 90 and -90, current value = '{latitude}'")
 
 	if longitude is None:
 		raise ValueError("[longitude]: longitude is required")
 	if type(longitude) != float and type(longitude) != int:
-		raise ValueError("[longitude]: Must be a float or int, current type = '{0}'".format(type(longitude)))
+		raise ValueError(f"[longitude]: Must be a float or int, current type = '{type(longitude)}'")
 
 	if longitude < 0 or longitude > 360:
-		raise ValueError("[longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(longitude))
+		raise ValueError(f"[longitude]: Longitude must be between 0 and 360, current value = '{longitude}'")
 
 def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 													max_latitude=None,
@@ -216,37 +216,37 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 		raise ValueError("[min_latitude]: min_latitude is required")
 	else:
 		if type(min_latitude) != float and type(min_latitude) != int:
-			raise ValueError("[min_latitude]: Must be a float or int, current type = '{0}'".format(type(min_latitude)))
+			raise ValueError(f"[min_latitude]: Must be a float or int, current type = '{type(min_latitude)}'")
 
 	if max_latitude is None:
 		raise ValueError("[max_latitude]: max_latitude is required")
 	else:
 		if type(max_latitude) != float and type(max_latitude) != int:
-			raise ValueError("[max_latitude]: Must be a float or int, current type = '{0}'".format(type(max_latitude)))
+			raise ValueError(f"[max_latitude]: Must be a float or int, current type = '{type(max_latitude)}'")
 
 	if min_latitude > 90 or min_latitude < -90:
-		raise ValueError("[min_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(min_latitude))
+		raise ValueError(f"[min_latitude]: Latitude must be between 90 and -90, current value = '{min_latitude}'")
 
 	if max_latitude > 90 or max_latitude < -90:
-		raise ValueError("[max_latitude]: Latitude must be between 90 and -90, current value = '{0}'".format(max_latitude))
+		raise ValueError(f"[max_latitude]: Latitude must be between 90 and -90, current value = '{max_latitude}'")
 
 	if min_longitude is None:
 		raise ValueError("[min_longitude]: min_longitude is required")
 	else:
 		if type(min_longitude) != float and type(min_longitude) != int:
-			raise ValueError("[min_longitude]: Must be a float or int, current type = '{0}'".format(type(min_longitude)))
+			raise ValueError(f"[min_longitude]: Must be a float or int, current type = '{type(min_longitude)}'")
 
 	if max_longitude is None:
 		raise ValueError("[max_longitude]: max_longitude is required")
 	else:
 		if type(max_longitude) != float and type(max_longitude) != int:
-			raise ValueError("[max_longitude]: Must be a float or int, current type = '{0}'".format(type(max_longitude)))
+			raise ValueError(f"[max_longitude]: Must be a float or int, current type = '{type(max_longitude)}'")
 
 	if min_longitude < 0 or min_longitude > 360:
-		raise ValueError("[min_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(min_longitude))
+		raise ValueError(f"[min_longitude]: Longitude must be between 0 and 360, current value = '{min_longitude}'")
 
 	if max_longitude < 0 or max_longitude > 360:
-		raise ValueError("[max_longitude]: Longitude must be between 0 and 360, current value = '{0}'".format(max_longitude))
+		raise ValueError(f"[max_longitude]: Longitude must be between 0 and 360, current value = '{max_longitude}'")
 
 	if max_latitude < min_latitude:
 		raise ValueError("[latitude]: max_latitude must be greater than min_latitude")
@@ -261,7 +261,7 @@ def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=None, minute=None, 
 		raise ValueError("[year]: year is required")
 	else:
 		if type(year) != int:
-			raise ValueError("[year]: Must be an int, current type = '{0}'".format(type(year)))
+			raise ValueError(f"[year]: Must be an int, current type = '{type(year)}'")
 		if year < 2004 or year > 2014:
 			raise ValueError("[year]: year must be between 2004-2014")
 
@@ -269,31 +269,31 @@ def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=None, minute=None, 
 		raise ValueError("[doy]: doy is required")
 	else:
 		if type(doy) != int:
-			raise ValueError("[doy]: Must be an int, current type = '{0}'".format(type(doy)))
+			raise ValueError(f"[doy]: Must be an int, current type = '{type(doy)}'")
 		if doy < 0 or doy > 365:
 			raise ValueError("[doy]: doy must be between 0-365")
 
 	if hour is not None:
 		if type(hour) != int:
-			raise ValueError("[hour]: Must be an int, current type = '{0}'".format(type(hour)))
+			raise ValueError(f"[hour]: Must be an int, current type = '{type(hour)}'")
 		if hour < 0 or hour > 23:
 			raise ValueError("[hour]: hour must be within UTC range between 0 to 23")
 
 	if minute is not None:
 		if type(minute) != int:
-			raise ValueError("[minute]: Must be an int, current type = '{0}'".format(type(minute)))
+			raise ValueError(f"[minute]: Must be an int, current type = '{type(minute)}'")
 		if minute < 0 or minute > 59:
 			raise ValueError("[minute]: minute must be within range between 0 to 59")
 
 	if second is not None:
 		if type(second) != int:
-			raise ValueError("[second]: Must be an int, current type = '{0}'".format(type(second)))
+			raise ValueError(f"[second]: Must be an int, current type = '{type(second)}'")
 		if second < 0 or second > 59:
 			raise ValueError("[second]: second must be within range between 0 to 59")
 
 	if millisecond is not None:
 		if type(millisecond) != int:
-			raise ValueError("[millisecond]: Must be an int, current type = '{0}'".format(type(millisecond)))
+			raise ValueError(f"[millisecond]: Must be an int, current type = '{type(millisecond)}'")
 		if millisecond < 0 or millisecond > 999:
 			raise ValueError("[millisecond]: second must be a postive value from 0 to 999")
 
@@ -362,28 +362,28 @@ def errorHandlingSbdrMakeShapeFile(filename=None,
 									lon360=False):
 	# Error handling for using SBDR to make a shapefile
 	if type(filename) != str:
-		raise ValueError("[filename]: Must be an str, current type = '{0}'".format(type(filename)))
+		raise ValueError(f"[filename]: Must be an str, current type = '{type(filename)}'")
 
 	valid_file_extensions = ["sbdr", "lbdr", "tab"]
 	if filename.split(".")[1].lower() not in valid_file_extensions:
-		raise ValueError("[filename]: Unrecognized Data File Format '{0}', must be within '{1}'".format(filename.split(".")[1], valid_file_extensions))
+		raise ValueError(f"[filename]: Unrecognized Data File Format '{filename.split('.')[1]}', must be within '{valid_file_extensions}'")
 
 	if type(fields) != list:
-		raise ValueError("[fields]: Must be an list, current type = '{0}'".format(type(fields)))
+		raise ValueError(f"[fields]: Must be an list, current type = '{type(fields)}'")
 
 	if len(fields) != 0:
 		for field_item in fields:
 			if field_item not in pydar.field_options:
-				raise ValueError("[fields]: Must be a valid option, not '{0}', chose from {1}".format(field_item, pydar.field_options))
+				raise ValueError(f"[fields]: Must be a valid option, not '{field_item}', chose from {pydar.field_options}")
 
 	if type(saronly) != int:
-		raise ValueError("[saronly]: Must be an int, current type = '{0}'".format(type(saronly)))
+		raise ValueError(f"[saronly]: Must be an int, current type = '{type(saronly)}'")
 
 	if saronly not in [0, 1, 2, 3]:
-		raise ValueError("[saronly]: Must be a valid option, not '{0}', chose from {1}".format(saronly, [0, 1, 2, 3]))
+		raise ValueError(f"[saronly]: Must be a valid option, not '{saronly}', chose from [0, 1, 2, 3]")
 
 	if file_out is not None and type(file_out) != str:
-		raise ValueError("[file_out]: Must be an str, current type = '{0}'".format(type(file_out)))
+		raise ValueError(f"[file_out]: Must be an str, current type = '{type(file_out)}'")
 
 	if type(lon360) != bool:
-		raise ValueError("[lon360]: Must be an bool, current type = '{0}'".format(type(lon360)))
+		raise ValueError(f"[lon360]: Must be an bool, current type = '{type(lon360)}'")

@@ -47,7 +47,7 @@ def retrieveIDSByFeatureName(feature_name=None):
 	feature_name = feature_name.title() # convert 'ligeria mare' to 'Ligeria Mare' to make input not sensitive to case
 
 	if feature_name not in feature_name_csv_dict.keys():
-		raise ValueError("Feature Name '{0}' not in available in features list = {1}".format(feature_name, list(feature_name_csv_dict.keys())))
+		raise ValueError(f"Feature Name '{feature_name}' not in available in features list = {list(feature_name_csv_dict.keys())}")
 
 	feature_dict = feature_name_csv_dict[feature_name]
 	min_feature_latitude = min([feature_dict["Northernmost Latitude"], feature_dict["Southernmost Latitude"]])
@@ -103,10 +103,7 @@ def retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 					flyby_ids[flyby].append(segment_number)
 
 	if len(flyby_ids) == 0:
-		logger.info("\n[WARNING]: No IDs found at latitude from {0} to {1} and longitude from {2} to {3}\n".format(min_latitude,
-																													max_latitude,
-																													min_longitude,
-																													max_longitude))
+		logger.info(f"\n[WARNING]: No IDs found at latitude from {min_latitude} to {max_latitude} and longitude from {min_longitude} to {max_longitude}\n")
 
 	return flyby_ids
 
@@ -231,9 +228,9 @@ def retrieveIDSByTimeRange(start_year=None,
 
 	if len(flyby_ids) == 0:
 		if start_datetime == end_datetime: # only display one datetime if both are the same
-			logger.info("\n[WARNING]: No flyby IDs found at timestamp: {0}".format(start_datetime))
+			logger.info(f"\n[WARNING]: No flyby IDs found at timestamp: {start_datetime}")
 		else:
-			logger.info("\n[WARNING]: No flyby IDs found at timestamp range: {0} to {1}".format(start_datetime, end_datetime))
+			logger.info(f"\n[WARNING]: No flyby IDs found at timestamp range: {start_datetime} to {end_datetime}")
 
 	return flyby_ids
 
@@ -283,9 +280,6 @@ def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 				feature_names_list.append(feature_name)
 
 	if len(feature_names_list) == 0:
-		logger.info("\n[WARNING]: No Features found at latitude from {0} to {1} and longitude from {2} to {3}\n".format(min_latitude,
-																														max_latitude,
-																														min_longitude,
-																														max_longitude))
+		logger.info(f"\n[WARNING]: No Features found at latitude from {min_latitude} to {max_latitude} and longitude from {min_longitude} to {max_longitude}\n")
 
 	return feature_names_list

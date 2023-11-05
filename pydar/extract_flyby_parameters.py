@@ -56,7 +56,7 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
 	# convert Flyby ID to Observation Number to find data files
 	if flyby_observation_num is not None:
 		if type(flyby_observation_num) != str:
-			raise ValueError("[flyby_observation_num]: Must be a str, current type = '{0}'".format(type(flyby_observation_num)))
+			raise ValueError(f"[flyby_observation_num]: Must be a str, current type = '{type(flyby_observation_num)}'")
 		else:
 			while len(flyby_observation_num) < 4:
 				flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
@@ -84,10 +84,10 @@ def retrieveMostRecentVersionNumber(flyby_observiation_num=None):
 		row = row.tolist()
 		jpl_coradr_options.append(row[0])
 
-	find_cordar_listing = 'CORADR_{0}'.format(flyby_observiation_num)
+	find_cordar_listing = f"CORADR_{flyby_observiation_num}"
 	version_types_available = list(filter(lambda x: find_cordar_listing in x, jpl_coradr_options))
 	more_accurate_model_number = version_types_available[-1] # always choose the last and more up to date version number (Currently, v3)
-	logger.info("Most recent CORADR version is {0} from the available list {1}".format(more_accurate_model_number, version_types_available))
+	logger.info(f"Most recent CORADR version is {more_accurate_model_number} from the available list {version_types_available}")
 	return more_accurate_model_number
 
 def retrieveCoradrWithoutBIDR():
@@ -103,22 +103,22 @@ def retrieveCoradrWithoutBIDR():
 def downloadAAREADME(cordar_file_name, segment_id):
 	# Download AAREADME.txt within a CORADR directory
 	aareadme_name = "AAREADME.TXT"
-	aareadme_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/{1}".format(cordar_file_name, aareadme_name)
+	aareadme_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/{aareadme_name}"
 
 	# Retrieve a list of all elements from the base URL to download AAREADME.txt
-	logger.info("Retrieving {0} {1}".format(cordar_file_name, aareadme_name))
-	aareadme_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), aareadme_name)
+	logger.info(f"Retrieving {cordar_file_name} {aareadme_name}")
+	aareadme_name = os.path.join(f"pydar_results/{cordar_file_name}_{segment_id}", aareadme_name)
 	try:
 		request.urlretrieve(aareadme_url)
 	except error.HTTPError as err:
-		raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(aareadme_url, err.code))
+		raise HTTPError(f"Unable to access: {aareadme_url}\nError (and exiting): '{err.code}'")
 	else:
 		response = request.urlretrieve(aareadme_url, aareadme_name)
 
 def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 	# Download BDIR files
-	base_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/".format(cordar_file_name)
-	logger.info("Retrieving BIDR filenames from: {0}\n".format(base_url))
+	base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/BIDR/"
+	logger.info(f"Retrieving BIDR filenames from: {base_url}\n")
 
 	# Retrieve a list of all elements from the base URL to download
 	base_html = request.urlopen(base_url).read()
@@ -139,45 +139,45 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 				for resolution in resolution_px: # only save top x resolutions
 					bi_types = ["B", "E", "T", "N", "M", "L"] # BI<OPTION>Q<RESOLUTION>
 					for bi in bi_types:
-						if "BI{0}Q{1}".format(bi, resolution) in filename:
+						if f"BI{bi}Q{resolution}" in filename:
 							url_filenames.append(filename)
 
-	logger.info("All BIDR files found with specified resolution, segment, and flyby identification: {0}\n".format(url_filenames))
+	logger.info(f"All BIDR files found with specified resolution, segment, and flyby identification: {url_filenames}\n")
 	if len(url_filenames) == 0:
-		raise ValueError("No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll files found: {0}".format(all_bidr_files))
+		raise ValueError(f"No BIDR files found with resolution, segment, and flyby identification. Please use different parameters to retrieve data.\nAll files found: {all_bidr_files}")
 
 	for i, coradr_file in enumerate(url_filenames):
 		if 'LBL' in coradr_file:
-			label_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
-			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), label_url))
+			label_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/BIDR/{coradr_file}"
+			logger.info(f"Retrieving [{i+1}/{len(url_filenames)}]: {label_url}")
 			label_name = label_url.split("/")[-1].split(".")[0] + ".LBL"
-			label_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), label_name)
+			label_name = os.path.join(f"pydar_results/{cordar_file_name}_{segment_id}", label_name)
 			try:
 				request.urlretrieve(label_url)
 			except error.HTTPError as err:
-				raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(label_url, err.code))
+				raise HTTPError(f"Unable to access: {label_url}\nError (and exiting): '{err.code}'")
 			else:
 				response = request.urlretrieve(label_url, label_name)
 		if 'ZIP' in coradr_file:
-			data_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/BIDR/{1}".format(cordar_file_name, coradr_file)
-			logger.info("Retrieving [{0}/{1}]: {2}".format(i+1, len(url_filenames), data_url))
+			data_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/BIDR/{coradr_file}"
+			logger.info(f"Retrieving [{i+1}/{len(url_filenames)}]: {data_url}")
 			zipfile_name = data_url.split("/")[-1].split(".")[0] + ".zip"
-			zipfile_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), zipfile_name)
+			zipfile_name = os.path.join(f"pydar_results/{cordar_file_name}_{segment_id}", zipfile_name)
 			try:
 				request.urlretrieve(data_url)
 			except error.HTTPError as err:
-				raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(data_url, err.code))
+				raise HTTPError(f"Unable to access: {data_url}\nError (and exiting): '{err.code}'")
 			else:
 				response = request.urlretrieve(data_url, zipfile_name)
 				zipped_image = zipfile_name.split(".")[0] + ".IMG"
 				with zipfile.ZipFile(zipfile_name, 'r') as zip_ref:
-					zipped_image_path = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id))
+					zipped_image_path = os.path.join(f"pydar_results/{cordar_file_name}_{segment_id}")
 					zip_ref.extractall(zipped_image_path)
 
 def downloadSBDRCORADRData(cordar_file_name, segment_id):
 	# Download SBDR files
-	base_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/SBDR/".format(cordar_file_name)
-	logger.info("\nRetrieving SBDR filenames from: {0}".format(base_url))
+	base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/SBDR/"
+	logger.info(f"\nRetrieving SBDR filenames from: {base_url}")
 
 	# Retrieve a SBDR file from filename at SBDR URL
 	base_html = request.urlopen(base_url).read()
@@ -200,20 +200,20 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
 		raise ValueError("No SBDR files were found with resolution, segment, and flyby identification. Please use different parameters to retrieve data")
 
 	for sbdr_file in sbdr_files:
-		sbdr_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/SBDR/{1}".format(cordar_file_name, sbdr_file)
-		logger.info("Retrieving SBDR file '{0}': {1}".format(sbdr_file, sbdr_url))
-		sbdr_name = os.path.join("pydar_results/{0}_{1}".format(cordar_file_name, segment_id), sbdr_file)
+		sbdr_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/SBDR/{sbdr_file}"
+		logger.info(f"Retrieving SBDR file '{sbdr_file}': {sbdr_url}")
+		sbdr_name = os.path.join(f"pydar_results/{cordar_file_name}_{segment_id}", sbdr_file)
 		try:
 			request.urlretrieve(sbdr_url)
 		except error.HTTPError as err:
-			raise HTTPError("Unable to access: {0}\nError (and exiting): '{1}'".format(sbdr_url, err.code))
+			raise HTTPError(f"Unable to access: {sbdr_url}\nError (and exiting): '{err.code}'")
 		else:
 			response = request.urlretrieve(sbdr_url, sbdr_name)
 
 def downloadAdditionalDataTypes(cordar_file_name, segment_id, additional_data_type):
 	# Download additional data types
-	additional_data_url = "https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{0}/DATA/{1}".format(cordar_file_name, additional_data_type)
-	logger.info("\n[TODO: does not currently download] '{0}': {1}".format(additional_data_type, additional_data_url))
+	additional_data_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/{additional_data_type}"
+	logger.info(f"\n[TODO: does not currently download] '{additional_data_type}': {additional_data_url}")
 	# TODO: add functionality for which files should be downloaded
 	# This function does not currently have functionality in pydar
 
@@ -241,12 +241,12 @@ def extractFlybyDataImages(flyby_observation_num=None,
 											resolution=resolution,
 											top_x_resolutions=top_x_resolutions)
 
-	logger.debug("flyby_observation_num = {0}".format(flyby_observation_num))
-	logger.debug("flyby_id = {0}".format(flyby_id))
-	logger.debug("segment_num = {0}".format(segment_num))
-	logger.debug("additional_data_types_to_download = {0}".format(additional_data_types_to_download))
-	logger.debug("resolution = {0}".format(resolution))
-	logger.debug("top_x_resolutions = {0}".format(top_x_resolutions))
+	logger.debug(f"flyby_observation_num = {flyby_observation_num}")
+	logger.debug(f"flyby_id = {flyby_id}")
+	logger.debug(f"segment_num = {segment_num}")
+	logger.debug(f"additional_data_types_to_download = {additional_data_types_to_download}")
+	logger.debug(f"resolution = {resolution}")
+	logger.debug(f"top_x_resolutions = {top_x_resolutions}")
 
 	download_files = True # for debugging, does not always download files before running data
 
@@ -268,19 +268,20 @@ def extractFlybyDataImages(flyby_observation_num=None,
 		elif flyby_observation_num == "0234":
 			logger.info("0234 (T80) only has scatterometry and radiometry\n")
 		else:
-			logger.info("{0} does not BIDR data\n".format(flyby_observation_num)) # possible catch for new files found without BIDR
+			logger.info(f"{flyby_observation_num} does not BIDR data\n") # possible catch for new files found without BIDR
 
 	available_flyby_id, available_observation_numbers = getFlybyData()
 
 	if flyby_observation_num not in available_observation_numbers:
-		raise ValueError("Observation number '{0}' NOT FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
+		raise ValueError(f"Observation number '{flyby_observation_num}' NOT FOUND in available observation numbers: {available_observation_numbers}\n")
 	else:
-		logger.debug("Observation number '{0}' FOUND in available observation numbers: {1}\n".format(flyby_observation_num, available_observation_numbers))
+		logger.debug(f"Observation number '{flyby_observation_num}' FOUND in available observation numbers: {available_observation_numbers}\n")
 
 	# Download information from pds-imaging site for CORADR
 	flyby_observation_cordar_name = retrieveMostRecentVersionNumber(flyby_observation_num)
 	if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
-	if not os.path.exists("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num)): os.makedirs("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))
+	if not os.path.exists(f"pydar_results/{flyby_observation_cordar_name}_{segment_num}"): 
+		os.makedirs(f"pydar_results/{flyby_observation_cordar_name}_{segment_num}")
 
 	if download_files:
 		# Download AAREADME.TXT
@@ -302,5 +303,5 @@ def extractFlybyDataImages(flyby_observation_num=None,
 				downloadAdditionalDataTypes(flyby_observation_cordar_name, segment_num, data_type)
 
 	# No valid parameters given, empty file
-	if len(os.listdir("pydar_results/{0}_{1}".format(flyby_observation_cordar_name, segment_num))) == 0:
-		logger.critical("\npydar_results/{0}_{1} is empty. Unable to find any data files with current parameters".format(flyby_observation_cordar_name, segment_num))
+	if len(os.listdir(f"pydar_results/{flyby_observation_cordar_name}_{segment_num}")) == 0:
+		logger.critical(f"\npydar_results/{flyby_observation_cordar_name}_{segment_num} is empty. Unable to find any data files with current parameters")

@@ -60,8 +60,8 @@ def updateCsvCORADRJPLOptions():
 
 	# Check of CORADR has specific data files formats
 	for i, coradr_id in enumerate(coradr_options):
-		coradr_url = "{0}/{1}/DATA".format(cassini_root_url, coradr_id[0])
-		logger.info("Retrieving data types [{0}/{1}]: {2}".format(i+1, len(coradr_options), coradr_url))
+		coradr_url = f"{cassini_root_url}/{coradr_id[0]}/DATA"
+		logger.info(f"Retrieving data types [{i+1}/{len(coradr_options)}]: {coradr_url}")
 		coradr_html = request.urlopen(coradr_url).read()
 		soup = BeautifulSoup(coradr_html, 'html.parser')
 		table = soup.find('table', {"id": "indexlist"})

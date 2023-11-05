@@ -47,8 +47,8 @@ aareadme_section_options = ["Introduction",
 							"Contact Information"]
 
 def returnAAREADMEOptions():
-	logger.info("Line-By-Line Options: {0}".format(aareadme_general_options))
-	logger.info("Section Header Options: {0}".format(aareadme_section_options))
+	logger.info(f"Line-By-Line Options: {aareadme_general_options}")
+	logger.info(f"Section Header Options: {aareadme_section_options}")
 
 def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print AAREADME to console
@@ -64,7 +64,7 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 			section_to_print = section_to_print.title() # check if the section is case-senstive
 			sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 			if sectionList is None:
-				raise ValueError ("[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
+				raise ValueError(f"[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'")
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -89,8 +89,10 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 			end_position = sectionList[end_index]
 
 	# Find relevant line to print based on the starting text
+	if not any("AAREADME.TXT" in sub for sub in os.listdir(coradr_results_directory)):
+		raise ValueError(f"'{coradr_results_directory}' does not contain AAREADME.TXT")
 	output_string = ''
-	with open("{0}/AAREADME.TXT".format(coradr_results_directory), "r") as readme_file:
+	with open(f"{coradr_results_directory}/AAREADME.TXT", "r") as readme_file:
 		within_readme_section = False
 		for line in readme_file.readlines():
 			if start_position in line:
@@ -207,17 +209,17 @@ lblreadme_section_options = ["PRODUCT DESCRIPTION",
 
 def returnLBLOptions():
 	# Print out all the .LBL options
-	logger.info("Line-By-Line Options: {0}".format(lblreadme_general_options))
-	logger.info("Section Header Options: {0}".format(lblreadme_section_options))
+	logger.info(f"Line-By-Line Options: {lblreadme_general_options}")
+	logger.info(f"Section Header Options: {lblreadme_section_options}")
 
 def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to_console=True):
 	# Print .LBL to console
 	if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
 		# Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file
-		raise ValueError("Specify {0} as either '{0} UNCOMPRESSED' or '{0} COMPRESSED'".format(section_to_print))
+		raise ValueError(f"Specify {section_to_print} as either '{section_to_print} UNCOMPRESSED' or '{section_to_print} COMPRESSED'")
 	# Catch common mispelling: not including the ^ at the front of a line name
 	if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
-		section_to_print = "^{0}".format(section_to_print) # sets the user's option to include the easy to miss ^
+		section_to_print = f"^{section_to_print}" # sets the user's option to include the easy to miss ^
 
 	pydar.errorHandlingREADME(coradr_results_directory=coradr_results_directory,
 							section_to_print=section_to_print,
@@ -229,7 +231,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		section_to_print = section_to_print.upper()
 		sectionList = determineSectionToPrint(section_to_print, "LBL")
 		if sectionList is None:
-			raise ValueError("[readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{0}'".format(section_to_print))
+			raise ValueError(f"[readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'")
 
 	# Define position to start console print, default to 'All' if no section is specified
 	if section_to_print is None:
@@ -272,15 +274,15 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 		# error handling to check that .LBL exists
 		if len(lbl_file) == 0:
 			# No .LBL files found
-			raise ValueError("No .LBL file found at {0}".format(coradr_results_directory))
+			raise ValueError(f"No .LBL file found at {coradr_results_directory}")
 		if len(lbl_file) > 1:
 			# Multiple .LBL files found
-			raise ValueError("Multiple .LBL file found = {0}, need to choose one to read from".format(lbl_file))
+			raise ValueError(f"Multiple .LBL file found = {lbl_file}, need to choose one to read from")
 
 	lbl_file = lbl_file[0] # set to the LBL file, without extension
 
 	output_string = ''
-	with open("{0}/{1}".format(coradr_results_directory, lbl_file), "r") as readme_file:
+	with open(f"{coradr_results_directory}/{lbl_file}", "r") as readme_file:
 		within_readme_section = False
 		for line in readme_file.readlines():
 			if start_position in line:

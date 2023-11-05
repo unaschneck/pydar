@@ -31,9 +31,9 @@ def displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6
 	# Display all IMG files in directory
 	for filename in os.listdir(image_directory):
 		if 'LBL' in filename:
-			image_file = os.path.join("{0}/{1}".format(image_directory, filename))
+			image_file = os.path.join(f"{image_directory}/{filename}")
 
-			logger.info("Displaying Image: {0}".format(image_file))
+			logger.info(f"Displaying Image: {image_file}")
 			image = rasterio.open(image_file).read()
 			image = image[0,:,:]
 
@@ -49,6 +49,6 @@ def displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6
 
 	# Log error to user if no image files given
 	if not any(".LBL" in sub for sub in os.listdir(image_directory)): # if directory files does not contain any .IMG files
-		logger.info("\nINFO: Unable to display images, {0} does not contain an LBL file\n".format(image_directory))
+		logger.info(f"\nINFO: Unable to display images, {image_directory} does not contain an LBL file\n")
 	if not any(".IMG" in sub for sub in os.listdir(image_directory)): # if directory files does not contain any .IMG files
-		logger.info("\nINFO: Unable to display images, {0} does not contain an IMG file\n".format(image_directory))
+		logger.info(f"\nINFO: Unable to display images, {image_directory} does not contain an IMG file\n")
