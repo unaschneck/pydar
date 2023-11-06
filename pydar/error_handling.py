@@ -108,8 +108,8 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 	valid_flyby_ids = []
 	flyby_id_found = False
 	for index, row in flyby_dataframe.iterrows():
-		valid_flyby_ids.append(row[0])
-		if row[0] == flyby_id:
+		valid_flyby_ids.append(row.iloc[0])
+		if row.iloc[0] == flyby_id:
 			flyby_id_found = True
 			break
 	if not flyby_id_found:
@@ -128,7 +128,7 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 	valid_observation_nums = []
 	observation_num_found = False
 	for index, row in flyby_dataframe.iterrows():
-		take_ob_num = "0" + row[1].split(" ")[1]
+		take_ob_num = "0" + row.iloc[1].split(" ")[1]
 		valid_observation_nums.append(take_ob_num)
 		if take_ob_num == flyby_observation_num:
 			observation_num_found = True

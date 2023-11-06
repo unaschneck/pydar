@@ -46,8 +46,8 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 	for index, row in flyby_dataframe.iterrows():
-		if row[0] == flyby_id:
-			observation_number = row[1].split(" ")[1]
+		if row.iloc[0] == flyby_id:
+			observation_number = row.iloc[1].split(" ")[1]
 			while len(observation_number) < 4:
 				observation_number = "0" + observation_number # set all radar take numbers to be four digits long: 229 -> 0229
 			return observation_number
@@ -66,9 +66,9 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
 	flyby_csv_file = os.path.join(os.path.dirname(__file__), 'data', 'cassini_flyby.csv')  # get file's directory, up one level, /data/*.csv
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 	for index, row in flyby_dataframe.iterrows():
-		take_ob_num = "0" + row[1].split(" ")[1]
+		take_ob_num = "0" + row.iloc[1].split(" ")[1]
 		if take_ob_num == flyby_observation_num:
-			return row[0] # returns flyby ID
+			return row.iloc[0] # returns flyby ID
 
 def retrieveJPLCoradrOptions():
 	# Read JPL Options from CSV
