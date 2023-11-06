@@ -47,7 +47,7 @@ setup(
 			"pyproj>=3.4.1",
 			"pytest>=7.2.2",
 			"rasterio>=1.3.6",
-			"urllib3>=1.26.9"
+			"urllib3>=1.26.18"
 			],
 	python_requires='>=3.9'
 )
