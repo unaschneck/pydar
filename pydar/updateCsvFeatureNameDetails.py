@@ -59,7 +59,7 @@ def updateCsvFeatureNameDetails():
 	base_url = "https://planetarynames.wr.usgs.gov"
 	for i, feature_ahref in enumerate(ahref_lst):
 		feature_html = request.urlopen(base_url + feature_ahref)
-		logger.info(f"[{i+1}/{len(ahref_lst)}] Retrieving: {base_url + feature_ahref}"
+		logger.info(f"[{i+1}/{len(ahref_lst)}] Retrieving: {base_url + feature_ahref}")
 		soup = BeautifulSoup(feature_html, 'html.parser')
 		table = soup.find("div", {"id":"layout_content_wrapper"})
 		tr = table.find_all("tr")
