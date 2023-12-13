@@ -93,7 +93,7 @@ def updateCsvSwathCoverage():
 						lbl = []
 						filename += '.LBL'
 						bidr_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{radar_id}/DATA/BIDR/{filename}"
-						logger.info(f"Retrieving LBL information: {bidr_url}"))
+						logger.info(f"Retrieving LBL information: {bidr_url}")
 						lbl = [radar_id, None, None, None, None, None, None, None, None, None, None, None, None, None]
 						lbl[1] = pydar.convertObservationNumberToFlybyID(radar_id.split("_")[1])
 						lbl[2] = (filename.split("_")[2]).split("S")[1] # Segment Number

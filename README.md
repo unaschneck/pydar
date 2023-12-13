@@ -428,7 +428,7 @@ retrieveIDSByTime(year=None,
 * [OPTIONAL] hour (int): Hour, from 0 to 23 in UTC, defaults to 0 when undefined
 * [OPTIONAL] minute (int): Minute, from 0 to 59, defaults to check the all minutes when undefined
 * [OPTIONAL] second (int): Second, from 0 to 59, defaults to check the all seconds when undefined
-* [OPTIONAL] millisecond (int): Milliscond, from 0 to 999, defaults to check all milliseconds when undefined
+* [OPTIONAL] millisecond (int): Millisecond, from 0 to 999, defaults to check all milliseconds when undefined
 
 Where `2004 year, 300 doy, 15 hour, 30 minute, 7 second, 789 millisecond` becomes `2004-300T15:30:07.789`
 
@@ -678,6 +678,7 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 
 ## Developer Notes TODO:
 ### TODO Code:
+* Python3.8-3.12 support
 * add a colored outline around a feature when displaying as a 2D image
 * save image pixel to an array
 * segments will be less than 99 (default to 1 - 01 is the primary imaging) (requires segment_options = ['S01', 'S02', 'S03', 'S04'])
@@ -689,7 +690,7 @@ COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 * associate burst ID from SBDR data to BIDR data for metadata
 * save .IMG as an array of pixel values
 * save .IMG as .SHP for ArcGIS
-* project image onto Titan spheriod
+* project image onto Titan spheroid
 * downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"]), decide which files to download
 
 ### TODO: Tech Debt
