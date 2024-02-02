@@ -39,7 +39,7 @@ jobs:
         python updateCsvFeatureNameDetails.py
 
     - name: Check if script results in changes in files
-      uses: tj-actions/verify-changed-files@17
+      uses: tj-actions/verify-changed-files@v17
       id: verify-changed-files
 
     - name: If file changed, commit and push if files
