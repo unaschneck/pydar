@@ -41,15 +41,6 @@ PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
 pip install pydar
 ```
 
-## Dependencies
-Python 3.7+
-
-Verified compatibility with Python 3.7, 3.8, and 3.9
-```
-pip install -r requirements.txt
-```
-Requirements will also be downloaded as part of the pip download
-
 ## Quickstart: PYDAR
 
 All Cassini data for Titan is retrieved based on flyby observation numbers or IDs, so relevant flybys can be found based on time range, latitude/longitude position, or a known feature name
@@ -676,33 +667,24 @@ Extract Metadata from .FMT and .TAB files
 
 COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 
-## Developer Notes TODO:
-### TODO Code:
-* Python3.8-3.12 support
-* add a colored outline around a feature when displaying as a 2D image
-* save image pixel to an array
-* segments will be less than 99 (default to 1 - 01 is the primary imaging) (requires segment_options = ['S01', 'S02', 'S03', 'S04'])
-* progress bars print to command line (still downloading...)
-* save .IMG as .SHP for ArcGIS
+## Development Environment
+To run or test against `pydar` github repo/fork, a development environment can be created via conda/miniconda
 
-### TODO Questions:
-* add details for what a segment_num is
-* associate burst ID from SBDR data to BIDR data for metadata
-* save .IMG as an array of pixel values
-* save .IMG as .SHP for ArcGIS
-* project image onto Titan spheroid
-* downloadAdditionalDataTypes() does not have functionality (["ABDR", "ASUM", "LBDR", "STDR"]), decide which files to download
+First, [install Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
 
-### TODO: Tech Debt
-* use README information to gather files for download (save computing, tech debt)
-* set up constant config file
-* Add functionality for extractFlybyDataImages(): additional_data_types_to_download
-* Include URL for access to AAREADME and .LBL readme files
-* research Zenodo
+Then, using the existing `environment.yml`, a new conda environment can be create to run/test scripts against
 
-### TODO: Test
-* test: pull up all passes that saw Ontario Lacus and colorcode with look angle 
-* test: pull beam information and number of looks for each pixel 
+```
+conda env create --file environment.yml
+```
+Once the environment has been built, activate the environment:
+```
+conda activate pydar
+```
+To run existing and new tests from the root directory:
+```
+python -m pytest
+```
 
 ## Credits
 Feature Names collected from [Gazetteer of Planetary Nomenclature](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
