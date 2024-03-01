@@ -28,10 +28,10 @@ def latitudeLongitudeWithFeatureNameFromCSV():
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 
 	for index, row in flyby_dataframe.iterrows():
-			feature_name_dict[row["Feature Name"]] = {"Southernmost Latitude": row["Southernmost Latitude"],
-													"Northernmost Latitude": row["Northernmost Latitude"], 
-													"Easternmost Longitude": row["Easternmost Longitude"], 
-													"Westernmost Longitude": row["Westernmost Longitude"],
+			feature_name_dict[row["Feature Name"]] = {"Southmost Latitude": row["Southmost Latitude"],
+													"Northmost Latitude": row["Northmost Latitude"], 
+													"Eastmost Longitude": row["Eastmost Longitude"], 
+													"Westmost Longitude": row["Westmost Longitude"],
 													"Center Latitude": row["Center Latitude"],
 													"Center Longitude": row["Center Longitude"]}
 
@@ -50,10 +50,10 @@ def retrieveIDSByFeatureName(feature_name=None):
 		raise ValueError(f"Feature Name '{feature_name}' not in available in features list = {list(feature_name_csv_dict.keys())}")
 
 	feature_dict = feature_name_csv_dict[feature_name]
-	min_feature_latitude = min([feature_dict["Northernmost Latitude"], feature_dict["Southernmost Latitude"]])
-	max_feature_latitude = max([feature_dict["Northernmost Latitude"], feature_dict["Southernmost Latitude"]])
-	min_feature_longtidue = min([feature_dict["Easternmost Longitude"], feature_dict["Westernmost Longitude"]])
-	max_feature_longtidue = max([feature_dict["Easternmost Longitude"], feature_dict["Westernmost Longitude"]])
+	min_feature_latitude = min([feature_dict["Northmost Latitude"], feature_dict["Southmost Latitude"]])
+	max_feature_latitude = max([feature_dict["Northmost Latitude"], feature_dict["Southmost Latitude"]])
+	min_feature_longtidue = min([feature_dict["Eastmost Longitude"], feature_dict["Westmost Longitude"]])
+	max_feature_longtidue = max([feature_dict["Eastmost Longitude"], feature_dict["Westmost Longitude"]])
 	flyby_ids = retrieveIDSByLatitudeLongitudeRange(min_latitude=min_feature_latitude,
 													max_latitude=max_feature_latitude,
 													min_longitude=min_feature_longtidue,
@@ -271,11 +271,11 @@ def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 		return intersectionFound
 
 	for feature_name, position_dict in feature_name_csv_dict.items():
-		min_feature_latitude = min([float(position_dict["Northernmost Latitude"]), float(position_dict["Southernmost Latitude"])])
-		max_feature_latitude = max([float(position_dict["Northernmost Latitude"]), float(position_dict["Southernmost Latitude"])])
+		min_feature_latitude = min([float(position_dict["Northmost Latitude"]), float(position_dict["Southmost Latitude"])])
+		max_feature_latitude = max([float(position_dict["Northmost Latitude"]), float(position_dict["Southmost Latitude"])])
 		if twoRangesIntersect(min_feature_latitude, max_feature_latitude, min_latitude, max_latitude):
-			min_feature_longitude = min([float(position_dict["Westernmost Longitude"]), float(position_dict["Easternmost Longitude"])])
-			max_feature_longitude = max([float(position_dict["Westernmost Longitude"]), float(position_dict["Easternmost Longitude"])])
+			min_feature_longitude = min([float(position_dict["Westmost Longitude"]), float(position_dict["Eastmost Longitude"])])
+			max_feature_longitude = max([float(position_dict["Westmost Longitude"]), float(position_dict["Eastmost Longitude"])])
 			if twoRangesIntersect(min_feature_longitude, max_feature_longitude, min_longitude, max_longitude):
 				feature_names_list.append(feature_name)
 

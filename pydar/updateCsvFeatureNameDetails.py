@@ -61,29 +61,29 @@ def updateCsvFeatureNameDetails():
 		feature_html = request.urlopen(base_url + feature_ahref)
 		logger.info(f"[{i+1}/{len(ahref_lst)}] Retrieving: {base_url + feature_ahref}")
 		soup = BeautifulSoup(feature_html, 'html.parser')
-		table = soup.find("div", {"id":"layout_content_wrapper"})
-		tr = table.find_all("tr")
+		tables = soup.find_all('table', class_='usa-table')
 		feature_object = [None, None, None, None, None, None, None, None]
-		for i in tr:
-			feature_row = ((i.text).lstrip()).split("\n")
-			feature_row = [f.strip() for f in feature_row if f != '' and re.search('[a-zA-Z-?\d+]', f)]
-			if len(feature_row) == 2:
-				if feature_row[0] == "Feature Name":
-					feature_object[0] = feature_row[1]
-				if feature_row[0] == "Northernmost Latitude":
-					feature_object[1] = feature_row[1].split(" ")[0]
-				if feature_row[0] == "Southernmost Latitude":
-					feature_object[2] = feature_row[1].split(" ")[0]
-				if feature_row[0] == "Easternmost Longitude":
-					feature_object[3] = feature_row[1].split(" ")[0]
-				if feature_row[0] == "Westernmost Longitude":
-					feature_object[4] = feature_row[1].split(" ")[0]
-				if feature_row[0] == "Center Latitude":
-					feature_object[5] = feature_row[1].split(" ")[0]
-				if feature_row[0] == "Center Longitude":
-					feature_object[6] = feature_row[1].split(" ")[0]
-				if feature_row[0] == "Origin":
-					feature_object[7] = feature_row[1]
+		for table in tables:
+			for row in table.tbody.find_all("tr"):
+				feature_row = ((row.text).lstrip()).split("\n")
+				feature_row = [f.strip() for f in feature_row if f != '' and re.search(r'[a-zA-Z-?\d+]', f)]
+				if len(feature_row) == 2:
+					if feature_row[0] == "Feature Name":
+						feature_object[0] = feature_row[1]
+					if feature_row[0] == "Northmost Latitude":
+						feature_object[1] = feature_row[1].split(" ")[0]
+					if feature_row[0] == "Southmost Latitude":
+						feature_object[2] = feature_row[1].split(" ")[0]
+					if feature_row[0] == "Eastmost Longitude":
+						feature_object[3] = feature_row[1].split(" ")[0]
+					if feature_row[0] == "Westmost Longitude":
+						feature_object[4] = feature_row[1].split(" ")[0]
+					if feature_row[0] == "Center Latitude":
+						feature_object[5] = feature_row[1].split(" ")[0]
+					if feature_row[0] == "Center Longitude":
+						feature_object[6] = feature_row[1].split(" ")[0]
+					if feature_row[0] == "Origin":
+						feature_object[7] = feature_row[1]
 		feature_options.append(feature_object)
 
 	# Add Huygens landing site manually
@@ -99,10 +99,10 @@ def updateCsvFeatureNameDetails():
 
 	# Wrte to CSV
 	header_options = ["Feature Name", 
-					"Northernmost Latitude",
-					"Southernmost Latitude",
-					"Easternmost Longitude",
-					"Westernmost Longitude",
+					"Northmost Latitude",
+					"Southmost Latitude",
+					"Eastmost Longitude",
+					"Westmost Longitude",
 					"Center Latitude",
 					"Center Longitude", 
 					"Origin of Name"]
