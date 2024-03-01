@@ -251,7 +251,7 @@ Contains all named features on Titan with their furthest latitude/longitude posi
 
 Collected from the [planetarynames.wr.usgs.gov](https://planetarynames.wr.usgs.gov/SearchResults?Target=74_Titan)
 
-Headers: ["Feature Name", "Northernmost Latitude", "Southernmost Latitude", "Easternmost Longitude", "Westernmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
+Headers: ["Feature Name", "Northmost Latitude", "Southmost Latitude", "Eastmost Longitude", "Westmost Longitude", "Center Latitude", "Center Longitude", "Origin of Name"]
 
 View data file: [feature_name_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/feature_name_details.csv)
 

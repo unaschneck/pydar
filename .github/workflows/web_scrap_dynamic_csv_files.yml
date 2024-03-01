@@ -10,10 +10,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.9
+    - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.9'
+        python-version: '3.11'
         architecture: 'x64'
       env:
           AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
@@ -25,30 +25,30 @@ jobs:
         pip install -r requirements.txt
         pip install pydar
 
-    - name: Set Github credentials
-      run: |
-        git config user.name "GitHub Action"
-        git config user.email "actions@users.noreply.github.com"
-        git pull
-
-    - name: Web Scrap for New Changes
+    - name: Web Scrap for New Changes - swath_coverage_by_time_position.csv
       working-directory: pydar
       run: |
         python updateCsvSwathCoverage.py
+
+    - name: Web Scrap for New Changes - coradr_jpl_options.csv
+      working-directory: pydar
+      run: |
         python updateCsvCORADARJPLOptions.py
+
+    - name: Web Scrap for New Changes - feature_name_details.csv
+      working-directory: pydar
+      run: |
         python updateCsvFeatureNameDetails.py
 
     - name: Check if script results in changes in files
       uses: tj-actions/verify-changed-files@v17
       id: verify-changed-files
 
-    - name: If file changed, commit and push if files
+    - name: If file changed, throw error to review changes
       if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: |
-        git add -A
-        timestamp=$(date -u)
-        git commit -m "Github Actions: update csv scripts (${timestamp})"
-        git push
+        echo "Github Actions: review changes to data files"
+        exit 1
 
     - name: If file not changed, do not commit empty changes
       if: steps.verify-changed-files.outputs.files_changed == 'false'
