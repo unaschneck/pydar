@@ -43,7 +43,9 @@ pip install pydar
 
 ## Quickstart: PYDAR
 
-All Cassini data for Titan is retrieved based on flyby observation numbers or IDs, so relevant flybys can be found based on time range, latitude/longitude position, or a known feature name
+Cassini-Huygens was an [orbiter around Saturn and its moons](https://science.nasa.gov/mission/cassini/), originally lauched in 1997. Cassini ran successfully for years before it was purposefully burned up in Saturn's upper atmosphere to avoid potential contamination of Saturn's moons . As the orbiter passed over Titan in dozens of flybys gigabits of data were recorded and sent back
+
+All Cassini data for Titan is organized and retrieved based on [flyby observation numbers or ID numbers](https://solarsystem.nasa.gov/missions/cassini/mission/tour/flybys/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&tags=cassini%3Aflybys). Pydar makes it easy to find and view relevant flybys based on a time range, latitude/longitude position, or a feature name
 
 ```python
 import pydar
