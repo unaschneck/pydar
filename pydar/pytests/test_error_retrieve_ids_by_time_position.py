@@ -286,7 +286,7 @@ def test_retrieveIDSByTime_secondInvalidRange(second_invalid_range):
 
 @pytest.mark.parametrize("millisecond_invalid_range", [(-1), (1000)])
 def test_retrieveIDSByTime_milliscondInvalidRange(millisecond_invalid_range):
-	with pytest.raises(ValueError, match=re.escape("[millisecond]: second must be a postive value from 0 to 999")):
+	with pytest.raises(ValueError, match=re.escape("[millisecond]: second must be a positive value from 0 to 999")):
 		pydar.retrieveIDSByTime(year=2005, doy=301, hour=3, minute=15, second=20, millisecond=millisecond_invalid_range)
 
 @pytest.mark.parametrize("invalid_input, error_output", invalid_non_int_options)

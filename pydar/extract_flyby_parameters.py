@@ -135,7 +135,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
 			if 'ZIP' in (txt.split('/')[0]).split(".")[1]:
 				filename += '.ZIP'
 			all_bidr_files.append(filename)
-			if segment_id in filename: # only save certain segements
+			if segment_id in filename: # only save certain segments
 				for resolution in resolution_px: # only save top x resolutions
 					bi_types = ["B", "E", "T", "N", "M", "L"] # BI<OPTION>Q<RESOLUTION>
 					for bi in bi_types:

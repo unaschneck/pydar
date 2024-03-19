@@ -44,7 +44,7 @@ pip install pydar
 
 ## Quickstart: PYDAR
 
-Cassini-Huygens was an [orbiter around Saturn and its moons](https://science.nasa.gov/mission/cassini/), originally lauched in 1997. Cassini ran successfully for years before it was purposefully burned up in Saturn's upper atmosphere to avoid potential contamination of Saturn's moons . As the orbiter passed over Titan in dozens of flybys gigabits of data were recorded and sent back
+Cassini-Huygens was an [orbiter around Saturn and its moons](https://science.nasa.gov/mission/cassini/), originally launched in 1997. Cassini ran successfully for years before it was purposefully burned up in Saturn's upper atmosphere to avoid potential contamination of Saturn's moons . As the orbiter passed over Titan in dozens of flybys gigabits of data were recorded and sent back
 
 All Cassini data for Titan is organized and retrieved based on [flyby observation numbers or ID numbers](https://solarsystem.nasa.gov/missions/cassini/mission/tour/flybys/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&tags=cassini%3Aflybys). Pydar makes it easy to find and view relevant flybys based on a time range, latitude/longitude position, or a feature name
 
@@ -694,7 +694,7 @@ Feature Names collected from [Gazetteer of Planetary Nomenclature](https://plane
 
 Instrument information and naming conventions collected from the [Cassini Radar User Guide](https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf)
 
-This material is based upon work supported by the National Science Foundation Graduate Fellowship under Grant No. 2141064. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not neccessarily reflect the views of the National Science Foundation.
+This material is based upon work supported by the National Science Foundation Graduate Fellowship under Grant No. 2141064. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
 
 ## Acknowledging Software 
 Please acknowledge the use of this software in any publications by citing:

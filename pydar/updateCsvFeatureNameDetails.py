@@ -97,7 +97,7 @@ def updateCsvFeatureNameDetails():
 							"where the Huygens probe landed east Adiri"]
 	feature_options.append(huygens_landing_site)
 
-	# Wrte to CSV
+	# Write to CSV
 	header_options = ["Feature Name", 
 					"Northmost Latitude",
 					"Southmost Latitude",

@@ -58,10 +58,10 @@ def readAAREADME(coradr_results_directory=None, section_to_print=None, print_to_
 
 	sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 	if sectionList is None:
-		section_to_print = section_to_print.upper() # check if the section is case-senstive
+		section_to_print = section_to_print.upper() # check if the section is case-sensitive
 		sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 		if sectionList is None:
-			section_to_print = section_to_print.title() # check if the section is case-senstive
+			section_to_print = section_to_print.title() # check if the section is case-sensitive
 			sectionList = determineSectionToPrint(section_to_print, "AAREADME")
 			if sectionList is None:
 				raise ValueError(f"[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'")
@@ -217,7 +217,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 	if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
 		# Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file
 		raise ValueError(f"Specify {section_to_print} as either '{section_to_print} UNCOMPRESSED' or '{section_to_print} COMPRESSED'")
-	# Catch common mispelling: not including the ^ at the front of a line name
+	# Catch common misspelling: not including the ^ at the front of a line name
 	if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
 		section_to_print = f"^{section_to_print}" # sets the user's option to include the easy to miss ^
 
@@ -227,7 +227,7 @@ def readLBLREADME(coradr_results_directory=None, section_to_print=None, print_to
 
 	sectionList = determineSectionToPrint(section_to_print, "LBL")
 	if sectionList is None:
-		# check if the section is case-senstive
+		# check if the section is case-sensitive
 		section_to_print = section_to_print.upper()
 		sectionList = determineSectionToPrint(section_to_print, "LBL")
 		if sectionList is None:

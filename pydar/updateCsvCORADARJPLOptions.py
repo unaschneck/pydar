@@ -73,7 +73,7 @@ def updateCsvCORADRJPLOptions():
 				if coradr_id[0].split("_")[1] in flyby_radar_take_num:
 					coradr_id[1] = True # Is a Titan Flyby
 
-	# Wrte to CSV
+	# Write to CSV
 	header_options = ["CORADR ID",
 					"Is a Titan Flyby",
 					"Contains ABDR",

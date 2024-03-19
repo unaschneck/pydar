@@ -175,7 +175,7 @@ def sbdrMakeShapeFile(filename=None,
 				ind = ind[~ind.SAR_RANGE_RES.isin([0])]
 				ind = ind[~ind.SAR_AZIMUTH_RES.isin([0])]
 
-		if len(ind.index) == 0: # No data  satifies all conditions
+		if len(ind.index) == 0: # No data satisfies all conditions
 			ind = info[~info.ACT_AZIMUTH_ANGLE.isin([0])]
 			ind = ind[~ind.ACT_ELLIPSE_PT1_LAT.isin([0])]
 			logger.info("ERROR: No Active SAR Model")

@@ -127,7 +127,7 @@ def updateCsvSwathCoverage():
 									lbl[13] = line.split("=")[1].strip()
 							lbl_information.append(lbl)
 
-	# Wrte to CSV
+	# Write to CSV
 	header_options = ["CORADR ID",
 					"FLYBY ID",
 					"SEGMENT NUMBER",

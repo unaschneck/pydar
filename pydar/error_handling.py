@@ -295,7 +295,7 @@ def errorHandlingRetrieveIDSByTime(year=None, doy=None, hour=None, minute=None, 
 		if type(millisecond) != int:
 			raise ValueError(f"[millisecond]: Must be an int, current type = '{type(millisecond)}'")
 		if millisecond < 0 or millisecond > 999:
-			raise ValueError("[millisecond]: second must be a postive value from 0 to 999")
+			raise ValueError("[millisecond]: second must be a positive value from 0 to 999")
 
 def errorHandlingRetrieveIDSByTimeRange(start_year=None, 
 										start_doy=None,
