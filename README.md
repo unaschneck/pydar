@@ -5,6 +5,7 @@
 
 ![PyPi](https://img.shields.io/pypi/v/pydar)
 ![license](https://img.shields.io/pypi/l/pydar)
+[![repo-status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![NSF-2141064](https://img.shields.io/badge/NSF-2141064-blue)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2141064&HistoricalAwards=false)
 ![PyPi-Versions](https://img.shields.io/pypi/pyversions/pydar)
 [![update-dynamic-csv-data-files](https://github.com/unaschneck/pydar/actions/workflows/web_scrap_dynamic_csv_files.yml/badge.svg)](https://github.com/unaschneck/pydar/actions/workflows/web_scrap_dynamic_csv_files.yml)
