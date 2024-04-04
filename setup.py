@@ -3,7 +3,7 @@
 # Python Package Setup
 from setuptools import setup, find_namespace_packages
 
-VERSION="1.3.0"
+VERSION="1.3.1"
 DESCRIPTION="A Python package to access, download, view, and manipulate Cassini RADAR images"
 
 with open("README.md", "r") as f:
@@ -18,7 +18,7 @@ setup(
 	url="https://github.com/unaschneck/pydar",
 	download_url=f"https://github.com/unaschneck/pydar/archive/refs/tags/v{VERSION}.tar.gz",
 	author="Una Schneck (unaschneck), Cora Schneck (cyschneck)",
-	keywords=[],
+	keywords=["geophysics", "python", "astronomy", "nasa", "radar", "planetary-science", "cassini", "jpl"],
 	license="MIT",
 	classifiers=[
 		"Development Status :: 4 - Beta",
@@ -42,14 +42,14 @@ setup(
 	packages=find_namespace_packages(include=['pydar', 'pydar.*']),
 	include_package_data=True,
 	install_requires=[
-			"beautifulsoup4>=4.11.1",
-			"matplotlib>=3.1.0",
-			"pandas>=1.5.2",
-			"pdr>=0.7.3",
-			"pyproj>=3.4.1",
-			"pytest>=7.2.2",
-			"rasterio>=1.3.6",
-			"urllib3>=1.26.18"
+			"beautifulsoup4",
+			"matplotlib",
+			"pandas",
+			"pdr",
+			"pyproj",
+			"pytest",
+			"rasterio",
+			"urllib3"
 			],
 	python_requires='>=3.9'
 )

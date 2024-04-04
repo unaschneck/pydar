@@ -4,5 +4,5 @@ authors:
 - family-names: "Schneck, Schneck"
   given-names: "Cora Y, Una G"
 title: "Pydar: Cassini RADAR data extraction software"
-version: 1.3.0
+version: 1.3.1
 url: "https://github.com/unaschneck/pydar"

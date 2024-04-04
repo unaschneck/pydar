@@ -48,6 +48,7 @@ jobs:
       if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: |
         echo "Github Actions: review changes to data files"
+        echo "Update README, Pytests, update .CSV"
         exit 1
 
     - name: If no changes to existing files are found, pass
