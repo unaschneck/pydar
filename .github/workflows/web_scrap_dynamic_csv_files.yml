@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest #ubuntu-20.04 # specifically calls the version number instead of latest to work on 'act'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: '3.12'
         architecture: 'x64'
@@ -41,7 +41,7 @@ jobs:
         python updateCsvFeatureNameDetails.py
 
     - name: Check if script results in changes in files
-      uses: tj-actions/verify-changed-files@v17
+      uses: tj-actions/verify-changed-files@v20
       id: verify-changed-files
 
     - name: If file changed, throw error to review changes
