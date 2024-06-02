@@ -6,6 +6,7 @@ dependencies:
   - beautifulsoup4
   - pandas
   - pdr
+  - pre-commit # pre-commit hooks
   - pyproj
   - pytest
   - rasterio
