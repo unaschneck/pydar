@@ -5,9 +5,9 @@ import os
 import pandas as pd
 
 if __name__ == "__main__":
-	os.system('python pydar/updateCsvCORADARJPLOptions.py.py')
-	os.system('python pydar/updateCsvFeatureNameDetails.py')
+	os.system('python pydar/updateCsvCORADARJPLOptions.py')
 	os.system('python pydar/updateCsvSwathCoverage.py.py')
+	os.system('python pydar/updateCsvFeatureNameDetails.py')
 
 	print("New Features (diff):")
 	os.system("git diff pydar/data/feature_name_details.csv | grep '^[+-][^+-]'")
