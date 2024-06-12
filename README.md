@@ -311,7 +311,7 @@ retrieveIDSByFeatureName(feature_name=None)
 ```
 * **[REQUIRED]** feature_name (string): Feature name on Titan, not case-sensitive
 
-Feature names are retrieved from [feature_name_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/feature_name_details.csv)
+Feature names are retrieved from [feature_name_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/feature_name_details.csv) (if the feature has both latitude/longitude coordinates)
 <details closed>
 <summary>List of Valid Feature Names (Click to view all)</summary>
 <br>
