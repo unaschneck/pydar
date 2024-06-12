@@ -62,11 +62,13 @@ def updateCsvFeatureNameDetails():
 		logger.info(f"[{i+1}/{len(ahref_lst)}] Retrieving: {base_url + feature_ahref}")
 		soup = BeautifulSoup(feature_html, 'html.parser')
 		tables = soup.find_all('table', class_='usa-table')
+		# [Feature Name, Northmost Latitude, Southmost Latitude, Eastmost Longitude, Westmost Longitude, Center Latitude, Center Longitude, URL]
 		feature_object = [None, None, None, None, None, None, None, None]
 		for table in tables:
 			for row in table.tbody.find_all("tr"):
 				feature_row = ((row.text).lstrip()).split("\n")
 				feature_row = [f.strip() for f in feature_row if f != '' and re.search(r'[a-zA-Z-?\d+]', f)]
+				feature_object[7] = base_url + feature_ahref
 				if len(feature_row) == 2:
 					if feature_row[0] == "Feature Name":
 						feature_object[0] = feature_row[1]
@@ -82,8 +84,6 @@ def updateCsvFeatureNameDetails():
 						feature_object[5] = feature_row[1].split(" ")[0]
 					if feature_row[0] == "Center Longitude":
 						feature_object[6] = feature_row[1].split(" ")[0]
-					if feature_row[0] == "Origin":
-						feature_object[7] = feature_row[1]
 		feature_options.append(feature_object)
 
 	# Add Huygens landing site manually
@@ -94,7 +94,7 @@ def updateCsvFeatureNameDetails():
 							"167.547",
 							"-10.576",
 							"167.547",
-							"where the Huygens probe landed east Adiri"]
+							"https://pds-imaging.jpl.nasa.gov/documentation/Cassini_RADAR_Users_Guide_2nd_Ed_191004_cmp_200421.pdf#page=165"]
 	feature_options.append(huygens_landing_site)
 
 	# Write to CSV
@@ -105,7 +105,7 @@ def updateCsvFeatureNameDetails():
 					"Westmost Longitude",
 					"Center Latitude",
 					"Center Longitude", 
-					"Origin of Name"]
+					"URL"]
 	df = pd.DataFrame(feature_options, columns=header_options)
 	df = df.sort_values(by=["Feature Name"])
 	df.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'feature_name_details.csv'), header=header_options, index=False)

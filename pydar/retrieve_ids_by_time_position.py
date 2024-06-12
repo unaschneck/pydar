@@ -28,6 +28,7 @@ def latitudeLongitudeWithFeatureNameFromCSV():
 	flyby_dataframe = pd.read_csv(flyby_csv_file)
 
 	for index, row in flyby_dataframe.iterrows():
+		if not pd.isnull(row).any(): # ignore rows where Latitude/Longitude are empty
 			feature_name_dict[row["Feature Name"]] = {"Southmost Latitude": row["Southmost Latitude"],
 													"Northmost Latitude": row["Northmost Latitude"], 
 													"Eastmost Longitude": row["Eastmost Longitude"], 
