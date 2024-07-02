@@ -1,8 +1,8 @@
 ## Developer Note: Update Pydar's backend when new features are updated
 ## New offically named features: https://planetarynames.wr.usgs.gov/#nomenclature-news
-import pydar
 import os
 import pandas as pd
+import pydar
 
 if __name__ == "__main__":
 	os.system('python pydar/updateCsvCORADARJPLOptions.py')
