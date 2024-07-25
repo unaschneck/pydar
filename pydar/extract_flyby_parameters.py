@@ -225,7 +225,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
 							top_x_resolutions=None):
 
 	if flyby_id is not None and type(flyby_id) == str:
-		flyby_id = flyby_id.upper() # ensure that observation number set to capitalized 'T'
+		flyby_id = flyby_id.capitalize() # ensure that observation number set to capitalized 'T'
 	if flyby_observation_num is not None and type(flyby_observation_num) == str:
 		while len(flyby_observation_num) < 4:
 			flyby_observation_num = "0" + flyby_observation_num # set all radar take numbers to be four digits long: 229 -> 0229
