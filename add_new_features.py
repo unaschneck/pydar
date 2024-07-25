@@ -6,7 +6,7 @@ import pydar
 
 if __name__ == "__main__":
 	os.system('python pydar/updateCsvCORADARJPLOptions.py')
-	os.system('python pydar/updateCsvSwathCoverage.py.py')
+	os.system('python pydar/updateCsvSwathCoverage.py')
 	os.system('python pydar/updateCsvFeatureNameDetails.py')
 
 	print("New Features (diff):")
