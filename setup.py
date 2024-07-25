@@ -3,7 +3,7 @@
 # Python Package Setup
 from setuptools import setup, find_namespace_packages
 
-VERSION="1.3.2"
+VERSION="1.3.3"
 DESCRIPTION="A Python package to access, download, view, and manipulate Cassini RADAR images"
 
 with open("README.md", "r") as f:
@@ -38,7 +38,8 @@ setup(
 		"Topic :: Scientific/Engineering :: Visualization",
 		"Topic :: Scientific/Engineering :: Astronomy"
 	],
-	packages=find_namespace_packages(include=['pydar', 'pydar.*']),
+	packages=find_namespace_packages(include=['pydar', 'pydar.*'],
+        exclude=['pydar.pytests']),
 	include_package_data=True,
 	install_requires=[
 			"beautifulsoup4",
