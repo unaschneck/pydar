@@ -33,7 +33,8 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 * **Display PDS image retrieved for flyby observation**
     * displayImages()
 
-NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
+> [!Note]
+> This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
 ## Install
 PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)
@@ -62,7 +63,8 @@ pydar.extractFlybyDataImages(flyby_id='T65',
                 resolution='D',
                 segment_num="S01")
 ```
-Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data but will take some time to download
+> [!Important]
+> extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data but will take some time to download
 ```
 # Display all Images in pydar_results/ directory
 pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
@@ -157,7 +159,7 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
 .IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via `pydar.displayImages()`
 
 ### Download Time
-Download time for data files vary when using `pydar.extractFlybyDataImages()` and depends on the number and size of files of interest. On average, most single feature downloads take between 5-30 minutes to download, but can be longer for higher resolution files.
+Download time for data files vary when using `pydar.extractFlybyDataImages()` and depends on the number and size of files of interest. On average, most single feature downloads take between 1-5 minutes to download, but can be longer for higher resolution files.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
@@ -167,7 +169,7 @@ The Titan flyby IDs (e.g. 'T65') are not used in the naming convention for the C
 
 To convert between a Titan Flyby ID and an observation number use either `pydar.convertFlybyIDToObservationNumber(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
 
-### Observation Information as filename
+### Observation Information as Filename
 The data filename contains a lot of information about the observation
 
 (EXAMPLE) Filename: "BIBQD05S184_D065_T008S03_V03"
@@ -206,8 +208,6 @@ Only some Titan passes produced all of the version numbers.
 
 The version number is listed in the filename and in VOLDESC.CAT under the 'VOLUME_VERSION_ID'
 
-_**Version 3 is currently the latest and preferred version and will be the version included when downloaded**_
-
 Example:
 
 Version 1 is named BIFQI48N071_D035_T00A_V01.IMG
@@ -215,6 +215,9 @@ Version 1 is named BIFQI48N071_D035_T00A_V01.IMG
 Version 2 is named BIFQI49N071_D035_T00AS01_V02.IMG
 
 Version 3 is named BIFQI49N071_D035_T00AS01_V03.IMG
+
+> [!Important]
+> _**Version 3 is currently the latest and preferred version and will be the version included when downloaded**_
 
 ### Segment Number of Data
 A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.  
@@ -277,9 +280,11 @@ Converted to a static csv file from the Cassini User Guide (pg. 136-139)
 View data file: [sar_swath_details.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/sar_swath_details.csv)
 
 ## BIDR and SBDR Files
-Note: "CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234" do not have associated BIDR values.
+> [!Warning]
+> "CORADR_0048", "CORADR_0186", "CORADR_0189", "CORADR_0209", "CORADR_0234" do not have associated BIDR values.
 
-There are data gaps and problems from the original downlinking and satellite location
+> [!Caution]
+> There are data gaps and problems from the original downlinking and satellite location
 
 CORADR_0048 (T4) did not have SAR data, only scatterometry and radiometry because of telemetry reasons in the handbook
 
@@ -554,7 +559,8 @@ extractFlybyDataImages(flyby_observation_num=None,
 ```
 Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: '0035') is required. 
 
-Note: a flyby_id will be translated into a flyby_observation_number to access on the backend and the results will be saved under the observation number. For example, 'T65' will become observation number '0211'
+> [!Note]
+> A `flyby_id` will be translated into a `flyby_observation_number` to access on the backend and the results will be saved under the observation number. For example, 'T65' will become observation number '0211'
 
 * **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
@@ -570,7 +576,7 @@ pydar.extractFlybyDataImages(flyby_id='T65',
             segment_num="S01")
 ```
 
-extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example pydar_results/CORADR_0065_V03_S01). Download time depends on file and resolution size but ranges from 5-30 minutes
+`extractFlybyDataImages()` will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example `pydar_results/CORADR_0065_V03_S01`). Download time depends on file and resolution size but ranges from 1-5 minutes
 
 ### readAAREADME()
 
@@ -662,7 +668,8 @@ pydar.displayImages(image_directory="pydar_results/CORADR_0065_V03_S01")
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
 </p>
 
-Note: displayImages() will plt.show() all images in the saved results directory
+> [!Note]
+> `displayImages()` will show all images in the saved results directory
 
 **COMING SOON: extractMetadata**
 
@@ -671,7 +678,7 @@ Extract Metadata from .FMT and .TAB files
 COMING SOON: Extract metadata from .TAB file (using .FMT as a reference)
 
 ## Development Environment
-To run or test against `pydar` github repo/fork, a development environment can be created via conda/miniconda
+For developers, to run or test against `pydar` github repo, a development environment can be created via conda
 
 First, [install Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
 
@@ -703,7 +710,7 @@ Please acknowledge the use of this software in any publications by citing:
 Cassini RADAR data extraction software was provided by C. Y. Schneck and U. G. Schneck and is available at URL: https://github.com/unaschneck/pydar
 ```
 
-Please send a copy of such publications to: cyschneck@gmail.com & ugschneck@gmail.com
+Please send a copy of such publications to: cyschneck@gmail.com & ugschneck@gmail.com (we'd love to see them!)
 
 
 ## Bug and Feature Request
