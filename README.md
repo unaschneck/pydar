@@ -14,24 +14,24 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
-	* retrieveIDSByFeatureName()
-	* retrieveIDSByLatitudeLongitude()
-	* retrieveIDSByLatitudeLongitudeRange()
-	* retrieveFeaturesFromLatitudeLongitude()
-	* retrieveFeaturesFromLatitudeLongitudeRange()
-	* retrieveIDSByTime()
-	* retrieveIDSByTimeRange()
+    * retrieveIDSByFeatureName()
+    * retrieveIDSByLatitudeLongitude()
+    * retrieveIDSByLatitudeLongitudeRange()
+    * retrieveFeaturesFromLatitudeLongitude()
+    * retrieveFeaturesFromLatitudeLongitudeRange()
+    * retrieveIDSByTime()
+    * retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
-	* convertFlybyIDToObservationNumber()
-	* convertObservationNumberToFlybyID()
-	* extractFlybyDataImages()
+    * convertFlybyIDToObservationNumber()
+    * convertObservationNumberToFlybyID()
+    * extractFlybyDataImages()
 * **Access specific observation data from AAREADME and .LBL readme information**
-	* returnAAREADMEOptions()
-	* readAAREADME()
-	* returnLBLOptions()
-	* readLBLREADME()
+    * returnAAREADMEOptions()
+    * readAAREADME()
+    * returnLBLOptions()
+    * readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
-	* displayImages()
+    * displayImages()
 
 NOTE: This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
 
@@ -59,8 +59,8 @@ The relevant data files can be downloaded for any combination of these flyby IDs
 ```
 # Extract Flyby Data Files to pydar_results/ directory
 pydar.extractFlybyDataImages(flyby_id='T65',
-				resolution='D',
-				segment_num="S01")
+                resolution='D',
+                segment_num="S01")
 ```
 Note: extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data but will take some time to download
 ```
@@ -109,15 +109,15 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |        |         |                            L = Number of looks map, 32-bit
   |        |         |                                integer values
   |        |         |                            D = standard deviations of Synthetic Aperture Radar 
-  | 	   |	     |   			      (SAR) normalized backscatter cross-section noise 
-  |	   |	     |				      subtracted values w/o incidence angle correction.
-  |	   |	     |				      The values are physical scale (not in dB)
-  |	   |         |			          S = Synthetic Aperture Radar (SAR) normalized backscatter cross-section values
-  |	   |	     |				      physical scale (not in dB) and have not been corrected for incidence-angle effects.
-  |	   |	     |				      Biases due to thermal and quantization noise have been removed.
-  |        |         |				  X = Noise equivalent sigma-0 values associated with Synthetic Aperture Radar (SAR) 
-  |	   |	     |				      normalized backscatter cross-section noise subtracted values w/o incidence angle 
-  |	   |	     |				      correction.  The values are physical scale (not in dB)."
+  |        |         |                    (SAR) normalized backscatter cross-section noise 
+  |    |         |                    subtracted values w/o incidence angle correction.
+  |    |         |                    The values are physical scale (not in dB)
+  |    |         |                    S = Synthetic Aperture Radar (SAR) normalized backscatter cross-section values
+  |    |         |                    physical scale (not in dB) and have not been corrected for incidence-angle effects.
+  |    |         |                    Biases due to thermal and quantization noise have been removed.
+  |        |         |                X = Noise equivalent sigma-0 values associated with Synthetic Aperture Radar (SAR) 
+  |    |         |                    normalized backscatter cross-section noise subtracted values w/o incidence angle 
+  |    |         |                    correction.  The values are physical scale (not in dB)."
   |        |         |                           c  = Map projection
   |        |         |                            Q = Oblique cylindrical
   |        |         |                           d  = Map resolution
@@ -346,9 +346,9 @@ Retrieve a list of flyby IDs with their associated segments based on range of la
 
 ```python
 retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
-				max_latitude=None,
-				min_longitude=None,
-				max_longitude=None)
+                max_latitude=None,
+                min_longitude=None,
+                max_longitude=None)
 ```
 * **[REQUIRED]** min_latitude (float/int): Latitude (in degrees) where min_latitude must be greater than or equal to the max_latitude, range from -90° to 90°
 * **[REQUIRED]** max_latitude (float/int): Latitude (in degrees) where max_latitude must be less than or equal to the min_latitude, range from -90° to 90°
@@ -358,9 +358,9 @@ retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 ```python
 import pydar
 pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
-					max_latitude=-72,
-					min_longitude=183,
-					max_longitude=185)
+                    max_latitude=-72,
+                    min_longitude=183,
+                    max_longitude=185)
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
@@ -387,9 +387,9 @@ Return a list of features found at a range of latitude/longitude positions
 
 ```
 retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
-					max_latitude=None,
-					min_longitude=None,
-					max_longitude=None)
+                    max_latitude=None,
+                    min_longitude=None,
+                    max_longitude=None)
 ```
 * **[REQUIRED]** min_latitude (float/int): Latitude (in degrees) where min_latitude must be less than or equal to the max_latitude, range from -90° to 90°
 * **[REQUIRED]** max_latitude (float/int): Latitude (in degrees) where max_latitude must be greater than or equal to the min_latitude, range from -90° to 90°
@@ -399,9 +399,9 @@ retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 ```python
 import pydar
 pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
-						max_latitude=-72,
-						min_longitude=183,
-						max_longitude=190)
+                        max_latitude=-72,
+                        min_longitude=183,
+                        max_longitude=190)
 ```
 Output = `['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']`
 
@@ -411,11 +411,11 @@ Retrieve a dictionary of flyby IDs and segment numbers based on a specific times
 
 ```
 retrieveIDSByTime(year=None,
-		doy=None,
-		hour=None,
-		minute=None,
-		second=None,
-		millisecond=None)
+        doy=None,
+        hour=None,
+        minute=None,
+        second=None,
+        millisecond=None)
 ```
 * **[REQUIRED]** year (int): Year for observation, range from 2004 to 2014
 * **[REQUIRED]** doy (int): Day of the year, from 0 to 365 (where January 10 = 10) (__Note__: 'doy' not 'day' for days of the year)
@@ -429,11 +429,11 @@ Where `2004 year, 300 doy, 15 hour, 30 minute, 7 second, 789 millisecond` become
 ```python
 import pydar
 pydar.retrieveIDSByTime(year=2004,
-			doy=300,
-			hour=15,
-			minute=30, 
-			second=7, 
-			millisecond=789)
+            doy=300,
+            hour=15,
+            minute=30, 
+            second=7, 
+            millisecond=789)
 ```
 Output = `{'Ta': ['S01']}`
 
@@ -459,17 +459,17 @@ Retrieve a dictionary of flyby IDs and segment numbers based on a start and end 
 
 ```
 retrieveIDSByTimeRange(start_year=None, 
-			start_doy=None,
-			start_hour=None,
-			start_minute=None, 
-			start_second=None,
-			start_millisecond=None,
-			end_year=None, 
-			end_doy=None,
-			end_hour=None,
-			end_minute=None, 
-			end_second=None,
-			end_millisecond=None)
+            start_doy=None,
+            start_hour=None,
+            start_minute=None, 
+            start_second=None,
+            start_millisecond=None,
+            end_year=None, 
+            end_doy=None,
+            end_hour=None,
+            end_minute=None, 
+            end_second=None,
+            end_millisecond=None)
 ```
 
 * **[REQUIRED]** start_year (int): Year for observation, range from 2004 to 2014, start_year must be less than/equal to end_year
@@ -488,17 +488,17 @@ retrieveIDSByTimeRange(start_year=None,
 ```python
 import pydar
 pydar.retrieveIDSByTimeRange(start_year=2004,
-				start_doy=299,
-				start_hour=2,
-				start_minute=15,
-				start_second=23,
-				start_millisecond=987,
-				end_year=2005, 
-				end_doy=301,
-				end_hour=2,
-				end_minute=15,
-				end_second=23,
-				end_millisecond=987)
+                start_doy=299,
+                start_hour=2,
+                start_minute=15,
+                start_second=23,
+                start_millisecond=987,
+                end_year=2005, 
+                end_doy=301,
+                end_hour=2,
+                end_minute=15,
+                end_second=23,
+                end_millisecond=987)
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
@@ -546,11 +546,11 @@ Downloads flyby data BIDR for a selected flyby observation number or flyby id: .
 
 ```
 extractFlybyDataImages(flyby_observation_num=None,
-			flyby_id=None,
-			segment_num=None,
-			additional_data_types_to_download=[],
-			resolution='I',
-			top_x_resolutions=None)
+            flyby_id=None,
+            segment_num=None,
+            additional_data_types_to_download=[],
+            resolution='I',
+            top_x_resolutions=None)
 ```
 Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: '0035') is required. 
 
@@ -566,8 +566,8 @@ Note: a flyby_id will be translated into a flyby_observation_number to access on
 ```python
 import pydar
 pydar.extractFlybyDataImages(flyby_id='T65',
-			resolution='D',
-			segment_num="S01")
+            resolution='D',
+            segment_num="S01")
 ```
 
 extractFlybyDataImages() will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example pydar_results/CORADR_0065_V03_S01). Download time depends on file and resolution size but ranges from 5-30 minutes
@@ -578,8 +578,8 @@ Print AAREADME.TXT to console for viewing
 
 ```
 readAAREADME(coradr_results_directory=None,
-	section_to_print=None, 
-	print_to_console=True)
+    section_to_print=None, 
+    print_to_console=True)
 ```
 
 * **[REQUIRED]** coradr_results_directory (string): CORADAR results folder downloaded (example: "pydar_results/CORADR_0211_V03_S01/")
@@ -591,7 +591,7 @@ To see a list of all section_to_print options, see: `returnAAREADMEOptions()`
 ```python
 import pydar
 pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
-		section_to_print="Volume")
+        section_to_print="Volume")
 ```
 Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`
 ```python
@@ -607,8 +607,8 @@ Print .LBL README to console for viewing
 
 ```
 readLBLREADME(coradr_results_directory=None,
-	section_to_print=None, 
-	print_to_console=True)
+    section_to_print=None, 
+    print_to_console=True)
 ```
 
 * **[REQUIRED]** coradr_results_directory (string):
@@ -620,7 +620,7 @@ To see a list of all section_to_print options, see: `returnLBLOptions()`
 ```python
 import pydar
 pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
-		section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
+        section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 ```
 Output = `(0.13498322,0.00221225,-0.99084542)`
 ```python

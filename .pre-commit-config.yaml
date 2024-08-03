@@ -3,10 +3,12 @@ repos:
     rev: v2.2.6
     hooks:
       - id: codespell
+        exclude: .*\.(TAB|csv)$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
+      - id: check-toml
       - id: check-yaml
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
@@ -14,7 +16,7 @@ repos:
     hooks:
       - id: remove-tabs
         name: remove tabs
-        exclude_types: [csv, tab]
+        exclude: .*\.(TAB|csv)$
 
   - repo: https://github.com/google/yapf
     rev: v0.40.2
@@ -22,3 +24,4 @@ repos:
       - id: yapf
         name: yapf reformat
         args: ['--in-place', '--recursive', '--style', 'pep8']
+        exclude: '.*\.(TAB|csv)$'
