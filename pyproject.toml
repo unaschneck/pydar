@@ -1,6 +1,6 @@
 [project]
 name = "pydar"
-version = "1.3.3"
+version = "v1.3.3"
 authors = [
   { name="Cora Schneck", email="cyschneck@gmail.com" },
   { name="Una Schneck", email="ugschneck@gmail.com" }
@@ -10,22 +10,6 @@ description = "A Python package to access, download, view, and manipulate Cassin
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.10"
-
-dependencies = [
-    "beautifulsoup4",
-    "matplotlib",
-    "pandas",
-    "pdr",
-    "pyproj",
-    "rasterio",
-    "urllib3"
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pre-commit"
-]
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -47,6 +31,22 @@ classifiers = [
 ]
 
 keywords = ["geophysics", "python", "astronomy", "nasa", "radar", "planetary-science", "cassini", "jpl"]
+
+dependencies = [
+    "beautifulsoup4",
+    "matplotlib",
+    "pandas",
+    "pdr",
+    "pyproj",
+    "rasterio",
+    "urllib3"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pre-commit"
+]
 
 [project.urls]
 Repository = "https://github.com/unaschneck/pydar"
