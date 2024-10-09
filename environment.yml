@@ -2,7 +2,7 @@ name: pydar
 channels:
   - conda-forge
 dependencies:
-  - python>=3.10,<3.13  # minimum support 3.10, maximum support 3.12
+  - python>=3.10,<3.14  # minimum support 3.10, maximum support 3.13
   - beautifulsoup4
   - pandas
   - pdr
@@ -11,6 +11,6 @@ dependencies:
   - pytest
   - rasterio
   - urllib3
-  #- pip
-  #- pip:
-  #  - matplotlib # avoid warning "QApplication: invalid style override passed, ignoring it."
+  - pip
+  - pip:
+    - matplotlib # avoid warning "QApplication: invalid style override passed, ignoring it."
