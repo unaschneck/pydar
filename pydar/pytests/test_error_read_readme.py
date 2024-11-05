@@ -1,5 +1,7 @@
-# Pytest for read_readme.py
-# pydar/pydar/: pytest -vs --disable-pytest-warnings --show-capture=no --capture=sys -vv
+# Test Expected Error Messages from read_readme.py
+# centerline-width/: python -m pytest -v
+# python -m pytest -k test_error_read_readme.py
+
 import logging
 import re
 

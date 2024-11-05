@@ -1,5 +1,7 @@
-# Pytest for retrieve_ids_by_time_position.pyc
-# pydar/pydar/: pytest -vs --disable-pytest-warnings --show-capture=no --capture=sys -vv
+# Test Expected Error Messages from retrieve_ids_by_time_position.py
+# centerline-width/: python -m pytest -v
+# python -m pytest -k test_error_retrieve_ids_by_time_position.py
+
 import logging
 import re
 

@@ -1,5 +1,7 @@
-# Pytest for extract_flyby_parameters.py
-# pydar/pydar/: pytest -vs --disable-pytest-warnings --show-capture=no --capture=sys -vv
+# Test Expected Error Messages from extract_flyby_parameters.py
+# centerline-width/: python -m pytest -v
+# python -m pytest -k test_error_extract_flyby_parameters.py
+
 import re
 
 # External Python libraries (installed via pip install)

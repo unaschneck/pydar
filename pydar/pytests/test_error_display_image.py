@@ -1,5 +1,7 @@
-# Pytest for display_image.py
-# pydar/pydar/: pytest -vs --disable-pytest-warnings --show-capture=no --capture=sys -vv
+# Test Expected Error Messages from display_image.py
+# centerline-width/: python -m pytest -v
+# python -m pytest -k test_error_display_image.py -xv
+
 import re
 
 # External Python libraries (installed via pip install)
