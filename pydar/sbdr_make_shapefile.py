@@ -180,7 +180,7 @@ def sbdrMakeShapeFile(filename=None,
             struct = []
             return
         else:
-            logger.info(f"Found {len(ind.index))} Active Pulses"
+            logger.info(f"Found {len(ind.index)} Active Pulses")
     else:
         ind = info[~info.ACT_AZIMUTH_ANGLE.isin([0])]
         ind = ind[~ind.ACT_ELLIPSE_PT1_LAT.isin([0])]
@@ -249,7 +249,7 @@ def sbdrMakeShapeFile(filename=None,
             gfields[cnt] = field  # Convert matlab structure to dict
             cnt += 1
         else:
-            logger.info(f"{field} Not a Valid Field!"))
+            logger.info(f"{field} Not a Valid Field!")
     if cnt == 1:  # If the fields are not moved through, then no fields are returned
         logger.info("No Valid Fields Returning...")
         return
