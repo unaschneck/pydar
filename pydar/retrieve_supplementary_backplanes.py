@@ -22,7 +22,7 @@ def extractMetadata(isVersionComplete=False):
     SBDR_FILE = pdr.read(tab_file)
     #logger.info(SBDR_FILE['SBDR_TABLE'])
     # Each row is Burst Data
-    #print("Headers = {0}".format(list(SBDR_FILE['SBDR_TABLE'])))
+    #print(f"Headers = {list(SBDR_FILE['SBDR_TABLE'])}")
 
     # TODO: Associated Burt Data with Image Data
     # RADAR_MODE:
@@ -64,7 +64,7 @@ def extractMetadata(isVersionComplete=False):
     sbdr_sar = sbdr_sar[sbdr_sar['ACT_AZIMUTH_ANGLE'] != 0]
     sbdr_sar = sbdr_sar[sbdr_sar['ACT_ELLIPSE_PT1_LAT'] != 0]
 
-    logger.info('Found {0} active beam pulses in SAR'.format(len(sbdr_sar)))
+    logger.info(f'Found {len(sbdr_sar)} active beam pulses in SAR')
     # total width of the RADAR swath is created by combining the five individually illuminated subbeams
     # each bursts use different beam(s) while taking SAR measurements
     beam_1 = []  # DEFINE: Smallest look angle subbeam

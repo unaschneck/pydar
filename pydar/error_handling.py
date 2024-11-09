@@ -72,11 +72,11 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
         )
         """
         if type(additional_data_types_to_download) != list:
-            print("\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{0}'".format(type(additional_data_types_to_download)))
+            print(f"\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{type(additional_data_types_to_download)}'")
             exit()
         for data_type in additional_data_types_to_download:
             if type(data_type) != str:
-                print("\nCRITICAL ERROR [additional_data_types_to_download]: All data types should be strings, but '{0}' current type = '{0}'".format(data_type, type(data_type)))
+                print(f"\nCRITICAL ERROR [additional_data_types_to_download]: All data types should be strings, but '{data_type}' current type = '{type(data_type)}'")
 
         # Get data types for the coradr type from coradr_jpl_options.csv
         coradr_data_types_available = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
@@ -87,8 +87,8 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
         version_id = ""
         if len(coradr_versions) > 1:
             for i in range(len(coradr_versions)):
-                version_id = "_V0{0}".format(i+1)
-        coradr_id = "CORADR_{0}{1}".format(flyby_observation_num, version_id)
+                version_id = f"_V0{i+1}"
+        coradr_id = f"CORADR_{flyby_observation_num}{version_id}"
         coradr_row = df.loc[df['CORADR ID'] == coradr_id]
         coradr_data_types = []
         for index, row in coradr_row.iterrows():
@@ -99,7 +99,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
 
         for data_type in additional_data_types_to_download:
             if data_type not in coradr_data_types:
-                print("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not available in {1}".format(data_type, coradr_data_types))
+                print(f"\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{data_type}' not available in {coradr_data_types}")
                 exit()
         """
 

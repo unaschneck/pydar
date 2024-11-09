@@ -122,10 +122,10 @@ def sbdrMakeShapeFile(filename=None,
     #if not filename.isalpha():
     #   info = filename
     #   filename = "DefaultFile.sbdr"
-    logger.debug("Reading {0} ...".format(filename))
+    logger.debug(f"Reading {filename} ...")
     info = pdr.read(filename)
     info = info['SBDR_TABLE']
-    logger.debug("Headers = {0}\n".format(list(info)))
+    logger.debug(f"Headers = {list(info)}\n")
     #print(info['ACT_POL_ANGLE'])
 
     # Define the Titan Ellipsoid
@@ -142,8 +142,7 @@ def sbdrMakeShapeFile(filename=None,
         file_out = file_out + ".shp"
         file_out2 = file_out + "_centroid.shp"
         file_out3 = file_out + "_center.shp"
-    logger.debug("Filenames for Output:\n{0}\n{1}\n{2}".format(
-        file_out, file_out2, file_out3))
+    logger.debug(f"Filenames for Output:\n{file_out}\n{file_out2}\n{file_out3}")
 
     # Filtering based on SAR and Active/Passive Radar
     # Find the Good Active Points (Usable data with low distortion from spacecraft orientation)
@@ -181,7 +180,7 @@ def sbdrMakeShapeFile(filename=None,
             struct = []
             return
         else:
-            logger.info("Found {0} Active Pulses".format(len(ind.index)))
+            logger.info(f"Found {len(ind.index))} Active Pulses"
     else:
         ind = info[~info.ACT_AZIMUTH_ANGLE.isin([0])]
         ind = ind[~ind.ACT_ELLIPSE_PT1_LAT.isin([0])]
@@ -250,7 +249,7 @@ def sbdrMakeShapeFile(filename=None,
             gfields[cnt] = field  # Convert matlab structure to dict
             cnt += 1
         else:
-            logger.info("{0} Not a Valid Field!".format(field))
+            logger.info(f"{field} Not a Valid Field!"))
     if cnt == 1:  # If the fields are not moved through, then no fields are returned
         logger.info("No Valid Fields Returning...")
         return
@@ -260,7 +259,7 @@ def sbdrMakeShapeFile(filename=None,
     #eta_start = time.time()
     #for num in range(num_record):
     #   if num < num_record:
-    #       print("{0} of {1} ({2} Percent Complete".format(num+1, num_record, num+1/num_record), end="\r")
+    #       print(f"{num+1} of {num_record} ({num+1/num_record} Percent Complete", end="\r")
     #print("") # reset printing to terminal
 
     # Step through each footprint and create 100 latitude/longitude points around the ellipse to create a perimeter

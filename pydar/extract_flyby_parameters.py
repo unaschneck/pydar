@@ -239,7 +239,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
                 sbdr_filename += '.FMT'
             sbdr_files.append(sbdr_filename)
 
-    logger.info("SBDR files found: {0}".format(sbdr_files))
+    logger.info(f"SBDR files found: {sbdr_files}")
     if len(sbdr_files) == 0:
         raise ValueError(
             "No SBDR files were found with resolution, segment, and flyby identification. Please use different parameters to retrieve data"
@@ -286,7 +286,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
         while len(flyby_observation_num) < 4:
             flyby_observation_num = "0" + flyby_observation_num  # set all radar take numbers to be four digits long: 229 -> 0229
     if top_x_resolutions is not None:
-        #logger.info("\nINFO: [top_x_resolutions] in use, overriding resolution '{0}' to save the top {1} resolutions".format(resolution, top_x_resolutions))
+        #logger.info(f"\nINFO: [top_x_resolutions] in use, overriding resolution '{resolution}' to save the top {top_x_resolutions} resolutions")
         resolution = None  # set default resolution to None if selecting the top x resolutions
 
     # Error handling:
