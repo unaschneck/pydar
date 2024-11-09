@@ -63,7 +63,7 @@ def updateCsvCORADRJPLOptions():
                     coradr_title, False, False, False, False, False, False,
                     False
                 ])
-        _, flyby_radar_take_num = pydar.getFlybyData()
+        _, flyby_radar_take_num = pydar._retrieve_flyby_data()
 
     # Check of CORADR has specific data files formats
     for i, coradr_id in enumerate(coradr_options):

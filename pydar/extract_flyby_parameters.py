@@ -25,7 +25,7 @@ resolution_types = ["B", "D", "F", "H",
 datafile_types_columns = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 
 
-def getFlybyData():
+def _retrieve_flyby_data():
     # Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
     flyby_id = []
     flyby_radar_take_num = []
@@ -339,7 +339,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
             logger.info(f"{flyby_observation_num} does not BIDR data\n"
                         )  # possible catch for new files found without BIDR
 
-    available_flyby_id, available_observation_numbers = getFlybyData()
+    available_flyby_id, available_observation_numbers = _retrieve_flyby_data()
 
     if flyby_observation_num not in available_observation_numbers:
         raise ValueError(

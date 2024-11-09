@@ -21,7 +21,7 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
                                         resolution=None,
                                         top_x_resolutions=None):
     # Error Handling for extract_flyby_parameters variables: extractFlybyDataImages()
-    available_flyby_id, available_observation_numbers = pydar.getFlybyData()
+    available_flyby_id, available_observation_numbers = pydar._retrieve_flyby_data()
 
     if flyby_observation_num is None and flyby_id is None:
         raise ValueError(

@@ -1,8 +1,8 @@
 from .pydar_testing import testing
 
 # extract_flyby_parameters.py function calls
+from .extract_flyby_parameters import _retrieve_flyby_data
 from .extract_flyby_parameters import extractFlybyDataImages
-from .extract_flyby_parameters import getFlybyData
 from .extract_flyby_parameters import convertFlybyIDToObservationNumber
 from .extract_flyby_parameters import convertObservationNumberToFlybyID
 
