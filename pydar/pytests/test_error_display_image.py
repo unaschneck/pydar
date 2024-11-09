@@ -2,12 +2,13 @@
 # centerline-width/: python -m pytest -v
 # python -m pytest -k test_error_display_image.py -xv
 
+# Standard Library Imports
 import re
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import pytest
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 invalid_non_str_options = [(1961, "<class 'int'>"),

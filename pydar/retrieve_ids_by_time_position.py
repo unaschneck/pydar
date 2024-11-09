@@ -1,15 +1,15 @@
 # Retrieve Flyby Observation and IDs based on Feature Name, Latitude/Longitude or Time
 
-# Built in Python functions
+# Standard Library Imports
 from datetime import datetime, timedelta
 import logging
 import os
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import pandas as pd
 import numpy as np
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ## Logging set up for .INFO

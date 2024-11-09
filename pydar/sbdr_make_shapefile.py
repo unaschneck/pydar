@@ -1,17 +1,17 @@
 # Script to generate an ARC Shape File from SBDR Table Data
 
-# Built in Python functions
-import time
+# Standard Library Imports
 import logging
 import math
+import time
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import numpy as np
 import pandas as pd
 import pdr
 import pyproj  # replicate gc_az1 = azimuth( [pt1x,pt1y],[pt2x,pt2y],titan_def ) [from Matlab]
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ## Logging set up for .DEBUG

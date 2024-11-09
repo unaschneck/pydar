@@ -2,15 +2,15 @@
 # ERROR CATCHES AND LOGGING FOR CLARITY WHEN USING PYDAR
 ########################################################################
 
-# Built in Python functions
+# Standard Library Imports
+import csv
 import logging
 import os
-import csv
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import pandas as pd
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 

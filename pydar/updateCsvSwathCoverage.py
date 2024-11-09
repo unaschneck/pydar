@@ -1,17 +1,17 @@
 # Note: Script not accessible via __init__.py and is run directly by the developer and Github Actions
 # updates swath_coverage_by_time_position.csv
 
-# Built in Python functions
+# Standard Library Imports
 import logging
 import os
 import random
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ########################################################################

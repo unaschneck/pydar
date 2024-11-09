@@ -1,13 +1,13 @@
 # Note: Script not accessible via __init__.py and is run directly by the developer
 # updates feature_name_details.csv
 
-# Built in Python functions
+# Standard Library Imports
 import logging
 import os
 import re
 import random
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error

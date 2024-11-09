@@ -1,7 +1,7 @@
-# Extract metadata from SBDR files (.TAB files)
+# Standard Library Imports
 import logging
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import numpy as np
 import pdr
 

@@ -1,14 +1,14 @@
 ## Display PDR images in Matplotlib
 
-# Built in Python functions
+# Standard Library Imports
 import logging
 import os
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import rasterio
 import matplotlib.pyplot as plt
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ## Logging set up for .INFO
@@ -19,11 +19,11 @@ logger.addHandler(stream_handler)
 
 
 #### DISPLAY ALL PDR IMAGES IN A DIRECTORY #############################
-def displayImages(image_directory=None,
-                  fig_title=None,
-                  cmap="gray",
-                  figsize_n=6,
-                  fig_dpi=120):
+def displayImages(image_directory: str = None,
+                  fig_title: str = None,
+                  cmap: str = "gray",
+                  figsize_n: int = 6,
+                  fig_dpi: int =120) -> None:
     # Display all images in the image directory specified
     #   plt.show() all imgs in a given directory
 

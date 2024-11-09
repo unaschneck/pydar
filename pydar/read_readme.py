@@ -1,10 +1,10 @@
 # Read AAREADME.TXT and .LBL sections to console
 
-# Built in Python functions
+# Standard Library Imports
 import logging
 import os
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ## Logging set up for .INFO

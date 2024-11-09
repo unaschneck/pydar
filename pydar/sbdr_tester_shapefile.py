@@ -1,5 +1,8 @@
-import astropy
+# Standard Library Imports
 import math
+
+# Related Third Party Imports
+import astropy
 import spherical_geometry
 
 lat1 = 10

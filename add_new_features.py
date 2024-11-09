@@ -1,7 +1,13 @@
 ## Developer Note: Update Pydar's backend when new features are updated
 ## New officially named features: https://planetarynames.wr.usgs.gov/#nomenclature-news
+
+# Standard Library Imports
 import os
+
+# Related Third Party Imports
 import pandas as pd
+
+# Internal Local Imports
 import pydar
 
 if __name__ == "__main__":
