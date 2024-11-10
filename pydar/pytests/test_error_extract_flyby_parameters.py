@@ -42,12 +42,12 @@ def test_convertObservationNumberToFlybyID_verifyObservationNumberConversion(
 ## convertObservationNumberToFlybyID() #################################
 
 
-## extractFlybyDataImages() ############################################
-def test_extractFlybyDataImages_verifyFlybyIDOrObservationNumberRequired():
+## extract_flyby_images() ############################################
+def test_extractFlybyImages_verifyFlybyIDOrObservationNumberRequired():
     with pytest.raises(
             ValueError,
             match="Requires either a flyby_observation_num OR flyby_id."):
-        pydar.extractFlybyDataImages()
+        pydar.extract_flyby_images()
     #log_record = caplog.records[0]
     #available_observation_num_message = log_record.message.split("\n")[2]
     #assert available_observation_num_message == "Available flyby_observation_num: ['Ta', 'T3', 'T4', 'T7', 'T8', 'T13', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T23', 'T25', 'T28', 'T29', 'T30', 'T36', 'T39', 'T41', 'T43', 'T44', 'T48', 'T49', 'T50', 'T52', 'T53', 'T55', 'T56', 'T57', 'T58', 'T59', 'T61', 'T63', 'T64', 'T65', 'T69', 'T71', 'T77', 'T80', 'T83', 'T84', 'T86', 'T91', 'T92', 'T95', 'T98', 'T104']"
@@ -55,148 +55,148 @@ def test_extractFlybyDataImages_verifyFlybyIDOrObservationNumberRequired():
     #assert available_id_types_message == "Available flyby_id: ['0035', '0045', '0048', '0059', '0065', '0082', '0086', '0087', '0093', '0098', '0100', '0101', '0108', '0111', '0120', '0126', '0127', '0131', '0149', '0157', '0161', '0166', '0167', '0174', '0177', '0181', '0186', '0189', '0193', '0195', '0199', '0200', '0201', '0203', '0209', '0210', '0211', '0218', '0220', '0229', '0234', '0239', '0240', '0243', '0248', '0250', '0253', '0257', '0261']"
 
 
-def test_extractFlybyDataImages_bothFlybyTypesInvalid():
+def test_extractFlybyImages_bothFlybyTypesInvalid():
     with pytest.raises(
             ValueError,
             match=
             "Requires either a flyby_observation_num OR flyby_id, not both."):
-        pydar.extractFlybyDataImages(flyby_observation_num="0211",
-                                     flyby_id="T31")
+        pydar.extract_flyby_images(flyby_observation_num="0211",
+                                   flyby_id="T31")
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_extractFlybyDataImages_flybyIDInvalidTypes(invalid_input,
+def test_extractFlybyImages_flybyIDInvalidTypes(invalid_input,
                                                     error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[flyby_id]: Must be a str, current type = '{error_output}'")
     ):
-        pydar.extractFlybyDataImages(flyby_id=invalid_input, segment_num="S01")
+        pydar.extract_flyby_images(flyby_id=invalid_input, segment_num="S01")
 
 
-def test_extractFlybyDataImages_notAvailableFlybyID():
+def test_extractFlybyImages_notAvailableFlybyID():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[flyby_id]: 'T32' not in available ids options '['Ta', 'T3', 'T4', 'T7', 'T8', 'T13', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T23', 'T25', 'T28', 'T29', 'T30', 'T36', 'T39', 'T41', 'T43', 'T44', 'T48', 'T49', 'T50', 'T52', 'T53', 'T55', 'T56', 'T57', 'T58', 'T59', 'T61', 'T63', 'T64', 'T65', 'T69', 'T71', 'T77', 'T80', 'T83', 'T84', 'T86', 'T91', 'T92', 'T95', 'T98', 'T104']'"
             )):
-        pydar.extractFlybyDataImages(flyby_id="T32", segment_num="S01")
+        pydar.extract_flyby_images(flyby_id="T32", segment_num="S01")
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_extractFlybyDataImages_observationNumInvalidTypes(
+def test_extractFlybyImages_observationNumInvalidTypes(
         invalid_input, error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[flyby_observation_num]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num=invalid_input,
-                                     segment_num="S01")
+        pydar.extract_flyby_images(flyby_observation_num=invalid_input,
+                                   segment_num="S01")
 
 
-def test_extractFlybyDataImages_notAvailableObservationNum():
+def test_extractFlybyImages_notAvailableObservationNum():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[flyby_observation_num]: '1234' not in available observation options '['0035', '0045', '0048', '0059', '0065', '0082', '0086', '0087', '0093', '0098', '0100', '0101', '0108', '0111', '0120', '0126', '0127', '0131', '0149', '0157', '0161', '0166', '0167', '0174', '0177', '0181', '0186', '0189', '0193', '0195', '0199', '0200', '0201', '0203', '0209', '0210', '0211', '0218', '0220', '0229', '0234', '0239', '0240', '0243', '0248', '0250', '0253', '0257', '0261']'"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="1234",
-                                     segment_num="S01")
+        pydar.extract_flyby_images(flyby_observation_num="1234",
+                                   segment_num="S01")
 
 
-def test_extractFlybyDataImages_segmentNumRequired():
+def test_extractFlybyImages_segmentNumRequired():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[segment_num]: segment_num number required out of available options ['S01', 'S02', 'S03', 'S04'], none given"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="211",
-                                     segment_num=None)
+        pydar.extract_flyby_images(flyby_observation_num="211",
+                                   segment_num=None)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_extractFlybyDataImages_segmentNumInvalidTypes(invalid_input,
+def test_extractFlybyImages_segmentNumInvalidTypes(invalid_input,
                                                        error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[segment_num]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="211",
-                                     segment_num=invalid_input)
+        pydar.extract_flyby_images(flyby_observation_num="211",
+                                   segment_num=invalid_input)
 
 
-def test_extractFlybyDataImages_notAvailableSegmentNum():
+def test_extractFlybyImages_notAvailableSegmentNum():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[segment_num]: 'S05' not an available segment option '['S01', 'S02', 'S03', 'S04']'"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="211",
-                                     segment_num="S05")
+        pydar.extract_flyby_images(flyby_observation_num="211",
+                                   segment_num="S05")
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_extractFlybyDataImages_resolutionInvalidTypes(invalid_input,
+def test_extractFlybyImages_resolutionInvalidTypes(invalid_input,
                                                        error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[resolution]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="211",
-                                     segment_num="S01",
-                                     resolution=invalid_input)
+        pydar.extract_flyby_images(flyby_observation_num="211",
+                                   segment_num="S01",
+                                   resolution=invalid_input)
 
 
-def test_extractFlybyDataImages_notAvailableResolution():
+def test_extractFlybyImages_notAvailableResolution():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[resolution]: resolution 'INVALID' must be a valid resolution type in {pydar.resolution_types}"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="211",
-                                     segment_num="S01",
-                                     resolution="INVALID")
+        pydar.extract_flyby_images(flyby_observation_num="211",
+                                   segment_num="S01",
+                                   resolution="INVALID")
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          [("1961", "<class 'str'>"),
                           (3.1415, "<class 'float'>"), ([], "<class 'list'>"),
                           (False, "<class 'bool'>")])
-def test_extractFlybyDataImages_topResolutionInvalidTypes(
+def test_extractFlybyImages_topResolutionInvalidTypes(
         invalid_input, error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[top_x_resolutions]: Must be a int, current type = '{error_output}'"
             )):
-        pydar.extractFlybyDataImages(flyby_observation_num="211",
-                                     segment_num="S01",
-                                     top_x_resolutions=invalid_input)
+        pydar.extract_flyby_images(flyby_observation_num="211",
+                                   segment_num="S01",
+                                   top_x_resolutions=invalid_input)
 
 
 @pytest.mark.parametrize("top_resolution_invalid_range", [(-1), (10)])
-def test_extractFlybyDataImages_topResolutionInvalidRange(
+def test_extractFlybyImages_topResolutionInvalidRange(
         top_resolution_invalid_range):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[top_x_resolutions]: Must be a value from 1 to 5, not '{top_resolution_invalid_range}'"
             )):
-        pydar.extractFlybyDataImages(
+        pydar.extract_flyby_images(
             flyby_observation_num="211",
             segment_num="S01",
             top_x_resolutions=top_resolution_invalid_range)
 
 
-## extractFlybyDataImages() ############################################
+## extractFlybyImages() ############################################
 
 
 ## convertFlybyIDToObservationNumber() #################################

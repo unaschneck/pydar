@@ -274,12 +274,12 @@ def downloadAdditionalDataTypes(cordar_file_name: str = None,
     # This function does not currently have functionality in pydar
 
 
-def extractFlybyDataImages(flyby_observation_num: str = None,
-                           flyby_id: str = None,
-                           segment_num: str = None,
-                           additional_data_types_to_download: list = [],
-                           resolution: str ='I',
-                           top_x_resolutions: list = None) -> None:
+def extract_flyby_images(flyby_observation_num: str = None,
+                         flyby_id: str = None,
+                         segment_num: str = None,
+                         additional_data_types_to_download: list = [],
+                         resolution: str ='I',
+                         top_x_resolutions: list = None) -> None:
 
     if flyby_id is not None and type(flyby_id) == str:
         flyby_id = flyby_id.capitalize(
@@ -293,7 +293,7 @@ def extractFlybyDataImages(flyby_observation_num: str = None,
         resolution = None  # set default resolution to None if selecting the top x resolutions
 
     # Error handling:
-    pydar.errorHandlingExtractFlybyDataImages(
+    pydar.errorHandlingExtractFlybyImages(
         flyby_observation_num=flyby_observation_num,
         flyby_id=flyby_id,
         segment_num=segment_num,

@@ -24,14 +24,14 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
     * convertFlybyIDToObservationNumber()
     * convertObservationNumberToFlybyID()
-    * extractFlybyDataImages()
+    * extract_flyby_images()
 * **Access specific observation data from AAREADME and .LBL readme information**
     * returnAAREADMEOptions()
     * readAAREADME()
     * returnLBLOptions()
     * readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
-    * displayImages()
+    * display_all_images()
 
 > [!Note]
 > This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
@@ -59,15 +59,15 @@ Returns a dictionary of flyby IDs (and their relevant segments) that Ontario Lac
 The relevant data files can be downloaded for any combination of these flyby IDs and segment numbers. For example, flyby ID 'T65' and segment 'S01' at resolution 'D' for 8 pixels/degree
 ```
 # Extract Flyby Data Files to pydar_results/ directory
-pydar.extractFlybyDataImages(flyby_id='T65',
+pydar.extract_flyby_images(flyby_id='T65',
                 resolution='D',
                 segment_num="S01")
 ```
 > [!Important]
-> extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data but will take some time to download
+> extract_flyby_images() only needs to be run once for each flyby to retrieve new data but will take some time to download
 ```
 # Display all Images in pydar_results/ directory
-pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
+pydar.display_all_images(image_directory="pydar_results/CORADR_0211_V03_S01")
 ```
  <p align="center">
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
@@ -156,10 +156,10 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |_SOFTWARE/
   |_VOLDESC.CAT <--- VERSION INFORMATION LISTED HERE ('VOLUME_VERSION_ID' = "Version 1", "Version 2", "Version 3") and in filename
 ```
-.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via `pydar.displayImages()`
+.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via `pydar.display_all_images()`
 
 ### Download Time
-Download time for data files vary when using `pydar.extractFlybyDataImages()` and depends on the number and size of files of interest. On average, most single feature downloads take between 1-5 minutes to download, but can be longer for higher resolution files.
+Download time for data files vary when using `pydar.extract_flyby_images()` and depends on the number and size of files of interest. On average, most single feature downloads take between 1-5 minutes to download, but can be longer for higher resolution files.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
@@ -543,14 +543,14 @@ Flyby ids are based on the 'Radar Data Take Number' in the [cassini_flyby.csv](h
 
 Requires each Titan flyby ID to be a valid flyby ID in [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-### extractFlybyDataImages()
+### extract_flyby_images()
 
 Downloads flyby data SBDR for a selected flyby observation number or flyby id: .FMT and .TAB files (for example: [SBDR.FMT](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT) and [SBDR_15_D087_V03.TAB](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB))
 
 Downloads flyby data BIDR for a selected flyby observation number or flyby id: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T016S01_V03.LBL](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL) and [BIBQH80N051_D087_T016S01_V03.ZIP](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP))
 
 ```
-extractFlybyDataImages(flyby_observation_num=None,
+extract_flyby_images(flyby_observation_num=None,
             flyby_id=None,
             segment_num=None,
             additional_data_types_to_download=[],
@@ -571,12 +571,12 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 
 ```python
 import pydar
-pydar.extractFlybyDataImages(flyby_id='T65',
+pydar.extract_flyby_images(flyby_id='T65',
             resolution='D',
             segment_num="S01")
 ```
 
-`extractFlybyDataImages()` will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example `pydar_results/CORADR_0065_V03_S01`). Download time depends on file and resolution size but ranges from 1-5 minutes
+`extract_flyby_images()` will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example `pydar_results/CORADR_0065_V03_S01`). Download time depends on file and resolution size but ranges from 1-5 minutes
 
 ### readAAREADME()
 
@@ -645,12 +645,12 @@ pydar.returnLBLOptions()
 </details>
 
 ## Use Downloaded Data
-### displayImages()
+### display_all_images()
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
 
 ```
-displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fig_dpi=120)
+display_all_images(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fig_dpi=120)
 ```
 
 * **[REQUIRED]** image_directory (string): directory containing a .LBL and .IMG file
@@ -662,14 +662,14 @@ displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fi
 
 ```python
 import pydar
-pydar.displayImages(image_directory="pydar_results/CORADR_0065_V03_S01")
+pydar.display_all_images(image_directory="pydar_results/CORADR_0065_V03_S01")
 ```
  <p align="center">
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
 </p>
 
 > [!Note]
-> `displayImages()` will show all images in the saved results directory
+> `display_all_images()` will show all images in the saved results directory
 
 **COMING SOON: extractMetadata**
 

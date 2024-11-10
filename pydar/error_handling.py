@@ -14,13 +14,13 @@ import pandas as pd
 import pydar
 
 
-def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
+def errorHandlingExtractFlybyImages(flyby_observation_num=None,
                                         flyby_id=None,
                                         segment_num=None,
                                         additional_data_types_to_download=[],
                                         resolution=None,
                                         top_x_resolutions=None):
-    # Error Handling for extract_flyby_parameters variables: extractFlybyDataImages()
+    # Error Handling for extract_flyby_parameters variables: extract_flyby_images()
     available_flyby_id, available_observation_numbers = pydar._retrieve_flyby_data()
 
     if flyby_observation_num is None and flyby_id is None:
