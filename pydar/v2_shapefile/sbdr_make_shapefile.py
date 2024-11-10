@@ -142,7 +142,8 @@ def sbdrMakeShapeFile(filename=None,
         file_out = file_out + ".shp"
         file_out2 = file_out + "_centroid.shp"
         file_out3 = file_out + "_center.shp"
-    logger.debug(f"Filenames for Output:\n{file_out}\n{file_out2}\n{file_out3}")
+    logger.debug(
+        f"Filenames for Output:\n{file_out}\n{file_out2}\n{file_out3}")
 
     # Filtering based on SAR and Active/Passive Radar
     # Find the Good Active Points (Usable data with low distortion from spacecraft orientation)

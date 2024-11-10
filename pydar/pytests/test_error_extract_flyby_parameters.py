@@ -20,8 +20,8 @@ invalid_non_str_options = [(1961, "<class 'int'>"),
 @pytest.mark.parametrize("flyby_id_value, flyby_observation_output",
                          [("T65", "0211"), ("T13", "0082"), ("Ta", "0035"),
                           ("T57", "0199")])
-def test_idToObservation_verifyFlybyConversion(
-        flyby_id_value, flyby_observation_output):
+def test_idToObservation_verifyFlybyConversion(flyby_id_value,
+                                               flyby_observation_output):
     assert pydar.id_to_observation(
         flyby_id=flyby_id_value) == flyby_observation_output
 
@@ -66,8 +66,7 @@ def test_extractFlybyImages_bothFlybyTypesInvalid():
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_extractFlybyImages_flybyIDInvalidTypes(invalid_input,
-                                                    error_output):
+def test_extractFlybyImages_flybyIDInvalidTypes(invalid_input, error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -87,8 +86,8 @@ def test_extractFlybyImages_notAvailableFlybyID():
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_extractFlybyImages_observationNumInvalidTypes(
-        invalid_input, error_output):
+def test_extractFlybyImages_observationNumInvalidTypes(invalid_input,
+                                                       error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -121,7 +120,7 @@ def test_extractFlybyImages_segmentNumRequired():
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
 def test_extractFlybyImages_segmentNumInvalidTypes(invalid_input,
-                                                       error_output):
+                                                   error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -144,7 +143,7 @@ def test_extractFlybyImages_notAvailableSegmentNum():
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
 def test_extractFlybyImages_resolutionInvalidTypes(invalid_input,
-                                                       error_output):
+                                                   error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -170,8 +169,8 @@ def test_extractFlybyImages_notAvailableResolution():
                          [("1961", "<class 'str'>"),
                           (3.1415, "<class 'float'>"), ([], "<class 'list'>"),
                           (False, "<class 'bool'>")])
-def test_extractFlybyImages_topResolutionInvalidTypes(
-        invalid_input, error_output):
+def test_extractFlybyImages_topResolutionInvalidTypes(invalid_input,
+                                                      error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -209,8 +208,7 @@ def test_idToObsrvation_flybyIDRequired():
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_idToObservation_flybyIDInvalidTypes(
-        invalid_input, error_output):
+def test_idToObservation_flybyIDInvalidTypes(invalid_input, error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -243,15 +241,14 @@ def test_observationToID_observationNumRequired():
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_observationToID_observationNumInvalidTypes(
-        invalid_input, error_output):
+def test_observationToID_observationNumInvalidTypes(invalid_input,
+                                                    error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[flyby_observation_num]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.observation_to_id(
-            flyby_observation_num=invalid_input)
+        pydar.observation_to_id(flyby_observation_num=invalid_input)
 
 
 def test_observationToID_invalidObservationNum():

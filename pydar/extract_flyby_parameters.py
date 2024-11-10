@@ -93,7 +93,8 @@ def _retrieve_jpl_coradr_options():
     return coradr_dataframe
 
 
-def _retrieve_most_recent_version_number(flyby_observiation_num: str = None) -> str:
+def _retrieve_most_recent_version_number(
+        flyby_observiation_num: str = None) -> str:
     # Return the CORADAR value with the most recent version from a list of possible options
     coradr_dataframe = _retrieve_jpl_coradr_options()
     jpl_coradr_options = []
@@ -125,7 +126,8 @@ def _retrieve_coradr_without_bidr() -> list:
     return coradar_without_bidr
 
 
-def _download_aareadme(cordar_file_name: str = None, segment_id: str = None) -> None:
+def _download_aareadme(cordar_file_name: str = None,
+                       segment_id: str = None) -> None:
     # Download AAREADME.txt within a CORADR directory
     aareadme_name = "AAREADME.TXT"
     aareadme_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/{aareadme_name}"
@@ -144,9 +146,9 @@ def _download_aareadme(cordar_file_name: str = None, segment_id: str = None) -> 
         response = request.urlretrieve(aareadme_url, aareadme_name)
 
 
-def _download_bidr_coradr_data(cordar_file_name: str =None,
-						  segment_id: str = None,
-						  resolution_px: list = None) -> None:
+def _download_bidr_coradr_data(cordar_file_name: str = None,
+                               segment_id: str = None,
+                               resolution_px: list = None) -> None:
     # Download BDIR files
     base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/BIDR/"
     logger.info(f"Retrieving BIDR filenames from: {base_url}\n")
@@ -219,7 +221,8 @@ def _download_bidr_coradr_data(cordar_file_name: str =None,
                     zip_ref.extractall(zipped_image_path)
 
 
-def _download_sbdr_coradr_data(cordar_file_name: str = None, segment_id: str = None) -> None:
+def _download_sbdr_coradr_data(cordar_file_name: str = None,
+                               segment_id: str = None) -> None:
     # Download SBDR files
     base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/SBDR/"
     logger.info(f"\nRetrieving SBDR filenames from: {base_url}")
@@ -263,8 +266,8 @@ def _download_sbdr_coradr_data(cordar_file_name: str = None, segment_id: str = N
 
 
 def _download_additional_data_types(cordar_file_name: str = None,
-								segment_id: str = None,
-                                additional_data_type: list = None) -> None:
+                                    segment_id: str = None,
+                                    additional_data_type: list = None) -> None:
     # Download additional data types
     additional_data_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/{additional_data_type}"
     logger.info(
@@ -278,7 +281,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
                          flyby_id: str = None,
                          segment_num: str = None,
                          additional_data_types_to_download: list = [],
-                         resolution: str ='I',
+                         resolution: str = 'I',
                          top_x_resolutions: list = None) -> None:
 
     if flyby_id is not None and type(flyby_id) == str:
@@ -369,12 +372,12 @@ def extract_flyby_images(flyby_observation_num: str = None,
         # Download BIDR
         if flyby_observation_num not in no_associated_bidr_values:  # only attempt to download BIDR files for flybys that have BIDR files
             if top_x_resolutions is not None:
-                _download_bidr_coradr_data(flyby_observation_cordar_name,
-										   segment_num,
-										   RESOLUTION_TYPES[-top_x_resolutions:])
+                _download_bidr_coradr_data(
+                    flyby_observation_cordar_name, segment_num,
+                    RESOLUTION_TYPES[-top_x_resolutions:])
             else:
                 _download_bidr_coradr_data(flyby_observation_cordar_name,
-										   segment_num, resolution)
+                                           segment_num, resolution)
 
         # Download SBDR
         _download_sbdr_coradr_data(flyby_observation_cordar_name, segment_num)
@@ -385,7 +388,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
                     "BIDR", "SBDR"
             ]:  # ignore data files that have already been downloaded
                 _download_additional_data_types(flyby_observation_cordar_name,
-                                            segment_num, data_type)
+                                                segment_num, data_type)
 
     # No valid parameters given, empty file
     if len(

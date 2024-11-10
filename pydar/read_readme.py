@@ -16,7 +16,8 @@ logger.addHandler(stream_handler)
 
 #######################################################################
 # Find relevant section to print by referencing built in options
-def _determine_section_to_print(section_to_print:str = None, aareadmeOrLBL: str = None) -> str:
+def _determine_section_to_print(section_to_print: str = None,
+                                aareadmeOrLBL: str = None) -> str:
     # check which list the section_to_print is from
     if aareadmeOrLBL == "LBL":
         if section_to_print in lblreadme_general_options:
@@ -49,8 +50,8 @@ def aareadme_options() -> None:
 
 
 def read_aareadme(coradr_results_directory: str = None,
-                 section_to_print: str = None,
-                 print_to_console: bool = True) -> None:
+                  section_to_print: str = None,
+                  print_to_console: bool = True) -> None:
     # Print AAREADME to console
     pydar.errorHandlingREADME(
         coradr_results_directory=coradr_results_directory,
@@ -65,7 +66,8 @@ def read_aareadme(coradr_results_directory: str = None,
         if sectionList is None:
             section_to_print = section_to_print.title(
             )  # check if the section is case-sensitive
-            sectionList = _determine_section_to_print(section_to_print, "AAREADME")
+            sectionList = _determine_section_to_print(section_to_print,
+                                                      "AAREADME")
             if sectionList is None:
                 raise ValueError(
                     f"[section_to_print]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
@@ -178,8 +180,8 @@ def lbl_options() -> None:
 
 
 def read_lbl_readme(coradr_results_directory: str = None,
-                  section_to_print: str = None,
-                  print_to_console: bool = True) -> str:
+                    section_to_print: str = None,
+                    print_to_console: bool = True) -> str:
     # Print .LBL to console
     if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
         # Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file

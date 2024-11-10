@@ -20,18 +20,18 @@ logger.addHandler(stream_handler)
 
 #### DISPLAY ALL PDR IMAGES IN A DIRECTORY #############################
 def display_all_images(image_directory: str = None,
-					   fig_title: str = None,
-					   cmap: str = "gray",
-					   figsize_n: int = 6,
-					   fig_dpi: int =120) -> None:
+                       fig_title: str = None,
+                       cmap: str = "gray",
+                       figsize_n: int = 6,
+                       fig_dpi: int = 120) -> None:
     # Display all images in the image directory specified
     #   plt.show() all imgs in a given directory
 
     pydar.errorHandlingDisplayAllImages(image_directory=image_directory,
-										fig_title=fig_title,
-										cmap=cmap,
-										figsize_n=figsize_n,
-										fig_dpi=fig_dpi)
+                                        fig_title=fig_title,
+                                        cmap=cmap,
+                                        figsize_n=figsize_n,
+                                        fig_dpi=fig_dpi)
 
     # Display all IMG files in directory
     for filename in os.listdir(image_directory):

@@ -30,7 +30,8 @@ def test_displayAllImages_imageDirectoryRequired():
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_displayAllImages_ImageDirectoryInvalidTypes(invalid_input, error_output):
+def test_displayAllImages_ImageDirectoryInvalidTypes(invalid_input,
+                                                     error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
@@ -48,7 +49,7 @@ def test_displayAllImages_figureTitleInvalidTypes(invalid_input, error_output):
                 f"[fig_title]: Must be a str, current type = '{error_output}'")
     ):
         pydar.display_all_images(image_directory="pydar_results/testing",
-								 fig_title=invalid_input)
+                                 fig_title=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -59,7 +60,7 @@ def test_displayAllImages_cmapInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[cmap]: Must be a str, current type = '{error_output}'")):
         pydar.display_all_images(image_directory="pydar_results/testing",
-								cmap=invalid_input)
+                                 cmap=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -71,7 +72,7 @@ def test_displayAllImages_figureSizeInvalidTypes(invalid_input, error_output):
                 f"[figsize_n]: Must be a int, current type = '{error_output}'")
     ):
         pydar.display_all_images(image_directory="pydar_results/testing",
-								 figsize_n=invalid_input)
+                                 figsize_n=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -82,7 +83,7 @@ def test_displayAllImages_figureDPIInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[fig_dpi]: Must be a int, current type = '{error_output}'")):
         pydar.display_all_images(image_directory="pydar_results/testing",
-								 fig_dpi=invalid_input)
+                                 fig_dpi=invalid_input)
 
 
 def test_displayAllImages_figureSizeInvalidRange():
@@ -92,7 +93,7 @@ def test_displayAllImages_figureSizeInvalidRange():
                 "[figsize_n]: figsize_n must be greater than 1, current value = '0'"
             )):
         pydar.display_all_images(image_directory="pydar_results/testing",
-								 figsize_n=0)
+                                 figsize_n=0)
 
 
 def test_displayAllImages_figureDPIInvalidRange():
@@ -101,7 +102,8 @@ def test_displayAllImages_figureDPIInvalidRange():
             match=re.escape(
                 "[fig_dpi]: fig_dpi must be greater than 1, current value = '0'"
             )):
-        pydar.display_all_images(image_directory="pydar_results/testing", fig_dpi=0)
+        pydar.display_all_images(image_directory="pydar_results/testing",
+                                 fig_dpi=0)
 
 
 ## display_all_images() #####################################################

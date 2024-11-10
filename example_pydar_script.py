@@ -5,11 +5,14 @@ if __name__ == '__main__':
     ## Get swatch coverage based on latitude/longitude, Time, or Feature
     feature_name = "Ontario Lacus"
     flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
-    print(f"Flyby IDS based on Feature Name '{feature_name.title()}' = {flyby_ids_name}")
+    print(
+        f"Flyby IDS based on Feature Name '{feature_name.title()}' = {flyby_ids_name}"
+    )
 
     flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(
         latitude=-80, longitude=170)
-    print(f"\nFlyby IDS based on Latitude/Longitude = {flyby_ids_with_segments}")
+    print(
+        f"\nFlyby IDS based on Latitude/Longitude = {flyby_ids_with_segments}")
 
     flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(
         min_latitude=-82,
@@ -20,14 +23,18 @@ if __name__ == '__main__':
 
     feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(
         latitude=-72, longitude=183)
-    print(f"\nFeature Names Found at -72 latitude and 183 longitude = {feature_names_list}")
+    print(
+        f"\nFeature Names Found at -72 latitude and 183 longitude = {feature_names_list}"
+    )
 
     feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitudeRange(
         min_latitude=-82,
         max_latitude=-72,
         min_longitude=183,
         max_longitude=190)
-    print(f"\nFeature Names Found in Latitude/Longitude Range = {feature_names_list}")
+    print(
+        f"\nFeature Names Found in Latitude/Longitude Range = {feature_names_list}"
+    )
 
     flyby_ids_time = pydar.retrieveIDSByTime(year=2005, doy=301)
     print(f"\nFlyby IDS based on a specific timestamp = {flyby_ids_time}")
@@ -44,17 +51,18 @@ if __name__ == '__main__':
                                                         end_minute=15,
                                                         end_second=23,
                                                         end_millisecond=987)
-    print(f"\nFlyby IDS based on a range of timestamps = {flyby_ids_time_range}")
+    print(
+        f"\nFlyby IDS based on a range of timestamps = {flyby_ids_time_range}")
 
     # Convert Flby Id into an Observation Number
     flyby_id_value = "T65"
-    observation_num = pydar.id_to_observation(
-        flyby_id=flyby_id_value)
-    print(f"\nFlyby ID '{flyby_id_value}' is observation number = {observation_num}")
+    observation_num = pydar.id_to_observation(flyby_id=flyby_id_value)
+    print(
+        f"\nFlyby ID '{flyby_id_value}' is observation number = {observation_num}"
+    )
 
     observation_num = "211"
-    flyby_id = pydar.observation_to_id(
-        flyby_observation_num=observation_num)
+    flyby_id = pydar.observation_to_id(flyby_observation_num=observation_num)
     print(f"\nObservation Number '{observation_num}' is flyby id = {flyby_id}")
 
     # Extract Flyby Data Files to results/ directory

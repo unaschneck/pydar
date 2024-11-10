@@ -21,8 +21,8 @@ invalid_non_bool_options = [(1961, "<class 'int'>"), (3.1415,
                             ([], "<class 'list'>"),
                             ("Testing", "<class 'str'>")]
 
-
 ## aareadme_options() #############################################
+
 
 def test_AAREADMEOptions_verifyOptionsOutput(caplog):
     pydar.aareadme_options()
@@ -32,6 +32,7 @@ def test_AAREADMEOptions_verifyOptionsOutput(caplog):
     log_record = caplog.records[1]
     assert log_record.levelno == logging.INFO
     assert log_record.message == "Section Header Options: ['Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']"
+
 
 ## aareadme_options() #############################################
 
@@ -80,7 +81,7 @@ def test_readAAREADME_SectionInvalidTypes(invalid_input, error_output):
                 f"[section_to_print]: Must be a str, current type = '{error_output}'"
             )):
         pydar.read_aareadme(coradr_results_directory="coradr_directory",
-                           section_to_print=invalid_input)
+                            section_to_print=invalid_input)
 
 
 def test_readAAREADME_NotValidSection():
@@ -90,7 +91,7 @@ def test_readAAREADME_NotValidSection():
                 "[section_to_print]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
             )):
         pydar.read_aareadme(coradr_results_directory="coradr_directory",
-                           section_to_print="invalid section")
+                            section_to_print="invalid section")
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -102,7 +103,7 @@ def test_readAAREADME_PrintInvalidTypes(invalid_input, error_output):
                 f"[print_to_console]: Must be a bool, current type = '{error_output}'"
             )):
         pydar.read_aareadme(coradr_results_directory="coradr_directory",
-                           print_to_console=invalid_input)
+                            print_to_console=invalid_input)
 
 
 ## read_aareadme() ######################################################
@@ -138,7 +139,7 @@ def test_readLBLREADME_SectionInvalidTypes(invalid_input, error_output):
                 f"[section_to_print]: Must be a str, current type = '{error_output}'"
             )):
         pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
-                            section_to_print=invalid_input)
+                              section_to_print=invalid_input)
 
 
 def test_readLBLREADME_NotValidSection():
@@ -148,7 +149,7 @@ def test_readLBLREADME_NotValidSection():
                 "[section_to_print]: Cannot find a revelant section_to_print: Invalid 'INVALID SECTION'"
             )):
         pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
-                            section_to_print="invalid section")
+                              section_to_print="invalid section")
 
 
 @pytest.mark.parametrize("unspecific_section", [("FILE_NAME"),
@@ -160,7 +161,7 @@ def test_readLBLREADME_UnspecificSection(unspecific_section):
                 f"Specify {unspecific_section} as either '{unspecific_section} UNCOMPRESSED' or '{unspecific_section} COMPRESSED'"
             )):
         pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
-                            section_to_print=unspecific_section)
+                              section_to_print=unspecific_section)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -172,7 +173,7 @@ def test_readLBLREADME_PrintInvalidTypes(invalid_input, error_output):
                 f"[print_to_console]: Must be a bool, current type = '{error_output}'"
             )):
         pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
-                            print_to_console=invalid_input)
+                              print_to_console=invalid_input)
 
 
 ## read_lbl_readme() #####################################################

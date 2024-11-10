@@ -15,13 +15,14 @@ import pydar
 
 
 def errorHandlingExtractFlybyImages(flyby_observation_num=None,
-                                        flyby_id=None,
-                                        segment_num=None,
-                                        additional_data_types_to_download=[],
-                                        resolution=None,
-                                        top_x_resolutions=None):
+                                    flyby_id=None,
+                                    segment_num=None,
+                                    additional_data_types_to_download=[],
+                                    resolution=None,
+                                    top_x_resolutions=None):
     # Error Handling for extract_flyby_parameters variables: extract_flyby_images()
-    available_flyby_id, available_observation_numbers = pydar._retrieve_flyby_data()
+    available_flyby_id, available_observation_numbers = pydar._retrieve_flyby_data(
+    )
 
     if flyby_observation_num is None and flyby_id is None:
         raise ValueError(
@@ -181,10 +182,10 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
 
 
 def errorHandlingDisplayAllImages(image_directory=None,
-                               fig_title=None,
-                               cmap=None,
-                               figsize_n=None,
-                               fig_dpi=None):
+                                  fig_title=None,
+                                  cmap=None,
+                                  figsize_n=None,
+                                  fig_dpi=None):
     # Error Handling for Displaying Images from an Image Directory: display_all_images()
     if image_directory == None:
         raise ValueError("[image_directory]: image_directory is required")
