@@ -95,7 +95,7 @@ def errorHandlingExtractFlybyImages(flyby_observation_num=None,
             row = row.tolist()
         for i, row_bool in enumerate(row[2:]): # Ignores first two columns: CORADR ID and Is Titan Flyby
             if row_bool is True:
-                coradr_data_types.append(pydar.datafile_types_columns[i])
+                coradr_data_types.append(pydar.DATAFILE_TYPES[i])
 
         for data_type in additional_data_types_to_download:
             if data_type not in coradr_data_types:
@@ -108,9 +108,9 @@ def errorHandlingExtractFlybyImages(flyby_observation_num=None,
             raise ValueError(
                 f"[resolution]: Must be a str, current type = '{type(resolution)}'"
             )
-        if resolution not in pydar.resolution_types:
+        if resolution not in pydar.RESOLUTION_TYPES:
             raise ValueError(
-                f"[resolution]: resolution '{resolution}' must be a valid resolution type in {pydar.resolution_types}"
+                f"[resolution]: resolution '{resolution}' must be a valid resolution type in {pydar.RESOLUTION_TYPES}"
             )
 
     if top_x_resolutions is not None:

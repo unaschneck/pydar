@@ -21,8 +21,8 @@ from .extract_flyby_parameters import convertFlybyIDToObservationNumber
 from .extract_flyby_parameters import convertObservationNumberToFlybyID
 
 # extract_flyby_parameters.py data
-from .extract_flyby_parameters import resolution_types
-from .extract_flyby_parameters import datafile_types_columns
+from .extract_flyby_parameters import RESOLUTION_TYPES
+from .extract_flyby_parameters import DATAFILE_TYPES
 
 # read_readme.py function calls
 from .read_readme import aareadme_options

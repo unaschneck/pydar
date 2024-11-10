@@ -159,7 +159,7 @@ def test_extractFlybyImages_notAvailableResolution():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                f"[resolution]: resolution 'INVALID' must be a valid resolution type in {pydar.resolution_types}"
+                f"[resolution]: resolution 'INVALID' must be a valid resolution type in {pydar.RESOLUTION_TYPES}"
             )):
         pydar.extract_flyby_images(flyby_observation_num="211",
                                    segment_num="S01",

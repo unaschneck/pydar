@@ -20,9 +20,9 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-resolution_types = ["B", "D", "F", "H",
+RESOLUTION_TYPES = ["B", "D", "F", "H",
                     "I"]  # 2, 8, 32, 128, 256 pixels/degree
-datafile_types_columns = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
+DATAFILE_TYPES = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 
 
 def _retrieve_flyby_data() -> (list, str):
@@ -371,7 +371,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
             if top_x_resolutions is not None:
                 _download_bidr_coradr_data(flyby_observation_cordar_name,
 										   segment_num,
-										   resolution_types[-top_x_resolutions:])
+										   RESOLUTION_TYPES[-top_x_resolutions:])
             else:
                 _download_bidr_coradr_data(flyby_observation_cordar_name,
 										   segment_num, resolution)

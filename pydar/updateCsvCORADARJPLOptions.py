@@ -76,7 +76,7 @@ def _update_csv_coradr_jpl_options():
         table = soup.find('table', {"id": "indexlist"})
         table_text = (table.text).split("\n")
         for txt in table_text:
-            for i, data_type in enumerate(pydar.datafile_types_columns):
+            for i, data_type in enumerate(pydar.DATAFILE_TYPES):
                 if data_type in txt:
                     coradr_id[i + 2] = True
                 if coradr_id[0].split("_")[1] in flyby_radar_take_num:
