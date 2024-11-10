@@ -151,7 +151,7 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
 
 
 def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
-    # Error Handling for Converting an Observation Number to a Flyby ID: convertObservationNumberToFlybyID()
+    # Error Handling for Converting an Observation Number to a Flyby ID: observation_to_id()
     if flyby_observation_num is None:
         raise ValueError(
             "[flyby_observation_num]: A valid flyby_observation_num string is required"

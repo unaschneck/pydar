@@ -23,7 +23,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
     * id_to_observation()
-    * convertObservationNumberToFlybyID()
+    * observation_to_id()
     * extract_flyby_images()
 * **Access specific observation data from AAREADME and .LBL readme information**
     * aareadme_options()
@@ -167,7 +167,7 @@ Download time for data files vary when using `pydar.extract_flyby_images()` and 
 ### Cross-Reference Table for Observations and Flybys
 The Titan flyby IDs (e.g. 'T65') are not used in the naming convention for the CORADR filenames. Instead, all files are referred to by their observation number (e.g. '0211'). The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-To convert between a Titan Flyby ID and an observation number use either `pydar.id_to_observation(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
+To convert between a Titan Flyby ID and an observation number use either `pydar.id_to_observation(flyby_id)` or `pydar.observation_to_id(flyby_observation_num)`
 
 ### Observation Information as Filename
 The data filename contains a lot of information about the observation
@@ -524,18 +524,18 @@ Output = `0211`
 
 Observation number based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
 
-### convertObservationNumberToFlybyID()
+### observation_to_id()
 
 Converts a Titan Observation Number (for example: '211' or '0211') to an flyby id ('0211' -> 'T65')
 
 ```python
-convertObservationNumberToFlybyID(flyby_observation_num)
+observation_to_id(flyby_observation_num)
 ```
 * **[REQUIRED]** flyby_observation_num (string): a valid observation number
 
 ```python
 import pydar
-flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
+flyby_id = pydar.observation_to_id(flyby_observation_num='211')
 ```
 Output = `T65`
 

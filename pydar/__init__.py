@@ -18,7 +18,7 @@ from .error_handling import errorHandlingSbdrMakeShapeFile
 from .extract_flyby_parameters import _retrieve_flyby_data
 from .extract_flyby_parameters import extract_flyby_images
 from .extract_flyby_parameters import id_to_observation
-from .extract_flyby_parameters import convertObservationNumberToFlybyID
+from .extract_flyby_parameters import observation_to_id
 
 # extract_flyby_parameters.py data
 from .extract_flyby_parameters import RESOLUTION_TYPES

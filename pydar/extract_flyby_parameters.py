@@ -60,7 +60,7 @@ def id_to_observation(flyby_id: str = None) -> str:
             return observation_number
 
 
-def convertObservationNumberToFlybyID(flyby_observation_num: str = None) -> str:
+def observation_to_id(flyby_observation_num: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
     if flyby_observation_num is not None:
         if type(flyby_observation_num) != str:

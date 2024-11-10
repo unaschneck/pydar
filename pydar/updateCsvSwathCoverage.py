@@ -114,7 +114,7 @@ def _update_csv_swath_coverage():
                             radar_id, None, None, None, None, None, None, None,
                             None, None, None, None, None, None
                         ]
-                        lbl[1] = pydar.convertObservationNumberToFlybyID(
+                        lbl[1] = pydar.observation_to_id(
                             radar_id.split("_")[1])
                         lbl[2] = (filename.split("_")[2]
                                   ).split("S")[1]  # Segment Number

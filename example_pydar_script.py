@@ -53,7 +53,7 @@ if __name__ == '__main__':
     print(f"\nFlyby ID '{flyby_id_value}' is observation number = {observation_num}")
 
     observation_num = "211"
-    flyby_id = pydar.convertObservationNumberToFlybyID(
+    flyby_id = pydar.observation_to_id(
         flyby_observation_num=observation_num)
     print(f"\nObservation Number '{observation_num}' is flyby id = {flyby_id}")
 
