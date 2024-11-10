@@ -180,12 +180,12 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
         )
 
 
-def errorHandlingDisplayImages(image_directory=None,
+def errorHandlingDisplayAllImages(image_directory=None,
                                fig_title=None,
                                cmap=None,
                                figsize_n=None,
                                fig_dpi=None):
-    # Error Handling for Displaying Images from an Image Directory: displayImages()
+    # Error Handling for Displaying Images from an Image Directory: display_all_images()
     if image_directory == None:
         raise ValueError("[image_directory]: image_directory is required")
     else:

@@ -19,11 +19,11 @@ logger.addHandler(stream_handler)
 
 
 #### DISPLAY ALL PDR IMAGES IN A DIRECTORY #############################
-def displayImages(image_directory: str = None,
-                  fig_title: str = None,
-                  cmap: str = "gray",
-                  figsize_n: int = 6,
-                  fig_dpi: int =120) -> None:
+def display_all_images(image_directory: str = None,
+					   fig_title: str = None,
+					   cmap: str = "gray",
+					   figsize_n: int = 6,
+					   fig_dpi: int =120) -> None:
     # Display all images in the image directory specified
     #   plt.show() all imgs in a given directory
 
