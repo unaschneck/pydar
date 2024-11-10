@@ -93,7 +93,7 @@ def _retrieve_jpl_coradr_options():
     return coradr_dataframe
 
 
-def retrieveMostRecentVersionNumber(flyby_observiation_num: str = None) -> str:
+def _retrieve_most_recent_version_number(flyby_observiation_num: str = None) -> str:
     # Return the CORADAR value with the most recent version from a list of possible options
     coradr_dataframe = _retrieve_jpl_coradr_options()
     jpl_coradr_options = []
@@ -112,7 +112,7 @@ def retrieveMostRecentVersionNumber(flyby_observiation_num: str = None) -> str:
     return more_accurate_model_number
 
 
-def retrieveCoradrWithoutBIDR() -> list:
+def _retrieve_coradr_without_bidr() -> list:
     # Return a list of valid flyby observation numbers that do not contain BIDR
     coradr_dataframe = _retrieve_jpl_coradr_options()
     coradar_without_bidr = []
@@ -125,7 +125,7 @@ def retrieveCoradrWithoutBIDR() -> list:
     return coradar_without_bidr
 
 
-def downloadAAREADME(cordar_file_name: str = None, segment_id: str = None) -> None:
+def _download_aareadme(cordar_file_name: str = None, segment_id: str = None) -> None:
     # Download AAREADME.txt within a CORADR directory
     aareadme_name = "AAREADME.TXT"
     aareadme_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/{aareadme_name}"
@@ -316,7 +316,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
         flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
 
     # Data gaps and problems from the original downlinking and satellite location, report some special cases to user
-    no_associated_bidr_values = retrieveCoradrWithoutBIDR(
+    no_associated_bidr_values = _retrieve_coradr_without_bidr(
     )  # currently: ["0048", "0186", "0189", "0209", "0234"]
     if flyby_observation_num in no_associated_bidr_values:
         logger.info(
@@ -354,7 +354,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
         )
 
     # Download information from pds-imaging site for CORADR
-    flyby_observation_cordar_name = retrieveMostRecentVersionNumber(
+    flyby_observation_cordar_name = _retrieve_most_recent_version_number(
         flyby_observation_num)
     if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
     if not os.path.exists(
@@ -364,7 +364,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
 
     if download_files:
         # Download AAREADME.TXT
-        downloadAAREADME(flyby_observation_cordar_name, segment_num)
+        _download_aareadme(flyby_observation_cordar_name, segment_num)
 
         # Download BIDR
         if flyby_observation_num not in no_associated_bidr_values:  # only attempt to download BIDR files for flybys that have BIDR files
