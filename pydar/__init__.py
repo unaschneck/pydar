@@ -28,7 +28,7 @@ from .extract_flyby_parameters import datafile_types_columns
 from .read_readme import aareadme_options
 from .read_readme import read_aareadme
 from .read_readme import lbl_options
-from .read_readme import readLBLREADME
+from .read_readme import read_lbl_readme
 
 # retrieve_ids_by_time_position.py function calls
 from .retrieve_ids_by_time_position import retrieveIDSByFeatureName

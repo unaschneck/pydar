@@ -108,14 +108,14 @@ def test_readAAREADME_PrintInvalidTypes(invalid_input, error_output):
 ## read_aareadme() ######################################################
 
 
-## readLBLREADME() #####################################################
+## read_lbl_readme() #####################################################
 def test_readLBLREADME_coradrRequired():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[coradr_results_directory]: coradr_results_directory is required"
             )):
-        pydar.readLBLREADME(coradr_results_directory=None)
+        pydar.read_lbl_readme(coradr_results_directory=None)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -126,7 +126,7 @@ def test_readLBLREADME_coradrInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[coradr_results_directory]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.readLBLREADME(coradr_results_directory=invalid_input)
+        pydar.read_lbl_readme(coradr_results_directory=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -137,7 +137,7 @@ def test_readLBLREADME_SectionInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[section_to_print]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.readLBLREADME(coradr_results_directory="coradr_directory",
+        pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
                             section_to_print=invalid_input)
 
 
@@ -145,9 +145,9 @@ def test_readLBLREADME_NotValidSection():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[readLBLREADME]: Cannot find a revelant section_to_print: Invalid 'INVALID SECTION'"
+                "[section_to_print]: Cannot find a revelant section_to_print: Invalid 'INVALID SECTION'"
             )):
-        pydar.readLBLREADME(coradr_results_directory="coradr_directory",
+        pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
                             section_to_print="invalid section")
 
 
@@ -159,7 +159,7 @@ def test_readLBLREADME_UnspecificSection(unspecific_section):
             match=re.escape(
                 f"Specify {unspecific_section} as either '{unspecific_section} UNCOMPRESSED' or '{unspecific_section} COMPRESSED'"
             )):
-        pydar.readLBLREADME(coradr_results_directory="coradr_directory",
+        pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
                             section_to_print=unspecific_section)
 
 
@@ -171,8 +171,8 @@ def test_readLBLREADME_PrintInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[print_to_console]: Must be a bool, current type = '{error_output}'"
             )):
-        pydar.readLBLREADME(coradr_results_directory="coradr_directory",
+        pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
                             print_to_console=invalid_input)
 
 
-## readLBLREADME() #####################################################
+## read_lbl_readme() #####################################################

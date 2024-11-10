@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # Read .LBL to console
     #pydar.lbl_options()
-    #pydar.readLBLREADME(
+    #pydar.read_lbl_readme(
     #    coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
     #    section_to_print="LOOK_DIrecTION")
 

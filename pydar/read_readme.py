@@ -177,7 +177,7 @@ def lbl_options() -> None:
     logger.info(f"Section Header Options: {lblreadme_section_options}")
 
 
-def readLBLREADME(coradr_results_directory: str = None,
+def read_lbl_readme(coradr_results_directory: str = None,
                   section_to_print: str = None,
                   print_to_console: bool = True) -> str:
     # Print .LBL to console
@@ -202,7 +202,7 @@ def readLBLREADME(coradr_results_directory: str = None,
         sectionList = _determine_section_to_print(section_to_print, "LBL")
         if sectionList is None:
             raise ValueError(
-                f"[readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
+                f"[read_lbl_readme]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
             )
 
     # Define position to start console print, default to 'All' if no section is specified

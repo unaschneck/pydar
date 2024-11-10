@@ -29,7 +29,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * aareadme_options()
     * read_aareadme()
     * lbl_options()
-    * readLBLREADME()
+    * read_lbl_readme()
 * **Display PDS image retrieved for flyby observation**
     * display_all_images()
 
@@ -607,12 +607,12 @@ pydar.aareadme_options()
 
 Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
 
-### readLBLREADME()
+### read_lbl_readme()
 
 Print .LBL README to console for viewing
 
 ```
-readLBLREADME(coradr_results_directory=None,
+read_lbl_readme(coradr_results_directory=None,
     section_to_print=None, 
     print_to_console=True)
 ```
@@ -625,7 +625,7 @@ To see a list of all section_to_print options, see: `lbl_options()`
 
 ```python
 import pydar
-pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
+pydar.read_lbl_readme(coradr_results_directory="pydar_results/CORADR_0035_S01/",
         section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 ```
 Output = `(0.13498322,0.00221225,-0.99084542)`
