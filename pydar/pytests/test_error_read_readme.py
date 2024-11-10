@@ -87,7 +87,7 @@ def test_readAAREADME_NotValidSection():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[read_aareadme]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
+                "[section_to_print]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
             )):
         pydar.read_aareadme(coradr_results_directory="coradr_directory",
                            section_to_print="invalid section")

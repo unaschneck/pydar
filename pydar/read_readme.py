@@ -68,7 +68,7 @@ def read_aareadme(coradr_results_directory: str = None,
             sectionList = _determine_section_to_print(section_to_print, "AAREADME")
             if sectionList is None:
                 raise ValueError(
-                    f"[read_aareadme]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
+                    f"[section_to_print]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
                 )
 
     # Define position to start console print, default to 'All' if no section is specified
@@ -202,7 +202,7 @@ def read_lbl_readme(coradr_results_directory: str = None,
         sectionList = _determine_section_to_print(section_to_print, "LBL")
         if sectionList is None:
             raise ValueError(
-                f"[read_lbl_readme]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
+                f"[section_to_print]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
             )
 
     # Define position to start console print, default to 'All' if no section is specified

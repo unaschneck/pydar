@@ -24,7 +24,7 @@ logger.addHandler(stream_handler)
 
 
 ## FUNCTIONS TO WEB SCRAPE TO POPULATE coradr_jpl_options.csv ################
-def updateCsvCORADRJPLOptions():
+def _update_csv_coradr_jpl_options():
     # Update the csv script for coradr_jpl_options.csv from the most recent JPL webpage
     # Retrieves information for each CORADAR option and the data types it has available
     #       Estimated runtime: 5 minutes
@@ -96,4 +96,4 @@ def updateCsvCORADRJPLOptions():
 
 
 if __name__ == '__main__':
-    updateCsvCORADRJPLOptions()  #   updates coradr_jpl_options.csv
+    _update_csv_coradr_jpl_options()  #   updates coradr_jpl_options.csv

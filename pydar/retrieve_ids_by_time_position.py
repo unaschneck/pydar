@@ -20,7 +20,7 @@ logger.addHandler(stream_handler)
 
 
 ### COLLECT FEATURE NAME INFORMATION FROM feature_name_details.csv #####
-def latitudeLongitudeWithFeatureNameFromCSV() -> dict:
+def _retrieve_latlon_with_feature_names_from_csv() -> dict:
     # Retrieve a list of Feature Names with a range of the associated latitude/longitude values
     #   Returns a Dictionary of Feature Name with feature details
     feature_name_dict = {}
@@ -51,7 +51,7 @@ def retrieveIDSByFeatureName(feature_name: str = None) -> dict:
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByFeature(feature_name=feature_name)
 
-    feature_name_csv_dict = latitudeLongitudeWithFeatureNameFromCSV()
+    feature_name_csv_dict = _retrieve_latlon_with_feature_names_from_csv()
     feature_name = feature_name.title(
     )  # convert 'ligeria mare' to 'Ligeria Mare' to make input not sensitive to case
 
@@ -349,7 +349,7 @@ def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude: (int, float) = None
         min_longitude=min_longitude,
         max_longitude=max_longitude)
 
-    feature_name_csv_dict = latitudeLongitudeWithFeatureNameFromCSV()
+    feature_name_csv_dict = _retrieve_latlon_with_feature_names_from_csv()
     feature_names_list = []
 
     def twoRangesIntersect(min_feature, max_feature, min_user, max_user):
