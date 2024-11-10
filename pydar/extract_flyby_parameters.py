@@ -25,7 +25,7 @@ resolution_types = ["B", "D", "F", "H",
 datafile_types_columns = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 
 
-def _retrieve_flyby_data():
+def _retrieve_flyby_data() -> (list, str):
     # Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
     flyby_id = []
     flyby_radar_take_num = []
@@ -44,7 +44,7 @@ def _retrieve_flyby_data():
     return flyby_id, flyby_radar_take_num
 
 
-def convertFlybyIDToObservationNumber(flyby_id=None):
+def convertFlybyIDToObservationNumber(flyby_id: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
     pydar.errorHandlingConvertFlybyIDToObservationNumber(flyby_id=flyby_id)
 
@@ -60,7 +60,7 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
             return observation_number
 
 
-def convertObservationNumberToFlybyID(flyby_observation_num=None):
+def convertObservationNumberToFlybyID(flyby_observation_num: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
     if flyby_observation_num is not None:
         if type(flyby_observation_num) != str:
@@ -93,7 +93,7 @@ def retrieveJPLCoradrOptions():
     return coradr_dataframe
 
 
-def retrieveMostRecentVersionNumber(flyby_observiation_num=None):
+def retrieveMostRecentVersionNumber(flyby_observiation_num: str = None) -> str:
     # Return the CORADAR value with the most recent version from a list of possible options
     coradr_dataframe = retrieveJPLCoradrOptions()
     jpl_coradr_options = []
@@ -112,7 +112,7 @@ def retrieveMostRecentVersionNumber(flyby_observiation_num=None):
     return more_accurate_model_number
 
 
-def retrieveCoradrWithoutBIDR():
+def retrieveCoradrWithoutBIDR() -> list:
     # Return a list of valid flyby observation numbers that do not contain BIDR
     coradr_dataframe = retrieveJPLCoradrOptions()
     coradar_without_bidr = []
@@ -125,7 +125,7 @@ def retrieveCoradrWithoutBIDR():
     return coradar_without_bidr
 
 
-def downloadAAREADME(cordar_file_name, segment_id):
+def downloadAAREADME(cordar_file_name: str = None, segment_id: str = None) -> None:
     # Download AAREADME.txt within a CORADR directory
     aareadme_name = "AAREADME.TXT"
     aareadme_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/{aareadme_name}"
@@ -144,7 +144,9 @@ def downloadAAREADME(cordar_file_name, segment_id):
         response = request.urlretrieve(aareadme_url, aareadme_name)
 
 
-def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
+def downloadBIDRCORADRData(cordar_file_name: str =None,
+						  segment_id: str = None,
+						  resolution_px: list = None) -> None:
     # Download BDIR files
     base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/BIDR/"
     logger.info(f"Retrieving BIDR filenames from: {base_url}\n")
@@ -217,7 +219,7 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
                     zip_ref.extractall(zipped_image_path)
 
 
-def downloadSBDRCORADRData(cordar_file_name, segment_id):
+def downloadSBDRCORADRData(cordar_file_name: str = None, segment_id: str = None) -> None:
     # Download SBDR files
     base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/SBDR/"
     logger.info(f"\nRetrieving SBDR filenames from: {base_url}")
@@ -260,8 +262,9 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
             response = request.urlretrieve(sbdr_url, sbdr_name)
 
 
-def downloadAdditionalDataTypes(cordar_file_name, segment_id,
-                                additional_data_type):
+def downloadAdditionalDataTypes(cordar_file_name: str = None,
+								segment_id: str = None,
+                                additional_data_type: list = None) -> None:
     # Download additional data types
     additional_data_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/{additional_data_type}"
     logger.info(
@@ -271,12 +274,12 @@ def downloadAdditionalDataTypes(cordar_file_name, segment_id,
     # This function does not currently have functionality in pydar
 
 
-def extractFlybyDataImages(flyby_observation_num=None,
-                           flyby_id=None,
-                           segment_num=None,
-                           additional_data_types_to_download=[],
-                           resolution='I',
-                           top_x_resolutions=None):
+def extractFlybyDataImages(flyby_observation_num: str = None,
+                           flyby_id: str = None,
+                           segment_num: str = None,
+                           additional_data_types_to_download: list = [],
+                           resolution: str ='I',
+                           top_x_resolutions: list = None) -> None:
 
     if flyby_id is not None and type(flyby_id) == str:
         flyby_id = flyby_id.capitalize(

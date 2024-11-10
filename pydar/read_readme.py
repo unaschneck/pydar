@@ -16,7 +16,7 @@ logger.addHandler(stream_handler)
 
 #######################################################################
 # Find relevant section to print by referencing built in options
-def determineSectionToPrint(section_to_print=None, aareadmeOrLBL=None):
+def determineSectionToPrint(section_to_print:str = None, aareadmeOrLBL: str = None) -> str:
     # check which list the section_to_print is from
     if aareadmeOrLBL == "LBL":
         if section_to_print in lblreadme_general_options:
@@ -43,14 +43,14 @@ aareadme_section_options = [
 ]
 
 
-def returnAAREADMEOptions():
+def returnAAREADMEOptions() -> None:
     logger.info(f"Line-By-Line Options: {aareadme_general_options}")
     logger.info(f"Section Header Options: {aareadme_section_options}")
 
 
-def readAAREADME(coradr_results_directory=None,
-                 section_to_print=None,
-                 print_to_console=True):
+def readAAREADME(coradr_results_directory: str = None,
+                 section_to_print: str = None,
+                 print_to_console: bool = True) -> None:
     # Print AAREADME to console
     pydar.errorHandlingREADME(
         coradr_results_directory=coradr_results_directory,
@@ -171,15 +171,15 @@ lblreadme_section_options = [
 ]
 
 
-def returnLBLOptions():
+def returnLBLOptions() -> None:
     # Print out all the .LBL options
     logger.info(f"Line-By-Line Options: {lblreadme_general_options}")
     logger.info(f"Section Header Options: {lblreadme_section_options}")
 
 
-def readLBLREADME(coradr_results_directory=None,
-                  section_to_print=None,
-                  print_to_console=True):
+def readLBLREADME(coradr_results_directory: str = None,
+                  section_to_print: str = None,
+                  print_to_console: bool = True) -> str:
     # Print .LBL to console
     if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
         # Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file
@@ -300,6 +300,3 @@ def readLBLREADME(coradr_results_directory=None,
         )  # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
     if print_to_console: logger.info(output_string)
     return output_string
-
-
-########################################################################

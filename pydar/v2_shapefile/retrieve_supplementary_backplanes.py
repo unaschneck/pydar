@@ -12,7 +12,7 @@ stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
 
-def extractMetadata(isVersionComplete=False):
+def extractMetadata(isVersionComplete: bool = False) -> None:
     # Note: need both the .TAB and the .FMT file to run
     isVersionComplete = False
     if not isVersionComplete:

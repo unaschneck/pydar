@@ -1,5 +1,3 @@
-from .pydar_testing import testing
-
 # extract_flyby_parameters.py function calls
 from .extract_flyby_parameters import _retrieve_flyby_data
 from .extract_flyby_parameters import extractFlybyDataImages
@@ -12,9 +10,6 @@ from .extract_flyby_parameters import datafile_types_columns
 
 # display_image.py function calls
 from .display_image import displayImages
-
-# retrieve_supplementary_backplanes.py function calls
-from .retrieve_supplementary_backplanes import extractMetadata
 
 # read_readme.py function calls
 from .read_readme import returnAAREADMEOptions
@@ -31,10 +26,6 @@ from .retrieve_ids_by_time_position import retrieveIDSByTimeRange
 from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitude
 from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitudeRange
 
-# sbdr_make_shapefile.py function calls
-from .sbdr_make_shapefile import sbdrMakeShapeFile
-from .sbdr_make_shapefile import field_options
-
 # error_handling.py function calls for testing
 from .error_handling import errorHandlingExtractFlybyDataImages
 from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
@@ -47,3 +38,12 @@ from .error_handling import errorHandlingRetrieveIDSByLatitudeLongitudeRange
 from .error_handling import errorHandlingRetrieveIDSByTime
 from .error_handling import errorHandlingRetrieveIDSByTimeRange
 from .error_handling import errorHandlingSbdrMakeShapeFile
+
+## Version 2:
+
+# sbdr_make_shapefile.py function calls
+#from .sbdr_make_shapefile import sbdrMakeShapeFile
+#from .sbdr_make_shapefile import field_options
+
+# retrieve_supplementary_backplanes.py function calls
+#from .retrieve_supplementary_backplanes import extractMetadata

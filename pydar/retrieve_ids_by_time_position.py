@@ -20,7 +20,7 @@ logger.addHandler(stream_handler)
 
 
 ### COLLECT FEATURE NAME INFORMATION FROM feature_name_details.csv #####
-def latitudeLongitudeWithFeatureNameFromCSV():
+def latitudeLongitudeWithFeatureNameFromCSV() -> dict:
     # Retrieve a list of Feature Names with a range of the associated latitude/longitude values
     #   Returns a Dictionary of Feature Name with feature details
     feature_name_dict = {}
@@ -46,7 +46,7 @@ def latitudeLongitudeWithFeatureNameFromCSV():
 
 
 ### RETURN FLYBY IDS FOR A GIVEN FEATURE NAME ##########################
-def retrieveIDSByFeatureName(feature_name=None):
+def retrieveIDSByFeatureName(feature_name: str = None) -> dict:
     # Retrieve a dictionary of flyby IDs and associated segment numbers
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByFeature(feature_name=feature_name)
@@ -82,7 +82,8 @@ def retrieveIDSByFeatureName(feature_name=None):
 
 
 ### RETURN FLYBY IDS FOR A SPECIFIC LATITUDE/LONGITUDE###################
-def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
+def retrieveIDSByLatitudeLongitude(latitude: (int, float) = None,
+								   longitude: (int, float) =None) -> dict:
     # Retrieve all FLyby Ids at a specific latitude/longitude
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude,
@@ -97,10 +98,10 @@ def retrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
 
 
 ### RETURN FLYBY IDS FOR A RANGE OF LATITUDE/LONGITUDES#################
-def retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
-                                        max_latitude=None,
-                                        min_longitude=None,
-                                        max_longitude=None):
+def retrieveIDSByLatitudeLongitudeRange(min_latitude: (int, float) = None,
+                                        max_latitude: (int, float) = None,
+                                        min_longitude: (int, float) = None,
+                                        max_longitude: (int, float) = None):
     # Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(
@@ -145,12 +146,12 @@ def retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 
 
 ### RETURN FLYBY IDS FOR A SPECIFIC TIME ###############################
-def retrieveIDSByTime(year=None,
-                      doy=None,
-                      hour=None,
-                      minute=None,
-                      second=None,
-                      millisecond=None):
+def retrieveIDSByTime(year: int = None,
+                      doy: int = None,
+                      hour: int = None,
+                      minute: int = None,
+                      second: int = None,
+                      millisecond: int = None) -> dict:
     # Retrieve Flyby IDs based on a single Timestamp of YYYY-DOYThh:mm:ss.sss
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByTime(year=year,
@@ -184,18 +185,18 @@ def retrieveIDSByTime(year=None,
 
 
 ### RETURN FLYBY IDS FOR A RANGE OF TIMES ###############################
-def retrieveIDSByTimeRange(start_year=None,
-                           start_doy=None,
-                           start_hour=None,
-                           start_minute=None,
-                           start_second=None,
-                           start_millisecond=None,
-                           end_year=None,
-                           end_doy=None,
-                           end_hour=None,
-                           end_minute=None,
-                           end_second=None,
-                           end_millisecond=None):
+def retrieveIDSByTimeRange(start_year: int = None,
+                           start_doy: int = None,
+                           start_hour: int = None,
+                           start_minute: int = None,
+                           start_second: int = None,
+                           start_millisecond: int = None,
+                           end_year: int = None,
+                           end_doy: int = None,
+                           end_hour: int = None,
+                           end_minute: int = None,
+                           end_second: int = None,
+                           end_millisecond: int = None) -> dict:
     # Retrieve Flyby IDs based on a range of Timestamps YYYY-DOYThh:mm:ss.sss
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
 
@@ -319,7 +320,8 @@ def retrieveIDSByTimeRange(start_year=None,
 
 
 ### RETURN FEATURE NAMES FOR A SPECIFIC LATITUDE/LONGTIUDE ##############
-def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
+def retrieveFeaturesFromLatitudeLongitude(latitude: (int, float) = None,
+										longitude: (int, float) = None) -> list:
     # Retrieve all Feature Names that at a specific latitude/longitude
     #   Returns a list of feature names
     pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude,
@@ -335,10 +337,10 @@ def retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None):
 
 
 ### RETURN FEATURE NAMES FOR A RANGE OF LATITUDE/LONGTIUDES #############
-def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
-                                               max_latitude=None,
-                                               min_longitude=None,
-                                               max_longitude=None):
+def retrieveFeaturesFromLatitudeLongitudeRange(min_latitude: (int, float) = None,
+                                               max_latitude: (int, float) = None,
+                                               min_longitude: (int, float) = None,
+                                               max_longitude: (int, float) = None) -> list:
     # Retrieve all Feature Names that are within a range of latitude/longitude
     #   Returns a list of feature names
     pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(
