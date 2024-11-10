@@ -82,7 +82,7 @@ def errorHandlingExtractFlybyImages(flyby_observation_num=None,
         coradr_data_types_available = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
         df = pd.read_csv(coradr_data_types_available)
         if flyby_id is not None: 
-            flyby_observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id)
+            flyby_observation_num = pydar.id_to_observation(flyby_id)
         coradr_versions = df[df['CORADR ID'].str.contains(flyby_observation_num)]
         version_id = ""
         if len(coradr_versions) > 1:
@@ -125,7 +125,7 @@ def errorHandlingExtractFlybyImages(flyby_observation_num=None,
 
 
 def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
-    # Error Handling for Converting a Flyby ID into an Observation Number: convertFlybyIDToObservationNumber()
+    # Error Handling for Converting a Flyby ID into an Observation Number: id_to_observation()
     if flyby_id is None:
         raise ValueError("[flyby_id]: A valid flyby_id string is required")
 

@@ -44,7 +44,7 @@ def _retrieve_flyby_data() -> (list, str):
     return flyby_id, flyby_radar_take_num
 
 
-def convertFlybyIDToObservationNumber(flyby_id: str = None) -> str:
+def id_to_observation(flyby_id: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
     pydar.errorHandlingConvertFlybyIDToObservationNumber(flyby_id=flyby_id)
 
@@ -313,7 +313,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
     download_files = True  # for debugging, does not always download files before running data
 
     if flyby_id is not None:  # convert flyby Id to an Observation Number
-        flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
+        flyby_observation_num = id_to_observation(flyby_id)
 
     # Data gaps and problems from the original downlinking and satellite location, report some special cases to user
     no_associated_bidr_values = _retrieve_coradr_without_bidr(

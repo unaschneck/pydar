@@ -22,7 +22,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * retrieveIDSByTime()
     * retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
-    * convertFlybyIDToObservationNumber()
+    * id_to_observation()
     * convertObservationNumberToFlybyID()
     * extract_flyby_images()
 * **Access specific observation data from AAREADME and .LBL readme information**
@@ -167,7 +167,7 @@ Download time for data files vary when using `pydar.extract_flyby_images()` and 
 ### Cross-Reference Table for Observations and Flybys
 The Titan flyby IDs (e.g. 'T65') are not used in the naming convention for the CORADR filenames. Instead, all files are referred to by their observation number (e.g. '0211'). The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-To convert between a Titan Flyby ID and an observation number use either `pydar.convertFlybyIDToObservationNumber(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
+To convert between a Titan Flyby ID and an observation number use either `pydar.id_to_observation(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
 
 ### Observation Information as Filename
 The data filename contains a lot of information about the observation
@@ -507,18 +507,18 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
-### convertFlybyIDToObservationNumber()
+### id_to_observation()
 
 Converts a Titan Flyby ID (for example: 'T65') to an observation number with front padding ('T65' -> '0211')
 
 ```python
-convertFlybyIDToObservationNumber(flyby_id)
+id_to_observation(flyby_id)
 ```
 * **[REQUIRED]** flyby_id (string): a valid flyby ID with prefix 'T'
 
 ```python
 import pydar
-observation_number = convertFlybyIDToObservationNumber(flyby_id='T65')
+observation_number = id_to_observation(flyby_id='T65')
 ```
 Output = `0211`
 
@@ -690,6 +690,14 @@ conda env create --file environment.yml
 Once the environment has been built, activate the environment:
 ```
 conda activate pydar
+```
+Set up pre-commit hooks to ensure standard code formatting and spelling:
+```
+pre-commit install
+```
+Pre-commit hooks can be manually run before commits:
+```
+pre-commit run --all-files
 ```
 To run existing and new tests from the root directory:
 ```

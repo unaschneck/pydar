@@ -16,17 +16,17 @@ invalid_non_str_options = [(1961, "<class 'int'>"),
                            (False, "<class 'bool'>")]
 
 
-## convertFlybyIDToObservationNumber() #################################
+## id_to_observation() #################################
 @pytest.mark.parametrize("flyby_id_value, flyby_observation_output",
                          [("T65", "0211"), ("T13", "0082"), ("Ta", "0035"),
                           ("T57", "0199")])
-def test_convertFlybyIDToObservationNumber_verifyFlybyConversion(
+def test_idToObservation_verifyFlybyConversion(
         flyby_id_value, flyby_observation_output):
-    assert pydar.convertFlybyIDToObservationNumber(
+    assert pydar.id_to_observation(
         flyby_id=flyby_id_value) == flyby_observation_output
 
 
-## convertFlybyIDToObservationNumber() #################################
+## id_to_observation() #################################
 
 
 ## convertObservationNumberToFlybyID() #################################
@@ -199,36 +199,36 @@ def test_extractFlybyImages_topResolutionInvalidRange(
 ## extractFlybyImages() ############################################
 
 
-## convertFlybyIDToObservationNumber() #################################
-def test_convertFlybyIDToObservationNumber_flybyIDRequired():
+## id_to_observation() #################################
+def test_idToObsrvation_flybyIDRequired():
     with pytest.raises(ValueError,
                        match=re.escape(
                            "[flyby_id]: A valid flyby_id string is required")):
-        pydar.convertFlybyIDToObservationNumber(flyby_id=None)
+        pydar.id_to_observation(flyby_id=None)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
                          invalid_non_str_options)
-def test_convertFlybyIDToObservationNumber_flybyIDInvalidTypes(
+def test_idToObservation_flybyIDInvalidTypes(
         invalid_input, error_output):
     with pytest.raises(
             ValueError,
             match=re.escape(
                 f"[flyby_id]: Must be a str, current type = '{error_output}'")
     ):
-        pydar.convertFlybyIDToObservationNumber(flyby_id=invalid_input)
+        pydar.id_to_observation(flyby_id=invalid_input)
 
 
-def test_convertFlybyIDToObservationNumber_invalidFlybyID():
+def test_idToObservation_invalidFlybyID():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[flyby_id]: Invalid flyby_id, 'T32', choose from:\n['Ta', 'T3', 'T4', 'T7', 'T8', 'T13', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T23', 'T25', 'T28', 'T29', 'T30', 'T36', 'T39', 'T41', 'T43', 'T44', 'T48', 'T49', 'T50', 'T52', 'T53', 'T55', 'T56', 'T57', 'T58', 'T59', 'T61', 'T63', 'T64', 'T65', 'T69', 'T71', 'T77', 'T80', 'T83', 'T84', 'T86', 'T91', 'T92', 'T95', 'T98', 'T104']"
             )):
-        pydar.convertFlybyIDToObservationNumber(flyby_id="T32")
+        pydar.id_to_observation(flyby_id="T32")
 
 
-## convertFlybyIDToObservationNumber() #################################
+## id_to_observation() #################################
 
 
 ## convertObservationNumberToFlybyID() #################################
