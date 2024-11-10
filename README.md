@@ -27,7 +27,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * extract_flyby_images()
 * **Access specific observation data from AAREADME and .LBL readme information**
     * aareadme_options()
-    * readAAREADME()
+    * read_aareadme()
     * returnLBLOptions()
     * readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
@@ -578,12 +578,12 @@ pydar.extract_flyby_images(flyby_id='T65',
 
 `extract_flyby_images()` will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example `pydar_results/CORADR_0065_V03_S01`). Download time depends on file and resolution size but ranges from 1-5 minutes
 
-### readAAREADME()
+### read_aareadme()
 
 Print AAREADME.TXT to console for viewing
 
 ```
-readAAREADME(coradr_results_directory=None,
+read_aareadme(coradr_results_directory=None,
     section_to_print=None, 
     print_to_console=True)
 ```
@@ -596,7 +596,7 @@ To see a list of all section_to_print options, see: `aareadme_options()`
 
 ```python
 import pydar
-pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
+pydar.read_aareadme(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
         section_to_print="Volume")
 ```
 Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`

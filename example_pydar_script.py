@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     # Read AAREADME to console
     pydar.aareadme_options()
-    pydar.readAAREADME(
+    pydar.read_aareadme(
         coradr_results_directory="pydar_results/CORADR_0211_V03_S01",
         section_to_print="INSTRUMENT_name")
 

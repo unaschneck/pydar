@@ -26,7 +26,7 @@ from .extract_flyby_parameters import datafile_types_columns
 
 # read_readme.py function calls
 from .read_readme import aareadme_options
-from .read_readme import readAAREADME
+from .read_readme import read_aareadme
 from .read_readme import returnLBLOptions
 from .read_readme import readLBLREADME
 

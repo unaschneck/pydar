@@ -50,14 +50,14 @@ def test_returnLBLOptions_verifyOptionsOutput(caplog):
 ## returnLBLOptions() ##################################################
 
 
-## readAAREADME() ######################################################
+## read_aareadme() ######################################################
 def test_readAAREADME_coradrRequired():
     with pytest.raises(
             ValueError,
             match=re.escape(
                 "[coradr_results_directory]: coradr_results_directory is required"
             )):
-        pydar.readAAREADME(coradr_results_directory=None)
+        pydar.read_aareadme(coradr_results_directory=None)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -68,7 +68,7 @@ def test_readAAREADME_coradrInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[coradr_results_directory]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.readAAREADME(coradr_results_directory=invalid_input)
+        pydar.read_aareadme(coradr_results_directory=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -79,7 +79,7 @@ def test_readAAREADME_SectionInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[section_to_print]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.readAAREADME(coradr_results_directory="coradr_directory",
+        pydar.read_aareadme(coradr_results_directory="coradr_directory",
                            section_to_print=invalid_input)
 
 
@@ -87,9 +87,9 @@ def test_readAAREADME_NotValidSection():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[readAAREADME]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
+                "[read_aareadme]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
             )):
-        pydar.readAAREADME(coradr_results_directory="coradr_directory",
+        pydar.read_aareadme(coradr_results_directory="coradr_directory",
                            section_to_print="invalid section")
 
 
@@ -101,11 +101,11 @@ def test_readAAREADME_PrintInvalidTypes(invalid_input, error_output):
             match=re.escape(
                 f"[print_to_console]: Must be a bool, current type = '{error_output}'"
             )):
-        pydar.readAAREADME(coradr_results_directory="coradr_directory",
+        pydar.read_aareadme(coradr_results_directory="coradr_directory",
                            print_to_console=invalid_input)
 
 
-## readAAREADME() ######################################################
+## read_aareadme() ######################################################
 
 
 ## readLBLREADME() #####################################################

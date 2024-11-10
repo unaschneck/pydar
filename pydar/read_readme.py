@@ -48,7 +48,7 @@ def aareadme_options() -> None:
     logger.info(f"Section Header Options: {aareadme_section_options}")
 
 
-def readAAREADME(coradr_results_directory: str = None,
+def read_aareadme(coradr_results_directory: str = None,
                  section_to_print: str = None,
                  print_to_console: bool = True) -> None:
     # Print AAREADME to console
@@ -68,7 +68,7 @@ def readAAREADME(coradr_results_directory: str = None,
             sectionList = _determine_section_to_print(section_to_print, "AAREADME")
             if sectionList is None:
                 raise ValueError(
-                    f"[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
+                    f"[read_aareadme]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
                 )
 
     # Define position to start console print, default to 'All' if no section is specified
