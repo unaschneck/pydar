@@ -16,7 +16,7 @@ logger.addHandler(stream_handler)
 
 #######################################################################
 # Find relevant section to print by referencing built in options
-def determineSectionToPrint(section_to_print:str = None, aareadmeOrLBL: str = None) -> str:
+def _determine_section_to_print(section_to_print:str = None, aareadmeOrLBL: str = None) -> str:
     # check which list the section_to_print is from
     if aareadmeOrLBL == "LBL":
         if section_to_print in lblreadme_general_options:
@@ -43,7 +43,7 @@ aareadme_section_options = [
 ]
 
 
-def returnAAREADMEOptions() -> None:
+def aareadme_options() -> None:
     logger.info(f"Line-By-Line Options: {aareadme_general_options}")
     logger.info(f"Section Header Options: {aareadme_section_options}")
 
@@ -57,15 +57,15 @@ def readAAREADME(coradr_results_directory: str = None,
         section_to_print=section_to_print,
         print_to_console=print_to_console)
 
-    sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+    sectionList = _determine_section_to_print(section_to_print, "AAREADME")
     if sectionList is None:
         section_to_print = section_to_print.upper(
         )  # check if the section is case-sensitive
-        sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+        sectionList = _determine_section_to_print(section_to_print, "AAREADME")
         if sectionList is None:
             section_to_print = section_to_print.title(
             )  # check if the section is case-sensitive
-            sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+            sectionList = _determine_section_to_print(section_to_print, "AAREADME")
             if sectionList is None:
                 raise ValueError(
                     f"[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
@@ -195,11 +195,11 @@ def readLBLREADME(coradr_results_directory: str = None,
         section_to_print=section_to_print,
         print_to_console=print_to_console)
 
-    sectionList = determineSectionToPrint(section_to_print, "LBL")
+    sectionList = _determine_section_to_print(section_to_print, "LBL")
     if sectionList is None:
         # check if the section is case-sensitive
         section_to_print = section_to_print.upper()
-        sectionList = determineSectionToPrint(section_to_print, "LBL")
+        sectionList = _determine_section_to_print(section_to_print, "LBL")
         if sectionList is None:
             raise ValueError(
                 f"[readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"

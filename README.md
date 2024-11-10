@@ -26,7 +26,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * convertObservationNumberToFlybyID()
     * extract_flyby_images()
 * **Access specific observation data from AAREADME and .LBL readme information**
-    * returnAAREADMEOptions()
+    * aareadme_options()
     * readAAREADME()
     * returnLBLOptions()
     * readLBLREADME()
@@ -592,7 +592,7 @@ readAAREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-To see a list of all section_to_print options, see: `returnAAREADMEOptions()`
+To see a list of all section_to_print options, see: `aareadme_options()`
 
 ```python
 import pydar
@@ -602,7 +602,7 @@ pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
 Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`
 ```python
 import pydar
-pydar.returnAAREADMEOptions()
+pydar.aareadme_options()
 ```
 
 Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`

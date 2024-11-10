@@ -22,9 +22,10 @@ invalid_non_bool_options = [(1961, "<class 'int'>"), (3.1415,
                             ("Testing", "<class 'str'>")]
 
 
-## returnAAREADMEOptions() #############################################
-def test_returnAAREADMEOptions_verifyOptionsOutput(caplog):
-    pydar.returnAAREADMEOptions()
+## aareadme_options() #############################################
+
+def test_AAREADMEOptions_verifyOptionsOutput(caplog):
+    pydar.aareadme_options()
     log_record = caplog.records[0]
     assert log_record.levelno == logging.INFO
     assert log_record.message == "Line-By-Line Options: ['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'Volume']"
@@ -32,8 +33,7 @@ def test_returnAAREADMEOptions_verifyOptionsOutput(caplog):
     assert log_record.levelno == logging.INFO
     assert log_record.message == "Section Header Options: ['Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']"
 
-
-## returnAAREADMEOptions() #############################################
+## aareadme_options() #############################################
 
 
 ## returnLBLOptions() ##################################################
