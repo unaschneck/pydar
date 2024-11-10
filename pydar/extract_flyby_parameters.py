@@ -84,7 +84,7 @@ def convertObservationNumberToFlybyID(flyby_observation_num: str = None) -> str:
             return row.iloc[0]  # returns flyby ID
 
 
-def retrieveJPLCoradrOptions():
+def _retrieve_jpl_coradr_options():
     # Read JPL Options from CSV
     coradr_csv_file = os.path.join(
         os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'
@@ -95,7 +95,7 @@ def retrieveJPLCoradrOptions():
 
 def retrieveMostRecentVersionNumber(flyby_observiation_num: str = None) -> str:
     # Return the CORADAR value with the most recent version from a list of possible options
-    coradr_dataframe = retrieveJPLCoradrOptions()
+    coradr_dataframe = _retrieve_jpl_coradr_options()
     jpl_coradr_options = []
     for index, row in coradr_dataframe.iterrows():
         row = row.tolist()
@@ -114,7 +114,7 @@ def retrieveMostRecentVersionNumber(flyby_observiation_num: str = None) -> str:
 
 def retrieveCoradrWithoutBIDR() -> list:
     # Return a list of valid flyby observation numbers that do not contain BIDR
-    coradr_dataframe = retrieveJPLCoradrOptions()
+    coradr_dataframe = _retrieve_jpl_coradr_options()
     coradar_without_bidr = []
     for index, row in coradr_dataframe.iterrows():
         if row["Is a Titan Flyby"]:  # check only flybys that are valid Titan flybys
