@@ -28,7 +28,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 * **Access specific observation data from AAREADME and .LBL readme information**
     * aareadme_options()
     * read_aareadme()
-    * returnLBLOptions()
+    * lbl_options()
     * readLBLREADME()
 * **Display PDS image retrieved for flyby observation**
     * display_all_images()
@@ -621,7 +621,7 @@ readLBLREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-To see a list of all section_to_print options, see: `returnLBLOptions()`
+To see a list of all section_to_print options, see: `lbl_options()`
 
 ```python
 import pydar
@@ -631,7 +631,7 @@ pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
 Output = `(0.13498322,0.00221225,-0.99084542)`
 ```python
 import pydar
-pydar.returnLBLOptions()
+pydar.lbl_options()
 ```
 <details closed>
 <summary>Line-By-Line Options (Click to view all)</summary>

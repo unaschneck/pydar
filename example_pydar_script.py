@@ -73,7 +73,7 @@ if __name__ == '__main__':
         section_to_print="INSTRUMENT_name")
 
     # Read .LBL to console
-    #pydar.returnLBLOptions()
+    #pydar.lbl_options()
     #pydar.readLBLREADME(
     #    coradr_results_directory="pydar_results/CORADR_0211_V03_S01/",
     #    section_to_print="LOOK_DIrecTION")

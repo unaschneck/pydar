@@ -171,7 +171,7 @@ lblreadme_section_options = [
 ]
 
 
-def returnLBLOptions() -> None:
+def lbl_options() -> None:
     # Print out all the .LBL options
     logger.info(f"Line-By-Line Options: {lblreadme_general_options}")
     logger.info(f"Section Header Options: {lblreadme_section_options}")
