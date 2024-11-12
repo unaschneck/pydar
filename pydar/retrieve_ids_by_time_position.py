@@ -46,7 +46,7 @@ def _retrieve_latlon_with_feature_names_from_csv() -> dict:
 
 
 ### RETURN FLYBY IDS FOR A GIVEN FEATURE NAME ##########################
-def retrieveIDSByFeatureName(feature_name: str = None) -> dict:
+def ids_from_feature_name(feature_name: str = None) -> dict:
     # Retrieve a dictionary of flyby IDs and associated segment numbers
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByFeature(feature_name=feature_name)

@@ -31,7 +31,7 @@ from .read_readme import lbl_options
 from .read_readme import read_lbl_readme
 
 # retrieve_ids_by_time_position.py function calls
-from .retrieve_ids_by_time_position import retrieveIDSByFeatureName
+from .retrieve_ids_by_time_position import ids_from_feature_name
 from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitude
 from .retrieve_ids_by_time_position import retrieveIDSByLatitudeLongitudeRange
 from .retrieve_ids_by_time_position import retrieveIDSByTime

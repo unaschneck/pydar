@@ -102,16 +102,16 @@ invalid_non_str_options = [(1961, "<class 'int'>"),
                            (False, "<class 'bool'>")]
 
 
-## retrieveIDSByFeatureName() ##########################################
+## ids_from_feature_name() ##########################################
 def test_retrieveIDSByFeatureName_featureNameRequired():
     with pytest.raises(
             ValueError,
             match=re.escape("[feature_name]: feature_name is required")):
-        pydar.retrieveIDSByFeatureName(feature_name=None)
+        pydar.ids_from_feature_name(feature_name=None)
 
 
 def test_retrieveIDSByFeatureName_verifyOutput():
-    flyby_ids = pydar.retrieveIDSByFeatureName(feature_name="ontario lacus")
+    flyby_ids = pydar.ids_from_feature_name(feature_name="ontario lacus")
     assert flyby_ids == {
         'T7': ['S01'],
         'T36': ['S03'],
@@ -140,7 +140,7 @@ def test_retrieveIDSByFeatureName_featureNameInvalidTypes(
             match=re.escape(
                 f"[feature_name]: Must be a str, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByFeatureName(feature_name=invalid_input)
+        pydar.ids_from_feature_name(feature_name=invalid_input)
 
 
 def test_retrieveIDSByFeatureName_featureNameNotValid():
@@ -149,11 +149,11 @@ def test_retrieveIDSByFeatureName_featureNameNotValid():
             match=re.escape(
                 f"Feature Name 'Invalid/Unknown Feature Name' not in available in features list = {feature_name_full_list}"
             )):
-        pydar.retrieveIDSByFeatureName(
+        pydar.ids_from_feature_name(
             feature_name="Invalid/Unknown Feature Name")
 
 
-## retrieveIDSByFeatureName() ##########################################
+## ids_from_feature_name() ##########################################
 
 
 ## retrieveIDSByLatitudeLongitude() ####################################

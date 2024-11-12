@@ -14,7 +14,7 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
-    * retrieveIDSByFeatureName()
+    * ids_from_feature_name()
     * retrieveIDSByLatitudeLongitude()
     * retrieveIDSByLatitudeLongitudeRange()
     * retrieveFeaturesFromLatitudeLongitude()
@@ -52,7 +52,7 @@ All Cassini data for Titan is organized and retrieved based on [flyby observatio
 ```python
 import pydar
 feature_name_example = "ontario lacus"
-flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name_example)
+flyby_ids = pydar.ids_from_feature_name(feature_name=feature_name_example)
 ```
 Returns a dictionary of flyby IDs (and their relevant segments) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
@@ -307,12 +307,12 @@ Total width of the RADAR swath is created by combining the five individual sub-s
 
 To collect flyby information and images for the latitude/longitude range of a named feature on Titan
 
-### retrieveIDSByFeatureName()
+### ids_from_feature_name()
 
 Retrieve a list of flyby IDs with their associated segment numbers based on a feature name from Titan
 
 ```python
-retrieveIDSByFeatureName(feature_name=None)
+ids_from_feature_name(feature_name=None)
 ```
 * **[REQUIRED]** feature_name (string): Feature name on Titan, not case-sensitive
 
@@ -325,7 +325,7 @@ Feature names are retrieved from [feature_name_details.csv](https://github.com/u
 
 ```python
 import pydar
-pydar.retrieveIDSByFeatureName(feature_name="Ontario Lacus")
+pydar.ids_from_feature_name(feature_name="Ontario Lacus")
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 

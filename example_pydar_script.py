@@ -4,7 +4,7 @@ if __name__ == '__main__':
     # VERSION 1:
     ## Get swatch coverage based on latitude/longitude, Time, or Feature
     feature_name = "Ontario Lacus"
-    flyby_ids_name = pydar.retrieveIDSByFeatureName(feature_name=feature_name)
+    flyby_ids_name = pydar.ids_from_feature_name(feature_name=feature_name)
     print(
         f"Flyby IDS based on Feature Name '{feature_name.title()}' = {flyby_ids_name}"
     )
