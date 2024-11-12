@@ -17,7 +17,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * ids_from_feature_name()
     * ids_from_latlon()
     * ids_from_latlon_range()
-    * retrieveFeaturesFromLatitudeLongitude()
+    * features_from_latlon()
     * retrieveFeaturesFromLatitudeLongitudeRange()
     * ids_from_time()
     * ids_from_time_range()
@@ -369,19 +369,19 @@ pydar.ids_from_latlon_range(min_latitude=-82,
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-### retrieveFeaturesFromLatitudeLongitude()
+### features_from_latlon()
 
 Return a list of features found at a specific latitude/longitude position
 
 ```
-retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None)
+features_from_latlon(latitude=None, longitude=None)
 ```
 * **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90° to 90°
 * **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0° to 360°
 
 ```python
 import pydar
-pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
+pydar.features_from_latlon(latitude=-72, longitude=183)
 ```
 
 Output = `['Ontario Lacus', 'Rossak Planitia']`

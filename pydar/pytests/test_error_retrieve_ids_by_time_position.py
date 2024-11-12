@@ -472,23 +472,22 @@ def test_retrieveIDSByLatitudeLongitudeRange_maxLongitudeRequired():
 
 ## ids_from_latlon_range() ###############################
 
-## retrieveFeaturesFromLatitudeLongitude() #############################
+## features_from_latlon() #############################
 
 
 def test_retrieveFeaturesFromLatitudeLongitude_noFeaturesRetrieved(caplog):
-    pydar.retrieveFeaturesFromLatitudeLongitude(latitude=90, longitude=360)
+    pydar.features_from_latlon(latitude=90, longitude=360)
     log_record = caplog.records[0]
     assert log_record.levelno == logging.INFO
     assert log_record.message == "\n[WARNING]: No Features found at latitude from 90 to 90 and longitude from 360 to 360\n"
 
 
 def test_retrieveIDSByLatitudeLongitude_verifyOutput(caplog):
-    found_features = pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72,
-                                                                 longitude=183)
+    found_features = pydar.features_from_latlon(latitude=-72, longitude=183)
     assert found_features == ['Ontario Lacus', 'Rossak Planitia']
 
 
-## retrieveFeaturesFromLatitudeLongitude() #############################
+## features_from_latlon() #############################
 
 ## retrieveFeaturesFromLatitudeLongitudeRange() ##########################
 

@@ -20,8 +20,8 @@ if __name__ == '__main__':
                                                   max_longitude=185)
     print(f"\nFlyby IDS based on Latitude/Longitude Range = {flyby_ids_range}")
 
-    feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(
-        latitude=-72, longitude=183)
+    feature_names_list = pydar.features_from_latlon(latitude=-72,
+                                                    longitude=183)
     print(
         f"\nFeature Names Found at -72 latitude and 183 longitude = {feature_names_list}"
     )

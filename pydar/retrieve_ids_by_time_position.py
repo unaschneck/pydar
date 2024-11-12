@@ -319,9 +319,8 @@ def ids_from_time_range(start_year: int = None,
 
 
 ### RETURN FEATURE NAMES FOR A SPECIFIC LATITUDE/LONGTIUDE ##############
-def retrieveFeaturesFromLatitudeLongitude(latitude: (int, float) = None,
-                                          longitude: (int, float) = None
-                                          ) -> list:
+def features_from_latlon(latitude: (int, float) = None,
+                         longitude: (int, float) = None) -> list:
     # Retrieve all Feature Names that at a specific latitude/longitude
     #   Returns a list of feature names
     pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude,
