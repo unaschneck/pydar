@@ -145,12 +145,12 @@ def ids_from_latlon_range(min_latitude: (int, float) = None,
 
 
 ### RETURN FLYBY IDS FOR A SPECIFIC TIME ###############################
-def retrieveIDSByTime(year: int = None,
-                      doy: int = None,
-                      hour: int = None,
-                      minute: int = None,
-                      second: int = None,
-                      millisecond: int = None) -> dict:
+def ids_from_time(year: int = None,
+                  doy: int = None,
+                  hour: int = None,
+                  minute: int = None,
+                  second: int = None,
+                  millisecond: int = None) -> dict:
     # Retrieve Flyby IDs based on a single Timestamp of YYYY-DOYThh:mm:ss.sss
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByTime(year=year,

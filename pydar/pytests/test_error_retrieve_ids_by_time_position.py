@@ -508,22 +508,22 @@ def test_retrieveFeaturesFromLatitudeLongitudeRange_verifyOutput(caplog):
 ## retrieveFeaturesFromLatitudeLongitudeRange() ##########################
 
 
-## retrieveIDSByTime() #################################################
+## ids_from_time() #################################################
 def test_retrieveIDSByTime_yearRequired():
     with pytest.raises(ValueError,
                        match=re.escape("[year]: year is required")):
-        pydar.retrieveIDSByTime(year=None, doy=301)
+        pydar.ids_from_time(year=None, doy=301)
 
 
 def test_retrieveIDSByTime_DOYRequired():
     with pytest.raises(ValueError, match=re.escape("[doy]: doy is required")):
-        pydar.retrieveIDSByTime(year=2005, doy=None)
+        pydar.ids_from_time(year=2005, doy=None)
 
 
 def test_retrieveIDSByTime_verifyOutput(caplog):
-    flyby_ids = pydar.retrieveIDSByTime(year=2005, doy=301)
+    flyby_ids = pydar.ids_from_time(year=2005, doy=301)
     assert flyby_ids == {'T8': ['S02', 'S03', 'S01']}
-    flyby_ids = pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
+    flyby_ids = pydar.ids_from_time(year=2005, doy=301, hour=3)
     assert flyby_ids == {'T8': ['S03', 'S01']}
 
 
@@ -532,14 +532,14 @@ def test_retrieveIDSByTime_yearInvalidRange(year_invalid_range):
     with pytest.raises(
             ValueError,
             match=re.escape("[year]: year must be between 2004-2014")):
-        pydar.retrieveIDSByTime(year=year_invalid_range, doy=301)
+        pydar.ids_from_time(year=year_invalid_range, doy=301)
 
 
 @pytest.mark.parametrize("doy_invalid_range", [(-1), (366)])
 def test_retrieveIDSByTime_DOYInvalidRange(doy_invalid_range):
     with pytest.raises(ValueError,
                        match=re.escape("[doy]: doy must be between 0-365")):
-        pydar.retrieveIDSByTime(year=2005, doy=doy_invalid_range)
+        pydar.ids_from_time(year=2005, doy=doy_invalid_range)
 
 
 @pytest.mark.parametrize("hour_invalid_range", [(-1), (24)])
@@ -548,7 +548,7 @@ def test_retrieveIDSByTime_hourInvalidRange(hour_invalid_range):
             ValueError,
             match=re.escape(
                 "[hour]: hour must be within UTC range between 0 to 23")):
-        pydar.retrieveIDSByTime(year=2005, doy=301, hour=hour_invalid_range)
+        pydar.ids_from_time(year=2005, doy=301, hour=hour_invalid_range)
 
 
 @pytest.mark.parametrize("minute_invalid_range", [(-1), (60)])
@@ -557,10 +557,10 @@ def test_retrieveIDSByTime_minuteInvalidRange(minute_invalid_range):
             ValueError,
             match=re.escape(
                 "[minute]: minute must be within range between 0 to 59")):
-        pydar.retrieveIDSByTime(year=2005,
-                                doy=301,
-                                hour=3,
-                                minute=minute_invalid_range)
+        pydar.ids_from_time(year=2005,
+                            doy=301,
+                            hour=3,
+                            minute=minute_invalid_range)
 
 
 @pytest.mark.parametrize("second_invalid_range", [(-1), (60)])
@@ -569,11 +569,11 @@ def test_retrieveIDSByTime_secondInvalidRange(second_invalid_range):
             ValueError,
             match=re.escape(
                 "[second]: second must be within range between 0 to 59")):
-        pydar.retrieveIDSByTime(year=2005,
-                                doy=301,
-                                hour=3,
-                                minute=15,
-                                second=second_invalid_range)
+        pydar.ids_from_time(year=2005,
+                            doy=301,
+                            hour=3,
+                            minute=15,
+                            second=second_invalid_range)
 
 
 @pytest.mark.parametrize("millisecond_invalid_range", [(-1), (1000)])
@@ -583,12 +583,12 @@ def test_retrieveIDSByTime_milliscondInvalidRange(millisecond_invalid_range):
             match=re.escape(
                 "[millisecond]: second must be a positive value from 0 to 999")
     ):
-        pydar.retrieveIDSByTime(year=2005,
-                                doy=301,
-                                hour=3,
-                                minute=15,
-                                second=20,
-                                millisecond=millisecond_invalid_range)
+        pydar.ids_from_time(year=2005,
+                            doy=301,
+                            hour=3,
+                            minute=15,
+                            second=20,
+                            millisecond=millisecond_invalid_range)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -598,7 +598,7 @@ def test_retrieveIDSByTime_yearInvalidTypes(invalid_input, error_output):
             ValueError,
             match=re.escape(
                 f"[year]: Must be an int, current type = '{error_output}'")):
-        pydar.retrieveIDSByTime(year=invalid_input, doy=301)
+        pydar.ids_from_time(year=invalid_input, doy=301)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -608,7 +608,7 @@ def test_retrieveIDSByTime_DOYInvalidTypes(invalid_input, error_output):
             ValueError,
             match=re.escape(
                 f"[doy]: Must be an int, current type = '{error_output}'")):
-        pydar.retrieveIDSByTime(year=2005, doy=invalid_input)
+        pydar.ids_from_time(year=2005, doy=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -618,7 +618,7 @@ def test_retrieveIDSByTime_hourInvalidTypes(invalid_input, error_output):
             ValueError,
             match=re.escape(
                 f"[hour]: Must be an int, current type = '{error_output}'")):
-        pydar.retrieveIDSByTime(year=2005, doy=301, hour=invalid_input)
+        pydar.ids_from_time(year=2005, doy=301, hour=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -628,10 +628,7 @@ def test_retrieveIDSByTime_minuteInvalidTypes(invalid_input, error_output):
             ValueError,
             match=re.escape(
                 f"[minute]: Must be an int, current type = '{error_output}'")):
-        pydar.retrieveIDSByTime(year=2005,
-                                doy=301,
-                                hour=3,
-                                minute=invalid_input)
+        pydar.ids_from_time(year=2005, doy=301, hour=3, minute=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -641,11 +638,11 @@ def test_retrieveIDSByTime_secondInvalidTypes(invalid_input, error_output):
             ValueError,
             match=re.escape(
                 f"[second]: Must be an int, current type = '{error_output}'")):
-        pydar.retrieveIDSByTime(year=2005,
-                                doy=301,
-                                hour=3,
-                                minute=15,
-                                second=invalid_input)
+        pydar.ids_from_time(year=2005,
+                            doy=301,
+                            hour=3,
+                            minute=15,
+                            second=invalid_input)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -657,15 +654,15 @@ def test_retrieveIDSByTime_millisecondInvalidTypes(invalid_input,
             match=re.escape(
                 f"[millisecond]: Must be an int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByTime(year=2005,
-                                doy=301,
-                                hour=3,
-                                minute=15,
-                                second=20,
-                                millisecond=invalid_input)
+        pydar.ids_from_time(year=2005,
+                            doy=301,
+                            hour=3,
+                            minute=15,
+                            second=20,
+                            millisecond=invalid_input)
 
 
-## retrieveIDSByTime() #################################################
+## ids_from_time() #################################################
 
 
 ## retrieveIDSByTimeRange() ############################################

@@ -19,7 +19,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * ids_from_latlon_range()
     * retrieveFeaturesFromLatitudeLongitude()
     * retrieveFeaturesFromLatitudeLongitudeRange()
-    * retrieveIDSByTime()
+    * ids_from_time()
     * retrieveIDSByTimeRange()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
     * id_to_observation()
@@ -410,12 +410,12 @@ pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
 ```
 Output = `['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']`
 
-### retrieveIDSByTime()
+### ids_from_time()
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a specific timestamp
 
 ```
-retrieveIDSByTime(year=None,
+ids_from_time(year=None,
         doy=None,
         hour=None,
         minute=None,
@@ -433,7 +433,7 @@ Where `2004 year, 300 doy, 15 hour, 30 minute, 7 second, 789 millisecond` become
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2004,
+pydar.ids_from_time(year=2004,
             doy=300,
             hour=15,
             minute=30, 
@@ -448,13 +448,13 @@ For a single day, some flybys have segments that are defined in one large range,
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2005, doy=301)
+pydar.ids_from_time(year=2005, doy=301)
 ```
 Output for the entire day of 301 = `{'T8': ['S02', 'S03', 'S01']}`
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
+pydar.ids_from_time(year=2005, doy=301, hour=3)
 ```
 Output for the day 301 but just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
 

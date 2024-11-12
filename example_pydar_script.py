@@ -35,7 +35,7 @@ if __name__ == '__main__':
         f"\nFeature Names Found in Latitude/Longitude Range = {feature_names_list}"
     )
 
-    flyby_ids_time = pydar.retrieveIDSByTime(year=2005, doy=301)
+    flyby_ids_time = pydar.ids_from_time(year=2005, doy=301)
     print(f"\nFlyby IDS based on a specific timestamp = {flyby_ids_time}")
 
     flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004,
