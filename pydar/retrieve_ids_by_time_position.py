@@ -327,20 +327,18 @@ def features_from_latlon(latitude: (int, float) = None,
                                                       longitude=longitude)
 
     # Runs range check, but the range is 0 for an exact spot
-    feature_names_list = features_from_latlon_range(
-        min_latitude=latitude,
-        max_latitude=latitude,
-        min_longitude=longitude,
-        max_longitude=longitude)
+    feature_names_list = features_from_latlon_range(min_latitude=latitude,
+                                                    max_latitude=latitude,
+                                                    min_longitude=longitude,
+                                                    max_longitude=longitude)
     return feature_names_list
 
 
 ### RETURN FEATURE NAMES FOR A RANGE OF LATITUDE/LONGTIUDES #############
-def features_from_latlon_range(
-        min_latitude: (int, float) = None,
-        max_latitude: (int, float) = None,
-        min_longitude: (int, float) = None,
-        max_longitude: (int, float) = None) -> list:
+def features_from_latlon_range(min_latitude: (int, float) = None,
+                               max_latitude: (int, float) = None,
+                               min_longitude: (int, float) = None,
+                               max_longitude: (int, float) = None) -> list:
     # Retrieve all Feature Names that are within a range of latitude/longitude
     #   Returns a list of feature names
     pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(

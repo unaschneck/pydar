@@ -26,11 +26,10 @@ if __name__ == '__main__':
         f"\nFeature Names Found at -72 latitude and 183 longitude = {feature_names_list}"
     )
 
-    feature_names_list = pydar.features_from_latlon_range(
-        min_latitude=-82,
-        max_latitude=-72,
-        min_longitude=183,
-        max_longitude=190)
+    feature_names_list = pydar.features_from_latlon_range(min_latitude=-82,
+                                                          max_latitude=-72,
+                                                          min_longitude=183,
+                                                          max_longitude=190)
     print(
         f"\nFeature Names Found in Latitude/Longitude Range = {feature_names_list}"
     )

@@ -24,8 +24,10 @@ if __name__ == "__main__":
     features_in_csv = list(features_df["Feature Name"])
 
     # list of all features that exist (with both latitude/longitude values)
-    retrieved_features = pydar.features_from_latlon_range(
-        min_latitude=-90, max_latitude=90, min_longitude=0, max_longitude=360)
+    retrieved_features = pydar.features_from_latlon_range(min_latitude=-90,
+                                                          max_latitude=90,
+                                                          min_longitude=0,
+                                                          max_longitude=360)
 
     # check if all features in CSV have both latitude/longitude values
     if not features_in_csv == retrieved_features:

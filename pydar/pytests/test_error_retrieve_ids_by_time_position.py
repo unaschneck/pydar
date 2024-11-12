@@ -493,11 +493,10 @@ def test_retrieveIDSByLatitudeLongitude_verifyOutput(caplog):
 
 
 def test_retrieveFeaturesFromLatitudeLongitudeRange_verifyOutput(caplog):
-    found_features = pydar.features_from_latlon_range(
-        min_latitude=-82,
-        max_latitude=-72,
-        min_longitude=183,
-        max_longitude=190)
+    found_features = pydar.features_from_latlon_range(min_latitude=-82,
+                                                      max_latitude=-72,
+                                                      min_longitude=183,
+                                                      max_longitude=190)
     assert found_features == [
         'Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia',
         'Saraswati Flumen'
