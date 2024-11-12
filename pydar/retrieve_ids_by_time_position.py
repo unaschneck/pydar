@@ -73,11 +73,10 @@ def ids_from_feature_name(feature_name: str = None) -> dict:
     max_feature_longtidue = max([
         feature_dict["Eastmost Longitude"], feature_dict["Westmost Longitude"]
     ])
-    flyby_ids = retrieveIDSByLatitudeLongitudeRange(
-        min_latitude=min_feature_latitude,
-        max_latitude=max_feature_latitude,
-        min_longitude=min_feature_longtidue,
-        max_longitude=max_feature_longtidue)
+    flyby_ids = ids_from_latlon_range(min_latitude=min_feature_latitude,
+                                      max_latitude=max_feature_latitude,
+                                      min_longitude=min_feature_longtidue,
+                                      max_longitude=max_feature_longtidue)
     return flyby_ids
 
 
@@ -90,18 +89,18 @@ def ids_from_latlon(latitude: (int, float) = None,
                                                       longitude=longitude)
 
     # Runs range check, but the range is 0 for an exact spot
-    flyby_ids = retrieveIDSByLatitudeLongitudeRange(min_latitude=latitude,
-                                                    max_latitude=latitude,
-                                                    min_longitude=longitude,
-                                                    max_longitude=longitude)
+    flyby_ids = ids_from_latlon_range(min_latitude=latitude,
+                                      max_latitude=latitude,
+                                      min_longitude=longitude,
+                                      max_longitude=longitude)
     return flyby_ids
 
 
 ### RETURN FLYBY IDS FOR A RANGE OF LATITUDE/LONGITUDES#################
-def retrieveIDSByLatitudeLongitudeRange(min_latitude: (int, float) = None,
-                                        max_latitude: (int, float) = None,
-                                        min_longitude: (int, float) = None,
-                                        max_longitude: (int, float) = None):
+def ids_from_latlon_range(min_latitude: (int, float) = None,
+                          max_latitude: (int, float) = None,
+                          min_longitude: (int, float) = None,
+                          max_longitude: (int, float) = None):
     # Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(

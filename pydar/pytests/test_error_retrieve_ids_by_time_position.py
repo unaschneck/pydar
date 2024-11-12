@@ -242,14 +242,14 @@ def test_retrieveIDSByLatitudeLongitude_latitudeLongitudeNoIDsRetrieved(
 
 ## ids_from_latlon() ####################################
 
-## retrieveIDSByLatitudeLongitudeRange() ###############################
+## ids_from_latlon_range() ###############################
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_verifyOutput():
-    flyby_ids = pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
-                                                          max_latitude=-72,
-                                                          min_longitude=183,
-                                                          max_longitude=185)
+    flyby_ids = pydar.ids_from_latlon_range(min_latitude=-82,
+                                            max_latitude=-72,
+                                            min_longitude=183,
+                                            max_longitude=185)
     assert flyby_ids == {
         'T7': ['S01'],
         'T36': ['S03'],
@@ -278,10 +278,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_minLatitudeInvalidTypes(
             match=re.escape(
                 f"[min_latitude]: Must be a float or int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=invalid_input,
-                                                  max_latitude=90,
-                                                  min_longitude=10,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=invalid_input,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -293,10 +293,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_maxLatitudeInvalidTypes(
             match=re.escape(
                 f"[max_latitude]: Must be a float or int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=invalid_input,
-                                                  min_longitude=10,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=invalid_input,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -308,10 +308,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_minLongitudeInvalidTypes(
             match=re.escape(
                 f"[min_longitude]: Must be a float or int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=90,
-                                                  min_longitude=invalid_input,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=invalid_input,
+                                    max_longitude=20)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -323,10 +323,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_maxLongitudeInvalidTypes(
             match=re.escape(
                 f"[max_longitude]: Must be a float or int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=90,
-                                                  min_longitude=10,
-                                                  max_longitude=invalid_input)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=invalid_input)
 
 
 @pytest.mark.parametrize("latitude_invalid_range", [(-91), (91)])
@@ -337,11 +337,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_minLatitudeInvalidRange(
             match=re.escape(
                 f"[min_latitude]: Latitude must be between 90 and -90, current value = '{latitude_invalid_range}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(
-            min_latitude=latitude_invalid_range,
-            max_latitude=90,
-            min_longitude=10,
-            max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=latitude_invalid_range,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 @pytest.mark.parametrize("latitude_invalid_range", [(-91), (91)])
@@ -352,11 +351,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_maxLatitudeInvalidRange(
             match=re.escape(
                 f"[max_latitude]: Latitude must be between 90 and -90, current value = '{latitude_invalid_range}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(
-            min_latitude=80,
-            max_latitude=latitude_invalid_range,
-            min_longitude=10,
-            max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=latitude_invalid_range,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 @pytest.mark.parametrize("longitude_invalid_range", [(-1), (361)])
@@ -367,11 +365,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_minLongtiudeInvalidRange(
             match=re.escape(
                 f"[min_longitude]: Longitude must be between 0 and 360, current value = '{longitude_invalid_range}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(
-            min_latitude=80,
-            max_latitude=90,
-            min_longitude=longitude_invalid_range,
-            max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=longitude_invalid_range,
+                                    max_longitude=20)
 
 
 @pytest.mark.parametrize("longitude_invalid_range", [(-1), (361)])
@@ -382,11 +379,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_maxLongtiudeInvalidRange(
             match=re.escape(
                 f"[max_longitude]: Longitude must be between 0 and 360, current value = '{longitude_invalid_range}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(
-            min_latitude=80,
-            max_latitude=90,
-            min_longitude=10,
-            max_longitude=longitude_invalid_range)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=longitude_invalid_range)
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_latitudeMaxGreaterMin():
@@ -394,10 +390,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_latitudeMaxGreaterMin():
             ValueError,
             match=re.escape(
                 "[latitude]: max_latitude must be greater than min_latitude")):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=70,
-                                                  min_longitude=10,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=70,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_longitudeMaxGreaterMin():
@@ -406,18 +402,18 @@ def test_retrieveIDSByLatitudeLongitudeRange_longitudeMaxGreaterMin():
             match=re.escape(
                 "[longitude]: max_longitude must be greater than min_longtiude"
             )):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=90,
-                                                  min_longitude=10,
-                                                  max_longitude=0)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=0)
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_latitudeLongitudeRangeNoIDsRetrieved(
         caplog):
-    pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=89.9999999,
-                                              max_latitude=90,
-                                              min_longitude=359,
-                                              max_longitude=360)
+    pydar.ids_from_latlon_range(min_latitude=89.9999999,
+                                max_latitude=90,
+                                min_longitude=359,
+                                max_longitude=360)
     log_record = caplog.records[0]
     assert log_record.levelno == logging.INFO
     assert log_record.message == "\n[WARNING]: No IDs found at latitude from 89.9999999 to 90 and longitude from 359 to 360\n"
@@ -425,10 +421,10 @@ def test_retrieveIDSByLatitudeLongitudeRange_latitudeLongitudeRangeNoIDsRetrieve
 
 def test_retrieveIDSByLatitudeLongitudeRange_latitudeLongitudeRangeNoFeaturesRetrieved(
         caplog):
-    pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=89.9999999,
-                                              max_latitude=90,
-                                              min_longitude=359,
-                                              max_longitude=360)
+    pydar.ids_from_latlon_range(min_latitude=89.9999999,
+                                max_latitude=90,
+                                min_longitude=359,
+                                max_longitude=360)
     log_record = caplog.records[0]
     assert log_record.levelno == logging.INFO
     assert log_record.message == "\n[WARNING]: No IDs found at latitude from 89.9999999 to 90 and longitude from 359 to 360\n"
@@ -438,43 +434,43 @@ def test_retrieveIDSByLatitudeLongitudeRange_minLatitudeRequired():
     with pytest.raises(
             ValueError,
             match=re.escape("[min_latitude]: min_latitude is required")):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
-                                                  max_latitude=90,
-                                                  min_longitude=10,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=None,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_maxLatitudeRequired():
     with pytest.raises(
             ValueError,
             match=re.escape("[max_latitude]: max_latitude is required")):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=None,
-                                                  min_longitude=10,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=None,
+                                    min_longitude=10,
+                                    max_longitude=20)
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_minLongitudeRequired():
     with pytest.raises(
             ValueError,
             match=re.escape("[min_longitude]: min_longitude is required")):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=90,
-                                                  min_longitude=None,
-                                                  max_longitude=20)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=None,
+                                    max_longitude=20)
 
 
 def test_retrieveIDSByLatitudeLongitudeRange_maxLongitudeRequired():
     with pytest.raises(
             ValueError,
             match=re.escape("[max_longitude]: max_longitude is required")):
-        pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=80,
-                                                  max_latitude=90,
-                                                  min_longitude=10,
-                                                  max_longitude=None)
+        pydar.ids_from_latlon_range(min_latitude=80,
+                                    max_latitude=90,
+                                    min_longitude=10,
+                                    max_longitude=None)
 
 
-## retrieveIDSByLatitudeLongitudeRange() ###############################
+## ids_from_latlon_range() ###############################
 
 ## retrieveFeaturesFromLatitudeLongitude() #############################
 

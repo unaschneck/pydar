@@ -14,11 +14,10 @@ if __name__ == '__main__':
     print(
         f"\nFlyby IDS based on Latitude/Longitude = {flyby_ids_with_segments}")
 
-    flyby_ids_range = pydar.retrieveIDSByLatitudeLongitudeRange(
-        min_latitude=-82,
-        max_latitude=-72,
-        min_longitude=183,
-        max_longitude=185)
+    flyby_ids_range = pydar.ids_from_latlon_range(min_latitude=-82,
+                                                  max_latitude=-72,
+                                                  min_longitude=183,
+                                                  max_longitude=185)
     print(f"\nFlyby IDS based on Latitude/Longitude Range = {flyby_ids_range}")
 
     feature_names_list = pydar.retrieveFeaturesFromLatitudeLongitude(

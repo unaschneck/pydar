@@ -16,7 +16,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
     * ids_from_feature_name()
     * ids_from_latlon()
-    * retrieveIDSByLatitudeLongitudeRange()
+    * ids_from_latlon_range()
     * retrieveFeaturesFromLatitudeLongitude()
     * retrieveFeaturesFromLatitudeLongitudeRange()
     * retrieveIDSByTime()
@@ -345,12 +345,12 @@ pydar.ids_from_latlon(latitude=-80, longitude=170)
 ```
 Output = `{'T39': ['S06', 'S05', 'S01'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S03'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-### retrieveIDSByLatitudeLongitudeRange()
+### ids_from_latlon_range()
 
 Retrieve a list of flyby IDs with their associated segments based on range of latitudes and longitudes
 
 ```python
-retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
+ids_from_latlon_range(min_latitude=None,
                 max_latitude=None,
                 min_longitude=None,
                 max_longitude=None)
@@ -362,7 +362,7 @@ retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 
 ```python
 import pydar
-pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
+pydar.ids_from_latlon_range(min_latitude=-82,
                     max_latitude=-72,
                     min_longitude=183,
                     max_longitude=185)
