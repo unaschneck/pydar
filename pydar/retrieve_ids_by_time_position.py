@@ -327,7 +327,7 @@ def features_from_latlon(latitude: (int, float) = None,
                                                       longitude=longitude)
 
     # Runs range check, but the range is 0 for an exact spot
-    feature_names_list = retrieveFeaturesFromLatitudeLongitudeRange(
+    feature_names_list = features_from_latlon_range(
         min_latitude=latitude,
         max_latitude=latitude,
         min_longitude=longitude,
@@ -336,7 +336,7 @@ def features_from_latlon(latitude: (int, float) = None,
 
 
 ### RETURN FEATURE NAMES FOR A RANGE OF LATITUDE/LONGTIUDES #############
-def retrieveFeaturesFromLatitudeLongitudeRange(
+def features_from_latlon_range(
         min_latitude: (int, float) = None,
         max_latitude: (int, float) = None,
         min_longitude: (int, float) = None,

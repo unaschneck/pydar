@@ -18,7 +18,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * ids_from_latlon()
     * ids_from_latlon_range()
     * features_from_latlon()
-    * retrieveFeaturesFromLatitudeLongitudeRange()
+    * features_from_latlon_range()
     * ids_from_time()
     * ids_from_time_range()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
@@ -386,12 +386,12 @@ pydar.features_from_latlon(latitude=-72, longitude=183)
 
 Output = `['Ontario Lacus', 'Rossak Planitia']`
 
-### retrieveFeaturesFromLatitudeLongitudeRange()
+### features_from_latlon_range()
 
 Return a list of features found at a range of latitude/longitude positions
 
 ```
-retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
+features_from_latlon_range(min_latitude=None,
                     max_latitude=None,
                     min_longitude=None,
                     max_longitude=None)
@@ -403,7 +403,7 @@ retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 
 ```python
 import pydar
-pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
+pydar.features_from_latlon_range(min_latitude=-82,
                         max_latitude=-72,
                         min_longitude=183,
                         max_longitude=190)

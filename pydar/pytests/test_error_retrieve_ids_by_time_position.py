@@ -489,11 +489,11 @@ def test_retrieveIDSByLatitudeLongitude_verifyOutput(caplog):
 
 ## features_from_latlon() #############################
 
-## retrieveFeaturesFromLatitudeLongitudeRange() ##########################
+## features_from_latlon_range() ##########################
 
 
 def test_retrieveFeaturesFromLatitudeLongitudeRange_verifyOutput(caplog):
-    found_features = pydar.retrieveFeaturesFromLatitudeLongitudeRange(
+    found_features = pydar.features_from_latlon_range(
         min_latitude=-82,
         max_latitude=-72,
         min_longitude=183,
@@ -504,7 +504,7 @@ def test_retrieveFeaturesFromLatitudeLongitudeRange_verifyOutput(caplog):
     ]
 
 
-## retrieveFeaturesFromLatitudeLongitudeRange() ##########################
+## features_from_latlon_range() ##########################
 
 
 ## ids_from_time() #################################################

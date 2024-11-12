@@ -37,7 +37,7 @@ from .retrieve_ids_by_time_position import ids_from_latlon_range
 from .retrieve_ids_by_time_position import ids_from_time
 from .retrieve_ids_by_time_position import ids_from_time_range
 from .retrieve_ids_by_time_position import features_from_latlon
-from .retrieve_ids_by_time_position import retrieveFeaturesFromLatitudeLongitudeRange
+from .retrieve_ids_by_time_position import features_from_latlon_range
 
 ## Version 2:
 
