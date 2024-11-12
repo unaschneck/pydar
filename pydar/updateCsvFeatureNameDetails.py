@@ -22,7 +22,7 @@ logger.addHandler(stream_handler)
 
 
 ## FUNCTIONS TO WEB SCRAPE TO POPULATE feature_name_details.csv ################
-def _update_csv_feature_name_details():
+def _update_csv_feature_name_details() -> None:
     # Update the csv script for feature_name_details.csv from the planetary names database
     # Retrieves information for each Titan feature
     #       Estimated runtime: 3 minutes

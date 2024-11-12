@@ -14,6 +14,8 @@ from urllib import request, error
 # Internal Local Imports
 import pydar
 
+########################################################################
+
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -25,7 +27,7 @@ RESOLUTION_TYPES = ["B", "D", "F", "H",
 DATAFILE_TYPES = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 
 
-def _retrieve_flyby_data() -> (list, str):
+def _retrieve_flyby_data() -> tuple[list, str]:
     # Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
     flyby_id = []
     flyby_radar_take_num = []
@@ -84,7 +86,7 @@ def observation_to_id(flyby_observation_num: str = None) -> str:
             return row.iloc[0]  # returns flyby ID
 
 
-def _retrieve_jpl_coradr_options():
+def _retrieve_jpl_coradr_options() -> pd.DataFrame:
     # Read JPL Options from CSV
     coradr_csv_file = os.path.join(
         os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'

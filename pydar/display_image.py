@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 # Internal Local Imports
 import pydar
 
+########################################################################
+
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

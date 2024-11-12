@@ -12,6 +12,8 @@ import numpy as np
 # Internal Local Imports
 import pydar
 
+########################################################################
+
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -81,8 +83,8 @@ def ids_from_feature_name(feature_name: str = None) -> dict:
 
 
 ### RETURN FLYBY IDS FOR A SPECIFIC LATITUDE/LONGITUDE###################
-def ids_from_latlon(latitude: (int, float) = None,
-                    longitude: (int, float) = None) -> dict:
+def ids_from_latlon(latitude: [int, float] = None,
+                    longitude: [int, float] = None) -> dict:
     # Retrieve all FLyby Ids at a specific latitude/longitude
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar._error_handling_id_from_lat_lon(latitude=latitude,
@@ -97,10 +99,10 @@ def ids_from_latlon(latitude: (int, float) = None,
 
 
 ### RETURN FLYBY IDS FOR A RANGE OF LATITUDE/LONGITUDES#################
-def ids_from_latlon_range(min_latitude: (int, float) = None,
-                          max_latitude: (int, float) = None,
-                          min_longitude: (int, float) = None,
-                          max_longitude: (int, float) = None):
+def ids_from_latlon_range(min_latitude: [int, float] = None,
+                          max_latitude: [int, float] = None,
+                          min_longitude: [int, float] = None,
+                          max_longitude: [int, float] = None):
     # Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar._error_handling_id_from_lat_lon_range(min_latitude=min_latitude,
@@ -318,8 +320,8 @@ def ids_from_time_range(start_year: int = None,
 
 
 ### RETURN FEATURE NAMES FOR A SPECIFIC LATITUDE/LONGTIUDE ##############
-def features_from_latlon(latitude: (int, float) = None,
-                         longitude: (int, float) = None) -> list:
+def features_from_latlon(latitude: [int, float] = None,
+                         longitude: [int, float] = None) -> list:
     # Retrieve all Feature Names that at a specific latitude/longitude
     #   Returns a list of feature names
     pydar._error_handling_id_from_lat_lon(latitude=latitude,
@@ -334,10 +336,10 @@ def features_from_latlon(latitude: (int, float) = None,
 
 
 ### RETURN FEATURE NAMES FOR A RANGE OF LATITUDE/LONGTIUDES #############
-def features_from_latlon_range(min_latitude: (int, float) = None,
-                               max_latitude: (int, float) = None,
-                               min_longitude: (int, float) = None,
-                               max_longitude: (int, float) = None) -> list:
+def features_from_latlon_range(min_latitude: [int, float] = None,
+                               max_latitude: [int, float] = None,
+                               min_longitude: [int, float] = None,
+                               max_longitude: [int, float] = None) -> list:
     # Retrieve all Feature Names that are within a range of latitude/longitude
     #   Returns a list of feature names
     pydar._error_handling_id_from_lat_lon_range(min_latitude=min_latitude,
@@ -348,7 +350,7 @@ def features_from_latlon_range(min_latitude: (int, float) = None,
     feature_name_csv_dict = _retrieve_latlon_with_feature_names_from_csv()
     feature_names_list = []
 
-    def twoRangesIntersect(min_feature, max_feature, min_user, max_user):
+    def _two_ranges_intersect(min_feature, max_feature, min_user, max_user):
         # Check if two ranges of latitude/longitudes overlap
         range1 = (min_feature <= max_user and min_feature >= min_user)
         range2 = (max_feature >= min_user and max_feature <= max_user)
@@ -365,8 +367,8 @@ def features_from_latlon_range(min_latitude: (int, float) = None,
             float(position_dict["Northmost Latitude"]),
             float(position_dict["Southmost Latitude"])
         ])
-        if twoRangesIntersect(min_feature_latitude, max_feature_latitude,
-                              min_latitude, max_latitude):
+        if _two_ranges_intersect(min_feature_latitude, max_feature_latitude,
+                                 min_latitude, max_latitude):
             min_feature_longitude = min([
                 float(position_dict["Westmost Longitude"]),
                 float(position_dict["Eastmost Longitude"])
@@ -375,8 +377,9 @@ def features_from_latlon_range(min_latitude: (int, float) = None,
                 float(position_dict["Westmost Longitude"]),
                 float(position_dict["Eastmost Longitude"])
             ])
-            if twoRangesIntersect(min_feature_longitude, max_feature_longitude,
-                                  min_longitude, max_longitude):
+            if _two_ranges_intersect(min_feature_longitude,
+                                     max_feature_longitude, min_longitude,
+                                     max_longitude):
                 feature_names_list.append(feature_name)
 
     if len(feature_names_list) == 0:

@@ -24,7 +24,7 @@ logger.addHandler(stream_handler)
 
 
 ## FUNCTIONS TO WEB SCRAPE TO POPULATE swath_coverage_by_time_position.csv ################
-def _update_csv_swath_coverage():
+def _update_csv_swath_coverage() -> None:
     # Update the csv script for swath_coverage_by_time_position.csv from the most recent JPL webpage
     # Retrieves information for each .LBL file that exists for CASSINI data files
     #       Estimated runtime: 15 minutes
