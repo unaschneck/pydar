@@ -167,35 +167,35 @@ def ids_from_time(year: int = None,
     swath_dataframe = pd.read_csv(swath_csv_file)
 
     # Retrieve using the time range function for the same time for start/end
-    flyby_ids = retrieveIDSByTimeRange(start_year=year,
-                                       start_doy=doy,
-                                       start_hour=hour,
-                                       start_minute=minute,
-                                       start_second=second,
-                                       start_millisecond=millisecond,
-                                       end_year=year,
-                                       end_doy=doy,
-                                       end_hour=hour,
-                                       end_minute=minute,
-                                       end_second=second,
-                                       end_millisecond=millisecond)
+    flyby_ids = ids_from_time_range(start_year=year,
+                                    start_doy=doy,
+                                    start_hour=hour,
+                                    start_minute=minute,
+                                    start_second=second,
+                                    start_millisecond=millisecond,
+                                    end_year=year,
+                                    end_doy=doy,
+                                    end_hour=hour,
+                                    end_minute=minute,
+                                    end_second=second,
+                                    end_millisecond=millisecond)
 
     return flyby_ids
 
 
 ### RETURN FLYBY IDS FOR A RANGE OF TIMES ###############################
-def retrieveIDSByTimeRange(start_year: int = None,
-                           start_doy: int = None,
-                           start_hour: int = None,
-                           start_minute: int = None,
-                           start_second: int = None,
-                           start_millisecond: int = None,
-                           end_year: int = None,
-                           end_doy: int = None,
-                           end_hour: int = None,
-                           end_minute: int = None,
-                           end_second: int = None,
-                           end_millisecond: int = None) -> dict:
+def ids_from_time_range(start_year: int = None,
+                        start_doy: int = None,
+                        start_hour: int = None,
+                        start_minute: int = None,
+                        start_second: int = None,
+                        start_millisecond: int = None,
+                        end_year: int = None,
+                        end_doy: int = None,
+                        end_hour: int = None,
+                        end_minute: int = None,
+                        end_second: int = None,
+                        end_millisecond: int = None) -> dict:
     # Retrieve Flyby IDs based on a range of Timestamps YYYY-DOYThh:mm:ss.sss
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
 

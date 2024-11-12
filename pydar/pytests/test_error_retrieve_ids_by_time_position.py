@@ -665,58 +665,58 @@ def test_retrieveIDSByTime_millisecondInvalidTypes(invalid_input,
 ## ids_from_time() #################################################
 
 
-## retrieveIDSByTimeRange() ############################################
+## ids_from_time_range() ############################################
 def test_retrieveIDSByTimeRange_yearStartRequired():
     with pytest.raises(
             ValueError,
             match=re.escape("[start_year]: start_year is required")):
-        pydar.retrieveIDSByTimeRange(start_year=None,
-                                     end_year=2011,
-                                     start_doy=1,
-                                     end_doy=2)
+        pydar.ids_from_time_range(start_year=None,
+                                  end_year=2011,
+                                  start_doy=1,
+                                  end_doy=2)
 
 
 def test_retrieveIDSByTimeRange_yearEndRequired():
     with pytest.raises(ValueError,
                        match=re.escape("[end_year]: end_year is required")):
-        pydar.retrieveIDSByTimeRange(start_year=2010,
-                                     end_year=None,
-                                     start_doy=1,
-                                     end_doy=2)
+        pydar.ids_from_time_range(start_year=2010,
+                                  end_year=None,
+                                  start_doy=1,
+                                  end_doy=2)
 
 
 def test_retrieveIDSByTimeRange_DOYStartRequired(caplog):
     with pytest.raises(ValueError,
                        match=re.escape("[start_doy]: start_doy is required")):
-        pydar.retrieveIDSByTimeRange(start_year=2010,
-                                     end_year=2011,
-                                     start_doy=None,
-                                     end_doy=2)
+        pydar.ids_from_time_range(start_year=2010,
+                                  end_year=2011,
+                                  start_doy=None,
+                                  end_doy=2)
 
 
 def test_retrieveIDSByTimeRange_verifyOutput():
-    flyby_ids = pydar.retrieveIDSByTimeRange(start_year=2004,
-                                             start_doy=299,
-                                             start_hour=2,
-                                             start_minute=15,
-                                             start_second=23,
-                                             start_millisecond=987,
-                                             end_year=2005,
-                                             end_doy=301,
-                                             end_hour=2,
-                                             end_minute=15,
-                                             end_second=23,
-                                             end_millisecond=987)
+    flyby_ids = pydar.ids_from_time_range(start_year=2004,
+                                          start_doy=299,
+                                          start_hour=2,
+                                          start_minute=15,
+                                          start_second=23,
+                                          start_millisecond=987,
+                                          end_year=2005,
+                                          end_doy=301,
+                                          end_hour=2,
+                                          end_minute=15,
+                                          end_second=23,
+                                          end_millisecond=987)
     assert flyby_ids == {'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}
 
 
 def test_retrieveIDSByTimeRange_DOYEndRequired():
     with pytest.raises(ValueError,
                        match=re.escape("[end_doy]: end_doy is required")):
-        pydar.retrieveIDSByTimeRange(start_year=2010,
-                                     end_year=2011,
-                                     start_doy=1,
-                                     end_doy=None)
+        pydar.ids_from_time_range(start_year=2010,
+                                  end_year=2011,
+                                  start_doy=1,
+                                  end_doy=None)
 
 
 def test_retrieveIDSByTimeRange_yearStartEndGreaterMin():
@@ -724,10 +724,10 @@ def test_retrieveIDSByTimeRange_yearStartEndGreaterMin():
             ValueError,
             match=re.escape(
                 "[year]: start_year must be less than/equal to end_year")):
-        pydar.retrieveIDSByTimeRange(start_year=2011,
-                                     end_year=2010,
-                                     start_doy=1,
-                                     end_doy=2)
+        pydar.ids_from_time_range(start_year=2011,
+                                  end_year=2010,
+                                  start_doy=1,
+                                  end_doy=2)
 
 
 def test_retrieveIDSByTimeRange_DOYStartEndGreaterMin():
@@ -735,10 +735,10 @@ def test_retrieveIDSByTimeRange_DOYStartEndGreaterMin():
             ValueError,
             match=re.escape(
                 "[doy]: start_doy must be less than/equal to end_doy")):
-        pydar.retrieveIDSByTimeRange(start_year=2011,
-                                     end_year=2011,
-                                     start_doy=2,
-                                     end_doy=1)
+        pydar.ids_from_time_range(start_year=2011,
+                                  end_year=2011,
+                                  start_doy=2,
+                                  end_doy=1)
 
 
 def test_retrieveIDSByTimeRange_hourStartEndGreaterMin():
@@ -746,12 +746,12 @@ def test_retrieveIDSByTimeRange_hourStartEndGreaterMin():
             ValueError,
             match=re.escape(
                 "[hour]: start_hour must be less than/equal to end_hour")):
-        pydar.retrieveIDSByTimeRange(start_year=2011,
-                                     end_year=2011,
-                                     start_doy=1,
-                                     end_doy=1,
-                                     start_hour=2,
-                                     end_hour=1)
+        pydar.ids_from_time_range(start_year=2011,
+                                  end_year=2011,
+                                  start_doy=1,
+                                  end_doy=1,
+                                  start_hour=2,
+                                  end_hour=1)
 
 
 def test_retrieveIDSByTimeRange_minuteStartEndGreaterMin():
@@ -760,14 +760,14 @@ def test_retrieveIDSByTimeRange_minuteStartEndGreaterMin():
             match=re.escape(
                 "[minute]: start_minute must be less than/equal to end_minute")
     ):
-        pydar.retrieveIDSByTimeRange(start_year=2011,
-                                     end_year=2011,
-                                     start_doy=1,
-                                     end_doy=1,
-                                     start_hour=1,
-                                     end_hour=1,
-                                     start_minute=2,
-                                     end_minute=1)
+        pydar.ids_from_time_range(start_year=2011,
+                                  end_year=2011,
+                                  start_doy=1,
+                                  end_doy=1,
+                                  start_hour=1,
+                                  end_hour=1,
+                                  start_minute=2,
+                                  end_minute=1)
 
 
 def test_retrieveIDSByTimeRange_secondStartEndGreaterMin():
@@ -776,16 +776,16 @@ def test_retrieveIDSByTimeRange_secondStartEndGreaterMin():
             match=re.escape(
                 "[second]: start_second must be less than/equal to end_second")
     ):
-        pydar.retrieveIDSByTimeRange(start_year=2011,
-                                     end_year=2011,
-                                     start_doy=1,
-                                     end_doy=1,
-                                     start_hour=1,
-                                     end_hour=1,
-                                     start_minute=1,
-                                     end_minute=1,
-                                     start_second=2,
-                                     end_second=1)
+        pydar.ids_from_time_range(start_year=2011,
+                                  end_year=2011,
+                                  start_doy=1,
+                                  end_doy=1,
+                                  start_hour=1,
+                                  end_hour=1,
+                                  start_minute=1,
+                                  end_minute=1,
+                                  start_second=2,
+                                  end_second=1)
 
 
 def test_retrieveIDSByTimeRange_millisecondStartEndGreaterMin():
@@ -794,18 +794,18 @@ def test_retrieveIDSByTimeRange_millisecondStartEndGreaterMin():
             match=re.escape(
                 "[millisecond]: start_millisecond must be less than/equal to end_millisecond"
             )):
-        pydar.retrieveIDSByTimeRange(start_year=2011,
-                                     end_year=2011,
-                                     start_doy=1,
-                                     end_doy=1,
-                                     start_hour=1,
-                                     end_hour=1,
-                                     start_minute=1,
-                                     end_minute=1,
-                                     start_second=1,
-                                     end_second=1,
-                                     start_millisecond=2,
-                                     end_millisecond=1)
+        pydar.ids_from_time_range(start_year=2011,
+                                  end_year=2011,
+                                  start_doy=1,
+                                  end_doy=1,
+                                  start_hour=1,
+                                  end_hour=1,
+                                  start_minute=1,
+                                  end_minute=1,
+                                  start_second=1,
+                                  end_second=1,
+                                  start_millisecond=2,
+                                  end_millisecond=1)
 
 
-## retrieveIDSByTimeRange() ############################################
+## ids_from_time_range() ############################################

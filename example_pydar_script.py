@@ -38,18 +38,18 @@ if __name__ == '__main__':
     flyby_ids_time = pydar.ids_from_time(year=2005, doy=301)
     print(f"\nFlyby IDS based on a specific timestamp = {flyby_ids_time}")
 
-    flyby_ids_time_range = pydar.retrieveIDSByTimeRange(start_year=2004,
-                                                        start_doy=299,
-                                                        start_hour=2,
-                                                        start_minute=15,
-                                                        start_second=23,
-                                                        start_millisecond=987,
-                                                        end_year=2005,
-                                                        end_doy=301,
-                                                        end_hour=2,
-                                                        end_minute=15,
-                                                        end_second=23,
-                                                        end_millisecond=987)
+    flyby_ids_time_range = pydar.ids_from_time_range(start_year=2004,
+                                                     start_doy=299,
+                                                     start_hour=2,
+                                                     start_minute=15,
+                                                     start_second=23,
+                                                     start_millisecond=987,
+                                                     end_year=2005,
+                                                     end_doy=301,
+                                                     end_hour=2,
+                                                     end_minute=15,
+                                                     end_second=23,
+                                                     end_millisecond=987)
     print(
         f"\nFlyby IDS based on a range of timestamps = {flyby_ids_time_range}")
 

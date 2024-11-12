@@ -20,7 +20,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * retrieveFeaturesFromLatitudeLongitude()
     * retrieveFeaturesFromLatitudeLongitudeRange()
     * ids_from_time()
-    * retrieveIDSByTimeRange()
+    * ids_from_time_range()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
     * id_to_observation()
     * observation_to_id()
@@ -458,12 +458,12 @@ pydar.ids_from_time(year=2005, doy=301, hour=3)
 ```
 Output for the day 301 but just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
 
-### retrieveIDSByTimeRange()
+### ids_from_time_range()
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a start and end datetime
 
 ```
-retrieveIDSByTimeRange(start_year=None, 
+ids_from_time_range(start_year=None, 
             start_doy=None,
             start_hour=None,
             start_minute=None, 
@@ -492,7 +492,7 @@ retrieveIDSByTimeRange(start_year=None,
 
 ```python
 import pydar
-pydar.retrieveIDSByTimeRange(start_year=2004,
+pydar.ids_from_time_range(start_year=2004,
                 start_doy=299,
                 start_hour=2,
                 start_minute=15,
