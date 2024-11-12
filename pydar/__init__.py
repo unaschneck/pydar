@@ -2,17 +2,16 @@
 from .display_image import display_all_images
 
 # error_handling.py function calls for testing
-from .error_handling import errorHandlingDisplayAllImages
-from .error_handling import errorHandlingExtractFlybyImages
-from .error_handling import errorHandlingConvertFlybyIDToObservationNumber
-from .error_handling import errorHandlingConvertObservationNumberToFlybyID
-from .error_handling import errorHandlingREADME
-from .error_handling import errorHandlingRetrieveIDSByFeature
-from .error_handling import errorHandlingRetrieveIDSByLatitudeLongitude
-from .error_handling import errorHandlingRetrieveIDSByLatitudeLongitudeRange
-from .error_handling import errorHandlingRetrieveIDSByTime
-from .error_handling import errorHandlingRetrieveIDSByTimeRange
-from .error_handling import errorHandlingSbdrMakeShapeFile
+from .error_handling import _error_handling_extract_flyby_images
+from .error_handling import _error_handling_display_all_images
+from .error_handling import _error_handling_convert_id_to_observation_num
+from .error_handling import _error_handling_convert_observation_num_to_id
+from .error_handling import _error_handling_readme_options
+from .error_handling import _error_handling_id_from_feature_name
+from .error_handling import _error_handling_id_from_lat_lon
+from .error_handling import _error_handling_id_from_lat_lon_range
+from .error_handling import _error_handling_id_from_time
+from .error_handling import _error_handling_id_from_time_range
 
 # extract_flyby_parameters.py function calls
 from .extract_flyby_parameters import _retrieve_flyby_data
@@ -40,6 +39,8 @@ from .retrieve_ids_by_time_position import features_from_latlon
 from .retrieve_ids_by_time_position import features_from_latlon_range
 
 ## Version 2:
+
+# from .error_handling import _error_handling_sbdr_make_shapefile
 
 # sbdr_make_shapefile.py function calls
 #from .sbdr_make_shapefile import sbdrMakeShapeFile

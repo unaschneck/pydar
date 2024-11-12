@@ -49,7 +49,7 @@ def _retrieve_latlon_with_feature_names_from_csv() -> dict:
 def ids_from_feature_name(feature_name: str = None) -> dict:
     # Retrieve a dictionary of flyby IDs and associated segment numbers
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
-    pydar.errorHandlingRetrieveIDSByFeature(feature_name=feature_name)
+    pydar._error_handling_id_from_feature_name(feature_name=feature_name)
 
     feature_name_csv_dict = _retrieve_latlon_with_feature_names_from_csv()
     feature_name = feature_name.title(
@@ -85,8 +85,8 @@ def ids_from_latlon(latitude: (int, float) = None,
                     longitude: (int, float) = None) -> dict:
     # Retrieve all FLyby Ids at a specific latitude/longitude
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
-    pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude,
-                                                      longitude=longitude)
+    pydar._error_handling_id_from_lat_lon(latitude=latitude,
+                                          longitude=longitude)
 
     # Runs range check, but the range is 0 for an exact spot
     flyby_ids = ids_from_latlon_range(min_latitude=latitude,
@@ -103,11 +103,10 @@ def ids_from_latlon_range(min_latitude: (int, float) = None,
                           max_longitude: (int, float) = None):
     # Retrieve all Flyby Ids that cover a specific latitude/longitude or within a range of latitude/longitudes
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
-    pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(
-        min_latitude=min_latitude,
-        max_latitude=max_latitude,
-        min_longitude=min_longitude,
-        max_longitude=max_longitude)
+    pydar._error_handling_id_from_lat_lon_range(min_latitude=min_latitude,
+                                                max_latitude=max_latitude,
+                                                min_longitude=min_longitude,
+                                                max_longitude=max_longitude)
 
     swath_csv_file = os.path.join(
         os.path.dirname(__file__), 'data',
@@ -153,12 +152,12 @@ def ids_from_time(year: int = None,
                   millisecond: int = None) -> dict:
     # Retrieve Flyby IDs based on a single Timestamp of YYYY-DOYThh:mm:ss.sss
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
-    pydar.errorHandlingRetrieveIDSByTime(year=year,
-                                         doy=doy,
-                                         hour=hour,
-                                         minute=minute,
-                                         second=second,
-                                         millisecond=millisecond)
+    pydar._error_handling_id_from_time(year=year,
+                                       doy=doy,
+                                       hour=hour,
+                                       minute=minute,
+                                       second=second,
+                                       millisecond=millisecond)
 
     swath_csv_file = os.path.join(
         os.path.dirname(__file__), 'data',
@@ -199,7 +198,7 @@ def ids_from_time_range(start_year: int = None,
     # Retrieve Flyby IDs based on a range of Timestamps YYYY-DOYThh:mm:ss.sss
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
 
-    pydar.errorHandlingRetrieveIDSByTimeRange(
+    pydar._error_handling_id_from_time_range(
         start_year=start_year,
         start_doy=start_doy,
         start_hour=start_hour,
@@ -323,8 +322,8 @@ def features_from_latlon(latitude: (int, float) = None,
                          longitude: (int, float) = None) -> list:
     # Retrieve all Feature Names that at a specific latitude/longitude
     #   Returns a list of feature names
-    pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude,
-                                                      longitude=longitude)
+    pydar._error_handling_id_from_lat_lon(latitude=latitude,
+                                          longitude=longitude)
 
     # Runs range check, but the range is 0 for an exact spot
     feature_names_list = features_from_latlon_range(min_latitude=latitude,
@@ -341,11 +340,10 @@ def features_from_latlon_range(min_latitude: (int, float) = None,
                                max_longitude: (int, float) = None) -> list:
     # Retrieve all Feature Names that are within a range of latitude/longitude
     #   Returns a list of feature names
-    pydar.errorHandlingRetrieveIDSByLatitudeLongitudeRange(
-        min_latitude=min_latitude,
-        max_latitude=max_latitude,
-        min_longitude=min_longitude,
-        max_longitude=max_longitude)
+    pydar._error_handling_id_from_lat_lon_range(min_latitude=min_latitude,
+                                                max_latitude=max_latitude,
+                                                min_longitude=min_longitude,
+                                                max_longitude=max_longitude)
 
     feature_name_csv_dict = _retrieve_latlon_with_feature_names_from_csv()
     feature_names_list = []

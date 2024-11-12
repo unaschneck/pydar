@@ -92,14 +92,14 @@ def sbdrMakeShapeFile(filename=None,
     # file_out : name of file output (string)
     # lon360: using 360 Longitude system (boolean) (false = not using, true = using)
 
-    pydar.errorHandlingSbdrMakeShapeFile(filename=filename,
-                                         fields=fields,
-                                         write_files=write_files,
-                                         saronly=saronly,
-                                         usepassive=usepassive,
-                                         ind=ind,
-                                         file_out=file_out,
-                                         lon360=lon360)
+    pydar._error_handling_sbdr_make_shapefile(filename=filename,
+                                              fields=fields,
+                                              write_files=write_files,
+                                              saronly=saronly,
+                                              usepassive=usepassive,
+                                              ind=ind,
+                                              file_out=file_out,
+                                              lon360=lon360)
 
     start = time.time()
 

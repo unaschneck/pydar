@@ -46,7 +46,7 @@ def _retrieve_flyby_data() -> (list, str):
 
 def id_to_observation(flyby_id: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
-    pydar.errorHandlingConvertFlybyIDToObservationNumber(flyby_id=flyby_id)
+    pydar._error_handling_convert_id_to_observation_num(flyby_id=flyby_id)
 
     flyby_csv_file = os.path.join(
         os.path.dirname(__file__), 'data',
@@ -71,7 +71,7 @@ def observation_to_id(flyby_observation_num: str = None) -> str:
             while len(flyby_observation_num) < 4:
                 flyby_observation_num = "0" + flyby_observation_num  # set all radar take numbers to be four digits long: 229 -> 0229
 
-    pydar.errorHandlingConvertObservationNumberToFlybyID(
+    pydar._error_handling_convert_observation_num_to_id(
         flyby_observation_num=flyby_observation_num)
 
     flyby_csv_file = os.path.join(
@@ -296,7 +296,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
         resolution = None  # set default resolution to None if selecting the top x resolutions
 
     # Error handling:
-    pydar.errorHandlingExtractFlybyImages(
+    pydar._error_handling_extract_flyby_images(
         flyby_observation_num=flyby_observation_num,
         flyby_id=flyby_id,
         segment_num=segment_num,

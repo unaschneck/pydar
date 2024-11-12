@@ -53,7 +53,7 @@ def read_aareadme(coradr_results_directory: str = None,
                   section_to_print: str = None,
                   print_to_console: bool = True) -> None:
     # Print AAREADME to console
-    pydar.errorHandlingREADME(
+    pydar._error_handling_readme_options(
         coradr_results_directory=coradr_results_directory,
         section_to_print=section_to_print,
         print_to_console=print_to_console)
@@ -192,7 +192,7 @@ def read_lbl_readme(coradr_results_directory: str = None,
     if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
         section_to_print = f"^{section_to_print}"  # sets the user's option to include the easy to miss ^
 
-    pydar.errorHandlingREADME(
+    pydar._error_handling_readme_options(
         coradr_results_directory=coradr_results_directory,
         section_to_print=section_to_print,
         print_to_console=print_to_console)

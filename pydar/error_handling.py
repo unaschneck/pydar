@@ -14,12 +14,12 @@ import pandas as pd
 import pydar
 
 
-def errorHandlingExtractFlybyImages(flyby_observation_num=None,
-                                    flyby_id=None,
-                                    segment_num=None,
-                                    additional_data_types_to_download=[],
-                                    resolution=None,
-                                    top_x_resolutions=None):
+def _error_handling_extract_flyby_images(flyby_observation_num=None,
+                                         flyby_id=None,
+                                         segment_num=None,
+                                         additional_data_types_to_download=[],
+                                         resolution=None,
+                                         top_x_resolutions=None):
     # Error Handling for extract_flyby_parameters variables: extract_flyby_images()
     available_flyby_id, available_observation_numbers = pydar._retrieve_flyby_data(
     )
@@ -125,7 +125,7 @@ def errorHandlingExtractFlybyImages(flyby_observation_num=None,
             )
 
 
-def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
+def _error_handling_convert_id_to_observation_num(flyby_id=None):
     # Error Handling for Converting a Flyby ID into an Observation Number: id_to_observation()
     if flyby_id is None:
         raise ValueError("[flyby_id]: A valid flyby_id string is required")
@@ -151,7 +151,7 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
         )
 
 
-def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
+def _error_handling_convert_observation_num_to_id(flyby_observation_num=None):
     # Error Handling for Converting an Observation Number to a Flyby ID: observation_to_id()
     if flyby_observation_num is None:
         raise ValueError(
@@ -181,11 +181,11 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
         )
 
 
-def errorHandlingDisplayAllImages(image_directory=None,
-                                  fig_title=None,
-                                  cmap=None,
-                                  figsize_n=None,
-                                  fig_dpi=None):
+def _error_handling_display_all_images(image_directory=None,
+                                       fig_title=None,
+                                       cmap=None,
+                                       figsize_n=None,
+                                       fig_dpi=None):
     # Error Handling for Displaying Images from an Image Directory: display_all_images()
     if image_directory == None:
         raise ValueError("[image_directory]: image_directory is required")
@@ -222,9 +222,9 @@ def errorHandlingDisplayAllImages(image_directory=None,
             )
 
 
-def errorHandlingREADME(coradr_results_directory=None,
-                        section_to_print=None,
-                        print_to_console=True):
+def _error_handling_readme_options(coradr_results_directory=None,
+                                   section_to_print=None,
+                                   print_to_console=True):
     # Error Handling for README options: read_readme
     if coradr_results_directory is None:
         raise ValueError(
@@ -246,7 +246,7 @@ def errorHandlingREADME(coradr_results_directory=None,
         )
 
 
-def errorHandlingRetrieveIDSByFeature(feature_name=None):
+def _error_handling_id_from_feature_name(feature_name=None):
     # Error Handling for retrieving the IDs for a specific feature name: retrieveIDSByFeature()
     if feature_name is None:
         raise ValueError("[feature_name]: feature_name is required")
@@ -257,7 +257,7 @@ def errorHandlingRetrieveIDSByFeature(feature_name=None):
             )
 
 
-def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
+def _error_handling_id_from_lat_lon(latitude=None, longitude=None):
     # Error Handling for retrieving IDs based on latitude and longitude
 
     if latitude is None:
@@ -286,10 +286,10 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
         )
 
 
-def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
-                                                     max_latitude=None,
-                                                     min_longitude=None,
-                                                     max_longitude=None):
+def _error_handling_id_from_lat_lon_range(min_latitude=None,
+                                          max_latitude=None,
+                                          min_longitude=None,
+                                          max_longitude=None):
     # Error Handling for retrieving IDs based on a range of latitude and longitudes
     if min_latitude is None:
         raise ValueError("[min_latitude]: min_latitude is required")
@@ -352,12 +352,12 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
             "[longitude]: max_longitude must be greater than min_longtiude")
 
 
-def errorHandlingRetrieveIDSByTime(year=None,
-                                   doy=None,
-                                   hour=None,
-                                   minute=None,
-                                   second=None,
-                                   millisecond=None):
+def _error_handling_id_from_time(year=None,
+                                 doy=None,
+                                 hour=None,
+                                 minute=None,
+                                 second=None,
+                                 millisecond=None):
     # Error handling for retrieving IDs based on a specific time
     if year is None:
         raise ValueError("[year]: year is required")
@@ -411,18 +411,18 @@ def errorHandlingRetrieveIDSByTime(year=None,
                 "[millisecond]: second must be a positive value from 0 to 999")
 
 
-def errorHandlingRetrieveIDSByTimeRange(start_year=None,
-                                        start_doy=None,
-                                        start_hour=None,
-                                        start_minute=None,
-                                        start_second=None,
-                                        start_millisecond=None,
-                                        end_year=None,
-                                        end_doy=None,
-                                        end_hour=None,
-                                        end_minute=None,
-                                        end_second=None,
-                                        end_millisecond=None):
+def _error_handling_id_from_time_range(start_year=None,
+                                       start_doy=None,
+                                       start_hour=None,
+                                       start_minute=None,
+                                       start_second=None,
+                                       start_millisecond=None,
+                                       end_year=None,
+                                       end_doy=None,
+                                       end_hour=None,
+                                       end_minute=None,
+                                       end_second=None,
+                                       end_millisecond=None):
     # Error handling for retrieving IDs based on a range of times
     if start_year is None:
         raise ValueError("[start_year]: start_year is required")
@@ -434,18 +434,18 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
     if end_doy is None:
         raise ValueError("[end_doy]: end_doy is required")
 
-    errorHandlingRetrieveIDSByTime(year=start_year,
-                                   doy=start_doy,
-                                   hour=start_hour,
-                                   minute=start_minute,
-                                   second=start_second,
-                                   millisecond=start_millisecond)
-    errorHandlingRetrieveIDSByTime(year=end_year,
-                                   doy=end_doy,
-                                   hour=end_hour,
-                                   minute=end_minute,
-                                   second=end_second,
-                                   millisecond=end_millisecond)
+    _error_handling_id_from_time(year=start_year,
+                                 doy=start_doy,
+                                 hour=start_hour,
+                                 minute=start_minute,
+                                 second=start_second,
+                                 millisecond=start_millisecond)
+    _error_handling_id_from_time(year=end_year,
+                                 doy=end_doy,
+                                 hour=end_hour,
+                                 minute=end_minute,
+                                 second=end_second,
+                                 millisecond=end_millisecond)
 
     if start_year > end_year:
         raise ValueError(
@@ -486,14 +486,14 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
                     )
 
 
-def errorHandlingSbdrMakeShapeFile(filename=None,
-                                   fields=[],
-                                   write_files=False,
-                                   saronly=0,
-                                   usepassive=False,
-                                   ind=None,
-                                   file_out=None,
-                                   lon360=False):
+def _error_handling_sbdr_make_shapefile(filename=None,
+                                        fields=[],
+                                        write_files=False,
+                                        saronly=0,
+                                        usepassive=False,
+                                        ind=None,
+                                        file_out=None,
+                                        lon360=False):
     # Error handling for using SBDR to make a shapefile
     if type(filename) != str:
         raise ValueError(

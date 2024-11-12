@@ -27,11 +27,11 @@ def display_all_images(image_directory: str = None,
     # Display all images in the image directory specified
     #   plt.show() all imgs in a given directory
 
-    pydar.errorHandlingDisplayAllImages(image_directory=image_directory,
-                                        fig_title=fig_title,
-                                        cmap=cmap,
-                                        figsize_n=figsize_n,
-                                        fig_dpi=fig_dpi)
+    pydar._error_handling_display_all_images(image_directory=image_directory,
+                                             fig_title=fig_title,
+                                             cmap=cmap,
+                                             figsize_n=figsize_n,
+                                             fig_dpi=fig_dpi)
 
     # Display all IMG files in directory
     for filename in os.listdir(image_directory):
