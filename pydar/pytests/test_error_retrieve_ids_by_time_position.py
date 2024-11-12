@@ -156,22 +156,21 @@ def test_retrieveIDSByFeatureName_featureNameNotValid():
 ## ids_from_feature_name() ##########################################
 
 
-## retrieveIDSByLatitudeLongitude() ####################################
+## ids_from_latlon() ####################################
 def test_retrieveIDSByLatitudeLongitude_latitudeRequired():
     with pytest.raises(ValueError,
                        match=re.escape("[latitude]: latitude is required")):
-        pydar.retrieveIDSByLatitudeLongitude(latitude=None, longitude=182)
+        pydar.ids_from_latlon(latitude=None, longitude=182)
 
 
 def test_retrieveIDSByLatitudeLongitude_longitudeRequired():
     with pytest.raises(ValueError,
                        match=re.escape("[longitude]: longitude is required")):
-        pydar.retrieveIDSByLatitudeLongitude(latitude=-72, longitude=None)
+        pydar.ids_from_latlon(latitude=-72, longitude=None)
 
 
 def test_retrieveIDSByLatitudeLongitude_verifyOutput():
-    flyby_ids = pydar.retrieveIDSByLatitudeLongitude(latitude=-80,
-                                                     longitude=170)
+    flyby_ids = pydar.ids_from_latlon(latitude=-80, longitude=170)
     assert flyby_ids == {
         'T39': ['S06', 'S05', 'S01'],
         'T49': ['S01'],
@@ -196,8 +195,7 @@ def test_retrieveIDSByLatitudeLongitude_latitudeInvalidTypes(
             match=re.escape(
                 f"[latitude]: Must be a float or int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitude(latitude=invalid_input,
-                                             longitude=182)
+        pydar.ids_from_latlon(latitude=invalid_input, longitude=182)
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
@@ -209,8 +207,7 @@ def test_retrieveIDSByLatitudeLongitude_longitudeInvalidTypes(
             match=re.escape(
                 f"[longitude]: Must be a float or int, current type = '{error_output}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitude(latitude=-72,
-                                             longitude=invalid_input)
+        pydar.ids_from_latlon(latitude=-72, longitude=invalid_input)
 
 
 @pytest.mark.parametrize("latitude_invalid_range", [(-91), (91)])
@@ -221,8 +218,7 @@ def test_retrieveIDSByLatitudeLongitude_latitudeInvalidRange(
             match=re.escape(
                 f"[latitude]: Latitude must be between 90 and -90, current value = '{latitude_invalid_range}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitude(latitude=latitude_invalid_range,
-                                             longitude=182)
+        pydar.ids_from_latlon(latitude=latitude_invalid_range, longitude=182)
 
 
 @pytest.mark.parametrize("longitude_invalid_range", [(-1), (361)])
@@ -233,19 +229,18 @@ def test_retrieveIDSByLatitudeLongitude_longitudeInvalidRange(
             match=re.escape(
                 f"[longitude]: Longitude must be between 0 and 360, current value = '{longitude_invalid_range}'"
             )):
-        pydar.retrieveIDSByLatitudeLongitude(latitude=-72,
-                                             longitude=longitude_invalid_range)
+        pydar.ids_from_latlon(latitude=-72, longitude=longitude_invalid_range)
 
 
 def test_retrieveIDSByLatitudeLongitude_latitudeLongitudeNoIDsRetrieved(
         caplog):
-    pydar.retrieveIDSByLatitudeLongitude(latitude=90, longitude=0)
+    pydar.ids_from_latlon(latitude=90, longitude=0)
     log_record = caplog.records[0]
     assert log_record.levelno == logging.INFO
     assert log_record.message == "\n[WARNING]: No IDs found at latitude from 90 to 90 and longitude from 0 to 0\n"
 
 
-## retrieveIDSByLatitudeLongitude() ####################################
+## ids_from_latlon() ####################################
 
 ## retrieveIDSByLatitudeLongitudeRange() ###############################
 

@@ -15,7 +15,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
     * ids_from_feature_name()
-    * retrieveIDSByLatitudeLongitude()
+    * ids_from_latlon()
     * retrieveIDSByLatitudeLongitudeRange()
     * retrieveFeaturesFromLatitudeLongitude()
     * retrieveFeaturesFromLatitudeLongitudeRange()
@@ -329,19 +329,19 @@ pydar.ids_from_feature_name(feature_name="Ontario Lacus")
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-### retrieveIDSByLatitudeLongitude()
+### ids_from_latlon()
 
 Retrieve a list of flyby IDs with their associated segments based on specific latitude and longitude
 
 ```python
-retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
+ids_from_latlon(latitude=None, longitude=None)
 ```
 * **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90° to 90°
 * **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0° to 360°
 
 ```python
 import pydar
-pydar.retrieveIDSByLatitudeLongitude(latitude=-80, longitude=170)
+pydar.ids_from_latlon(latitude=-80, longitude=170)
 ```
 Output = `{'T39': ['S06', 'S05', 'S01'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S03'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 

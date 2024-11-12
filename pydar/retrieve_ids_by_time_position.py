@@ -82,8 +82,8 @@ def ids_from_feature_name(feature_name: str = None) -> dict:
 
 
 ### RETURN FLYBY IDS FOR A SPECIFIC LATITUDE/LONGITUDE###################
-def retrieveIDSByLatitudeLongitude(latitude: (int, float) = None,
-                                   longitude: (int, float) = None) -> dict:
+def ids_from_latlon(latitude: (int, float) = None,
+                    longitude: (int, float) = None) -> dict:
     # Retrieve all FLyby Ids at a specific latitude/longitude
     #   Returns a Dictionary of Flyby IDs and a list of their segment numbers
     pydar.errorHandlingRetrieveIDSByLatitudeLongitude(latitude=latitude,

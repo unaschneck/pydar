@@ -9,8 +9,8 @@ if __name__ == '__main__':
         f"Flyby IDS based on Feature Name '{feature_name.title()}' = {flyby_ids_name}"
     )
 
-    flyby_ids_with_segments = pydar.retrieveIDSByLatitudeLongitude(
-        latitude=-80, longitude=170)
+    flyby_ids_with_segments = pydar.ids_from_latlon(latitude=-80,
+                                                    longitude=170)
     print(
         f"\nFlyby IDS based on Latitude/Longitude = {flyby_ids_with_segments}")
 
