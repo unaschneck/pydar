@@ -34,7 +34,7 @@ jobs:
     - name: Web Scrap for New Changes - coradr_jpl_options.csv
       working-directory: pydar
       run: |
-        python updateCsvCORADARJPLOptions.py
+        python updateCsvCORADRJPLOptions.py
 
     - name: Web Scrap for New Changes - feature_name_details.csv
       working-directory: pydar

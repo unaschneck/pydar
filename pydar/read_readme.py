@@ -1,4 +1,30 @@
-# Read AAREADME.TXT and .LBL sections to console
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      read_readme.py reads AAREADME.TXT and .LBL sections to the console                         #
+#          for flyby observations and IDs                                                         #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _determine_section_to_print: backend determines         #
+#                                              which relevant section should be printed           #
+#                                              based on referencing the built-in global           #
+#                                              variable options                                   #
+#                                                                                                 #
+#                                       - aareadme_options: prints the AAREADME section           #
+#                                              headers and line-by-line options to console        #
+#                                                                                                 #
+#                                       - read_aareadme: prints the AAREADME details to           #
+#                                              console                                            #
+#                                                                                                 #
+#                                       - lbl_options: prints the LBLREADME section headers       #
+#                                              and line-by-line options to console                #
+#                                                                                                 #
+#                                       - read_lbl_readme: prints the LBLREADME details to        #
+#                                              console                                            #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 
 # Standard Library Imports
 import logging

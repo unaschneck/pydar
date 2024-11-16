@@ -1,5 +1,18 @@
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      updateCsvFeatureNameDetails.py backend updates feature_name_details.csv                    #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _update_csv_feature_name_details: backend               #
+#                                              to update the CSV for feature names                #
+#                                              with details                                       #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+
 # Note: Script not accessible via __init__.py and is run directly by the developer
-# updates feature_name_details.csv
 
 # Standard Library Imports
 import logging

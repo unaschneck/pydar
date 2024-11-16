@@ -1,4 +1,17 @@
-## Display PDR images in Matplotlib
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      display_image.py displays the PDR images in CORADR files                                   #
+#          for flyby observations and IDs                                                         #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - display_all_images: displays all the images             #
+#                                              from the flyby results in Matplotlib               #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 
 # Standard Library Imports
 import logging

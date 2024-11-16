@@ -1,5 +1,18 @@
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      updateCsvSwathCoverage.py backend updates swath_coverage_by_time_position.csv              #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _update_csv_swath_coverage: backend                     #
+#                                              to update the CSV for swath                        #
+#                                              coverage flyby and ids                             #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+
 # Note: Script not accessible via __init__.py and is run directly by the developer and Github Actions
-# updates swath_coverage_by_time_position.csv
 
 # Standard Library Imports
 import logging

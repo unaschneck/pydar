@@ -1,3 +1,48 @@
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      retrieve_ids_by_time_position.py retrieves flyby observations and IDs                      #
+#          based on feature name, latitude/longitude, or time                                     #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _retrieve_latlon_with_feature_names_from_csv:           #
+#                                              retrieves a list of feature names with a           #
+#                                              range of the associated latitude/longitude         #
+#                                              values and returns a dictionary of feature         #
+#                                              details                                            #
+#                                                                                                 #
+#                                       - ids_from_feature_name: Returns a dictionary of          #
+#                                              flyby IDs and a list of segment numbers            #
+#                                              based on feature names                             #
+#                                                                                                 #
+#                                       - ids_from_latlon: Returns a dictionary of                #
+#                                              flyby IDs and a list of segment numbers            #
+#                                              based on a specific latitude and longitude         #
+#                                                                                                 #
+#                                       - ids_from_latlon_range: Returns a dictionary of          #
+#                                              flyby IDs and a list of segment numbers            #
+#                                              based on latitude and longitude range              #
+#                                                                                                 #
+#                                       - ids_from_time: Returns a dictionary of flyby            #
+#                                              IDs and a list of segment numbers based            #
+#                                              on a specific timestamp                            #
+#                                                                                                 #
+#                                       - ids_from_time_range: Returns a dictionary of            #
+#                                              flyby IDs and a list of segment numbers            #
+#                                              based on time range                                #
+#                                                                                                 #
+#                                       - features_from_latlon: Returns a list of                 #
+#                                              feature names based on a specific latitude         #
+#                                              and longitude                                      #
+#                                                                                                 #
+#                                       - features_from_latlon_range: Returns a list of           #
+#                                              feature names based on a range of latitude         #
+#                                              and longitude coordinates                          #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+
 # Retrieve Flyby Observation and IDs based on Feature Name, Latitude/Longitude or Time
 
 # Standard Library Imports

@@ -1,3 +1,52 @@
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      extract_flyby_parameters.py extracts the flyby parameters from CASSINI                     #
+#          for flyby observations and IDs                                                         #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _retrieve_flyby_data: backend to return a               #
+#                                              list of flyby IDs and associated Radar             #
+#                                              Data Take Number the images                        #
+#                                                                                                 #
+#                                       - id_to_observation: converts between a flyby             #
+#                                              ID and an observation number                       #
+#                                                                                                 #
+#                                       - observation_to_id: converts between an                  #
+#                                              observation number and a flyby ID                  #
+#                                                                                                 #
+#                                       - _retrieve_jpl_coradr_options: backend                   #
+#                                              to return a dataframe from the CORADR              #
+#                                              data from the coradr_jpl_options.csv               #
+#                                                                                                 #
+#                                       - _retrieve_most_recent_version_number: backend           #
+#                                              to return the possible CORADR version              #
+#                                              number                                             #
+#                                                                                                 #
+#                                       - _retrieve_coradr_without_bidr: backend to               #
+#                                              return a list of valid flyby observation           #
+#                                              numbers that do not contain BIDR to track          #
+#                                              where gaps in data exist                           #
+#                                                                                                 #
+#                                       - _download_aareadme: backend to download the             #
+#                                              AAREADME.txt within a CORADR directory             #
+#                                                                                                 #
+#                                       - _download_bidr_coradr_data: backend to download         #
+#                                              BIDR data within CORADR results directory          #
+#                                                                                                 #
+#                                       - _download_sbdr_coradr_data: backend to download         #
+#                                              SBDR data within CORADR results directory          #
+#                                                                                                 #
+#                                       - _download_additional_data_types: (TODO) backend         #
+#                                              to download additional data (TODO)                 #
+#                                                                                                 #
+#                                       - extract_flyby_images: extract flyby data BIDR           #
+#                                              and SBDR data based on flyby ID or                 #
+#                                              observation number  to pydar_results/              #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+
 # Extract flyby parameters from CASSINI
 
 # Standard Library Imports
@@ -285,6 +334,7 @@ def extract_flyby_images(flyby_observation_num: str = None,
                          additional_data_types_to_download: list = [],
                          resolution: str = 'I',
                          top_x_resolutions: list = None) -> None:
+    # extract flyby data based on flyby ID/observation numbyer
 
     if flyby_id is not None and type(flyby_id) == str:
         flyby_id = flyby_id.capitalize(

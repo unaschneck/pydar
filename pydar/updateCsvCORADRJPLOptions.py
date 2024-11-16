@@ -1,5 +1,18 @@
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      updateCsvCORADRJPLOptions.py backend updates coradr_jpl_options.csv                        #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _update_csv_coradr_jpl_options: backend                 #
+#                                              to update the CSV for CORADR JPL                   #
+#                                              features                                           #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+
 # Note: Script not accessible via __init__.py and is run directly by the developer
-# updates coradr_jpl_options.csv
 
 # Standard Library Imports
 import logging
