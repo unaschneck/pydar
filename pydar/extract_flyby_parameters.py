@@ -9,6 +9,10 @@
 #                                              list of flyby IDs and associated Radar             #
 #                                              Data Take Number the images                        #
 #                                                                                                 #
+#                                       - _return_segment_options: backend to return              #
+#                                              a list of available segment numbers from           #
+#                                              sar_swath_details.csv                              #
+#                                                                                                 #
 #                                       - id_to_observation: converts between a flyby             #
 #                                              ID and an observation number                       #
 #                                                                                                 #

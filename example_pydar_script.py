@@ -70,7 +70,7 @@ if __name__ == '__main__':
                                segment_num="S01")
 
     # Display all Images in pydar_results/ directory
-    pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
+    pydar.display_all_images("pydar_results/CORADR_0211_V03_S01")
 
     # Read AAREADME to console
     pydar.aareadme_options()
