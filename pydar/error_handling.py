@@ -13,7 +13,6 @@ import pandas as pd
 # Internal Local Imports
 import pydar
 
-
 def _error_handling_extract_flyby_images(flyby_observation_num=None,
                                          flyby_id=None,
                                          segment_num=None,
@@ -53,18 +52,17 @@ def _error_handling_extract_flyby_images(flyby_observation_num=None,
                 f"[flyby_observation_num]: '{flyby_observation_num}' not in available observation options '{available_observation_numbers}'"
             )
 
-    segment_options = ['S01', 'S02', 'S03', 'S04']
     if segment_num is None:
         raise ValueError(
-            f"[segment_num]: segment_num number required out of available options {segment_options}, none given"
+            "[segment_num]: segment_num number required out of available options, none given"
         )
     if type(segment_num) != str:
         raise ValueError(
             f"[segment_num]: Must be a str, current type = '{type(segment_num)}'"
         )
-    if segment_num not in segment_options:
+    if segment_num not in pydar._return_segment_options():
         raise ValueError(
-            f"[segment_num]: '{segment_num}' not an available segment option '{segment_options}'"
+            f"[segment_num]: '{segment_num}' not an available segment options: '{pydar._return_segment_options()}'"
         )
 
     if len(additional_data_types_to_download) != 0:

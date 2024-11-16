@@ -88,7 +88,7 @@ def test_readAAREADME_NotValidSection():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[section_to_print]: Cannot find a revelant section_to_print: Invalid 'Invalid Section'"
+                "[section_to_print]: Cannot find a relevant section_to_print: Invalid 'Invalid Section'"
             )):
         pydar.read_aareadme(coradr_results_directory="coradr_directory",
                             section_to_print="invalid section")
@@ -146,7 +146,7 @@ def test_readLBLREADME_NotValidSection():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[section_to_print]: Cannot find a revelant section_to_print: Invalid 'INVALID SECTION'"
+                "[section_to_print]: Cannot find a relevant section_to_print: Invalid 'INVALID SECTION'"
             )):
         pydar.read_lbl_readme(coradr_results_directory="coradr_directory",
                               section_to_print="invalid section")

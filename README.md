@@ -220,7 +220,7 @@ Version 3 is named BIFQI49N071_D035_T00AS01_V03.IMG
 > _**Version 3 is currently the latest and preferred version and will be the version included when downloaded**_
 
 ### Segment Number of Data
-A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.  
+A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.
 
 ![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
 *Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)*
@@ -564,7 +564,7 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 
 * **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
-* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03", "S04"]
+* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (SXX) where S01 is the primary imaging segment
 * [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
 * [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions), will override any default resolution string
 * [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"] (__NOTE__: current v1 functionality does not download any additional data types)

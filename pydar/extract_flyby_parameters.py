@@ -94,6 +94,20 @@ def _retrieve_flyby_data() -> tuple[list, str]:
     # returns a list of flyby IDs and associated Radar Data Take Number
     return flyby_id, flyby_radar_take_num
 
+def _return_segment_options() -> list:
+    # return a possible list of segments from sar_swath_details.csv
+    sar_swatch_csv = os.path.join(
+        os.path.dirname(__file__), 'data', 'sar_swath_details.csv'
+    )  # get file's directory, up one level, /data/*.csv
+    sar_swath_df = pd.read_csv(sar_swatch_csv)
+    seg_num = sar_swath_df['SEGMENT'].unique()
+    seg_options = []
+    for num in seg_num:
+        if num < 10:
+            seg_options.append(f"S0{num}")
+        else:
+            seg_options.append(f"S{num}")
+    return seg_options  # ['S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08', 'S09']
 
 def id_to_observation(flyby_id: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files

@@ -111,7 +111,7 @@ def test_extractFlybyImages_segmentNumRequired():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[segment_num]: segment_num number required out of available options ['S01', 'S02', 'S03', 'S04'], none given"
+                f"[segment_num]: segment_num number required out of available options, none given"
             )):
         pydar.extract_flyby_images(flyby_observation_num="211",
                                    segment_num=None)
@@ -134,10 +134,10 @@ def test_extractFlybyImages_notAvailableSegmentNum():
     with pytest.raises(
             ValueError,
             match=re.escape(
-                "[segment_num]: 'S05' not an available segment option '['S01', 'S02', 'S03', 'S04']'"
+                f"[segment_num]: 'S10' not an available segment options: '{pydar._return_segment_options()}'"
             )):
         pydar.extract_flyby_images(flyby_observation_num="211",
-                                   segment_num="S05")
+                                   segment_num="S10")
 
 
 @pytest.mark.parametrize("invalid_input, error_output",
