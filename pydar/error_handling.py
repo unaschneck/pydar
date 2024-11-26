@@ -2,26 +2,26 @@
 # ERROR CATCHES AND LOGGING FOR CLARITY WHEN USING PYDAR
 ########################################################################
 
-# Built in Python functions
+# Standard Library Imports
+import csv
 import logging
 import os
-import csv
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import pandas as pd
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
-
-def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
-                                        flyby_id=None,
-                                        segment_num=None,
-                                        additional_data_types_to_download=[],
-                                        resolution=None,
-                                        top_x_resolutions=None):
-    # Error Handling for extract_flyby_parameters variables: extractFlybyDataImages()
-    available_flyby_id, available_observation_numbers = pydar.getFlybyData()
+def _error_handling_extract_flyby_images(flyby_observation_num=None,
+                                         flyby_id=None,
+                                         segment_num=None,
+                                         additional_data_types_to_download=[],
+                                         resolution=None,
+                                         top_x_resolutions=None):
+    # Error Handling for extract_flyby_parameters variables: extract_flyby_images()
+    available_flyby_id, available_observation_numbers = pydar._retrieve_flyby_data(
+    )
 
     if flyby_observation_num is None and flyby_id is None:
         raise ValueError(
@@ -52,18 +52,17 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
                 f"[flyby_observation_num]: '{flyby_observation_num}' not in available observation options '{available_observation_numbers}'"
             )
 
-    segment_options = ['S01', 'S02', 'S03', 'S04']
     if segment_num is None:
         raise ValueError(
-            f"[segment_num]: segment_num number required out of available options {segment_options}, none given"
+            "[segment_num]: segment_num number required out of available options, none given"
         )
     if type(segment_num) != str:
         raise ValueError(
             f"[segment_num]: Must be a str, current type = '{type(segment_num)}'"
         )
-    if segment_num not in segment_options:
+    if segment_num not in pydar._return_segment_options():
         raise ValueError(
-            f"[segment_num]: '{segment_num}' not an available segment option '{segment_options}'"
+            f"[segment_num]: '{segment_num}' not an available segment options: '{pydar._return_segment_options()}'"
         )
 
     if len(additional_data_types_to_download) != 0:
@@ -72,34 +71,34 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
         )
         """
         if type(additional_data_types_to_download) != list:
-            print("\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{0}'".format(type(additional_data_types_to_download)))
+            print(f"\nCRITICAL ERROR [additional_data_types_to_download]: Must be a list, current type = '{type(additional_data_types_to_download)}'")
             exit()
         for data_type in additional_data_types_to_download:
             if type(data_type) != str:
-                print("\nCRITICAL ERROR [additional_data_types_to_download]: All data types should be strings, but '{0}' current type = '{0}'".format(data_type, type(data_type)))
+                print(f"\nCRITICAL ERROR [additional_data_types_to_download]: All data types should be strings, but '{data_type}' current type = '{type(data_type)}'")
 
         # Get data types for the coradr type from coradr_jpl_options.csv
         coradr_data_types_available = os.path.join(os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv')  # get file's directory, up one level, /data/*.csv
         df = pd.read_csv(coradr_data_types_available)
         if flyby_id is not None: 
-            flyby_observation_num = pydar.convertFlybyIDToObservationNumber(flyby_id)
+            flyby_observation_num = pydar.id_to_observation(flyby_id)
         coradr_versions = df[df['CORADR ID'].str.contains(flyby_observation_num)]
         version_id = ""
         if len(coradr_versions) > 1:
             for i in range(len(coradr_versions)):
-                version_id = "_V0{0}".format(i+1)
-        coradr_id = "CORADR_{0}{1}".format(flyby_observation_num, version_id)
+                version_id = f"_V0{i+1}"
+        coradr_id = f"CORADR_{flyby_observation_num}{version_id}"
         coradr_row = df.loc[df['CORADR ID'] == coradr_id]
         coradr_data_types = []
         for index, row in coradr_row.iterrows():
             row = row.tolist()
         for i, row_bool in enumerate(row[2:]): # Ignores first two columns: CORADR ID and Is Titan Flyby
             if row_bool is True:
-                coradr_data_types.append(pydar.datafile_types_columns[i])
+                coradr_data_types.append(pydar.DATAFILE_TYPES[i])
 
         for data_type in additional_data_types_to_download:
             if data_type not in coradr_data_types:
-                print("\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{0}' not available in {1}".format(data_type, coradr_data_types))
+                print(f"\nCRITICAL ERROR [additional_data_types_to_download]: Data type '{data_type}' not available in {coradr_data_types}")
                 exit()
         """
 
@@ -108,9 +107,9 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
             raise ValueError(
                 f"[resolution]: Must be a str, current type = '{type(resolution)}'"
             )
-        if resolution not in pydar.resolution_types:
+        if resolution not in pydar.RESOLUTION_TYPES:
             raise ValueError(
-                f"[resolution]: resolution '{resolution}' must be a valid resolution type in {pydar.resolution_types}"
+                f"[resolution]: resolution '{resolution}' must be a valid resolution type in {pydar.RESOLUTION_TYPES}"
             )
 
     if top_x_resolutions is not None:
@@ -124,8 +123,8 @@ def errorHandlingExtractFlybyDataImages(flyby_observation_num=None,
             )
 
 
-def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
-    # Error Handling for Converting a Flyby ID into an Observation Number: convertFlybyIDToObservationNumber()
+def _error_handling_convert_id_to_observation_num(flyby_id=None):
+    # Error Handling for Converting a Flyby ID into an Observation Number: id_to_observation()
     if flyby_id is None:
         raise ValueError("[flyby_id]: A valid flyby_id string is required")
 
@@ -150,8 +149,8 @@ def errorHandlingConvertFlybyIDToObservationNumber(flyby_id=None):
         )
 
 
-def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
-    # Error Handling for Converting an Observation Number to a Flyby ID: convertObservationNumberToFlybyID()
+def _error_handling_convert_observation_num_to_id(flyby_observation_num=None):
+    # Error Handling for Converting an Observation Number to a Flyby ID: observation_to_id()
     if flyby_observation_num is None:
         raise ValueError(
             "[flyby_observation_num]: A valid flyby_observation_num string is required"
@@ -180,12 +179,12 @@ def errorHandlingConvertObservationNumberToFlybyID(flyby_observation_num=None):
         )
 
 
-def errorHandlingDisplayImages(image_directory=None,
-                               fig_title=None,
-                               cmap=None,
-                               figsize_n=None,
-                               fig_dpi=None):
-    # Error Handling for Displaying Images from an Image Directory: displayImages()
+def _error_handling_display_all_images(image_directory=None,
+                                       fig_title=None,
+                                       cmap=None,
+                                       figsize_n=None,
+                                       fig_dpi=None):
+    # Error Handling for Displaying Images from an Image Directory: display_all_images()
     if image_directory == None:
         raise ValueError("[image_directory]: image_directory is required")
     else:
@@ -221,9 +220,9 @@ def errorHandlingDisplayImages(image_directory=None,
             )
 
 
-def errorHandlingREADME(coradr_results_directory=None,
-                        section_to_print=None,
-                        print_to_console=True):
+def _error_handling_readme_options(coradr_results_directory=None,
+                                   section_to_print=None,
+                                   print_to_console=True):
     # Error Handling for README options: read_readme
     if coradr_results_directory is None:
         raise ValueError(
@@ -245,7 +244,7 @@ def errorHandlingREADME(coradr_results_directory=None,
         )
 
 
-def errorHandlingRetrieveIDSByFeature(feature_name=None):
+def _error_handling_id_from_feature_name(feature_name=None):
     # Error Handling for retrieving the IDs for a specific feature name: retrieveIDSByFeature()
     if feature_name is None:
         raise ValueError("[feature_name]: feature_name is required")
@@ -256,7 +255,7 @@ def errorHandlingRetrieveIDSByFeature(feature_name=None):
             )
 
 
-def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
+def _error_handling_id_from_lat_lon(latitude=None, longitude=None):
     # Error Handling for retrieving IDs based on latitude and longitude
 
     if latitude is None:
@@ -285,10 +284,10 @@ def errorHandlingRetrieveIDSByLatitudeLongitude(latitude=None, longitude=None):
         )
 
 
-def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
-                                                     max_latitude=None,
-                                                     min_longitude=None,
-                                                     max_longitude=None):
+def _error_handling_id_from_lat_lon_range(min_latitude=None,
+                                          max_latitude=None,
+                                          min_longitude=None,
+                                          max_longitude=None):
     # Error Handling for retrieving IDs based on a range of latitude and longitudes
     if min_latitude is None:
         raise ValueError("[min_latitude]: min_latitude is required")
@@ -351,12 +350,12 @@ def errorHandlingRetrieveIDSByLatitudeLongitudeRange(min_latitude=None,
             "[longitude]: max_longitude must be greater than min_longtiude")
 
 
-def errorHandlingRetrieveIDSByTime(year=None,
-                                   doy=None,
-                                   hour=None,
-                                   minute=None,
-                                   second=None,
-                                   millisecond=None):
+def _error_handling_id_from_time(year=None,
+                                 doy=None,
+                                 hour=None,
+                                 minute=None,
+                                 second=None,
+                                 millisecond=None):
     # Error handling for retrieving IDs based on a specific time
     if year is None:
         raise ValueError("[year]: year is required")
@@ -410,18 +409,18 @@ def errorHandlingRetrieveIDSByTime(year=None,
                 "[millisecond]: second must be a positive value from 0 to 999")
 
 
-def errorHandlingRetrieveIDSByTimeRange(start_year=None,
-                                        start_doy=None,
-                                        start_hour=None,
-                                        start_minute=None,
-                                        start_second=None,
-                                        start_millisecond=None,
-                                        end_year=None,
-                                        end_doy=None,
-                                        end_hour=None,
-                                        end_minute=None,
-                                        end_second=None,
-                                        end_millisecond=None):
+def _error_handling_id_from_time_range(start_year=None,
+                                       start_doy=None,
+                                       start_hour=None,
+                                       start_minute=None,
+                                       start_second=None,
+                                       start_millisecond=None,
+                                       end_year=None,
+                                       end_doy=None,
+                                       end_hour=None,
+                                       end_minute=None,
+                                       end_second=None,
+                                       end_millisecond=None):
     # Error handling for retrieving IDs based on a range of times
     if start_year is None:
         raise ValueError("[start_year]: start_year is required")
@@ -433,18 +432,18 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
     if end_doy is None:
         raise ValueError("[end_doy]: end_doy is required")
 
-    errorHandlingRetrieveIDSByTime(year=start_year,
-                                   doy=start_doy,
-                                   hour=start_hour,
-                                   minute=start_minute,
-                                   second=start_second,
-                                   millisecond=start_millisecond)
-    errorHandlingRetrieveIDSByTime(year=end_year,
-                                   doy=end_doy,
-                                   hour=end_hour,
-                                   minute=end_minute,
-                                   second=end_second,
-                                   millisecond=end_millisecond)
+    _error_handling_id_from_time(year=start_year,
+                                 doy=start_doy,
+                                 hour=start_hour,
+                                 minute=start_minute,
+                                 second=start_second,
+                                 millisecond=start_millisecond)
+    _error_handling_id_from_time(year=end_year,
+                                 doy=end_doy,
+                                 hour=end_hour,
+                                 minute=end_minute,
+                                 second=end_second,
+                                 millisecond=end_millisecond)
 
     if start_year > end_year:
         raise ValueError(
@@ -485,14 +484,14 @@ def errorHandlingRetrieveIDSByTimeRange(start_year=None,
                     )
 
 
-def errorHandlingSbdrMakeShapeFile(filename=None,
-                                   fields=[],
-                                   write_files=False,
-                                   saronly=0,
-                                   usepassive=False,
-                                   ind=None,
-                                   file_out=None,
-                                   lon360=False):
+def _error_handling_sbdr_make_shapefile(filename=None,
+                                        fields=[],
+                                        write_files=False,
+                                        saronly=0,
+                                        usepassive=False,
+                                        ind=None,
+                                        file_out=None,
+                                        lon360=False):
     # Error handling for using SBDR to make a shapefile
     if type(filename) != str:
         raise ValueError(

@@ -1,17 +1,30 @@
-# Note: Script not accessible via __init__.py and is run directly by the developer and Github Actions
-# updates swath_coverage_by_time_position.csv
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      updateCsvSwathCoverage.py backend updates swath_coverage_by_time_position.csv              #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _update_csv_swath_coverage: backend                     #
+#                                              to update the CSV for swath                        #
+#                                              coverage flyby and ids                             #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 
-# Built in Python functions
+# Note: Script not accessible via __init__.py and is run directly by the developer and Github Actions
+
+# Standard Library Imports
 import logging
 import os
 import random
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ########################################################################
@@ -24,7 +37,7 @@ logger.addHandler(stream_handler)
 
 
 ## FUNCTIONS TO WEB SCRAPE TO POPULATE swath_coverage_by_time_position.csv ################
-def updateCsvSwathCoverage():
+def _update_csv_swath_coverage() -> None:
     # Update the csv script for swath_coverage_by_time_position.csv from the most recent JPL webpage
     # Retrieves information for each .LBL file that exists for CASSINI data files
     #       Estimated runtime: 15 minutes
@@ -114,7 +127,7 @@ def updateCsvSwathCoverage():
                             radar_id, None, None, None, None, None, None, None,
                             None, None, None, None, None, None
                         ]
-                        lbl[1] = pydar.convertObservationNumberToFlybyID(
+                        lbl[1] = pydar.observation_to_id(
                             radar_id.split("_")[1])
                         lbl[2] = (filename.split("_")[2]
                                   ).split("S")[1]  # Segment Number
@@ -167,5 +180,5 @@ def updateCsvSwathCoverage():
 
 
 if __name__ == '__main__':
-    updateCsvSwathCoverage(
+    _update_csv_swath_coverage(
     )  #      updates swath_coverage_by_time_position.csv

@@ -1,11 +1,39 @@
-# Read AAREADME.TXT and .LBL sections to console
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      read_readme.py reads AAREADME.TXT and .LBL sections to the console                         #
+#          for flyby observations and IDs                                                         #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _determine_section_to_print: backend determines         #
+#                                              which relevant section should be printed           #
+#                                              based on referencing the built-in global           #
+#                                              variable options                                   #
+#                                                                                                 #
+#                                       - aareadme_options: prints the AAREADME section           #
+#                                              headers and line-by-line options to console        #
+#                                                                                                 #
+#                                       - read_aareadme: prints the AAREADME details to           #
+#                                              console                                            #
+#                                                                                                 #
+#                                       - lbl_options: prints the LBLREADME section headers       #
+#                                              and line-by-line options to console                #
+#                                                                                                 #
+#                                       - read_lbl_readme: prints the LBLREADME details to        #
+#                                              console                                            #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 
-# Built in Python functions
+# Standard Library Imports
 import logging
 import os
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
+
+########################################################################
 
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
@@ -13,62 +41,99 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-
-#######################################################################
-# Find relevant section to print by referencing built in options
-def determineSectionToPrint(section_to_print=None, aareadmeOrLBL=None):
-    # check which list the section_to_print is from
-    if aareadmeOrLBL == "LBL":
-        if section_to_print in lblreadme_general_options:
-            return lblreadme_general_options
-        if section_to_print in lblreadme_section_options:
-            return lblreadme_section_options
-    if aareadmeOrLBL == "AAREADME":
-        if section_to_print in aareadme_general_options:
-            return aareadme_general_options
-        if section_to_print in aareadme_section_options:
-            return aareadme_section_options
-
-
-#######################################################################
-## AAREADME.TXT
-aareadme_general_options = [
+AAREADME_GENERAL_OPTIONS = [
     "PDS_VERSION_ID", "RECORD_TYPE", "INSTRUMENT_HOST_NAME", "INSTRUMENT_NAME",
     "PUBLICATION_DATE", "NOTE", "Volume"
 ]
-aareadme_section_options = [
+AAREADME_SECTION_OPTIONS = [
     "Introduction", "Disk Format", "File Formats", "Volume Contents",
     "Recommended DVD Drives and Driver Software", "Errata and Disclaimer",
     "Version Status", "Contact Information"
 ]
 
+LBLREADME_GENERAL_OPTIONS = [
+    "PDS_VERSION_ID", "DATA_SET_ID", "DATA_SET_NAME",
+    "PRODUCER_INSTITUTION_NAME", "PRODUCER_ID", "PRODUCER_FULL_NAME",
+    "PRODUCT_ID", "PRODUCT_VERSION_ID", "INSTRUMENT_HOST_NAME",
+    "INSTRUMENT_HOST_ID", "INSTRUMENT_NAME", "INSTRUMENT_ID", "TARGET_NAME",
+    "START_TIME", "STOP_TIME", "SPACECRAFT_CLOCK_START_COUNT",
+    "SPACECRAFT_CLOCK_STOP_COUNT", "PRODUCT_CREATION_TIME",
+    "SOURCE_PRODUCT_ID", "MISSION_PHASE_NAME", "MISSION_NAME",
+    "SOFTWARE_VERSION_ID", "FILE_NAME COMPRESSED", "RECORD_TYPE COMPRESSED",
+    "ENCODING_TYPE", "INTERCHANGE_FORMAT", "UNCOMPRESSED_FILE_NAME",
+    "REQUIRED_STORAGE_BYTES", "^DESCRIPTION", "FILE_NAME UNCOMPRESSED",
+    "RECORD_TYPE UNCOMPRESSED", "RECORD_BYTES", "FILE_RECORDS",
+    "LABEL_RECORDS", "^IMAGE", "LINES", "LINE_SAMPLES", "SAMPLE_TYPE",
+    "SAMPLE_BITS", "CHECKSUM", "SCALING_FACTOR", "OFFSET", "MISSING_CONSTANT",
+    "NOTE", "^DATA_SET_MAP_PROJECTION", "MAP_PROJECTION_TYPE",
+    "FIRST_STANDARD_PARALLEL", "SECOND_STANDARD_PARALLEL", "A_AXIS_RADIUS",
+    "B_AXIS_RADIUS", "C_AXIS_RADIUS", "POSITIVE_LONGITUDE_DIRECTION",
+    "CENTER_LATITUDE", "CENTER_LONGITUDE", "REFERENCE_LATITUDE",
+    "REFERENCE_LONGITUDE", "LINE_FIRST_PIXEL", "LINE_LAST_PIXEL",
+    "SAMPLE_FIRST_PIXEL", "SAMPLE_LAST_PIXEL", "MAP_PROJECTION_ROTATION",
+    "MAP_RESOLUTION", "MAP_SCALE", "MAXIMUM_LATITUDE", "MINIMUM_LATITUDE",
+    "EASTERNMOST_LONGITUDE", "WESTERNMOST_LONGITUDE", "LINE_PROJECTION_OFFSET",
+    "SAMPLE_PROJECTION_OFFSET", "OBLIQUE_PROJ_POLE_LATITUDE",
+    "OBLIQUE_PROJ_POLE_LONGITUDE", "OBLIQUE_PROJ_POLE_ROTATION",
+    "OBLIQUE_PROJ_X_AXIS_VECTOR", "OBLIQUE_PROJ_Y_AXIS_VECTOR",
+    "OBLIQUE_PROJ_Z_AXIS_VECTOR", "LOOK_DIRECTION", "COORDINATE_SYSTEM_NAME",
+    "COORDINATE_SYSTEM_TYPE"
+]
 
-def returnAAREADMEOptions():
-    logger.info(f"Line-By-Line Options: {aareadme_general_options}")
-    logger.info(f"Section Header Options: {aareadme_section_options}")
+LBLREADME_SECTION_OTPIONS = [
+    "PRODUCT DESCRIPTION", "DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES",
+    "POINTERS TO START RECORDS OF OBJECTS IN FILE",
+    "DESCRIPTION OF OBJECTS CONTAINED IN FILE"
+]
 
 
-def readAAREADME(coradr_results_directory=None,
-                 section_to_print=None,
-                 print_to_console=True):
+# Find relevant section to print by referencing built in options
+def _determine_section_to_print(section_to_print: str = None,
+                                aareadmeOrLBL: str = None) -> str:
+    # check which list the section_to_print is from
+    if aareadmeOrLBL == "LBL":
+        if section_to_print in LBLREADME_GENERAL_OPTIONS:
+            return LBLREADME_GENERAL_OPTIONS
+        if section_to_print in LBLREADME_SECTION_OTPIONS:
+            return LBLREADME_SECTION_OTPIONS
+    if aareadmeOrLBL == "AAREADME":
+        if section_to_print in AAREADME_GENERAL_OPTIONS:
+            return AAREADME_GENERAL_OPTIONS
+        if section_to_print in AAREADME_SECTION_OPTIONS:
+            return AAREADME_SECTION_OPTIONS
+
+
+#######################################################################
+## AAREADME.TXT
+
+
+def aareadme_options() -> None:
+    logger.info(f"Line-By-Line Options: {AAREADME_GENERAL_OPTIONS}")
+    logger.info(f"Section Header Options: {AAREADME_SECTION_OPTIONS}")
+
+
+def read_aareadme(coradr_results_directory: str = None,
+                  section_to_print: str = None,
+                  print_to_console: bool = True) -> None:
     # Print AAREADME to console
-    pydar.errorHandlingREADME(
+    pydar._error_handling_readme_options(
         coradr_results_directory=coradr_results_directory,
         section_to_print=section_to_print,
         print_to_console=print_to_console)
 
-    sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+    sectionList = _determine_section_to_print(section_to_print, "AAREADME")
     if sectionList is None:
         section_to_print = section_to_print.upper(
         )  # check if the section is case-sensitive
-        sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+        sectionList = _determine_section_to_print(section_to_print, "AAREADME")
         if sectionList is None:
             section_to_print = section_to_print.title(
             )  # check if the section is case-sensitive
-            sectionList = determineSectionToPrint(section_to_print, "AAREADME")
+            sectionList = _determine_section_to_print(section_to_print,
+                                                      "AAREADME")
             if sectionList is None:
                 raise ValueError(
-                    f"[readAAREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
+                    f"[section_to_print]: Cannot find a relevant section_to_print: Invalid '{section_to_print}'"
                 )
 
     # Define position to start console print, default to 'All' if no section is specified
@@ -86,10 +151,10 @@ def readAAREADME(coradr_results_directory=None,
     else:
         end_index = start_index + 1
         if end_index >= len(sectionList):
-            if sectionList == aareadme_general_options:
-                end_position = aareadme_section_options[
+            if sectionList == AAREADME_GENERAL_OPTIONS:
+                end_position = AAREADME_SECTION_OPTIONS[
                     0]  # the start of the section list is the end of the line-by-line list
-            if sectionList == aareadme_section_options:
+            if sectionList == AAREADME_SECTION_OPTIONS:
                 end_position = None  # display the last element in the list
         else:
             end_position = sectionList[end_index]
@@ -122,7 +187,7 @@ def readAAREADME(coradr_results_directory=None,
 
     output_string = output_string.rstrip()  # remove excessive whitespace
 
-    if "=" in output_string and sectionList != aareadme_section_options:
+    if "=" in output_string and sectionList != AAREADME_SECTION_OPTIONS:
         output_string = (output_string.split("=")[1]).strip(
         )  # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
     else:
@@ -136,50 +201,17 @@ def readAAREADME(coradr_results_directory=None,
 
 #########################################################################
 ## .LBL README FILES
-lblreadme_general_options = [
-    "PDS_VERSION_ID", "DATA_SET_ID", "DATA_SET_NAME",
-    "PRODUCER_INSTITUTION_NAME", "PRODUCER_ID", "PRODUCER_FULL_NAME",
-    "PRODUCT_ID", "PRODUCT_VERSION_ID", "INSTRUMENT_HOST_NAME",
-    "INSTRUMENT_HOST_ID", "INSTRUMENT_NAME", "INSTRUMENT_ID", "TARGET_NAME",
-    "START_TIME", "STOP_TIME", "SPACECRAFT_CLOCK_START_COUNT",
-    "SPACECRAFT_CLOCK_STOP_COUNT", "PRODUCT_CREATION_TIME",
-    "SOURCE_PRODUCT_ID", "MISSION_PHASE_NAME", "MISSION_NAME",
-    "SOFTWARE_VERSION_ID", "FILE_NAME COMPRESSED", "RECORD_TYPE COMPRESSED",
-    "ENCODING_TYPE", "INTERCHANGE_FORMAT", "UNCOMPRESSED_FILE_NAME",
-    "REQUIRED_STORAGE_BYTES", "^DESCRIPTION", "FILE_NAME UNCOMPRESSED",
-    "RECORD_TYPE UNCOMPRESSED", "RECORD_BYTES", "FILE_RECORDS",
-    "LABEL_RECORDS", "^IMAGE", "LINES", "LINE_SAMPLES", "SAMPLE_TYPE",
-    "SAMPLE_BITS", "CHECKSUM", "SCALING_FACTOR", "OFFSET", "MISSING_CONSTANT",
-    "NOTE", "^DATA_SET_MAP_PROJECTION", "MAP_PROJECTION_TYPE",
-    "FIRST_STANDARD_PARALLEL", "SECOND_STANDARD_PARALLEL", "A_AXIS_RADIUS",
-    "B_AXIS_RADIUS", "C_AXIS_RADIUS", "POSITIVE_LONGITUDE_DIRECTION",
-    "CENTER_LATITUDE", "CENTER_LONGITUDE", "REFERENCE_LATITUDE",
-    "REFERENCE_LONGITUDE", "LINE_FIRST_PIXEL", "LINE_LAST_PIXEL",
-    "SAMPLE_FIRST_PIXEL", "SAMPLE_LAST_PIXEL", "MAP_PROJECTION_ROTATION",
-    "MAP_RESOLUTION", "MAP_SCALE", "MAXIMUM_LATITUDE", "MINIMUM_LATITUDE",
-    "EASTERNMOST_LONGITUDE", "WESTERNMOST_LONGITUDE", "LINE_PROJECTION_OFFSET",
-    "SAMPLE_PROJECTION_OFFSET", "OBLIQUE_PROJ_POLE_LATITUDE",
-    "OBLIQUE_PROJ_POLE_LONGITUDE", "OBLIQUE_PROJ_POLE_ROTATION",
-    "OBLIQUE_PROJ_X_AXIS_VECTOR", "OBLIQUE_PROJ_Y_AXIS_VECTOR",
-    "OBLIQUE_PROJ_Z_AXIS_VECTOR", "LOOK_DIRECTION", "COORDINATE_SYSTEM_NAME",
-    "COORDINATE_SYSTEM_TYPE"
-]
-lblreadme_section_options = [
-    "PRODUCT DESCRIPTION", "DESCRIPTION OF COMPRESSED AND UNCOMPRESSED FILES",
-    "POINTERS TO START RECORDS OF OBJECTS IN FILE",
-    "DESCRIPTION OF OBJECTS CONTAINED IN FILE"
-]
 
 
-def returnLBLOptions():
+def lbl_options() -> None:
     # Print out all the .LBL options
-    logger.info(f"Line-By-Line Options: {lblreadme_general_options}")
-    logger.info(f"Section Header Options: {lblreadme_section_options}")
+    logger.info(f"Line-By-Line Options: {LBLREADME_GENERAL_OPTIONS}")
+    logger.info(f"Section Header Options: {LBLREADME_SECTION_OTPIONS}")
 
 
-def readLBLREADME(coradr_results_directory=None,
-                  section_to_print=None,
-                  print_to_console=True):
+def read_lbl_readme(coradr_results_directory: str = None,
+                    section_to_print: str = None,
+                    print_to_console: bool = True) -> str:
     # Print .LBL to console
     if section_to_print == "FILE_NAME" or section_to_print == "RECORD_TYPE":
         # Same text used to reference both FILE_NAME and RECORD_TYPE, user needs to specify if UNCOMPRESSED or COMPRESSED file
@@ -190,19 +222,19 @@ def readLBLREADME(coradr_results_directory=None,
     if section_to_print == "DESCRIPTION" or section_to_print == "IMAGE" or section_to_print == "DATA_SET_MAP_PROJECTION":
         section_to_print = f"^{section_to_print}"  # sets the user's option to include the easy to miss ^
 
-    pydar.errorHandlingREADME(
+    pydar._error_handling_readme_options(
         coradr_results_directory=coradr_results_directory,
         section_to_print=section_to_print,
         print_to_console=print_to_console)
 
-    sectionList = determineSectionToPrint(section_to_print, "LBL")
+    sectionList = _determine_section_to_print(section_to_print, "LBL")
     if sectionList is None:
         # check if the section is case-sensitive
         section_to_print = section_to_print.upper()
-        sectionList = determineSectionToPrint(section_to_print, "LBL")
+        sectionList = _determine_section_to_print(section_to_print, "LBL")
         if sectionList is None:
             raise ValueError(
-                f"[readLBLREADME]: Cannot find a revelant section_to_print: Invalid '{section_to_print}'"
+                f"[section_to_print]: Cannot find a relevant section_to_print: Invalid '{section_to_print}'"
             )
 
     # Define position to start console print, default to 'All' if no section is specified
@@ -266,7 +298,7 @@ def readLBLREADME(coradr_results_directory=None,
                 if end_position in line:
                     break
             if within_readme_section:
-                if sectionList is not lblreadme_section_options:
+                if sectionList is not LBLREADME_SECTION_OTPIONS:
                     if "/*" not in line:  # if checking individual values, ignore /**/ section headers
                         output_string += line
                     else:
@@ -295,11 +327,8 @@ def readLBLREADME(coradr_results_directory=None,
 
     output_string = output_string.rstrip()  # remove excessive whitespace
 
-    if sectionList != lblreadme_section_options:
+    if sectionList != LBLREADME_SECTION_OTPIONS:
         output_string = (output_string.split("=")[1]).strip(
         )  # only return the value from the line (PDS_VERSION_ID       = PDS3 -> PDS3)
     if print_to_console: logger.info(output_string)
     return output_string
-
-
-########################################################################

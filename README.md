@@ -14,24 +14,24 @@
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
 * **Find relevant flyby observation numbers/IDs for a feature, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
-    * retrieveIDSByFeatureName()
-    * retrieveIDSByLatitudeLongitude()
-    * retrieveIDSByLatitudeLongitudeRange()
-    * retrieveFeaturesFromLatitudeLongitude()
-    * retrieveFeaturesFromLatitudeLongitudeRange()
-    * retrieveIDSByTime()
-    * retrieveIDSByTimeRange()
+    * ids_from_feature_name()
+    * ids_from_latlon()
+    * ids_from_latlon_range()
+    * features_from_latlon()
+    * features_from_latlon_range()
+    * ids_from_time()
+    * ids_from_time_range()
 * **Use flyby observation numbers/IDs to retrieve flyby observation data (.FMT, .TAB, .LBL, .IMG) from SBDR and BIDR data files by default**
-    * convertFlybyIDToObservationNumber()
-    * convertObservationNumberToFlybyID()
-    * extractFlybyDataImages()
+    * id_to_observation()
+    * observation_to_id()
+    * extract_flyby_images()
 * **Access specific observation data from AAREADME and .LBL readme information**
-    * returnAAREADMEOptions()
-    * readAAREADME()
-    * returnLBLOptions()
-    * readLBLREADME()
+    * aareadme_options()
+    * read_aareadme()
+    * lbl_options()
+    * read_lbl_readme()
 * **Display PDS image retrieved for flyby observation**
-    * displayImages()
+    * display_all_images()
 
 > [!Note]
 > This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
@@ -52,22 +52,22 @@ All Cassini data for Titan is organized and retrieved based on [flyby observatio
 ```python
 import pydar
 feature_name_example = "ontario lacus"
-flyby_ids = pydar.retrieveIDSByFeatureName(feature_name=feature_name_example)
+flyby_ids = pydar.ids_from_feature_name(feature_name=feature_name_example)
 ```
 Returns a dictionary of flyby IDs (and their relevant segments) that Ontario Lacus could be found from: `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
 The relevant data files can be downloaded for any combination of these flyby IDs and segment numbers. For example, flyby ID 'T65' and segment 'S01' at resolution 'D' for 8 pixels/degree
 ```
 # Extract Flyby Data Files to pydar_results/ directory
-pydar.extractFlybyDataImages(flyby_id='T65',
+pydar.extract_flyby_images(flyby_id='T65',
                 resolution='D',
                 segment_num="S01")
 ```
 > [!Important]
-> extractFlybyDataImages() only needs to be run once for each flyby to retrieve new data but will take some time to download
+> extract_flyby_images() only needs to be run once for each flyby to retrieve new data but will take some time to download
 ```
 # Display all Images in pydar_results/ directory
-pydar.displayImages(image_directory="pydar_results/CORADR_0211_V03_S01")
+pydar.display_all_images(image_directory="pydar_results/CORADR_0211_V03_S01")
 ```
  <p align="center">
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
@@ -156,10 +156,10 @@ Cassini RADAR Information (CORADR_xxxx_Vxx) where xxxx is the radar data take nu
   |_SOFTWARE/
   |_VOLDESC.CAT <--- VERSION INFORMATION LISTED HERE ('VOLUME_VERSION_ID' = "Version 1", "Version 2", "Version 3") and in filename
 ```
-.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via `pydar.displayImages()`
+.IMG files can be viewed using the [planetary images library](https://planetaryimage.readthedocs.io/_/downloads/en/latest/pdf/) or via `pydar.display_all_images()`
 
 ### Download Time
-Download time for data files vary when using `pydar.extractFlybyDataImages()` and depends on the number and size of files of interest. On average, most single feature downloads take between 1-5 minutes to download, but can be longer for higher resolution files.
+Download time for data files vary when using `pydar.extract_flyby_images()` and depends on the number and size of files of interest. On average, most single feature downloads take between 1-5 minutes to download, but can be longer for higher resolution files.
 
 ![image](https://user-images.githubusercontent.com/24469269/211881026-5bab329c-cf0d-416b-bedc-6d466b77b1f5.png)
 ([Cassini Radar Volume SIS, Version 2.1](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0284/DOCUMENT/VOLSIS.PDF) Table 1, pg. 3)
@@ -167,7 +167,7 @@ Download time for data files vary when using `pydar.extractFlybyDataImages()` an
 ### Cross-Reference Table for Observations and Flybys
 The Titan flyby IDs (e.g. 'T65') are not used in the naming convention for the CORADR filenames. Instead, all files are referred to by their observation number (e.g. '0211'). The Titan flyby information is contained in the BIDR filenames and in the VOLDESC.CAT under 'Description' and can be found using the following cross-reference table: [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-To convert between a Titan Flyby ID and an observation number use either `pydar.convertFlybyIDToObservationNumber(flyby_id)` or `pydar.convertObservationNumberToFlybyID(flyby_observation_num)`
+To convert between a Titan Flyby ID and an observation number use either `pydar.id_to_observation(flyby_id)` or `pydar.observation_to_id(flyby_observation_num)`
 
 ### Observation Information as Filename
 The data filename contains a lot of information about the observation
@@ -220,7 +220,7 @@ Version 3 is named BIFQI49N071_D035_T00AS01_V03.IMG
 > _**Version 3 is currently the latest and preferred version and will be the version included when downloaded**_
 
 ### Segment Number of Data
-A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.  
+A single flyby can produce multiple image segments (Sxx). *S01 is the primary imaging segment* with other segments referring to periods in the flyby when the instrument went to/from altimetry/SAR/HiSAR or weird pointing profiles.
 
 ![image](https://user-images.githubusercontent.com/24469269/210197286-c059ffed-281d-46c7-911a-f86c3bf7ea28.png)
 *Credit: Cassini Radar User Guide (Wall et al. 2019, pg.16)*
@@ -307,12 +307,12 @@ Total width of the RADAR swath is created by combining the five individual sub-s
 
 To collect flyby information and images for the latitude/longitude range of a named feature on Titan
 
-### retrieveIDSByFeatureName()
+### ids_from_feature_name()
 
 Retrieve a list of flyby IDs with their associated segment numbers based on a feature name from Titan
 
 ```python
-retrieveIDSByFeatureName(feature_name=None)
+ids_from_feature_name(feature_name=None)
 ```
 * **[REQUIRED]** feature_name (string): Feature name on Titan, not case-sensitive
 
@@ -325,32 +325,32 @@ Feature names are retrieved from [feature_name_details.csv](https://github.com/u
 
 ```python
 import pydar
-pydar.retrieveIDSByFeatureName(feature_name="Ontario Lacus")
+pydar.ids_from_feature_name(feature_name="Ontario Lacus")
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-### retrieveIDSByLatitudeLongitude()
+### ids_from_latlon()
 
 Retrieve a list of flyby IDs with their associated segments based on specific latitude and longitude
 
 ```python
-retrieveIDSByLatitudeLongitude(latitude=None, longitude=None)
+ids_from_latlon(latitude=None, longitude=None)
 ```
 * **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90° to 90°
 * **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0° to 360°
 
 ```python
 import pydar
-pydar.retrieveIDSByLatitudeLongitude(latitude=-80, longitude=170)
+pydar.ids_from_latlon(latitude=-80, longitude=170)
 ```
 Output = `{'T39': ['S06', 'S05', 'S01'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S03'], 'T56': ['S01'], 'T57': ['S01'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-### retrieveIDSByLatitudeLongitudeRange()
+### ids_from_latlon_range()
 
 Retrieve a list of flyby IDs with their associated segments based on range of latitudes and longitudes
 
 ```python
-retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
+ids_from_latlon_range(min_latitude=None,
                 max_latitude=None,
                 min_longitude=None,
                 max_longitude=None)
@@ -362,36 +362,36 @@ retrieveIDSByLatitudeLongitudeRange(min_latitude=None,
 
 ```python
 import pydar
-pydar.retrieveIDSByLatitudeLongitudeRange(min_latitude=-82,
+pydar.ids_from_latlon_range(min_latitude=-82,
                     max_latitude=-72,
                     min_longitude=183,
                     max_longitude=185)
 ```
 Output = `{'T7': ['S01'], 'T36': ['S03'], 'T39': ['S06', 'S05', 'S01', 'S04'], 'T48': ['S04'], 'T49': ['S01'], 'T50': ['S02'], 'T55': ['S01', 'S03'], 'T56': ['S01'], 'T57': ['S01', 'S02'], 'T58': ['S01'], 'T59': ['S01'], 'T65': ['S04', 'S01', 'S05', 'S02', 'S03'], 'T71': ['S01'], 'T95': ['S03'], 'T98': ['S01', 'S04']}`
 
-### retrieveFeaturesFromLatitudeLongitude()
+### features_from_latlon()
 
 Return a list of features found at a specific latitude/longitude position
 
 ```
-retrieveFeaturesFromLatitudeLongitude(latitude=None, longitude=None)
+features_from_latlon(latitude=None, longitude=None)
 ```
 * **[REQUIRED]** latitude (float/int): Latitude (in degrees), range from -90° to 90°
 * **[REQUIRED]** longitude (float/int): Longitude (in degrees), range from 0° to 360°
 
 ```python
 import pydar
-pydar.retrieveFeaturesFromLatitudeLongitude(latitude=-72, longitude=183)
+pydar.features_from_latlon(latitude=-72, longitude=183)
 ```
 
 Output = `['Ontario Lacus', 'Rossak Planitia']`
 
-### retrieveFeaturesFromLatitudeLongitudeRange()
+### features_from_latlon_range()
 
 Return a list of features found at a range of latitude/longitude positions
 
 ```
-retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
+features_from_latlon_range(min_latitude=None,
                     max_latitude=None,
                     min_longitude=None,
                     max_longitude=None)
@@ -403,19 +403,19 @@ retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=None,
 
 ```python
 import pydar
-pydar.retrieveFeaturesFromLatitudeLongitudeRange(min_latitude=-82,
+pydar.features_from_latlon_range(min_latitude=-82,
                         max_latitude=-72,
                         min_longitude=183,
                         max_longitude=190)
 ```
 Output = `['Crveno Lacus', 'Ontario Lacus', 'Romo Planitia', 'Rossak Planitia', 'Saraswati Flumen']`
 
-### retrieveIDSByTime()
+### ids_from_time()
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a specific timestamp
 
 ```
-retrieveIDSByTime(year=None,
+ids_from_time(year=None,
         doy=None,
         hour=None,
         minute=None,
@@ -433,7 +433,7 @@ Where `2004 year, 300 doy, 15 hour, 30 minute, 7 second, 789 millisecond` become
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2004,
+pydar.ids_from_time(year=2004,
             doy=300,
             hour=15,
             minute=30, 
@@ -448,22 +448,22 @@ For a single day, some flybys have segments that are defined in one large range,
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2005, doy=301)
+pydar.ids_from_time(year=2005, doy=301)
 ```
 Output for the entire day of 301 = `{'T8': ['S02', 'S03', 'S01']}`
 
 ```python
 import pydar
-pydar.retrieveIDSByTime(year=2005, doy=301, hour=3)
+pydar.ids_from_time(year=2005, doy=301, hour=3)
 ```
 Output for the day 301 but just for hour 3 = `{'T8': ['S03', 'S01']}` (does not include S02)
 
-### retrieveIDSByTimeRange()
+### ids_from_time_range()
 
 Retrieve a dictionary of flyby IDs and segment numbers based on a start and end datetime
 
 ```
-retrieveIDSByTimeRange(start_year=None, 
+ids_from_time_range(start_year=None, 
             start_doy=None,
             start_hour=None,
             start_minute=None, 
@@ -492,7 +492,7 @@ retrieveIDSByTimeRange(start_year=None,
 
 ```python
 import pydar
-pydar.retrieveIDSByTimeRange(start_year=2004,
+pydar.ids_from_time_range(start_year=2004,
                 start_doy=299,
                 start_hour=2,
                 start_minute=15,
@@ -507,35 +507,35 @@ pydar.retrieveIDSByTimeRange(start_year=2004,
 ```
 Output = `{'Ta': ['S01'], 'T3': ['S01'], 'T7': ['S01']}`
 
-### convertFlybyIDToObservationNumber()
+### id_to_observation()
 
 Converts a Titan Flyby ID (for example: 'T65') to an observation number with front padding ('T65' -> '0211')
 
 ```python
-convertFlybyIDToObservationNumber(flyby_id)
+id_to_observation(flyby_id)
 ```
 * **[REQUIRED]** flyby_id (string): a valid flyby ID with prefix 'T'
 
 ```python
 import pydar
-observation_number = convertFlybyIDToObservationNumber(flyby_id='T65')
+observation_number = id_to_observation(flyby_id='T65')
 ```
 Output = `0211`
 
 Observation number based on the 'Radar Data Take Number' in the [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv) data file with front padding to ensure that all observation numbers are 4 digits long (0065 and 0211)
 
-### convertObservationNumberToFlybyID()
+### observation_to_id()
 
 Converts a Titan Observation Number (for example: '211' or '0211') to an flyby id ('0211' -> 'T65')
 
 ```python
-convertObservationNumberToFlybyID(flyby_observation_num)
+observation_to_id(flyby_observation_num)
 ```
 * **[REQUIRED]** flyby_observation_num (string): a valid observation number
 
 ```python
 import pydar
-flyby_id = pydar.convertObservationNumberToFlybyID(flyby_observation_num='211')
+flyby_id = pydar.observation_to_id(flyby_observation_num='211')
 ```
 Output = `T65`
 
@@ -543,14 +543,14 @@ Flyby ids are based on the 'Radar Data Take Number' in the [cassini_flyby.csv](h
 
 Requires each Titan flyby ID to be a valid flyby ID in [cassini_flyby.csv](https://github.com/unaschneck/pydar/blob/main/pydar/data/cassini_flyby.csv)
 
-### extractFlybyDataImages()
+### extract_flyby_images()
 
 Downloads flyby data SBDR for a selected flyby observation number or flyby id: .FMT and .TAB files (for example: [SBDR.FMT](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR.FMT) and [SBDR_15_D087_V03.TAB](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/SBDR/SBDR_15_D087_V03.TAB))
 
 Downloads flyby data BIDR for a selected flyby observation number or flyby id: .LBL and .ZIP files (for example: [BIBQH80N051_D087_T016S01_V03.LBL](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.LBL) and [BIBQH80N051_D087_T016S01_V03.ZIP](https://pds-imaging.jpl.nasa.gov/data/cassini/cassini_orbiter/CORADR_0087_V03/DATA/BIDR/BIBQH80N051_D087_T016S01_V03.ZIP))
 
 ```
-extractFlybyDataImages(flyby_observation_num=None,
+extract_flyby_images(flyby_observation_num=None,
             flyby_id=None,
             segment_num=None,
             additional_data_types_to_download=[],
@@ -564,26 +564,26 @@ Either a flyby_id (for example: 'T65') or a flyby_observation_num (for example: 
 
 * **[REQUIRED/OPTIONAL]** flyby_observation_num (string): required if flyby_id not included
 * **[REQUIRED/OPTIONAL]** flyby_id (string): required if flyby_observation_num not included
-* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (S0X) where S01 is the primary imaging segment ["S01", "S02", "S03", "S04"]
+* **[REQUIRED]** segment_num (string): a flyby includes multiple image segments (SXX) where S01 is the primary imaging segment
 * [OPTIONAL] resolution (String): resolution options "B", "D", "F", "H", or "I" (2, 8, 32, 128, 256 pixels/degree), defaults to highest resolution 'I'
 * [OPTIONAL] top_x_resolutions: Save the top x resolution types (5 total resolutions), will override any default resolution string
 * [OPTIONAL] additional_data_types_to_download (List of Strings): Possible options ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"] (__NOTE__: current v1 functionality does not download any additional data types)
 
 ```python
 import pydar
-pydar.extractFlybyDataImages(flyby_id='T65',
+pydar.extract_flyby_images(flyby_id='T65',
             resolution='D',
             segment_num="S01")
 ```
 
-`extractFlybyDataImages()` will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example `pydar_results/CORADR_0065_V03_S01`). Download time depends on file and resolution size but ranges from 1-5 minutes
+`extract_flyby_images()` will retrieve images from PDS website and saves results in a directory labeled 'pydar_results' with the flyby observation number, version number, and segment number in the title (for example `pydar_results/CORADR_0065_V03_S01`). Download time depends on file and resolution size but ranges from 1-5 minutes
 
-### readAAREADME()
+### read_aareadme()
 
 Print AAREADME.TXT to console for viewing
 
 ```
-readAAREADME(coradr_results_directory=None,
+read_aareadme(coradr_results_directory=None,
     section_to_print=None, 
     print_to_console=True)
 ```
@@ -592,27 +592,27 @@ readAAREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive 
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-To see a list of all section_to_print options, see: `returnAAREADMEOptions()`
+To see a list of all section_to_print options, see: `aareadme_options()`
 
 ```python
 import pydar
-pydar.readAAREADME(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
+pydar.read_aareadme(coradr_results_directory="pydar_results/CORADR_0065_V03_S01",
         section_to_print="Volume")
 ```
 Output = `Volume CORADR_0065:  Titan Flyby T8, Sequence S15, Oct 27, 2005`
 ```python
 import pydar
-pydar.returnAAREADMEOptions()
+pydar.aareadme_options()
 ```
 
 Output = `['PDS_VERSION_ID', 'RECORD_TYPE', 'INSTRUMENT_HOST_NAME', 'INSTRUMENT_NAME', 'PUBLICATION_DATE', 'NOTE', 'END_OBJECT', 'Volume', 'Introduction', 'Disk Format', 'File Formats', 'Volume Contents', 'Recommended DVD Drives and Driver Software', 'Errata and Disclaimer', 'Version Status', 'Contact Information']`
 
-### readLBLREADME()
+### read_lbl_readme()
 
 Print .LBL README to console for viewing
 
 ```
-readLBLREADME(coradr_results_directory=None,
+read_lbl_readme(coradr_results_directory=None,
     section_to_print=None, 
     print_to_console=True)
 ```
@@ -621,17 +621,17 @@ readLBLREADME(coradr_results_directory=None,
 * [OPTIONAL] section_to_print (string): Specify a section to print to console from the AAREADME, defaults to print the entire AAREADME.TXT, not case-sensitive
 * [OPTIONAL] print_to_console (boolean): Print to console, defaults to true, otherwise function will return output as a string
 
-To see a list of all section_to_print options, see: `returnLBLOptions()`
+To see a list of all section_to_print options, see: `lbl_options()`
 
 ```python
 import pydar
-pydar.readLBLREADME(coradr_results_directory="pydar_results/CORADR_0035_S01/",
+pydar.read_lbl_readme(coradr_results_directory="pydar_results/CORADR_0035_S01/",
         section_to_print="OBLIQUE_PROJ_X_AXIS_VECTOR")
 ```
 Output = `(0.13498322,0.00221225,-0.99084542)`
 ```python
 import pydar
-pydar.returnLBLOptions()
+pydar.lbl_options()
 ```
 <details closed>
 <summary>Line-By-Line Options (Click to view all)</summary>
@@ -645,12 +645,12 @@ pydar.returnLBLOptions()
 </details>
 
 ## Use Downloaded Data
-### displayImages()
+### display_all_images()
 
 Displays downloaded image .IMG files (unzipped from within the .ZIP files) and display all images in directory
 
 ```
-displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fig_dpi=120)
+display_all_images(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fig_dpi=120)
 ```
 
 * **[REQUIRED]** image_directory (string): directory containing a .LBL and .IMG file
@@ -662,14 +662,14 @@ displayImages(image_directory=None, fig_title=None, cmap="gray", figsize_n=6, fi
 
 ```python
 import pydar
-pydar.displayImages(image_directory="pydar_results/CORADR_0065_V03_S01")
+pydar.display_all_images(image_directory="pydar_results/CORADR_0065_V03_S01")
 ```
  <p align="center">
   <img src="https://raw.githubusercontent.com/unaschneck/pydar/main/assets/ontario_example_output.png" />
 </p>
 
 > [!Note]
-> `displayImages()` will show all images in the saved results directory
+> `display_all_images()` will show all images in the saved results directory
 
 **COMING SOON: extractMetadata**
 
@@ -690,6 +690,14 @@ conda env create --file environment.yml
 Once the environment has been built, activate the environment:
 ```
 conda activate pydar
+```
+Set up pre-commit hooks to ensure standard code formatting and spelling:
+```
+pre-commit install
+```
+Pre-commit hooks can be manually run before commits:
+```
+pre-commit run --all-files
 ```
 To run existing and new tests from the root directory:
 ```

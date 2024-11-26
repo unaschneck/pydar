@@ -1,13 +1,26 @@
-# Note: Script not accessible via __init__.py and is run directly by the developer
-# updates feature_name_details.csv
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      updateCsvFeatureNameDetails.py backend updates feature_name_details.csv                    #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _update_csv_feature_name_details: backend               #
+#                                              to update the CSV for feature names                #
+#                                              with details                                       #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 
-# Built in Python functions
+# Note: Script not accessible via __init__.py and is run directly by the developer
+
+# Standard Library Imports
 import logging
 import os
 import re
 import random
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error
@@ -22,7 +35,7 @@ logger.addHandler(stream_handler)
 
 
 ## FUNCTIONS TO WEB SCRAPE TO POPULATE feature_name_details.csv ################
-def updateCsvFeatureNameDetails():
+def _update_csv_feature_name_details() -> None:
     # Update the csv script for feature_name_details.csv from the planetary names database
     # Retrieves information for each Titan feature
     #       Estimated runtime: 3 minutes
@@ -117,4 +130,4 @@ def updateCsvFeatureNameDetails():
 
 
 if __name__ == '__main__':
-    updateCsvFeatureNameDetails()  # updates feature_name_details.csv
+    _update_csv_feature_name_details()  # updates feature_name_details.csv

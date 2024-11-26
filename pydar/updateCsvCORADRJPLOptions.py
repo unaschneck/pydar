@@ -1,17 +1,30 @@
-# Note: Script not accessible via __init__.py and is run directly by the developer
-# updates coradr_jpl_options.csv
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      updateCsvCORADRJPLOptions.py backend updates coradr_jpl_options.csv                        #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _update_csv_coradr_jpl_options: backend                 #
+#                                              to update the CSV for CORADR JPL                   #
+#                                              features                                           #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 
-# Built in Python functions
+# Note: Script not accessible via __init__.py and is run directly by the developer
+
+# Standard Library Imports
 import logging
 import os
 import random
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 from bs4 import BeautifulSoup
 import pandas as pd
 from urllib import request, error
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ########################################################################
@@ -24,7 +37,7 @@ logger.addHandler(stream_handler)
 
 
 ## FUNCTIONS TO WEB SCRAPE TO POPULATE coradr_jpl_options.csv ################
-def updateCsvCORADRJPLOptions():
+def _update_csv_coradr_jpl_options() -> None:
     # Update the csv script for coradr_jpl_options.csv from the most recent JPL webpage
     # Retrieves information for each CORADAR option and the data types it has available
     #       Estimated runtime: 5 minutes
@@ -63,7 +76,7 @@ def updateCsvCORADRJPLOptions():
                     coradr_title, False, False, False, False, False, False,
                     False
                 ])
-        _, flyby_radar_take_num = pydar.getFlybyData()
+        _, flyby_radar_take_num = pydar._retrieve_flyby_data()
 
     # Check of CORADR has specific data files formats
     for i, coradr_id in enumerate(coradr_options):
@@ -76,7 +89,7 @@ def updateCsvCORADRJPLOptions():
         table = soup.find('table', {"id": "indexlist"})
         table_text = (table.text).split("\n")
         for txt in table_text:
-            for i, data_type in enumerate(pydar.datafile_types_columns):
+            for i, data_type in enumerate(pydar.DATAFILE_TYPES):
                 if data_type in txt:
                     coradr_id[i + 2] = True
                 if coradr_id[0].split("_")[1] in flyby_radar_take_num:
@@ -96,4 +109,4 @@ def updateCsvCORADRJPLOptions():
 
 
 if __name__ == '__main__':
-    updateCsvCORADRJPLOptions()  #   updates coradr_jpl_options.csv
+    _update_csv_coradr_jpl_options()  #   updates coradr_jpl_options.csv

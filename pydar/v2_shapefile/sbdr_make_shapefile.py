@@ -1,17 +1,17 @@
 # Script to generate an ARC Shape File from SBDR Table Data
 
-# Built in Python functions
-import time
+# Standard Library Imports
 import logging
 import math
+import time
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 import numpy as np
 import pandas as pd
 import pdr
 import pyproj  # replicate gc_az1 = azimuth( [pt1x,pt1y],[pt2x,pt2y],titan_def ) [from Matlab]
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
 
 ## Logging set up for .DEBUG
@@ -92,14 +92,14 @@ def sbdrMakeShapeFile(filename=None,
     # file_out : name of file output (string)
     # lon360: using 360 Longitude system (boolean) (false = not using, true = using)
 
-    pydar.errorHandlingSbdrMakeShapeFile(filename=filename,
-                                         fields=fields,
-                                         write_files=write_files,
-                                         saronly=saronly,
-                                         usepassive=usepassive,
-                                         ind=ind,
-                                         file_out=file_out,
-                                         lon360=lon360)
+    pydar._error_handling_sbdr_make_shapefile(filename=filename,
+                                              fields=fields,
+                                              write_files=write_files,
+                                              saronly=saronly,
+                                              usepassive=usepassive,
+                                              ind=ind,
+                                              file_out=file_out,
+                                              lon360=lon360)
 
     start = time.time()
 
@@ -122,10 +122,10 @@ def sbdrMakeShapeFile(filename=None,
     #if not filename.isalpha():
     #   info = filename
     #   filename = "DefaultFile.sbdr"
-    logger.debug("Reading {0} ...".format(filename))
+    logger.debug(f"Reading {filename} ...")
     info = pdr.read(filename)
     info = info['SBDR_TABLE']
-    logger.debug("Headers = {0}\n".format(list(info)))
+    logger.debug(f"Headers = {list(info)}\n")
     #print(info['ACT_POL_ANGLE'])
 
     # Define the Titan Ellipsoid
@@ -142,8 +142,8 @@ def sbdrMakeShapeFile(filename=None,
         file_out = file_out + ".shp"
         file_out2 = file_out + "_centroid.shp"
         file_out3 = file_out + "_center.shp"
-    logger.debug("Filenames for Output:\n{0}\n{1}\n{2}".format(
-        file_out, file_out2, file_out3))
+    logger.debug(
+        f"Filenames for Output:\n{file_out}\n{file_out2}\n{file_out3}")
 
     # Filtering based on SAR and Active/Passive Radar
     # Find the Good Active Points (Usable data with low distortion from spacecraft orientation)
@@ -181,7 +181,7 @@ def sbdrMakeShapeFile(filename=None,
             struct = []
             return
         else:
-            logger.info("Found {0} Active Pulses".format(len(ind.index)))
+            logger.info(f"Found {len(ind.index)} Active Pulses")
     else:
         ind = info[~info.ACT_AZIMUTH_ANGLE.isin([0])]
         ind = ind[~ind.ACT_ELLIPSE_PT1_LAT.isin([0])]
@@ -250,7 +250,7 @@ def sbdrMakeShapeFile(filename=None,
             gfields[cnt] = field  # Convert matlab structure to dict
             cnt += 1
         else:
-            logger.info("{0} Not a Valid Field!".format(field))
+            logger.info(f"{field} Not a Valid Field!")
     if cnt == 1:  # If the fields are not moved through, then no fields are returned
         logger.info("No Valid Fields Returning...")
         return
@@ -260,7 +260,7 @@ def sbdrMakeShapeFile(filename=None,
     #eta_start = time.time()
     #for num in range(num_record):
     #   if num < num_record:
-    #       print("{0} of {1} ({2} Percent Complete".format(num+1, num_record, num+1/num_record), end="\r")
+    #       print(f"{num+1} of {num_record} ({num+1/num_record} Percent Complete", end="\r")
     #print("") # reset printing to terminal
 
     # Step through each footprint and create 100 latitude/longitude points around the ellipse to create a perimeter

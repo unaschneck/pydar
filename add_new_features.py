@@ -1,11 +1,17 @@
 ## Developer Note: Update Pydar's backend when new features are updated
 ## New officially named features: https://planetarynames.wr.usgs.gov/#nomenclature-news
+
+# Standard Library Imports
 import os
+
+# Related Third Party Imports
 import pandas as pd
+
+# Internal Local Imports
 import pydar
 
 if __name__ == "__main__":
-    os.system('python pydar/updateCsvCORADARJPLOptions.py')
+    os.system('python pydar/updateCsvCORADRJPLOptions.py')
     os.system('python pydar/updateCsvSwathCoverage.py')
     os.system('python pydar/updateCsvFeatureNameDetails.py')
 
@@ -18,8 +24,10 @@ if __name__ == "__main__":
     features_in_csv = list(features_df["Feature Name"])
 
     # list of all features that exist (with both latitude/longitude values)
-    retrieved_features = pydar.retrieveFeaturesFromLatitudeLongitudeRange(
-        min_latitude=-90, max_latitude=90, min_longitude=0, max_longitude=360)
+    retrieved_features = pydar.features_from_latlon_range(min_latitude=-90,
+                                                          max_latitude=90,
+                                                          min_longitude=0,
+                                                          max_longitude=360)
 
     # check if all features in CSV have both latitude/longitude values
     if not features_in_csv == retrieved_features:

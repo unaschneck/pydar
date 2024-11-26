@@ -1,18 +1,73 @@
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+#      extract_flyby_parameters.py extracts the flyby parameters from CASSINI                     #
+#          for flyby observations and IDs                                                         #
+#                                                                                                 #
+#      This includes the functions for:                                                           #
+#                                       - _retrieve_flyby_data: backend to return a               #
+#                                              list of flyby IDs and associated Radar             #
+#                                              Data Take Number the images                        #
+#                                                                                                 #
+#                                       - _return_segment_options: backend to return              #
+#                                              a list of available segment numbers from           #
+#                                              sar_swath_details.csv                              #
+#                                                                                                 #
+#                                       - id_to_observation: converts between a flyby             #
+#                                              ID and an observation number                       #
+#                                                                                                 #
+#                                       - observation_to_id: converts between an                  #
+#                                              observation number and a flyby ID                  #
+#                                                                                                 #
+#                                       - _retrieve_jpl_coradr_options: backend                   #
+#                                              to return a dataframe from the CORADR              #
+#                                              data from the coradr_jpl_options.csv               #
+#                                                                                                 #
+#                                       - _retrieve_most_recent_version_number: backend           #
+#                                              to return the possible CORADR version              #
+#                                              number                                             #
+#                                                                                                 #
+#                                       - _retrieve_coradr_without_bidr: backend to               #
+#                                              return a list of valid flyby observation           #
+#                                              numbers that do not contain BIDR to track          #
+#                                              where gaps in data exist                           #
+#                                                                                                 #
+#                                       - _download_aareadme: backend to download the             #
+#                                              AAREADME.txt within a CORADR directory             #
+#                                                                                                 #
+#                                       - _download_bidr_coradr_data: backend to download         #
+#                                              BIDR data within CORADR results directory          #
+#                                                                                                 #
+#                                       - _download_sbdr_coradr_data: backend to download         #
+#                                              SBDR data within CORADR results directory          #
+#                                                                                                 #
+#                                       - _download_additional_data_types: (TODO) backend         #
+#                                              to download additional data (TODO)                 #
+#                                                                                                 #
+#                                       - extract_flyby_images: extract flyby data BIDR           #
+#                                              and SBDR data based on flyby ID or                 #
+#                                              observation number  to pydar_results/              #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
+
 # Extract flyby parameters from CASSINI
 
-# Built in Python functions
+# Standard Library Imports
 from datetime import datetime, timedelta
+import logging
 import os
 import zipfile
 
-# External Python libraries (installed via pip install)
+# Related Third Party Imports
 from bs4 import BeautifulSoup
-import logging
 import pandas as pd
 from urllib import request, error
 
-# Internal Pydar reference to access functions, global variables, and error handling
+# Internal Local Imports
 import pydar
+
+########################################################################
 
 ## Logging set up for .INFO
 logger = logging.getLogger(__name__)
@@ -20,12 +75,12 @@ logger.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 
-resolution_types = ["B", "D", "F", "H",
+RESOLUTION_TYPES = ["B", "D", "F", "H",
                     "I"]  # 2, 8, 32, 128, 256 pixels/degree
-datafile_types_columns = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
+DATAFILE_TYPES = ["ABDR", "ASUM", "BIDR", "LBDR", "SBDR", "STDR"]
 
 
-def getFlybyData():
+def _retrieve_flyby_data() -> tuple[list, str]:
     # Header: Titan flyby id, Radar Data Take Number, Sequence number, Orbit Number/ID
     flyby_id = []
     flyby_radar_take_num = []
@@ -43,10 +98,24 @@ def getFlybyData():
     # returns a list of flyby IDs and associated Radar Data Take Number
     return flyby_id, flyby_radar_take_num
 
+def _return_segment_options() -> list:
+    # return a possible list of segments from sar_swath_details.csv
+    sar_swatch_csv = os.path.join(
+        os.path.dirname(__file__), 'data', 'sar_swath_details.csv'
+    )  # get file's directory, up one level, /data/*.csv
+    sar_swath_df = pd.read_csv(sar_swatch_csv)
+    seg_num = sar_swath_df['SEGMENT'].unique()
+    seg_options = []
+    for num in seg_num:
+        if num < 10:
+            seg_options.append(f"S0{num}")
+        else:
+            seg_options.append(f"S{num}")
+    return seg_options  # ['S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08', 'S09']
 
-def convertFlybyIDToObservationNumber(flyby_id=None):
+def id_to_observation(flyby_id: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
-    pydar.errorHandlingConvertFlybyIDToObservationNumber(flyby_id=flyby_id)
+    pydar._error_handling_convert_id_to_observation_num(flyby_id=flyby_id)
 
     flyby_csv_file = os.path.join(
         os.path.dirname(__file__), 'data',
@@ -60,7 +129,7 @@ def convertFlybyIDToObservationNumber(flyby_id=None):
             return observation_number
 
 
-def convertObservationNumberToFlybyID(flyby_observation_num=None):
+def observation_to_id(flyby_observation_num: str = None) -> str:
     # convert Flyby ID to Observation Number to find data files
     if flyby_observation_num is not None:
         if type(flyby_observation_num) != str:
@@ -71,7 +140,7 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
             while len(flyby_observation_num) < 4:
                 flyby_observation_num = "0" + flyby_observation_num  # set all radar take numbers to be four digits long: 229 -> 0229
 
-    pydar.errorHandlingConvertObservationNumberToFlybyID(
+    pydar._error_handling_convert_observation_num_to_id(
         flyby_observation_num=flyby_observation_num)
 
     flyby_csv_file = os.path.join(
@@ -84,7 +153,7 @@ def convertObservationNumberToFlybyID(flyby_observation_num=None):
             return row.iloc[0]  # returns flyby ID
 
 
-def retrieveJPLCoradrOptions():
+def _retrieve_jpl_coradr_options() -> pd.DataFrame:
     # Read JPL Options from CSV
     coradr_csv_file = os.path.join(
         os.path.dirname(__file__), 'data', 'coradr_jpl_options.csv'
@@ -93,9 +162,10 @@ def retrieveJPLCoradrOptions():
     return coradr_dataframe
 
 
-def retrieveMostRecentVersionNumber(flyby_observiation_num=None):
+def _retrieve_most_recent_version_number(
+        flyby_observiation_num: str = None) -> str:
     # Return the CORADAR value with the most recent version from a list of possible options
-    coradr_dataframe = retrieveJPLCoradrOptions()
+    coradr_dataframe = _retrieve_jpl_coradr_options()
     jpl_coradr_options = []
     for index, row in coradr_dataframe.iterrows():
         row = row.tolist()
@@ -112,9 +182,9 @@ def retrieveMostRecentVersionNumber(flyby_observiation_num=None):
     return more_accurate_model_number
 
 
-def retrieveCoradrWithoutBIDR():
+def _retrieve_coradr_without_bidr() -> list:
     # Return a list of valid flyby observation numbers that do not contain BIDR
-    coradr_dataframe = retrieveJPLCoradrOptions()
+    coradr_dataframe = _retrieve_jpl_coradr_options()
     coradar_without_bidr = []
     for index, row in coradr_dataframe.iterrows():
         if row["Is a Titan Flyby"]:  # check only flybys that are valid Titan flybys
@@ -125,7 +195,8 @@ def retrieveCoradrWithoutBIDR():
     return coradar_without_bidr
 
 
-def downloadAAREADME(cordar_file_name, segment_id):
+def _download_aareadme(cordar_file_name: str = None,
+                       segment_id: str = None) -> None:
     # Download AAREADME.txt within a CORADR directory
     aareadme_name = "AAREADME.TXT"
     aareadme_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/{aareadme_name}"
@@ -144,7 +215,9 @@ def downloadAAREADME(cordar_file_name, segment_id):
         response = request.urlretrieve(aareadme_url, aareadme_name)
 
 
-def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
+def _download_bidr_coradr_data(cordar_file_name: str = None,
+                               segment_id: str = None,
+                               resolution_px: list = None) -> None:
     # Download BDIR files
     base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/BIDR/"
     logger.info(f"Retrieving BIDR filenames from: {base_url}\n")
@@ -217,7 +290,8 @@ def downloadBIDRCORADRData(cordar_file_name, segment_id, resolution_px):
                     zip_ref.extractall(zipped_image_path)
 
 
-def downloadSBDRCORADRData(cordar_file_name, segment_id):
+def _download_sbdr_coradr_data(cordar_file_name: str = None,
+                               segment_id: str = None) -> None:
     # Download SBDR files
     base_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/SBDR/"
     logger.info(f"\nRetrieving SBDR filenames from: {base_url}")
@@ -239,7 +313,7 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
                 sbdr_filename += '.FMT'
             sbdr_files.append(sbdr_filename)
 
-    logger.info("SBDR files found: {0}".format(sbdr_files))
+    logger.info(f"SBDR files found: {sbdr_files}")
     if len(sbdr_files) == 0:
         raise ValueError(
             "No SBDR files were found with resolution, segment, and flyby identification. Please use different parameters to retrieve data"
@@ -260,8 +334,9 @@ def downloadSBDRCORADRData(cordar_file_name, segment_id):
             response = request.urlretrieve(sbdr_url, sbdr_name)
 
 
-def downloadAdditionalDataTypes(cordar_file_name, segment_id,
-                                additional_data_type):
+def _download_additional_data_types(cordar_file_name: str = None,
+                                    segment_id: str = None,
+                                    additional_data_type: list = None) -> None:
     # Download additional data types
     additional_data_url = f"https://planetarydata.jpl.nasa.gov/img/data/cassini/cassini_orbiter/{cordar_file_name}/DATA/{additional_data_type}"
     logger.info(
@@ -271,12 +346,13 @@ def downloadAdditionalDataTypes(cordar_file_name, segment_id,
     # This function does not currently have functionality in pydar
 
 
-def extractFlybyDataImages(flyby_observation_num=None,
-                           flyby_id=None,
-                           segment_num=None,
-                           additional_data_types_to_download=[],
-                           resolution='I',
-                           top_x_resolutions=None):
+def extract_flyby_images(flyby_observation_num: str = None,
+                         flyby_id: str = None,
+                         segment_num: str = None,
+                         additional_data_types_to_download: list = [],
+                         resolution: str = 'I',
+                         top_x_resolutions: list = None) -> None:
+    # extract flyby data based on flyby ID/observation numbyer
 
     if flyby_id is not None and type(flyby_id) == str:
         flyby_id = flyby_id.capitalize(
@@ -286,11 +362,11 @@ def extractFlybyDataImages(flyby_observation_num=None,
         while len(flyby_observation_num) < 4:
             flyby_observation_num = "0" + flyby_observation_num  # set all radar take numbers to be four digits long: 229 -> 0229
     if top_x_resolutions is not None:
-        #logger.info("\nINFO: [top_x_resolutions] in use, overriding resolution '{0}' to save the top {1} resolutions".format(resolution, top_x_resolutions))
+        #logger.info(f"\nINFO: [top_x_resolutions] in use, overriding resolution '{resolution}' to save the top {top_x_resolutions} resolutions")
         resolution = None  # set default resolution to None if selecting the top x resolutions
 
     # Error handling:
-    pydar.errorHandlingExtractFlybyDataImages(
+    pydar._error_handling_extract_flyby_images(
         flyby_observation_num=flyby_observation_num,
         flyby_id=flyby_id,
         segment_num=segment_num,
@@ -310,10 +386,10 @@ def extractFlybyDataImages(flyby_observation_num=None,
     download_files = True  # for debugging, does not always download files before running data
 
     if flyby_id is not None:  # convert flyby Id to an Observation Number
-        flyby_observation_num = convertFlybyIDToObservationNumber(flyby_id)
+        flyby_observation_num = id_to_observation(flyby_id)
 
     # Data gaps and problems from the original downlinking and satellite location, report some special cases to user
-    no_associated_bidr_values = retrieveCoradrWithoutBIDR(
+    no_associated_bidr_values = _retrieve_coradr_without_bidr(
     )  # currently: ["0048", "0186", "0189", "0209", "0234"]
     if flyby_observation_num in no_associated_bidr_values:
         logger.info(
@@ -339,7 +415,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
             logger.info(f"{flyby_observation_num} does not BIDR data\n"
                         )  # possible catch for new files found without BIDR
 
-    available_flyby_id, available_observation_numbers = getFlybyData()
+    available_flyby_id, available_observation_numbers = _retrieve_flyby_data()
 
     if flyby_observation_num not in available_observation_numbers:
         raise ValueError(
@@ -351,7 +427,7 @@ def extractFlybyDataImages(flyby_observation_num=None,
         )
 
     # Download information from pds-imaging site for CORADR
-    flyby_observation_cordar_name = retrieveMostRecentVersionNumber(
+    flyby_observation_cordar_name = _retrieve_most_recent_version_number(
         flyby_observation_num)
     if not os.path.exists('pydar_results'): os.makedirs('pydar_results')
     if not os.path.exists(
@@ -361,28 +437,28 @@ def extractFlybyDataImages(flyby_observation_num=None,
 
     if download_files:
         # Download AAREADME.TXT
-        downloadAAREADME(flyby_observation_cordar_name, segment_num)
+        _download_aareadme(flyby_observation_cordar_name, segment_num)
 
         # Download BIDR
         if flyby_observation_num not in no_associated_bidr_values:  # only attempt to download BIDR files for flybys that have BIDR files
             if top_x_resolutions is not None:
-                downloadBIDRCORADRData(flyby_observation_cordar_name,
-                                       segment_num,
-                                       resolution_types[-top_x_resolutions:])
+                _download_bidr_coradr_data(
+                    flyby_observation_cordar_name, segment_num,
+                    RESOLUTION_TYPES[-top_x_resolutions:])
             else:
-                downloadBIDRCORADRData(flyby_observation_cordar_name,
-                                       segment_num, resolution)
+                _download_bidr_coradr_data(flyby_observation_cordar_name,
+                                           segment_num, resolution)
 
         # Download SBDR
-        downloadSBDRCORADRData(flyby_observation_cordar_name, segment_num)
+        _download_sbdr_coradr_data(flyby_observation_cordar_name, segment_num)
 
         # Download additional data types (TODO)
         for data_type in additional_data_types_to_download:
             if data_type not in [
                     "BIDR", "SBDR"
             ]:  # ignore data files that have already been downloaded
-                downloadAdditionalDataTypes(flyby_observation_cordar_name,
-                                            segment_num, data_type)
+                _download_additional_data_types(flyby_observation_cordar_name,
+                                                segment_num, data_type)
 
     # No valid parameters given, empty file
     if len(
