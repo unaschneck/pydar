@@ -13,6 +13,6 @@ coverage:
         if_not_found: success
 
 ignore:
-  - "v2_shapefile/**" # ignore WIP
-  - "testing_files/**" # ignore testing files
-  - "updateCsv*" # ignore scripts to update CSV
+  - "**/v2_shapefile"  # ignore WIP
+  - "**/testing_files" # ignore testing files
+  - "updateCsv*.py"    # ignore scripts to update CSV
