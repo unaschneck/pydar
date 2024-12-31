@@ -32,6 +32,24 @@ jobs:
         export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
         pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Test with pytest
+
+    - name: Test with pytest and generate coverage reports
       run: |
-        python -m pytest
+        python -m pytest --cov=./pydar --cov-report=xml --junitxml=pytest.xml
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test results for ${{ matrix.os }}-${{ matrix.python-version }}
+        path: pytest.xml
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      with:
+        file: ./coverage.xml
+        env_vars: OS,PYTHON
+        name: codecov-umbrella
+        fail_ci_if_error: false
+   
