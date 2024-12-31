@@ -8,7 +8,9 @@ dependencies:
   - pdr
   - pre-commit # pre-commit hooks
   - pyproj
-  - pytest
+  - pytest      # dev: testing
+  - pytest-cov  # dev: codecov reports
+  - pre-commit  # dev: pre-commit hooks
   - rasterio
   - urllib3
   - pip

@@ -4,5 +4,6 @@ pandas
 pdr
 pyproj
 pytest
+pytest-cov
 rasterio
 urllib3
