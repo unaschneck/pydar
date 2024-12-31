@@ -15,3 +15,4 @@ coverage:
 ignore:
   - "v2_shapefile/**" # ignore WIP
   - "testing_files/**" # ignore testing files
+  - "updateCsv**" # ignore scripts to update CSV
