@@ -48,7 +48,7 @@ pip install pydar
 
 Cassini-Huygens was an [orbiter around Saturn and its moons](https://science.nasa.gov/mission/cassini/), originally launched in 1997. Cassini ran successfully for years before it was purposefully burned up in Saturn's upper atmosphere to avoid potential contamination of Saturn's moons . As the orbiter passed over Titan in dozens of flybys gigabits of data were recorded and sent back
 
-All Cassini data for Titan is organized and retrieved based on [flyby observation numbers or ID numbers](https://solarsystem.nasa.gov/missions/cassini/mission/tour/flybys/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&tags=cassini%3Aflybys). Pydar makes it easy to find and view relevant flybys based on a time range, latitude/longitude position, or a feature name
+All Cassini data for Titan is organized and retrieved based on [flyby observation numbers or ID numbers](https://solarsystem.nasa.gov/missions/cassini/mission/tour/flybys/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&tags=cassini%3Aflybys). `Pydar` makes it easy to find and view relevant flybys based on a time range, latitude/longitude position, or a feature name
 
 ```python
 import pydar
@@ -230,7 +230,7 @@ A single flyby can produce multiple image segments (Sxx). *S01 is the primary im
 
 ### Dynamically Updated Backend Files
 
-Pydar includes multiple scripts to web scrape from relevant URLs to generate some of the backend data files
+`Pydar` includes multiple scripts to web scrape from relevant URLs to generate some of the backend data files
 
 Changes in the relevant URLs are checked once a month via Github Actions to keep csv files up to date and any changes found will be bundled into the subsequent release
 
