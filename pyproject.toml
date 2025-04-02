@@ -1,6 +1,6 @@
 [project]
 name = "pydar"
-version = "v2.0.0"
+version = "v2.0.1"
 authors = [
   { name="Cora Schneck", email="cyschneck@gmail.com" },
   { name="Una Schneck", email="ugschneck@gmail.com" }

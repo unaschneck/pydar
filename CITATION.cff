@@ -8,5 +8,5 @@ authors:
   given-names: Una G.
   orchid: 'https://orcid.org/0000-0003-0048-5143'
 title: "Pydar: Cassini RADAR data extraction software"
-version: 2.0.0
+version: 2.0.1
 url: "https://github.com/unaschneck/pydar"
