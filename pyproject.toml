@@ -1,66 +1,62 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+
+requires = [ "setuptools" ]
+
 [project]
 name = "pydar"
 version = "v2.0.1"
-authors = [
-  { name="Cora Schneck", email="cyschneck@gmail.com" },
-  { name="Una Schneck", email="ugschneck@gmail.com" }
-]
-
 description = "A Python package to access, download, view, and manipulate Cassini RADAR images"
 readme = "README.md"
-license = {file = "LICENSE"}
+keywords = [ "astronomy", "cassini", "geophysics", "jpl", "nasa", "planetary-science", "python", "radar" ]
+
+license = { file = "LICENSE" }
+authors = [
+  { name = "Cora Schneck", email = "cyschneck@gmail.com" },
+  { name = "Una Schneck", email = "ugschneck@gmail.com" },
+]
+
 requires-python = ">=3.10"
 
-dependencies = [
-    "beautifulsoup4",
-    "matplotlib",
-    "pandas",
-    "pdr",
-    "pyproj",
-    "rasterio",
-    "urllib3"
-]
-
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Education",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Intended Audience :: Education",
-    "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering :: Physics",
-    "Topic :: Scientific/Engineering :: Image Processing",
-    "Topic :: Scientific/Engineering :: Visualization",
-    "Topic :: Scientific/Engineering :: Astronomy"
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Visualization",
 ]
 
-keywords = ["geophysics", "python", "astronomy", "nasa", "radar", "planetary-science", "cassini", "jpl"]
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pre-commit"
+dependencies = [
+  "beautifulsoup4",
+  "matplotlib",
+  "pandas",
+  "pdr",
+  "pyproj",
+  "rasterio",
+  "urllib3",
 ]
 
-[project.urls]
-Repository = "https://github.com/unaschneck/pydar"
-Issues = "https://github.com/unaschneck/pydar/issues"
-
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+optional-dependencies.dev = [
+  "pre-commit",
+  "pytest",
+]
+urls.Issues = "https://github.com/unaschneck/pydar/issues"
+urls.Repository = "https://github.com/unaschneck/pydar"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["pydar"]
-exclude = ["pydar/pytests*"]
+where = [ "." ]
+include = [ "pydar" ]
+exclude = [ "pydar/pytests*" ]
