@@ -41,6 +41,8 @@ from .retrieve_ids_by_time_position import features_from_latlon_range
 
 ## Version 2:
 
+from .titan_features import titan_season
+
 # from .error_handling import _error_handling_sbdr_make_shapefile
 
 # sbdr_make_shapefile.py function calls
