@@ -30,7 +30,9 @@ def titan_season(hemisphere="north",
 
 	hemisphere = hemisphere.lower()
 
-	# Titan reference t of Titan's northern vernal equinox (West, 2011)
+	# Titan's northern vernal equinox
+	# Source: The evolution of Titan's detached haze layer near equinox in 2009 (West, et al, 2011)
+	# https://doi.org/10.1029/2011GL046843
 	ref_date = datetime.strptime("2008-08-11", "%Y-%m-%d")
 
 	# Titan Year (in Earth yers)
@@ -50,12 +52,20 @@ def titan_season(hemisphere="north",
 
 	# Determine the season
 	if titan_year_position < titan_season_length:
-		season = "Northern Spring"
+		season = "Spring"
+		if hemisphere == "south":
+			season = "Autumn"
 	elif titan_year_position < (2 * titan_season_length):
-		season = "Northern Summer"
+		season = "Summer"
+		if hemisphere == "south":
+			season = "Winter"
 	elif titan_year_position < (3 * titan_season_length):
-		season = "Northern Autumn"
+		season = "Autumn"
+		if hemisphere == "south":
+			season = "Spring"
 	else:
-		season = "Northern Winter"
+		season = "Winter"
+		if hemisphere == "south":
+			season = "Summer"
 
 	return season
