@@ -35,7 +35,7 @@ A Python package to access, download, view, and manipulate Cassini RADAR images 
     * display_all_images()
 
 > [!Note]
-> This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL or NASA. The code is provided “as is”, use at your own risk.  
+> This is Beta quality software that is being actively developed, use at your own risk. This project is not supported or endorsed by either JPL, NASA, or NCAR. The code is provided “as is”, use at your own risk.  
 
 ## Install
 PyPi pip install at [pypi.org/project/pydar/](https://pypi.org/project/pydar/)

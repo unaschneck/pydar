@@ -1,6 +1,9 @@
 import pydar
 
 if __name__ == '__main__':
+	season = pydar.titan_season(year="2025", month="04", day="14", hemisphere="south")
+	print(season)
+	'''
     # VERSION 1:
     ## Get swatch coverage based on latitude/longitude, Time, or Feature
     feature_name = "Ontario Lacus"
@@ -92,3 +95,4 @@ if __name__ == '__main__':
     #                       saronly=3,
     #                       usepassive=False,
     #                       lon360=True)
+	'''
