@@ -10,7 +10,7 @@ description = "A Python package to access, download, view, and manipulate Cassin
 readme = "README.md"
 keywords = [ "astronomy", "cassini", "geophysics", "jpl", "nasa", "planetary-science", "python", "radar" ]
 
-license = { file = "LICENSE" }
+license = "MIT"
 authors = [
   { name = "Cora Schneck", email = "cyschneck@gmail.com" },
   { name = "Una Schneck", email = "ugschneck@gmail.com" },
@@ -23,7 +23,6 @@ classifiers = [
   "Intended Audience :: Developers",
   "Intended Audience :: Education",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.10",
