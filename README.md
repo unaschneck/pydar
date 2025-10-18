@@ -14,7 +14,7 @@
 
 A Python package to access, download, view, and manipulate Cassini RADAR images in one place
 
-* **Find relevant flyby observation numbers/IDs based on a feature name, range of latitude/longitudes (or specific latitude/longitude), or a time range (or specific time)**
+* **Find relevant flyby observation numbers/IDs based on a feature name, latitude/longitudes (a range or specific latitude/longitude), or time (a range or specific time)**
     * ids_from_feature_name()
     * ids_from_latlon()
     * ids_from_latlon_range()
