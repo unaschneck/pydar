@@ -1,25 +1,25 @@
 repos:
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.4.1
     hooks:
       - id: codespell
         exclude: .*\.(TAB|csv)$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-toml
       - id: check-yaml
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: remove-tabs
         name: remove tabs
         exclude: .*\.(TAB|csv)$
 
   - repo: https://github.com/google/yapf
-    rev: v0.40.2
+    rev: v0.43.0
     hooks:
       - id: yapf
         name: yapf reformat
@@ -34,6 +34,6 @@ repos:
         additional_dependencies: ['validate-pyproject-schema-store[all]']
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.5.1
+    rev: v2.11.1
     hooks:
       - id: pyproject-fmt
