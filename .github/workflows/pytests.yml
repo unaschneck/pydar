@@ -38,7 +38,7 @@ jobs:
         python -m pytest --cov=./pydar --cov-report=xml --junitxml=pytest.xml
 
     - name: Upload test results
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: Test results for ${{ matrix.os }}-${{ matrix.python-version }}
         path: pytest.xml
