@@ -26,17 +26,17 @@ jobs:
         pip install -r requirements.txt
         pip install pydar
 
-    - name: Web Scrap for New Changes - swath_coverage_by_time_position.csv
+    - name: Web Scrape for New Changes - swath_coverage_by_time_position.csv
       working-directory: pydar
       run: |
         python updateCsvSwathCoverage.py
 
-    - name: Web Scrap for New Changes - coradr_jpl_options.csv
+    - name: Web Scrape for New Changes - coradr_jpl_options.csv
       working-directory: pydar
       run: |
         python updateCsvCORADRJPLOptions.py
 
-    - name: Web Scrap for New Changes - feature_name_details.csv
+    - name: Web Scrape for New Changes - feature_name_details.csv
       working-directory: pydar
       run: |
         python updateCsvFeatureNameDetails.py
