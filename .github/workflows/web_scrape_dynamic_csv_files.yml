@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest #ubuntu-20.04 # specifically calls the version number instead of latest to work on 'act'
 
     steps:
-    - uses: actions/checkout@v7.0.0
+    - uses: actions/checkout@v7.0.1
     - name: Set up Python
       uses: actions/setup-python@v6.3.0
       with:
